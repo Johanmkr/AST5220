@@ -6,8 +6,8 @@ SHELL := /bin/bash
 CC = g++ -std=c++11 
 
 # Paths to GSL library
-INC  = -I/mn/stornext/u3/hansw/winther/local/include
-LIBS = -L/mn/stornext/u3/hansw/winther/local/lib -lgsl -lgslcblas
+INC  = -I$(HOME)/local/include
+LIBS = -L$(HOME)/local/lib -lgsl -lgslcblas
 
 #=======================================================
 # Options
@@ -34,6 +34,7 @@ C = -O3 -g $(OPTIONS)
 #=======================================================
 
 VPATH=src/
+.INCLUDE_DIRS=include/
 TARGETS := cmb
 all: $(TARGETS)
 
