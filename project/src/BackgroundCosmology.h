@@ -30,6 +30,11 @@ class BackgroundCosmology{
     // Splines to be made
     Spline eta_of_x_spline{"eta"};
  
+    //  Private function for easier implementation
+    double u_of_x(double x) const;
+    double dudx_of_x(double x) const;
+    double dduddx_of_x(double x) const;
+    
   public:
 
     // Constructors 

@@ -19,13 +19,17 @@ BackgroundCosmology::BackgroundCosmology(
   TCMB(TCMB)
 {
 
-  //=============================================================================
-  // TODO: Compute OmegaR, OmegaNu, OmegaLambda, H0, ...
-  //=============================================================================
-  //...
-  //...
-  //...
-  //...
+  // OmegaR
+  OmegaR = 5.047e-5 * std::pow(TCMB/2.7255, 4) * (0.7/h)*(0.7/h);
+
+  // OmegaNu
+  OmegaNu = 3.491e-5 * std::pow(TCMB/2.7255, 4) * (0.7/h) * (0.7/h) * (Neff/3.046);
+
+  //  OmegaLambda
+  OmegaLambda = 1 - (OmegaB + OmegaCDM + OmegaK + OmegaR + OmegaNu);
+
+  //  H0
+  H0 = h * 100 // FIXME: which units?
 }
 
 //====================================================
@@ -73,47 +77,34 @@ void BackgroundCosmology::solve(){
 //====================================================
 
 double BackgroundCosmology::H_of_x(double x) const{
+  
+  double Hx = H0 * sqrt(OmegaLambda + OmegaK*exp(-2*x) + (OmegaB + OmegaCDM)*exp(-3*x) + (OmegaR+OmegaNu)*exp(-4*x));
 
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  return Hx;
 }
 
 double BackgroundCosmology::Hp_of_x(double x) const{
+  return H0 * sqrt(u_of_x(x));
+}
 
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
+double BackgroundCosmology::u_of_x(double x) const{
+  return OmegaLambda*exp(2*x) + OmegaK + (OmegaB+OmegaCDM)*exp(-x) + (OmegaR+OmegaNu)*exp(-2*x);
+}
 
-  return 0.0;
+double BackgroundCosmology::dudx_of_x(double x) const{
+  return 2*OmegaLambda*exp(2*x) -(OmegaB+OmegaCDM)*exp(-x) -2*(OmegaR+OmegaNu)*exp(-2*x);
+}
+
+double BackgroundCosmology::dduddx_of_x(double x) const{
+  return 4*OmegaLambda*exp(2*x) + (OmegaB+OmegaCDM)*exp(-x) +4*(OmegaR+OmegaNu)*exp(-2*x);
 }
 
 double BackgroundCosmology::dHpdx_of_x(double x) const{
-
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  return H0/(2*sqrt(u_of_x(x))) * dudx_of_x(x);
 }
 
 double BackgroundCosmology::ddHpddx_of_x(double x) const{
-
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  return H0*(-1/4*std::pow(u_of_x(x), -3/4) * dudx_of_x(x)*dudx_of_x(x) + 1/(2*sqrt(u_of_x(x)))*dduddx_of_x(x));
 }
 
 double BackgroundCosmology::get_OmegaB(double x) const{ 
