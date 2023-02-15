@@ -20,16 +20,18 @@ BackgroundCosmology::BackgroundCosmology(
 {
 
   // OmegaR
-  OmegaR = 5.047e-5 * std::pow(TCMB/2.7255, 4) * (0.7/h)*(0.7/h);
+  // OmegaR = 5.047e-5 * std::pow(TCMB/2.7255, 4) * (0.7/h)*(0.7/h);
+  OmegaR = 2 * M_PI * M_PI / 30 * std::pow(Constants.k_b*TCMB, 4) / (std::pow(Constants.hbar*Constants.c, 3)*Constants.c*Constants.c);
 
   // OmegaNu
-  OmegaNu = 3.491e-5 * std::pow(TCMB/2.7255, 4) * (0.7/h) * (0.7/h) * (Neff/3.046);
+  // OmegaNu = 3.491e-5 * std::pow(TCMB/2.7255, 4) * (0.7/h) * (0.7/h) * (Neff/3.046);
+  OmegaNu = Neff * 7./8. * std::pow(4./11., 4./3.)*OmegaR;
 
   //  OmegaLambda
   OmegaLambda = 1 - (OmegaB + OmegaCDM + OmegaK + OmegaR + OmegaNu);
 
   //  H0
-  H0 = h * 100 // FIXME: which units?
+  H0 = h * Constants.H0_over_h; // FIXME: is this correct?
 }
 
 //====================================================
@@ -104,79 +106,43 @@ double BackgroundCosmology::dHpdx_of_x(double x) const{
 }
 
 double BackgroundCosmology::ddHpddx_of_x(double x) const{
-  return H0*(-1/4*std::pow(u_of_x(x), -3/4) * dudx_of_x(x)*dudx_of_x(x) + 1/(2*sqrt(u_of_x(x)))*dduddx_of_x(x));
+  return H0*(-1/4*std::pow(u_of_x(x), -3./4.) * dudx_of_x(x)*dudx_of_x(x) + 1/(2*sqrt(u_of_x(x)))*dduddx_of_x(x));
 }
 
 double BackgroundCosmology::get_OmegaB(double x) const{ 
   if(x == 0.0) return OmegaB;
-
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  // XXX: Optimisable
+  return OmegaB * H0 * H0 * exp(-3*x) / (H_of_x(x) * H_of_x(x));
 }
 
 double BackgroundCosmology::get_OmegaR(double x) const{ 
   if(x == 0.0) return OmegaR;
-
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  // XXX: Optimisable
+  return OmegaR * H0 * H0 * exp(-4*x) / (H_of_x(x) * H_of_x(x));
 }
 
 double BackgroundCosmology::get_OmegaNu(double x) const{ 
   if(x == 0.0) return OmegaNu;
-
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  //  XXX: Optimisable
+  return OmegaNu * H0 * H0 * exp(-4*x) / (H_of_x(x) * H_of_x(x));
 }
 
 double BackgroundCosmology::get_OmegaCDM(double x) const{ 
   if(x == 0.0) return OmegaCDM;
-
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  //  XXX: Optimisable
+  return OmegaCDM * H0 * H0 * exp(-3*x) / (H_of_x(x) * H_of_x(x));
 }
 
 double BackgroundCosmology::get_OmegaLambda(double x) const{ 
   if(x == 0.0) return OmegaLambda;
-
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  //  XXX: Optimisable
+  return OmegaLambda * H0 * H0 / (H_of_x(x) * H_of_x(x));
 }
 
 double BackgroundCosmology::get_OmegaK(double x) const{ 
   if(x == 0.0) return OmegaK;
-
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  //  XXX: Optimisable
+  return OmegaK * H0 * H0 * exp(-2*x) / (H_of_x(x) * H_of_x(x));
 }
     
 double BackgroundCosmology::get_luminosity_distance_of_x(double x) const{
