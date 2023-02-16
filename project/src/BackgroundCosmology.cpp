@@ -46,7 +46,9 @@ void BackgroundCosmology::solve(){
   // TODO: Set the range of x and the number of points for the splines
   // For this Utils::linspace(x_start, x_end, npts) is useful
   //=============================================================================
-  Vector x_array;
+  int nr_points = (int)1e4; // Change this accordingly
+
+  Vector x_array = Utils::linspace(Constants.x_start, Constants.x_end, nr_points);
 
   // The ODE for deta/dx
   ODEFunction detadx = [&](double x, const double *eta, double *detadx){
@@ -54,11 +56,7 @@ void BackgroundCosmology::solve(){
     //=============================================================================
     // TODO: Set the rhs of the detadx ODE
     //=============================================================================
-    //...
-    //...
-
-    detadx[0] = 0.0;
-
+     detadx[0] = Constants.c/Hp_of_x(x);
     return GSL_SUCCESS;
   };
 
@@ -66,11 +64,10 @@ void BackgroundCosmology::solve(){
   // TODO: Set the initial condition, set up the ODE system, solve and make
   // the spline eta_of_x_spline 
   //=============================================================================
-  // ...
-  // ...
-  // ...
-  // ...
-
+  Vector initial{0.0};
+  ODESolver etax;
+  etax.solve(detadx, x_array, initial);
+  auto eta = etax.get_data();
   Utils::EndTiming("Eta");
 }
 
@@ -146,13 +143,7 @@ double BackgroundCosmology::get_OmegaK(double x) const{
 }
     
 double BackgroundCosmology::get_luminosity_distance_of_x(double x) const{
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  return get_comoving_distance_of_x(x) * exp(-x);
 }
 double BackgroundCosmology::get_comoving_distance_of_x(double x) const{
   //=============================================================================
@@ -160,6 +151,7 @@ double BackgroundCosmology::get_comoving_distance_of_x(double x) const{
   //=============================================================================
   //...
   //...
+  // chi = eta0-eta (what is eta0)?
 
   return 0.0;
 }
