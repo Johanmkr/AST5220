@@ -36,6 +36,7 @@ int main(int argc, char **argv){
   BackgroundCosmology cosmo(h, OmegaB, OmegaCDM, OmegaK, Neff, TCMB);
   cosmo.solve();
   cosmo.info();
+  cosmo.test();
   
   // Output background evolution quantities
   cosmo.output("cosmology.txt");

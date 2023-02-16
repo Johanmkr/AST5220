@@ -19,9 +19,12 @@ BackgroundCosmology::BackgroundCosmology(
   TCMB(TCMB)
 {
 
+  //  H0
+  H0 = h * Constants.H0_over_h; // FIXME: is this correct?
+
   // OmegaR
   // OmegaR = 5.047e-5 * std::pow(TCMB/2.7255, 4) * (0.7/h)*(0.7/h);
-  OmegaR = 2 * M_PI * M_PI / 30 * std::pow(Constants.k_b*TCMB, 4) / (std::pow(Constants.hbar*Constants.c, 3)*Constants.c*Constants.c);
+  OmegaR = 16 * M_PI * M_PI * M_PI * Constants.G * std::pow(Constants.k_b*TCMB, 4) / (90 * std::pow(Constants.hbar*Constants.c, 3)*Constants.c*Constants.c * H0 * H0);
 
   // OmegaNu
   // OmegaNu = 3.491e-5 * std::pow(TCMB/2.7255, 4) * (0.7/h) * (0.7/h) * (Neff/3.046);
@@ -30,8 +33,10 @@ BackgroundCosmology::BackgroundCosmology(
   //  OmegaLambda
   OmegaLambda = 1 - (OmegaB + OmegaCDM + OmegaK + OmegaR + OmegaNu);
 
-  //  H0
-  H0 = h * Constants.H0_over_h; // FIXME: is this correct?
+
+  //  Total densities
+  OmegaM = OmegaB+OmegaCDM;
+  OmegaR_tot = OmegaNu + OmegaR;
 }
 
 //====================================================
@@ -39,38 +44,51 @@ BackgroundCosmology::BackgroundCosmology(
 //====================================================
 
 // Solve the background
-void BackgroundCosmology::solve(){
-  Utils::StartTiming("Eta");
-    
-  //=============================================================================
-  // TODO: Set the range of x and the number of points for the splines
-  // For this Utils::linspace(x_start, x_end, npts) is useful
-  //=============================================================================
-  int nr_points = (int)1e4; // Change this accordingly
+void BackgroundCosmology::solve(int nr_points){
+  // int nr_points = (int)1e4; // Change this accordingly
 
   Vector x_array = Utils::linspace(Constants.x_start, Constants.x_end, nr_points);
 
+
+  /*
+  Making the eta spline:
+  */
+
+  Utils::StartTiming("Eta");
   // The ODE for deta/dx
   ODEFunction detadx = [&](double x, const double *eta, double *detadx){
-
-    //=============================================================================
-    // TODO: Set the rhs of the detadx ODE
-    //=============================================================================
      detadx[0] = Constants.c/Hp_of_x(x);
     return GSL_SUCCESS;
   };
 
-  //=============================================================================
-  // TODO: Set the initial condition, set up the ODE system, solve and make
-  // the spline eta_of_x_spline 
-  //=============================================================================
-  Vector initial{0.0};
+  Vector eta_initial{Constants.c/Hp_of_x(Constants.x_start)};
   ODESolver etax;
-  etax.solve(detadx, x_array, initial);
-  Vector etas = etax.get_data_by_component(0);
+  etax.solve(detadx, x_array, eta_initial);
+  Vector eta_array = etax.get_data_by_component(0);
 
-  eta_of_x_spline.create(x_array, etas);
+  eta_of_x_spline.create(x_array, eta_array, "eta_of_x");
+
   Utils::EndTiming("Eta");
+
+  /*
+  Making the t spline:
+  */
+
+  Utils::StartTiming("t");
+  // ODE for dtdx
+  ODEFunction dtdx = [&](double x, const double *eta, double *dtdx){
+    dtdx[0] = 1/H_of_x(x);
+    return GSL_SUCCESS;
+  };
+
+  Vector t_initial{1/H_of_x(Constants.x_start)};
+  ODESolver tx;
+  tx.solve(dtdx, x_array, t_initial);
+  Vector t_array = tx.get_data_by_component(0);
+
+  t_of_x_spline.create(x_array, t_array, "t_of_x");
+  t0 = t_of_x_spline(0.0);
+  Utils::EndTiming("t");
 }
 
 //====================================================
@@ -78,9 +96,7 @@ void BackgroundCosmology::solve(){
 //====================================================
 
 double BackgroundCosmology::H_of_x(double x) const{
-  
   double Hx = H0 * sqrt(OmegaLambda + OmegaK*exp(-2*x) + (OmegaB + OmegaCDM)*exp(-3*x) + (OmegaR+OmegaNu)*exp(-4*x));
-
   return Hx;
 }
 
@@ -139,23 +155,39 @@ double BackgroundCosmology::get_OmegaLambda(double x) const{
 }
 
 double BackgroundCosmology::get_OmegaK(double x) const{ 
-  if(x == 0.0) return OmegaK;
+  if(x == 0.0) return OmegaK;    
+  //=============================================================================
+  // TODO: Set the range of x and the number of points for the splines
+  // For this Utils::linspace(x_start, x_end, npts) is useful
+  //=============================================================================
   //  XXX: Optimisable
   return OmegaK * H0 * H0 * exp(-2*x) / (H_of_x(x) * H_of_x(x));
 }
+
+// EXTRA FUNCTIONs
+
+double BackgroundCosmology::get_r_of_x(double x) const{
+  double OK = get_OmegaK(x);
+  if(OK==0.0) return get_comoving_distance_of_x(x);
+  double r, argument = sqrt(abs(OmegaK))*H0*get_comoving_distance_of_x(x)/Constants.c;
+  if(OK<0){
+    return sin(argument)/argument;
+  }
+  else{
+    return sinh(argument)/argument;
+  }
+}
+
+double BackgroundCosmology::get_angular_distance_of_x(double x) const{
+  return get_r_of_x(x) * exp(x);
+}
     
 double BackgroundCosmology::get_luminosity_distance_of_x(double x) const{
-  return get_comoving_distance_of_x(x) * exp(-x);
+  return get_r_of_x(x) * exp(-x);
 }
 double BackgroundCosmology::get_comoving_distance_of_x(double x) const{
-  //=============================================================================
-  // TODO: Implement...
-  //=============================================================================
-  //...
-  //...
-  // chi = eta0-eta (what is eta0)?
-
-  return -eta_of_x(x);
+  // FIXME: check this.
+  return 0.-eta_of_x(x);
 }
 
 double BackgroundCosmology::eta_of_x(double x) const{
@@ -184,18 +216,31 @@ double BackgroundCosmology::get_TCMB(double x) const{
 //====================================================
 void BackgroundCosmology::info() const{ 
   std::cout << "\n";
+  std::cout << "==================================================\n";
   std::cout << "Info about cosmology class:\n";
-  std::cout << "OmegaB:      " << OmegaB      << "\n";
-  std::cout << "OmegaCDM:    " << OmegaCDM    << "\n";
-  std::cout << "OmegaLambda: " << OmegaLambda << "\n";
-  std::cout << "OmegaK:      " << OmegaK      << "\n";
-  std::cout << "OmegaNu:     " << OmegaNu     << "\n";
-  std::cout << "OmegaR:      " << OmegaR      << "\n";
-  std::cout << "Neff:        " << Neff        << "\n";
-  std::cout << "h:           " << h           << "\n";
-  std::cout << "TCMB:        " << TCMB        << "\n";
+  std::cout << "==================================================\n";
+  std::cout << "OmegaB:       " << OmegaB      << " "     <<"\n";
+  std::cout << "OmegaCDM:     " << OmegaCDM    << " "     <<"\n";
+  std::cout << "OmegaM:       " << OmegaM      << " "     <<"\n";
+  std::cout << "OmegaLambda:  " << OmegaLambda << " "     <<"\n";
+  std::cout << "OmegaK:       " << OmegaK      << " "     <<"\n";
+  std::cout << "OmegaNu:      " << OmegaNu     << " "     <<"\n";
+  std::cout << "OmegaR:       " << OmegaR      << " "     <<"\n";
+  std::cout << "OmegaR_tot:   " << OmegaR_tot  << " "     <<"\n";
+  std::cout << "Neff:         " << Neff        << " "     <<"\n";
+  std::cout << "h:            " << h           << " "     <<"\n";
+  std::cout << "TCMB:         " << TCMB        << " [K]"   <<"\n";
+  std::cout << "t0:           " << t0/(1e9*365*24*60*60)<< " [Gyr]"  <<"\n";
+  std::cout << "H0:           " << H0 << " [1/s]" <<"\n";
   std::cout << std::endl;
 } 
+
+
+void BackgroundCosmology::test() const{
+
+  std::cout << "Sum of densities:         " << OmegaM + OmegaR_tot + OmegaLambda + OmegaK << "\n";
+  std::cout << std::endl;
+}
 
 //====================================================
 // Output some data to file

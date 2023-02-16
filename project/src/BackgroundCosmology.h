@@ -21,7 +21,10 @@ class BackgroundCosmology{
     double OmegaR;                  // Photon density today (follows from TCMB)
     double OmegaNu;                 // Neutrino density today (follows from TCMB and Neff)
     double OmegaK;                  // Curvature density = 1 - OmegaM - OmegaR - OmegaNu - OmegaLambda
+    double OmegaM;                  // Total matter density
+    double OmegaR_tot;                  // Total radiation density
     double H0;                      // The Hubble parameter today H0 = 100h km/s/Mpc
+    double t0;                      // Age of universe today [s] 
 
     // Start and end of x-integration (can be changed)
     double x_start = Constants.x_start;
@@ -29,6 +32,7 @@ class BackgroundCosmology{
 
     // Splines to be made
     Spline eta_of_x_spline{"eta"};
+    Spline t_of_x_spline{"t"};
  
     //  Private function for easier implementation
     double u_of_x(double x) const;
@@ -52,10 +56,13 @@ class BackgroundCosmology{
     void info() const;
 
     // Do all the solving
-    void solve();
+    void solve(int nr_points = (int)1e4);
 
     // Output some results to file
     void output(const std::string filename) const;
+
+    //  Include several tests here
+    void test() const;
 
     // Get functions that we must implement
     double eta_of_x(double x) const;
@@ -80,6 +87,11 @@ class BackgroundCosmology{
     // Distance measures
     double get_luminosity_distance_of_x(double x) const;
     double get_comoving_distance_of_x(double x) const;
+    double get_angular_distance_of_x(double x) const;
+
+    // Extra
+    double get_r_of_x(double x) const;
+  
 
 };
 
