@@ -67,7 +67,9 @@ void BackgroundCosmology::solve(){
   Vector initial{0.0};
   ODESolver etax;
   etax.solve(detadx, x_array, initial);
-  auto eta = etax.get_data();
+  Vector etas = etax.get_data_by_component(0);
+
+  eta_of_x_spline.create(x_array, etas);
   Utils::EndTiming("Eta");
 }
 
@@ -153,7 +155,7 @@ double BackgroundCosmology::get_comoving_distance_of_x(double x) const{
   //...
   // chi = eta0-eta (what is eta0)?
 
-  return 0.0;
+  return -eta_of_x(x);
 }
 
 double BackgroundCosmology::eta_of_x(double x) const{
