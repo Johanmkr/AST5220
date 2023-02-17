@@ -1046,3 +1046,5 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,c++,julia,macos,python,pycharm,visualstudio,visualstudiocode,tex
 
+# OWn insertion
+.pdf
