@@ -246,11 +246,15 @@ void BackgroundCosmology::test() const{
 // Output some data to file
 //====================================================
 void BackgroundCosmology::output(const std::string filename) const{
-  const double x_min = -10.0;
-  const double x_max =  0.0;
-  const int    n_pts =  100;
-  
+  const double x_min = -20.0;
+  const double x_max =  5.0;
+  const int    n_pts =  1000;
+
   Vector x_array = Utils::linspace(x_min, x_max, n_pts);
+  
+  // Vector x1_array = Utils::linspace(-12.0, 0.0, n_pts);
+  // Vector x2_array = Utils::linspace(-14.0, 0.0, n_pts);
+  // Vector x3_array = Utils::linspace(-20.0, 5.0, n_pts);
 
   std::ofstream fp(filename.c_str());
   auto print_data = [&] (const double x) {

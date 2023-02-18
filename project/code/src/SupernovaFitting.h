@@ -125,7 +125,7 @@ void mcmc_fit_to_supernova_data(std::string supernovadata_filename, std::string 
     for(int i = 0; i < nparam; i++)
       new_parameters[i] = parameters[i] + ndist(gen) * stepsize[i];
 
-    // Compute chi^2
+    // Compute chi^2new_parameters
     double chi2 = 0.0;
     try {
       chi2 = comp_chi2(new_parameters);
