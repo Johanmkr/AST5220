@@ -81,7 +81,7 @@ void BackgroundCosmology::solve(int nr_points){
     return GSL_SUCCESS;
   };
 
-  Vector t_initial{1/H_of_x(Constants.x_start)};
+  Vector t_initial{1/(2*H_of_x(Constants.x_start))};
   ODESolver tx;
   tx.solve(dtdx, x_array, t_initial);
   Vector t_array = tx.get_data_by_component(0);
