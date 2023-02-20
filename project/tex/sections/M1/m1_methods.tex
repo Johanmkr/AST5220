@@ -1,3 +1,26 @@
 \subsection{Methods}\label{sec:m1:methods}
 
-some methods
+\subsubsection{Initial equation}
+
+\begin{equation}\label{eq:m1:density_evolutions}
+    \begin{split}
+        \O_k(a) &= \O_{k0}\expe{-2x}\left( \frac{H_0^2}{H(x)^2}\right) \\
+        \O_\cdm(a) &=\O_{\cdm0}\expe{-3x}\left( \frac{H_0^2}{H(x)^2}\right)\\
+        \O_{b0}(a) &=\O_{b0}\expe{-3x}\left( \frac{H_0^2}{H(a)^2}\right)\\
+        \O_{\gamma0}(a) &=\O_{\gamma0}\expe{-4x}\left( \frac{H_0^2}{H(x)^2}\right)\\
+        \O_{\nu0}(a) &=\O_{\nu0}\expe{-4x}\left( \frac{H_0^2}{H(x)^2}\right)\\
+        \O_{\Lambda0} &=\O_{\Lambda0}\left( \frac{H_0^2}{H(x)^2}\right)
+    \end{split}
+\end{equation}
+
+
+\begin{equation}\label{eq:m1:radiation_densities}
+    \begin{split}
+        \O_{\gamma0} &= \frac{16\pi^3G}{90}\cdot\frac{(k_b T_{\mathrm{CMB}0})^4}{\hbar^3c^5H_0^2} \\
+        \O_{\nu0} &= N_\mathrm{eff} \cdot\frac{7}{8} \cdot \left( \frac{4}{3} \right)^{4/3}\cdot \O_{\gamma0}
+    \end{split}
+\end{equation}
+
+\subsubsection{ODEs}
+
+We solve the differential equation for $\eta(x)$, eq. \ref{eq:m1:eta_diff_eq} using an ordinary differential equation solver, with Runge-Kutta 4 \checkthis{RK4?}as the advancement method. The initial condition is given by $\eta(x_\mathrm{start})=c/\Hp(x_\mathrm{start})$

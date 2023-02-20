@@ -9,3 +9,39 @@ The Hubble equation, where we allow for curvature is \checkthis{citation?}:
     \end{split}
 \end{equation}
 where $\O_\mathrm{M0} = \O_{b0} + {\O_{\cdm0}}$ and $\O_{\mathrm{R}0} = \O_{\gamma 0} + \O_{\nu 0}$ are the present day values of the total matter and radiation densities. 
+
+\checkthis{Something aboutu the curvature, and the evolution of density parameters here}.
+
+\checkthis{derive?}
+\begin{equation}\label{eq:m1:eta_diff_eq}
+    \dv{\eta}{x} = \frac{c}{\Hp(x)}.
+\end{equation}
+
+\begin{equation}\label{eq:m1:t_diff_eq}
+    \dv{t}{x} = \frac{1}{H(x)}.
+\end{equation}
+
+\begin{equation}\label{eq:m1:co_moving_distance_def}
+    \chi(x) = \eta_0 -\eta(x).
+\end{equation}
+
+\begin{equation}\label{eq:m1:r_equation_def}
+    r(\chi) = \begin{cases}
+        \chi \cdot \frac{\sin\left(\sqrt{\abs{\O_{k0}}}H_0\chi/c\right)}{\sqrt{\abs{\O_{k0}}}H_0\chi/c} \qquad &\O_{k0} < 0 \\
+        \chi \qquad &\O_{k0} = 0 \\
+        \chi \cdot \frac{\sinh\left(\sqrt{\abs{\O_{k0}}}H_0\chi/c\right)}{\sqrt{\abs{\O_{k0}}}H_0\chi/c} \qquad &\O_{k0} > 0
+    \end{cases}
+\end{equation}
+
+\begin{equation}\label{eq:m1:angular_distance_def}
+    d_A(x) = \expe{x}r(\chi(x)).
+\end{equation}
+
+\begin{equation}\label{eq:m1:luminosity_distance_def}
+    d_L = \expe{-x}r(\chi(x)).
+\end{equation}
+
+
+\begin{equation}\label{eq:m1:chi2_test_def}
+    \chi^2(h, \O_{m0}, \O_{k0}) = \sum_{i=1}^N \frac{(d_L(z, \O_{m0}, \O_{k0}) - d_L^\mathrm{obs}(z_i))^2}{\sigma_i^2}
+\end{equation}
