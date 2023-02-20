@@ -45,9 +45,9 @@ BackgroundCosmology::BackgroundCosmology(
 
 // Solve the background
 void BackgroundCosmology::solve(int nr_points){
-  // int nr_points = (int)1e4; // Change this accordingly
+  // int nr_points = (int)1e5; // Change this accordingly
 
-  Vector x_array = Utils::linspace(Constants.x_start, Constants.x_end, nr_points);
+  Vector x_array = Utils::linspace(x_start, x_end, nr_points);
 
 
   /*
@@ -171,10 +171,10 @@ double BackgroundCosmology::get_r_of_x(double x) const{
   if(OmegaK==0.0) return get_comoving_distance_of_x(x);
   double r, argument = sqrt(abs(OmegaK))*H0*get_comoving_distance_of_x(x)/Constants.c;
   if(OmegaK<0){
-    return sin(argument)/argument;
+    return get_comoving_distance_of_x(x) * sin(argument)/argument;
   }
   else{
-    return sinh(argument)/argument;
+    return get_comoving_distance_of_x(x) * sinh(argument)/argument;
   }
 }
 
@@ -188,7 +188,7 @@ double BackgroundCosmology::get_luminosity_distance_of_x(double x) const{
 }
 double BackgroundCosmology::get_comoving_distance_of_x(double x) const{
   // FIXME: check this.
-  return Constants.c/Hp_of_x(Constants.x_start)-eta_of_x(x);
+  return eta_of_x(0)-eta_of_x(x);
 }
 
 double BackgroundCosmology::eta_of_x(double x) const{
@@ -246,10 +246,10 @@ void BackgroundCosmology::test() const{
 //====================================================
 // Output some data to file
 //====================================================
-void BackgroundCosmology::output(const std::string filename) const{
-  const double x_min = -20.0;
-  const double x_max =  5.0;
-  const int    n_pts =  1000;
+void BackgroundCosmology::output(const std::string filename, double x_min, double x_max, int n_pts) const{
+  // const double x_min = -20.0;
+  // const double x_max =  5.0;
+  // const int    n_pts =  1000;
 
   Vector x_array = Utils::linspace(x_min, x_max, n_pts);
   

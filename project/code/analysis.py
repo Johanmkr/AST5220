@@ -34,13 +34,13 @@ supernova_frame =pd.read_fwf("data/supernovadata.txt").drop(columns=["#"])
 
 header_names = ["x", "eta", "Hp", "dHp", "OmegaB", "OmegaCDM", "OmegaLambda", "OmegaR", "OmegaNu", "OmegaK", "d_L", "dummy"]
 
-cosmology = pd.read_csv("data/backgroundcosmology.txt", delimiter=" ", names=header_names)
+cosmology = pd.read_csv("data/backgroundcosmology-2_0.txt", delimiter=" ", names=header_names)
 
 # embed()
 # Create figure of luminosity distance
 
 fig_lumdist = go.Figure()
-fig_lumdist.add_trace(go.Scatter(x=cosmology["x"], y=cosmology["d_L"],
+fig_lumdist.add_trace(go.Scatter(x=cosmology["x"], y=cosmology["d_L"]/1e9,
                               name = "Luminosity distance"))
 #   add error
 fig_lumdist.add_trace(go.Scatter(x=x_of_a, y=d_L,
@@ -54,8 +54,9 @@ fig_lumdist.add_trace(go.Scatter(x=x_of_a, y=d_L,
 fig_lumdist.update_layout(
     title="Supernova data",
     showlegend=True,
-    xaxis_title=r"$z$",
-    # xaxis_range=[0,2],
+    xaxis_title=r"$x$",
+    # xaxis_range=[-2,0],
+    # yaxis_range=[0,np.max(d_L)],
     yaxis_title=r"$d_L$",
     legend_title="Legend",
     font=dict(
@@ -63,7 +64,7 @@ fig_lumdist.update_layout(
         size=18,
         color="black"
     ))
-# fig_lumdist.update_yaxes(type="log")
+fig_lumdist.update_yaxes(type="log")
 fig_lumdist.show()
 
 # fig_lumdist.write_image(temp_output_path+"lumdist.pdf")

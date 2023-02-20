@@ -56,10 +56,10 @@ class BackgroundCosmology{
     void info() const;
 
     // Do all the solving
-    void solve(int nr_points = (int)1e4);
+    void solve(int nr_points = (int)1e5);
 
     // Output some results to file
-    void output(const std::string filename) const;
+    void output(const std::string filename, double x_min=-20.0, double x_max = 5.0, int n_pts = (int)1e4) const;
 
     //  Include several tests here
     void test() const;

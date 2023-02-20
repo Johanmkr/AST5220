@@ -1,5 +1,5 @@
 import plotly.io as pio
-pio.kaleido.scope.mathjax = None
+# pio.kaleido.scope.mathjax = None
 import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
@@ -12,7 +12,7 @@ from astropy import units
 
 temp_output_path = "../output/"
 
-header_names = ["x", "eta", "Hp", "dHp", "OmegaB", "OmegaCDM", "OmegaLambda", "OmegaR", "OmegaNu", "OmegaK", "dummy"]
+header_names = ["x", "eta", "Hp", "dHp", "OmegaB", "OmegaCDM", "OmegaLambda", "OmegaR", "OmegaNu", "OmegaK", "d_L", "dummy"]
 
 cosmology = pd.read_csv("data/backgroundcosmology.txt", delimiter=" ", names=header_names)
 
@@ -76,13 +76,14 @@ def testing_Omegas():
 
     #   Update layout
     omegaplot.update_layout(
-        title=r"$\Omega_i(x)$ ",
+        title=dict(
+        text=r"$\Omega_i(x)$ "),
         # showlegend=True,
         xaxis_title=r"$x$",
         legend_title=r"$\Omega_i$",
         font=dict(
-            family="Times New Roman",
-            size=18,
+            family="Serif",
+            size=25,
             color="black"
         ),
         legend=dict(
@@ -97,6 +98,8 @@ def testing_Omegas():
 
     #   SHOW
     omegaplot.show()
+    pio.write_image(omegaplot, temp_output_path+"omegas.pdf", engine="kaleido")
+
 
 #   Plot of eta(x)Hp(x)/c
 #   Needs more work
@@ -120,12 +123,13 @@ def eta_of_x_Hp():
         yaxis_range=[.5,4],
         showlegend=True,
         font=dict(
-            family="Times New Roman",
+            family="Serif",
             size=18,
             color="black"
         )
     )
     etaHpplot.show()
+    pio.write_image(etaHpplot, temp_output_path+"etaHpplot.pdf", engine="kaleido")
 
 def eta_of_x():
     etaplot = go.Figure()
@@ -149,7 +153,7 @@ def eta_of_x():
         xaxis_range=[-12,0],
         showlegend=True,
         font=dict(
-            family="Times New Roman",
+            family="Serif",
             size=18,
             color="black"
         )
@@ -158,6 +162,7 @@ def eta_of_x():
 
 testing_Omegas()
 eta_of_x_Hp()
-eta_of_x() 
+# eta_of_x_Hp()
+# eta_of_x() 
 # if __name__=="__MAIN__":
 #     testing_Omegas()
