@@ -54,7 +54,7 @@ void BackgroundCosmology::solve(int nr_points){
   Making the eta spline:
   */
 
-  Utils::StartTiming("Eta");
+  // Utils::StartTiming("Eta");
   // The ODE for deta/dx
   ODEFunction detadx = [&](double x, const double *eta, double *detadx){
      detadx[0] = Constants.c/Hp_of_x(x);
@@ -68,13 +68,13 @@ void BackgroundCosmology::solve(int nr_points){
 
   eta_of_x_spline.create(x_array, eta_array, "eta_of_x");
 
-  Utils::EndTiming("Eta");
+  // Utils::EndTiming("Eta");
 
   /*
   Making the t spline:
   */
 
-  Utils::StartTiming("t");
+  // Utils::StartTiming("t");
   // ODE for dtdx
   ODEFunction dtdx = [&](double x, const double *eta, double *dtdx){
     dtdx[0] = 1/H_of_x(x);
@@ -88,7 +88,7 @@ void BackgroundCosmology::solve(int nr_points){
 
   t_of_x_spline.create(x_array, t_array, "t_of_x");
   t0 = t_of_x_spline(0.0);
-  Utils::EndTiming("t");
+  // Utils::EndTiming("t");
 }
 
 //====================================================
@@ -167,10 +167,10 @@ double BackgroundCosmology::get_OmegaK(double x) const{
 // EXTRA FUNCTIONs
 
 double BackgroundCosmology::get_r_of_x(double x) const{
-  double OK = get_OmegaK(x);
-  if(OK==0.0) return get_comoving_distance_of_x(x);
+  // double OK = get_OmegaK(x);
+  if(OmegaK==0.0) return get_comoving_distance_of_x(x);
   double r, argument = sqrt(abs(OmegaK))*H0*get_comoving_distance_of_x(x)/Constants.c;
-  if(OK<0){
+  if(OmegaK<0){
     return sin(argument)/argument;
   }
   else{
@@ -184,10 +184,11 @@ double BackgroundCosmology::get_angular_distance_of_x(double x) const{
     
 double BackgroundCosmology::get_luminosity_distance_of_x(double x) const{
   return get_r_of_x(x) * exp(-x);
+  // return get_comoving_distance_of_x(x) * exp(-x);
 }
 double BackgroundCosmology::get_comoving_distance_of_x(double x) const{
   // FIXME: check this.
-  return 0.-eta_of_x(x);
+  return Constants.c/Hp_of_x(Constants.x_start)-eta_of_x(x);
 }
 
 double BackgroundCosmology::eta_of_x(double x) const{
@@ -268,6 +269,7 @@ void BackgroundCosmology::output(const std::string filename) const{
     fp << get_OmegaR(x)      << " ";
     fp << get_OmegaNu(x)     << " ";
     fp << get_OmegaK(x)      << " ";
+    fp << get_luminosity_distance_of_x(x) << " ";
     fp <<"\n";
   };
   std::for_each(x_array.begin(), x_array.end(), print_data);
