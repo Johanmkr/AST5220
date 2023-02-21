@@ -1,87 +1,80 @@
-import plotly.io as pio
-pio.kaleido.scope.mathjax = None
-import plotly.express as px
-import plotly.graph_objects as go
 import numpy as np
+import os
+import tkinter
 import pandas as pd
-pd.options.plotting.backend = "plotly"
-from xhtml2pdf import pisa
+import matplotlib.pyplot as plt
+from matplotlib import cm
+import matplotlib.ticker as ticker
+import seaborn as sns
 from IPython import embed
+import astropy.constants as const
+from astropy import units
+
+# plt.style.use('seaborn')
+plt.rc('text', usetex=True)
+plt.rc('font', family='Serif')
+sns.set_theme()
+
+# other rc parameters
+plt.rc('figure', figsize=(12,7))
+SMALL_SIZE = 22
+MEDIUM_SIZE = 26
+BIGGER_SIZE = 30
+plt.rc('font', size=MEDIUM_SIZE)         # controls default text sizes
+plt.rc('axes', titlesize=MEDIUM_SIZE)    # fontsize of the axes title
+plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
+# folder paths
+here = os.path.abspath(".")
+data_path = here + "/data/"
+plot_path = here + "/../output/figures/"
+latex_path = here + "/../latex/"
 
 temp_output_path = "../output/"
 
-def convert_html_to_pdf(source_html, output_filename):
-    result_file = open(temp_output_path + output_filename, "w+b")
-
-    pisa_status = pisa.CreatePDF(
-        source_html,
-        dest=result_file
-    )
-
-    result_file.close()
-
-    return pisa_status.err
-
-# Using numpy
-supernova_data = np.loadtxt("data/supernovadata.txt")
-z = supernova_data[:,0]
-x_of_a = -np.log(1+z)
-d_L = supernova_data[:,1]
-error = supernova_data[:,2]
-
-# Using pandas
-supernova_frame =pd.read_fwf("data/supernovadata.txt").drop(columns=["#"])
-
 header_names = ["x", "eta", "Hp", "dHp", "OmegaB", "OmegaCDM", "OmegaLambda", "OmegaR", "OmegaNu", "OmegaK", "d_L", "dummy"]
 
-cosmology = pd.read_csv("data/backgroundcosmology-2_0.txt", delimiter=" ", names=header_names)
+cosmology = pd.read_csv("data/backgroundcosmology.txt", delimiter=" ", names=header_names)
 
-# embed()
-# Create figure of luminosity distance
 
-fig_lumdist = go.Figure()
-fig_lumdist.add_trace(go.Scatter(x=cosmology["x"], y=cosmology["d_L"]/1e9,
-                              name = "Luminosity distance"))
-#   add error
-fig_lumdist.add_trace(go.Scatter(x=x_of_a, y=d_L,
-                                 name="Error",
-                                 mode="markers",
-                                 error_y=dict(
-                                    array=error,
-                                    color="red"
-                                 )))
+# sfit = pd.read_csv(data_path + "results_supernovafitting.txt", delimiter=" ", names=["chi2", "h", "OmegaM", "OmegaK"])
 
-fig_lumdist.update_layout(
-    title="Supernova data",
-    showlegend=True,
-    xaxis_title=r"$x$",
-    # xaxis_range=[-2,0],
-    # yaxis_range=[0,np.max(d_L)],
-    yaxis_title=r"$d_L$",
-    legend_title="Legend",
-    font=dict(
-        family="Times New Roman",
-        size=18,
-        color="black"
-    ))
-fig_lumdist.update_yaxes(type="log")
-fig_lumdist.show()
+##############
+#   Omega plot
+##############
 
-# fig_lumdist.write_image(temp_output_path+"lumdist.pdf")
+# Omega_gamma = 2*np.pi**2 / 30 * (const.k_b*2.7255)**4 / const.hbar**3 / const.c*5 * 8*np.pi * const.G /
 
-# fig_lumdist.write_html(temp_output_path+"lumdist.html")
+def omega_restrictions_plot():
+    sfit = np.loadtxt(data_path+"results_supernovafitting.txt", skiprows=300)
+    chi2, h, OmegaM, OmegaK = sfit[:,0], sfit[:,1], sfit[:,2], sfit[:,3]
 
-# convert_html_to_pdf(temp_output_path + "lumdist.html", "lumdist.pdf")
+    oneSDthres = 3.53
+    chi2min = np.min(chi2)
 
-# fig_lumdist=make_figure(df, pa)
+    accepted = (chi2 - chi2min) < oneSDthres
 
-# pl.io.write_image(fig_lumdist, temp_output_path+"lumdist.pdf", format="pdf")
+    selected_omegaM = np.where(accepted, OmegaM, np.nan)
+    selected_omegaK = np.where(accepted, OmegaK, np.nan)
+    selected_omegaM = selected_omegaM[np.isfinite(selected_omegaM)]
+    selected_omegaK = selected_omegaK[np.isfinite(selected_omegaK)]
+
+
+    fig, ax = plt.subplots()
+
+    ax.scatter(selected_omegaM, 1-(selected_omegaK+selected_omegaM))
+
+    fig.savefig(plot_path+"omega_restrictions.pdf", bbox_inches=None)
 
 
 
+# print(sfit)
 
 
 
-
-if __name__=="__MAIN__":
-    pass
+if __name__=="__main__":
+    omega_restrictions_plot()
