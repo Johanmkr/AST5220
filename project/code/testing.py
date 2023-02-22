@@ -1,6 +1,6 @@
 import numpy as np
 import os
-import tkinter
+import tk
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import cm
@@ -36,9 +36,9 @@ latex_path = here + "/../latex/"
 
 temp_output_path = "../output/"
 
-header_names = ["x", "eta", "Hp", "dHp", "OmegaB", "OmegaCDM", "OmegaLambda", "OmegaR", "OmegaNu", "OmegaK", "d_L", "dummy"]
+header_names = ["x", "eta", "Hp", "dHp", "ddHp", "OmegaB", "OmegaCDM", "OmegaLambda", "OmegaR", "OmegaNu", "OmegaK", "d_L", "dummy"]
 
-cosmology = pd.read_csv("data/backgroundcosmology.txt", delimiter=" ", names=header_names)
+cosmology = pd.read_csv("data/backgroundcosmology.txt", delimiter=" ", names=header_names, skiprows=1)
 
 def testing_Omegas():
     """
@@ -60,70 +60,41 @@ def testing_Omegas():
     omegaFig.savefig(plot_path+"omegas.pdf", bbox_inches=None)
     # omegaFig.show()
 
+def testing_Hp():
+    """
+    Plot for testing Hp
+    """
+    xvals = cosmology["x"]
+    Hp = cosmology["Hp"]
+    dHp = cosmology["dHp"]
+    ratio = dHp/Hp 
+    HpFig, ax1 = plt.subplots()
+    ax1.plot(xvals, ratio, color="blue", label=r"$\frac{1}{\mathcal{H}}\frac{\mathrm{d}\mathcal{H}}{\mathrm{d}x}$")
+    ax1.set_title(r"First sanity check of $\mathcal{H}(x)$", loc="left")
+    ax1.set_xlabel(r"$x$")
+    ax1.legend(loc="upper left", fancybox=True)
+    HpFig.tight_layout()
+    HpFig.savefig(plot_path + "Hp_test.pdf", bbox_inches=None)
+
+def testing_Hp2():
+    """
+    Plot for testing Hp (second)
+    """
+    xvals = cosmology["x"]
+    Hp = cosmology["Hp"]
+    ddHp = cosmology["ddHp"]
+    ratio = ddHp/Hp 
+    HpFig, ax1 = plt.subplots()
+    ax1.plot(xvals, ratio, color="blue", label=r"$\frac{1}{\mathcal{H}}\frac{\mathrm{d}^2\mathcal{H}}{\mathrm{d}x^2}$")
+    ax1.set_title(r"Second sanity check of $\mathcal{H}(x)$", loc="left")
+    ax1.set_xlabel(r"$x$")
+    ax1.legend(loc="lower left", fancybox=True)
+    HpFig.tight_layout()
+    HpFig.savefig(plot_path + "Hp_test2.pdf", bbox_inches=None)
 
 
 
-# Plot of eta(x)Hp(x)/c
-# def eta_of_x_Hp():
-#     etaHpplot = go.Figure()
-#     etaHpplot.add_trace(
-#         go.Scatter(
-#             x=cosmology["x"],
-#             y=cosmology["eta"]*cosmology["Hp"] / const.c,
-#             mode="lines",
-#             name="some",
-#             line=dict(
-#                 color="blue"
-#             )
-#         )
-#     )
-#     etaHpplot.update_layout(
-#         title="sometitle",
-#         xaxis_title=r"$x$",
-#         xaxis_range=[-14,0],
-#         yaxis_range=[.5,4],
-#         showlegend=True,
-#         font=dict(
-#             family="Serif",
-#             size=18,
-#             color="black"
-#         )
-#     )
-#     etaHpplot.show()
-#     pio.write_image(etaHpplot, temp_output_path+"etaHpplot.pdf", engine="kaleido")
-
-# def eta_of_x():
-#     etaplot = go.Figure()
-#     etaplot.add_trace(
-#         go.Scatter(
-#             x=cosmology["x"],
-#             y=cosmology["eta"]*units.m.to("Mpc"),
-#             mode="lines",
-#             name="some",
-#             line=dict(
-#                 color="blue",
-#             )
-#         )
-#     )
-#     etaplot.update_yaxes(
-#         type="log"
-#     )
-#     etaplot.update_layout(
-#         title="sometitle",
-#         xaxis_title=r"$x$",
-#         xaxis_range=[-12,0],
-#         showlegend=True,
-#         font=dict(
-#             family="Serif",
-#             size=18,
-#             color="black"
-#         )
-#     )
-#     etaplot.show()
-
-# testing_Omegas()
-# eta_of_x_Hp()
-# eta_of_x_Hp()
-# eta_of_x() 
 if __name__=="__main__":
-    testing_Omegas()
+    # testing_Omegas()
+    testing_Hp()
+    testing_Hp2()

@@ -9,6 +9,7 @@ import seaborn as sns
 from IPython import embed
 import astropy.constants as const
 from astropy import units
+os.environ["QT_QPA_PLATFORM"] = "wayland"
 
 # plt.style.use('seaborn')
 plt.rc('text', usetex=True)
@@ -67,8 +68,8 @@ def omega_restrictions_plot():
     fig, ax = plt.subplots()
 
     ax.scatter(selected_omegaM, 1-(selected_omegaK+selected_omegaM))
-
-    fig.savefig(plot_path+"omega_restrictions.pdf", bbox_inches=None)
+    fig.show()
+    # fig.savefig(plot_path+"omega_restrictions.pdf", bbox_inches=None)
 
 
 

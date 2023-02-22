@@ -258,11 +258,25 @@ void BackgroundCosmology::output(const std::string filename, double x_min, doubl
   // Vector x3_array = Utils::linspace(-20.0, 5.0, n_pts);
 
   std::ofstream fp(filename.c_str());
+  fp << "#   x       "                  << " ";
+  fp << "    eta     "        << " ";
+  fp << "    Hp      "        << " ";
+  fp << "    dHp     "        << " ";
+  fp << "    ddHp    "    << " ";
+  fp << "    OmegaB  "      << " ";
+  fp << "    OmegaCDM"    << " ";
+  fp << " OmegaLamdba" << " ";
+  fp << "    OmegaR  "      << " ";
+  fp << "    OmegaNu "     << " ";
+  fp << "    OmegaK  "      << " ";
+  fp << "    d_L     " << " ";
+  fp <<"\n";
   auto print_data = [&] (const double x) {
     fp << x                  << " ";
     fp << eta_of_x(x)        << " ";
     fp << Hp_of_x(x)         << " ";
     fp << dHpdx_of_x(x)      << " ";
+    fp << ddHpddx_of_x(x)    << " ";
     fp << get_OmegaB(x)      << " ";
     fp << get_OmegaCDM(x)    << " ";
     fp << get_OmegaLambda(x) << " ";
