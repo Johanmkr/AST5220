@@ -275,7 +275,7 @@ void BackgroundCosmology::output(const std::string filename, double x_min, doubl
   fp << "    ddHp    "    << " ";
   fp << "    OmegaB  "      << " ";
   fp << "    OmegaCDM"    << " ";
-  fp << " OmegaLamdba" << " ";
+  fp << " OmegaLambda" << " ";
   fp << "    OmegaR  "      << " ";
   fp << "    OmegaNu "     << " ";
   fp << "    OmegaK  "      << " ";

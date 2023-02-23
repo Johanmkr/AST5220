@@ -61,6 +61,20 @@ cmb: $(OBJS)
 %.o: %.cpp
 	${CC}  -c -o $@ $< $C $(INC) 
 
+	
 clean:
 	rm -rf $(TARGETS) *.o
+
+# Make plots
+
+plot_test:
+	cd plot &&python3 testing.py && cd ..
+
+plot_analM1:
+	cd plot && python3 analysisM1.py && cd ..
+
+cleanpdfs:
+	cd ../output/figures/ && rm *.pdf && cd ../../code
+
+	
 
