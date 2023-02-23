@@ -92,6 +92,7 @@ class BackgroundCosmology{
 
     // Extra
     double get_r_of_x(double x) const;
+    double get_t_of_x(double x) const;
   
 
 };

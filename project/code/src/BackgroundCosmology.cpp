@@ -216,6 +216,11 @@ double BackgroundCosmology::get_TCMB(double x) const{
   return TCMB * exp(-x); 
 }
 
+double BackgroundCosmology::get_t_of_x(double x) const{
+  return t_of_x_spline(x);
+}
+
+
 //====================================================
 // Print out info about the class
 //====================================================
@@ -275,6 +280,7 @@ void BackgroundCosmology::output(const std::string filename, double x_min, doubl
   fp << "    OmegaNu "     << " ";
   fp << "    OmegaK  "      << " ";
   fp << "    d_L     " << " ";
+  fp << "    t     " << " ";
   fp <<"\n";
   auto print_data = [&] (const double x) {
     fp << x                  << " ";
@@ -290,6 +296,7 @@ void BackgroundCosmology::output(const std::string filename, double x_min, doubl
     fp << get_OmegaNu(x)     << " ";
     fp << get_OmegaK(x)      << " ";
     fp << get_luminosity_distance_of_x(x) << " ";
+    fp << get_t_of_x(x) << " ";
     fp <<"\n";
   };
   std::for_each(x_array.begin(), x_array.end(), print_data);
