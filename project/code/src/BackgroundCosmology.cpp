@@ -121,7 +121,7 @@ double BackgroundCosmology::dHpdx_of_x(double x) const{
 }
 
 double BackgroundCosmology::ddHpddx_of_x(double x) const{
-  return H0*(-1/4*std::pow(u_of_x(x), -3./4.) * dudx_of_x(x)*dudx_of_x(x) + 1/(2*sqrt(u_of_x(x)))*dduddx_of_x(x));
+  return H0*(-1/(4*std::pow(u_of_x(x), 3./2.)) * dudx_of_x(x)*dudx_of_x(x) + 1/(2*sqrt(u_of_x(x)))*dduddx_of_x(x));
 }
 
 double BackgroundCosmology::get_OmegaB(double x) const{ 
@@ -195,6 +195,10 @@ double BackgroundCosmology::eta_of_x(double x) const{
   return eta_of_x_spline(x);
 }
 
+double BackgroundCosmology::deta_of_x(double x) const{
+  return eta_of_x_spline.deriv_x(x);
+}
+
 double BackgroundCosmology::get_H0() const{ 
   return H0; 
 }
@@ -260,6 +264,7 @@ void BackgroundCosmology::output(const std::string filename, double x_min, doubl
   std::ofstream fp(filename.c_str());
   fp << "#   x       "                  << " ";
   fp << "    eta     "        << " ";
+  fp << "    deta     "        << " ";
   fp << "    Hp      "        << " ";
   fp << "    dHp     "        << " ";
   fp << "    ddHp    "    << " ";
@@ -274,6 +279,7 @@ void BackgroundCosmology::output(const std::string filename, double x_min, doubl
   auto print_data = [&] (const double x) {
     fp << x                  << " ";
     fp << eta_of_x(x)        << " ";
+    fp << deta_of_x(x)        << " ";
     fp << Hp_of_x(x)         << " ";
     fp << dHpdx_of_x(x)      << " ";
     fp << ddHpddx_of_x(x)    << " ";

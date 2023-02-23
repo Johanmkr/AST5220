@@ -14,6 +14,7 @@ from astropy import units
 plt.rc('text', usetex=True)
 plt.rc('font', family='Serif')
 sns.set_theme()
+sns.color_palette("hls", 8)
 
 # other rc parameters
 plt.rc('figure', figsize=(12,7))
@@ -36,7 +37,7 @@ latex_path = here + "/../latex/"
 
 temp_output_path = "../output/"
 
-header_names = ["x", "eta", "Hp", "dHp", "ddHp", "OmegaB", "OmegaCDM", "OmegaLambda", "OmegaR", "OmegaNu", "OmegaK", "d_L", "dummy"]
+header_names = ["x", "eta", "deta", "Hp", "dHp", "ddHp", "OmegaB", "OmegaCDM", "OmegaLambda", "OmegaR", "OmegaNu", "OmegaK", "d_L", "dummy"]
 
 cosmology = pd.read_csv("data/backgroundcosmology.txt", delimiter=" ", names=header_names, skiprows=1)
 
@@ -67,34 +68,45 @@ def testing_Hp():
     xvals = cosmology["x"]
     Hp = cosmology["Hp"]
     dHp = cosmology["dHp"]
-    ratio = dHp/Hp 
+    ddHp = cosmology["ddHp"]
+    ratiodHp = dHp/Hp 
+    ratioddHp = ddHp/Hp 
     HpFig, ax1 = plt.subplots()
-    ax1.plot(xvals, ratio, color="blue", label=r"$\frac{1}{\mathcal{H}}\frac{\mathrm{d}\mathcal{H}}{\mathrm{d}x}$")
-    ax1.set_title(r"First sanity check of $\mathcal{H}(x)$", loc="left")
+    ax1.plot(xvals, ratioddHp, color="red", label=r"$\frac{1}{\mathcal{H}}\frac{\mathrm{d}^2\mathcal{H}}{\mathrm{d}x^2}$")
+    ax1.plot(xvals, ratiodHp, color="blue", label=r"$\frac{1}{\mathcal{H}}\frac{\mathrm{d}\mathcal{H}}{\mathrm{d}x}$")
+    ax1.set_title(r"Sanity check of $\mathcal{H}(x)$", loc="left")
     ax1.set_xlabel(r"$x$")
-    ax1.legend(loc="upper left", fancybox=True)
+    ax1.legend(loc="center left", fancybox=True)
     HpFig.tight_layout()
     HpFig.savefig(plot_path + "Hp_test.pdf", bbox_inches=None)
 
-def testing_Hp2():
-    """
-    Plot for testing Hp (second)
-    """
-    xvals = cosmology["x"]
-    Hp = cosmology["Hp"]
-    ddHp = cosmology["ddHp"]
-    ratio = ddHp/Hp 
-    HpFig, ax1 = plt.subplots()
-    ax1.plot(xvals, ratio, color="blue", label=r"$\frac{1}{\mathcal{H}}\frac{\mathrm{d}^2\mathcal{H}}{\mathrm{d}x^2}$")
-    ax1.set_title(r"Second sanity check of $\mathcal{H}(x)$", loc="left")
+def testing_eta():
+    xvals = cosmology["x"].where(cosmology["x"]<0)
+    eta = cosmology["eta"].where(cosmology["x"]<0)
+    deta = cosmology["deta"].where(cosmology["x"]<0)
+    Hp = cosmology["Hp"].where(cosmology["x"]<0)
+    # xvals = cosmology["x"]
+    # eta = cosmology["eta"]
+    # deta = cosmology["deta"]
+    # Hp = cosmology["Hp"]
+    c = const.c
+
+    etaHpc = eta*Hp/c 
+    detaHpc = deta*Hp/c
+
+    etaFig, ax1 = plt.subplots()
+    ax1.plot(xvals, etaHpc, color="blue", label=r"$\frac{\eta\mathcal{H}}{c}$")
+    ax1.plot(xvals, detaHpc, color="red", label=r"$\frac{\mathcal{H}}{c}\frac{\mathrm{d}\eta}{\mathrm{d}x}$")
+    ax1.set_title(r"Sanity check for $\eta(x)$", loc="left")
     ax1.set_xlabel(r"$x$")
-    ax1.legend(loc="lower left", fancybox=True)
-    HpFig.tight_layout()
-    HpFig.savefig(plot_path + "Hp_test2.pdf", bbox_inches=None)
+    # ax1.set_yscale("log")
+    ax1.legend(loc="best", fancybox=True)
+    etaFig.tight_layout()
+    etaFig.savefig(plot_path + "eta_test.pdf", bbox_inches=None)
 
 
 
 if __name__=="__main__":
     # testing_Omegas()
-    testing_Hp()
-    testing_Hp2()
+    # testing_Hp()
+    testing_eta()

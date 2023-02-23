@@ -66,6 +66,7 @@ class BackgroundCosmology{
 
     // Get functions that we must implement
     double eta_of_x(double x) const;
+    double deta_of_x(double x) const;
     double H_of_x(double x) const;
     double Hp_of_x(double x) const;
     double dHpdx_of_x(double x) const;
