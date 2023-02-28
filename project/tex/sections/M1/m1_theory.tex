@@ -1,6 +1,50 @@
 \subsection{Theory}\label{sec:m1:theory}
 
-The main time variable will be $x=\ln a$. 
+\subsubsection{Fundamentals}\label{sec:m1:theory:fundamentals}
+
+If we assume the universe to be homogeneous and isotropic, the line elements $\d s$ is given by the FLWR-metric as follows (in polar coordinates)\cite[eq. 1.1.11]{weinberg2008cosmology}:
+
+\begin{equation}\label{eq:m1:theory:fundamentals:FLWR_line_element}
+    \d s^2 = -\d t^2 + e^{2x(t)}\left[ \frac{\d r^2}{1-kr^2}+r^2\d\theta^2 + r^2\sin^2\theta\d\phi^2 \right],
+\end{equation}
+where we have introduced $x(t) = \ln(a(t))$, the logarithm of the scale factor $a(t)$ \checkthis{include more} as our first measure of time. 
+
+We further model all forms of energy in the universe as perfect fluids, only characterised by their rest frame density $\rho$ and isotropic pressure $p$, and an equation of state relating the two:
+
+\begin{equation}\label{eq:m1:theory:fundamentals:equation_of_state}
+    \omega=\frac{\rho}{p}.
+\end{equation}
+
+By conservation of energy and momentum we must satisfy $\nabla_\mu T^\munu=0$, which results in the following differential equations for the density \checkthis{include more here?} of each fluid $\rho_i$:
+
+\begin{equation}\label{eq:m1:theory:fundamentals:density_diff_eq}
+    \dv{\rho_i}{t} +3H\rho_i(1+\omega) = 0,
+\end{equation}
+where we have introduced the Hubble parameter $H \equiv\dot{a}/a=\d x/\d t$. The solution to eq. \ref{eq:m1:theory:fundamentals:density_diff_eq} is of the form:
+
+\begin{equation}\label{eq:m1:theory:fundamentals:solution_to_density_diff_eq}
+    \rho_i \propto e^{-3(1+\omega_i)x},
+\end{equation}
+where $\omega_i$ takes different values depending on the fluid it models (more on this later). 
+
+.... solution Friedmann eq... hubble equaiton.  
+
+
+
+\subsubsection{Measure of time and space}\label{sec:m1:measure_time_space}
+
+\subsubsection{$\Lambda$CDM-model}
+
+
+
+
+
+
+
+
+
+
+
 
 The Hubble equation, where we allow for curvature is \checkthis{citation?}:
 \begin{equation}\label{eq:m1:hubble_equation}

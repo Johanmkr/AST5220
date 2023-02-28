@@ -53,13 +53,14 @@ def supernova_data():
     zvals_pred = np.exp(-xvals_pred)-1
 
     sdFig, ax = plt.subplots()
-    ax.errorbar(zvals_sn, dL_obs, yerr=error, label="Observation", fmt="none",  ecolor="red")
-    ax.plot(zvals_pred, dL_pred, color="blue", label="Prediction")
+    ax.errorbar(zvals_sn, dL_obs/zvals_sn, yerr=error/zvals_sn, label="Observation", fmt="none",  ecolor="red")
+    ax.plot(zvals_pred, dL_pred/zvals_pred, color="blue", label="Prediction")
     # ax.set_yscale("log")
-    ax.set_ylim(0.1,12)
-    ax.set_xlim(0,1.4)
+    ax.set_xscale("log")
+    ax.set_ylim(3,10)
+    ax.set_xlim(0.005,1.45)
     ax.set_xlabel(lbls["z"])
-    ax.set_ylabel(lbls["d_L"] + " [Gpc]")
+    ax.set_ylabel(r"$d_L/z$" + " [Gpc]")
     ax.set_title(r"Luminosity distance $d_L$", loc="left")
     ax.legend(loc="best", fancybox=True)    
     

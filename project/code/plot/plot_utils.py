@@ -15,9 +15,9 @@ sns.color_palette("hls", 8)
 
 # other rc parameters
 plt.rc('figure', figsize=(12,7))
-SMALL_SIZE = 22
-MEDIUM_SIZE = 26
-BIGGER_SIZE = 30
+SMALL_SIZE = 25
+MEDIUM_SIZE = 30
+BIGGER_SIZE = 35
 plt.rc('font', size=MEDIUM_SIZE)         # controls default text sizes
 plt.rc('axes', titlesize=MEDIUM_SIZE)    # fontsize of the axes title
 plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
