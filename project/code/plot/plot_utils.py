@@ -123,6 +123,10 @@ class Data:
     def print_frame(self):
         print(self.dF)
 
+#   Different utility functions
+
+# def add_shaded_areas(axis):
+    
 if __name__=="__main__":
     print("Utility file only.")
     

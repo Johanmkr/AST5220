@@ -2,36 +2,76 @@
 
 \subsubsection{Fundamentals}\label{sec:m1:theory:fundamentals}
 
-If we assume the universe to be homogeneous and isotropic, the line elements $\d s$ is given by the FLWR-metric as follows (in polar coordinates)\cite[eq. 1.1.11]{weinberg2008cosmology}:
+    If we assume the universe to be homogeneous and isotropic, the line elements $\d s$ is given by the FLWR-metric as follows (in polar coordinates)\cite[eq. 1.1.11]{weinberg2008cosmology}:
 
-\begin{equation}\label{eq:m1:theory:fundamentals:FLWR_line_element}
-    \d s^2 = -\d t^2 + e^{2x(t)}\left[ \frac{\d r^2}{1-kr^2}+r^2\d\theta^2 + r^2\sin^2\theta\d\phi^2 \right],
-\end{equation}
-where we have introduced $x(t) = \ln(a(t))$, the logarithm of the scale factor $a(t)$ \checkthis{include more} as our first measure of time. 
+    \begin{equation}\label{eq:m1:theory:fundamentals:FLWR_line_element}
+        \d s^2 = -\d t^2 + e^{2x(t)}\left[ \frac{\d r^2}{1-kr^2}+r^2\d\theta^2 + r^2\sin^2\theta\d\phi^2 \right],
+    \end{equation}
+    where we have introduced $x(t) = \ln(a(t))$, the logarithm of the scale factor $a(t)$ \checkthis{include more (about k)} as our first measure of time. 
 
-We further model all forms of energy in the universe as perfect fluids, only characterised by their rest frame density $\rho$ and isotropic pressure $p$, and an equation of state relating the two:
+    We further model all forms of energy in the universe as perfect fluids, only characterised by their rest frame density $\rho$ and isotropic pressure $p$, and an equation of state relating the two:
 
-\begin{equation}\label{eq:m1:theory:fundamentals:equation_of_state}
-    \omega=\frac{\rho}{p}.
-\end{equation}
+    \begin{equation}\label{eq:m1:theory:fundamentals:equation_of_state}
+        \omega=\frac{\rho}{p}.
+    \end{equation}
 
-By conservation of energy and momentum we must satisfy $\nabla_\mu T^\munu=0$, which results in the following differential equations for the density \checkthis{include more here?} of each fluid $\rho_i$:
+    By conservation of energy and momentum we must satisfy $\nabla_\mu T^\munu=0$, which results in the following differential equations for the density \checkthis{include more here?} of each fluid $\rho_i$:
 
-\begin{equation}\label{eq:m1:theory:fundamentals:density_diff_eq}
-    \dv{\rho_i}{t} +3H\rho_i(1+\omega) = 0,
-\end{equation}
-where we have introduced the Hubble parameter $H \equiv\dot{a}/a=\d x/\d t$. The solution to eq. \ref{eq:m1:theory:fundamentals:density_diff_eq} is of the form:
+    \begin{equation}\label{eq:m1:theory:fundamentals:density_diff_eq}
+        \dv{\rho_i}{t} +3H\rho_i(1+\omega_i) = 0,
+    \end{equation}
+    where we have introduced the Hubble parameter $H \equiv\dot{a}/a=\d x/\d t$. The solution to eq. \ref{eq:m1:theory:fundamentals:density_diff_eq} is of the form:
 
-\begin{equation}\label{eq:m1:theory:fundamentals:solution_to_density_diff_eq}
-    \rho_i \propto e^{-3(1+\omega_i)x},
-\end{equation}
-where $\omega_i$ takes different values depending on the fluid it models (more on this later). 
+    \begin{equation}\label{eq:m1:theory:fundamentals:solution_to_density_diff_eq}
+        \rho_i \propto e^{-3(1+\omega_i)x},
+    \end{equation}
+    where $\omega_\mathrm{M} = 0$ (matter), $\omega_\mathrm{rad}=1/3$ (radiation), $\omega_\Lambda=-1$ (cosmological constant) and $\omega_k=-1/3$ (curvature). 
 
-.... solution Friedmann eq... hubble equaiton.  
+    With these assumptions, the solution to the Einstein equations (eq. \ref{eq:introduction:einstein_equation}) are the Friedmann equations, the first of which describes the expansion rate of the universe:
+
+    \begin{equation}
+        \label{eq:m1:theory:fundamentals:first_friedmann_equation}
+        H^2 = \frac{8\pi G}{3}\sum_i\rho_i - kc^2\expe{-2x} \\
+    \end{equation}
+    and the second describe how this expansion rate changes over time:
+    \begin{equation}
+        \label{eq:m1:theory:fundamentals:second_friedmann_equation}
+        \dv{H}{t}+H^2 = -\frac{4\pi G}{3}\sum_i\left(\rho+\frac{3p}{c^2}\right).
+    \end{equation}
+
+    As of now, we are primarily interested in the first Friedmann equation. By introducing the critical density, $\rho_c\equiv2H^2/(8\pi G)$, we define the density parameters $\O_i=\rho_i/\rho_c$. We further define the density of the curvature $\rho_k\equiv-3kc^2\expe{-2x}/(8\pi G)$, which enables us to write eq. \ref{eq:m1:theory:fundamentals:first_friedmann_equation} as simply:
+
+    \begin{equation}
+        1=\sum_i\O_i,
+    \end{equation}
+
+    where the curvature density $\O_k$ is included in the sum. From eq. \ref{eq:m1:theory:fundamentals:solution_to_density_diff_eq} we know the evolution of the densities in time, and if we assume the density values today, $\O_{i,0}$, are known (or are free parameters), then eq. \ref{eq:m1:theory:fundamentals:first_friedmann_equation} may also be written as:
+
+    \begin{equation}\label{eq:m1:theory:fundamentals:Hubble_equation}
+        H = H_0\sqrt{\sum_i\O_{i,0}\expe{-3(1+\omega_i)x}},
+    \end{equation}
+
+    which is the Hubble equation we will use further.
+
 
 
 
 \subsubsection{Measure of time and space}\label{sec:m1:measure_time_space}
+    The main measure of time is usually the scale factor $a$, or its logarithm $x$. We then have the \textit{cosmic time} $t$ defined as:
+
+    \begin{equation}\label{eq:m1:theory:measures:cosmic_time}
+        t = \int_0^a\frac{\d a}{aH} = \int_0^{e^x}\frac{\d x}{H}.
+    \end{equation}
+    Another temporal measure is the \textit{conformal time} $\eta$ defined as $\d t = e^x\d\eta$ yielding:
+
+    \begin{equation}
+        \eta = \int_0^{e^x}\frac{\d x}{e^xH} \equiv \int_0^{e^x}\frac{\d x}{\Hp},
+    \end{equation}
+    where $\Hp=e^xH$ is defined as the \textit{conformal Hubble parameter}. \checkthis{$\eta c$ yields the distance to the \textit{particle horizon}}. We may also choose to measure time in terms of the \textit{redshift} $z$, where $1+z = 1/a = \expe{-x}$.
+
+
+
+
 
 \subsubsection{$\Lambda$CDM-model}
 
@@ -40,21 +80,6 @@ where $\omega_i$ takes different values depending on the fluid it models (more o
 
 
 
-
-
-
-
-
-
-The Hubble equation, where we allow for curvature is \checkthis{citation?}:
-\begin{equation}\label{eq:m1:hubble_equation}
-    \begin{split}
-        H(x) = H_0\sqrt{\O_\mathrm{M0}\expe{-3x} + \O_\mathrm{R0}\expe{-4x} + \O_{k0}\expe{-2x} + \O_{\Lambda 0}},
-    \end{split}
-\end{equation}
-where $\O_\mathrm{M0} = \O_{b0} + {\O_{\cdm0}}$ and $\O_{\mathrm{R}0} = \O_{\gamma 0} + \O_{\nu 0}$ are the present day values of the total matter and radiation densities. 
-
-\checkthis{Something aboutu the curvature, and the evolution of density parameters here}.
 
 \checkthis{derive?}
 \begin{equation}\label{eq:m1:eta_diff_eq}

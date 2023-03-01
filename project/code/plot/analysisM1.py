@@ -6,6 +6,7 @@ Sdata = Data("supernovadata.txt")
 Sfit = Data("results_supernovafitting.txt", skiprows=300)
 
 
+
 def conformal_hubble_factor():
     """Plot the conformal Hubble factor Hp agains x.
     """

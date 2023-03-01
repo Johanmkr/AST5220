@@ -65,7 +65,7 @@ void mcmc_fit_to_supernova_data(std::string supernovadata_filename, std::string 
       std::cout << "z: " << z << " " << L << " " << dL << "\n";
     }
     std::cout << "We found n = " << z_arr.size() << " points\n";
-  };
+  }; 
   read_data(supernovadata_filename);
 
   // Set up random number generator
