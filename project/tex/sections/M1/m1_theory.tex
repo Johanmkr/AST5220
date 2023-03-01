@@ -45,13 +45,14 @@
         1=\sum_i\O_i,
     \end{equation}
 
-    where the curvature density $\O_k$ is included in the sum. From eq. \ref{eq:m1:theory:fundamentals:solution_to_density_diff_eq} we know the evolution of the densities in time, and if we assume the density values today, $\O_{i,0}$, are known (or are free parameters), then eq. \ref{eq:m1:theory:fundamentals:first_friedmann_equation} may also be written as:
+    where the curvature density $\O_k$ is included in the sum. From \cref{eq:m1:theory:fundamentals:solution_to_density_diff_eq} we know the evolution of the densities in time, and if we assume the density values today, $\O_{i0}$, are known (or are free parameters), then eq. \ref{eq:m1:theory:fundamentals:first_friedmann_equation} may also be written as:
 
     \begin{equation}\label{eq:m1:theory:fundamentals:Hubble_equation}
-        H = H_0\sqrt{\sum_i\O_{i,0}\expe{-3(1+\omega_i)x}},
+        H = H_0\sqrt{\sum_i\O_{i0}\expe{-3(1+\omega_i)x}},
     \end{equation}
 
     which is the Hubble equation we will use further.
+    \FIXME{references - use cref}
 
 
 
@@ -69,46 +70,55 @@
     \end{equation}
     where $\Hp=e^xH$ is defined as the \textit{conformal Hubble parameter}. \checkthis{$\eta c$ yields the distance to the \textit{particle horizon}}. We may also choose to measure time in terms of the \textit{redshift} $z$, where $1+z = 1/a = \expe{-x}$.
 
+    The comoving distance is defined as follows:
+
+    \begin{equation}
+        \chi = some integral = \eta_0-\eta
+    \end{equation}
+    \FIXME{check signs}
+
+    \TODO{double check the integral limits}
+
+    The radial distance is given in terms of the comoving distance and the curvature density today $\O_{k0}$ as:
+
+    \begin{equation}\label{eq:m1:theory:measures:r_equation_def}
+        r = \begin{cases}
+            \chi \cdot \frac{\sin\left(\sqrt{\abs{\O_{k0}}}H_0\chi/c\right)}{\sqrt{\abs{\O_{k0}}}H_0\chi/c} \qquad &\O_{k0} < 0 \\
+            \chi \qquad &\O_{k0} = 0 \\
+            \chi \cdot \frac{\sinh\left(\sqrt{\abs{\O_{k0}}}H_0\chi/c\right)}{\sqrt{\abs{\O_{k0}}}H_0\chi/c} \qquad &\O_{k0} > 0
+        \end{cases}
+    \end{equation}
+    
+    It is then straigtforward to define the angular diameter distance:
+    \begin{equation}\label{eq:m1:theory:measures:angular_distance_def}
+        d_A = \expe{x}r,
+    \end{equation}
+
+    and the luminosity distance:
+    
+    \begin{equation}\label{eq:m1:theory:measures:luminosity_distance}
+        d_L = \expe{-x}r.
+    \end{equation}
+
+    \TODO{derive the above?}
+
+    We also have the following useful relations:
+    \begin{equation}
+        \label{eq:m1:theory:measures:useful_relations}
+        \begin{split}
+            \dv{\eta}{x}&=\frac{c}{\Hp}, \\
+             \dv{t}{x} &= \frac{1}{H}.
+        \end{split}
+    \end{equation}
+    \TODO{explain further above}
 
 
 
 
 \subsubsection{$\Lambda$CDM-model}
 
+    In the $\Lambda$CDM model, the universe consists of matter in terms of baryonic matter ($b$) and cold dark matter (CDM), radiation in terms of photons ($\gamma$) and neutrinos ($\nu$) and dark energy in terms of a cosmological constant ($\Lambda$). 
 
-
-
-
-
-
-\checkthis{derive?}
-\begin{equation}\label{eq:m1:eta_diff_eq}
-    \dv{\eta}{x} = \frac{c}{\Hp(x)}.
-\end{equation}
-
-\begin{equation}\label{eq:m1:t_diff_eq}
-    \dv{t}{x} = \frac{1}{H(x)}.
-\end{equation}
-
-\begin{equation}\label{eq:m1:co_moving_distance_def}
-    \chi(x) = \eta_0 -\eta(x).
-\end{equation}
-
-\begin{equation}\label{eq:m1:r_equation_def}
-    r(\chi) = \begin{cases}
-        \chi \cdot \frac{\sin\left(\sqrt{\abs{\O_{k0}}}H_0\chi/c\right)}{\sqrt{\abs{\O_{k0}}}H_0\chi/c} \qquad &\O_{k0} < 0 \\
-        \chi \qquad &\O_{k0} = 0 \\
-        \chi \cdot \frac{\sinh\left(\sqrt{\abs{\O_{k0}}}H_0\chi/c\right)}{\sqrt{\abs{\O_{k0}}}H_0\chi/c} \qquad &\O_{k0} > 0
-    \end{cases}
-\end{equation}
-
-\begin{equation}\label{eq:m1:angular_distance_def}
-    d_A(x) = \expe{x}r(\chi(x)).
-\end{equation}
-
-\begin{equation}\label{eq:m1:luminosity_distance_def}
-    d_L = \expe{-x}r(\chi(x)).
-\end{equation}
 
 
 \begin{equation}\label{eq:m1:chi2_test_def}
