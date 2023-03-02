@@ -1,7 +1,57 @@
 \appendix
 
+\section{Useful derivations}\label{app:derivations}
+    \subsection{Angular diameter distance}
+        This is related to the physical distance of say, an object, whose extent is small compared to the distance at which we observe is. If the extension of the object is $\Delta s$, and we measure an angular size of $\Delta\theta$, then the angular distance to the object is:
+
+        \begin{equation}\label{eq:app:derivations:angular_distance}
+            d_A = \frac{\Delta s}{\Delta\theta} = \frac{\d s}{\d\theta} = \sqrt{e^{2x}r^2} = e^xr,
+        \end{equation}
+        where we inserted for the line element $\d s$ as given in equation \cref{eq:m1:theory:fundamentals:FLWR_line_element}, and used the fact that $\d t/\d \theta = \d r/\d\theta = \d\phi/\d\theta  = 0$ in polar coordinates. 
+
+    \subsection{Luminosity distance}
+        If the intrinsic luminosity, $L$ of an object is known, we can calculate the flux as: $F=L/(4\pi d_L^2)$, where $d_L$ is the luminosity distance. It is a measure of how much the light has dimmed when travelling from the source to the observer. For further analysis we observe that the luminosity of objects moving away from us is changing by a factor $a^{-4}$ due to the energy loss of electromagnetic radiation, and the observed flux is changed by a factor $1/(4\pi d_A^2)$. From this we draw the conclusion that the luminosity distance may be written as:
+        \begin{equation}
+            d_L = \sqrt{\frac{L}{4\pi F}} = \sqrt{\frac{d_A^2}{a^4}} = e^{-x}r 
+        \end{equation}
+
+    \subsection{Differential equations}
+    From the definition of $e^x\d\eta = c\d t$ we have the following:
+    \begin{equation}
+        \begin{split}
+            \dv{\eta}{t} &= \dv{\eta}{x}\dv{x}{t}= \dv{\eta}{x}H = e^{-x}c \\
+            \implies \dv{\eta}{x} &= \frac{c}{\Hp}.
+        \end{split}
+    \end{equation}
+
+    Likewise, for $t$ we have:
+    \begin{equation}
+        \begin{split}
+            \dv{\eta}{t} &= \dv{\eta}{x}\dv{x}{t} = \dv{x}{t}\frac{c}{\Hp} = e^{-x}c\\
+            \implies \dv{t}{x} &= \frac{e^x}{\Hp} = \frac{1}{H}.
+        \end{split}
+    \end{equation}
+
+
 \section{Sanity checks}\label{app:sanity}
+    We start with the Hubble equation from \cref{eq:m1:lambdaCDM:conformal_Hubble_equation} and realize that we may write any derivative of $U$ as
+    \begin{equation}
+        \dv[n]{U}{x} = \sum_i(-\alpha_i)^n\O_{i0}\expe{-\alpha_ix}.
+    \end{equation}
+
+    We further have:
+    \begin{equation}
+        \dv{\Hp}{x} = \frac{H_0}{2}U^{-\frac{1}{2}}\dv{U}{x},
+    \end{equation}
+
+    and
+    
+    \begin{equation}
+        \begin{split}
+            \dv[2]{\Hp}{x} &= \dv{}{x}\dv{\Hp}{x}\\
+            &= \frac{H_0}{2}\left[\dv{U}{x}\left(\dv{}{x}U^{-\frac{1}{2}}\right) + U^{-\frac{1}{2}}\left(\dv{}{x}\dv{U}{x}\right)\right]\\
+            &=H_0\left[\frac{1}{2U^{\frac{1}{2}}}\dv[2]{U}{x} - \frac{1}{4U^{\frac{3}{2}}}\left(\dv{U}{x}\right)^2\right]
+        \end{split}
+    \end{equation}
 
 \TODO{include derivations of sanity checks}
-
-\section{Some appendix}\label{app:B}

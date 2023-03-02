@@ -5,7 +5,7 @@
     If we assume the universe to be homogeneous and isotropic, the line elements $\d s$ is given by the FLWR-metric as follows (in polar coordinates)\cite[eq. 1.1.11]{weinberg2008cosmology}:
 
     \begin{equation}\label{eq:m1:theory:fundamentals:FLWR_line_element}
-        \d s^2 = -\d t^2 + e^{2x(t)}\left[ \frac{\d r^2}{1-kr^2}+r^2\d\theta^2 + r^2\sin^2\theta\d\phi^2 \right],
+        \d s^2 = -\d t^2 + e^{2x}\left[ \frac{\d r^2}{1-kr^2}+r^2\d\theta^2 + r^2\sin^2\theta\d\phi^2 \right],
     \end{equation}
     where we have introduced $x(t) = \ln(a(t))$, the logarithm of the scale factor $a(t)$ \checkthis{include more (about k)} as our first measure of time. 
 
@@ -63,7 +63,7 @@
     \begin{equation}\label{eq:m1:theory:measures:cosmic_time}
         t = \int_0^a\frac{\d a}{aH} = \int_{-\infty}^{x}\frac{\d x}{H}.
     \end{equation}
-    Another temporal measure is the \textit{conformal time} $\eta$ defined as $\d t = e^x\d\eta$ yielding:
+    Another temporal measure is the \textit{conformal time} $\eta$ defined as $c\d t = e^x\d\eta$ yielding:
 
     \begin{equation}\label{eq:m1:theory:measures:conformal_time}
         \eta = \int_0^a\frac{c\d a}{a^2H} = \int_{-\infty}^{x}\frac{c\d x}{e^xH} \equiv \int_{-\infty}^{x}\frac{c\d x}{\Hp},
@@ -103,12 +103,13 @@
     \TODO{derive the above?}
 
     We also have the following useful relations:
-    \begin{equation}
-        \label{eq:m1:theory:measures:useful_relations}
-        \begin{split}
-            \dv{\eta}{x}&=\frac{c}{\Hp}, \\
-             \dv{t}{x} &= \frac{1}{H}.
-        \end{split}
+
+    \begin{equation}\label{eq:m1:theory:measures:eta_diffeq}
+        \dv{\eta}{x} = \frac{c}{\Hp}.
+    \end{equation}
+
+    \begin{equation}\label{eq:m1:theory:measures:t_diffeq}
+        \dv{t}{x} = \frac{1}{H}.
     \end{equation}
     \TODO{explain further above}
 
@@ -129,7 +130,7 @@
 
     The Hubble equation from \cref{eq:m1:theory:fundamentals:Hubble_equation} may be redefined in terms of the conformal Hubble parameter $\Hp$ as:
     
-    \begin{equation}
+    \begin{equation}\label{eq:m1:lambdaCDM:conformal_Hubble_equation}
         \begin{split}
             \Hp &= H_0\sqrt{U}\\
             U &\equiv \sum_i\O_{i0}\expe{-\alpha_i}x, 
