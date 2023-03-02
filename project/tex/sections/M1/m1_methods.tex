@@ -1,8 +1,7 @@
 \subsection{Methods}\label{sec:m1:methods}
 
 \subsubsection{Initial equation}
-    We have to consider the time evolution of the density parameters, given some present value, as function of our chosen time parameter, here $x$. We have the following equation:
-
+    We have to consider the time evolution of the density parameters, given some present value, as function of our chosen time parameter, here $x$. The density evolution is implemented as:
     \begin{equation}\label{eq:m1:methods:initial:density_evolution}
         \O_n = \expe{-\alpha_nx}\O_{n0}\Hp_\mathrm{rat}^2
     \end{equation}
@@ -11,6 +10,17 @@
     We also implement functions to solve for the luminosity distance (\cref{eq:m1:theory:measures:luminosity_distance}), angular distance (\cref{eq:m1:theory:measures:angular_distance_def}), and the conformal distance (\cref{eq:m1:theory:measures:conformal ditance}).
 
 
+\subsubsection{ODEs and Splines}
+    The differential equations for $\eta$ (\cref{eq:m1:theory:measures:eta_diffeq}) and $t$ (\cref{eq:m1:theory:measures:t_diffeq}) are solved numerically as ordinary differential equations with the Runge-Kutta 4 as advancement method. The equations are solved for $x\in(-20,5)$. As initial condition we would like $\eta(-\infty)$ which is obviously not possible to calculate, so we pick some very early time and use the analytical approximation in the radiation dominated era (\cref{eq:m1:theory:sanity:eta_sanity}), which yield:
+    \begin{equation}\label{eq:m1:methods:odes:eta_initial}
+        \eta(x_0) = \frac{c}{\Hp(x_0)}.
+    \end{equation}
+    Likewise for $t$, the initial condition is:
+    \begin{equation}\label{eq:m1:methods:odes:t_initial}
+        t(x_0) = \frac{1}{2H(x_0)}.
+    \end{equation}
+    \FIXME{WHY divided by 2?}
+    
+    
 
-\subsubsection{ODEs}
-    We solve the differential equation for $\eta(x)$, eq. \ref{eq:m1:eta_diff_eq} using an ordinary differential equation solver, with Runge-Kutta 4 \checkthis{RK4?}as the advancement method. The initial condition is given by $\eta(x_\mathrm{start})=c/\Hp(x_\mathrm{start})$
+    We then proceed by making splines of both $\eta$ and $t$. 

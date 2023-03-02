@@ -26,7 +26,6 @@
 //   dydx[0] =  y[1];
 //   dydx[1] = -y[0];
 //   return GSL_SUCCESS;
-// };
 // Vector yini{2.0, -2.0}
 // Vector x_array{0.0, 0.25, 0.5, 1.0};
 // ODESolver ode;

@@ -34,6 +34,7 @@
 
 
 \section{Sanity checks}\label{app:sanity}
+\subsection{For $\Hp$}
     We start with the Hubble equation from \cref{eq:m1:lambdaCDM:conformal_Hubble_equation} and realize that we may write any derivative of $U$ as
     \begin{equation}
         \dv[n]{U}{x} = \sum_i(-\alpha_i)^n\O_{i0}\expe{-\alpha_ix}.
@@ -54,4 +55,76 @@
         \end{split}
     \end{equation}
 
-\TODO{include derivations of sanity checks}
+
+    Multiplying both equations with $\Hp^{-1} = 1/(H_0U^{\frac{1}{2}})$ yield the following:
+
+    \begin{equation}
+        \frac{1}{\Hp}\dv{\Hp}{x} = \frac{1}{2U}\dv{U}{x},
+    \end{equation}
+
+    and 
+
+    \begin{equation}
+        \begin{split}
+            \frac{1}{\Hp}\dv[2]{\Hp}{x} &= \frac{1}{2U}\dv[2]{U}{x} - \frac{1}{4U^2}\left(\dv{U}{x}\right)^2 \\
+            &= \frac{1}{2U}\dv[2]{U}{x}-\left(\frac{1}{\Hp}\dv{U}{x}\right)^2
+        \end{split}
+    \end{equation}
+
+    We now make the assumption that one of the density parameters dominate $\O_i>> \sum_{j\neq i}\O_i$, enabling the following approximation:
+    
+    \begin{equation}
+        \begin{split}
+            U &\approx \O_{i0}\expe{-\alpha_ix} \\
+            \dv[n]{U}{x} &\approx (-\alpha_i)^n\O_{i0}\expe{-\alpha_ix},
+        \end{split}
+    \end{equation}
+    from which we are able to construct:
+    \begin{equation}
+        \frac{1}{\Hp}\dv{\Hp}{x} \approx \frac{-\alpha_i\O_{i0}\expe{-\alpha_ix}}{2\O_{i0}\expe{-\alpha_ix}} = -\frac{\alpha_i}{2},
+    \end{equation}
+    and
+    \begin{equation}
+        \begin{split}
+            \frac{1}{\Hp}\dv[2]{\Hp}{x} &\approx \frac{\alpha^2\O_{i0}\expe{-\alpha_ix}}{2\O_{i0}\expe{-\alpha_ix}} - \left(\frac{\alpha_i}{2}\right)^2 \\
+            &= \frac{\alpha_i^2}{2} - \frac{\alpha_i^2}{4} = \frac{\alpha_i^2}{4}
+        \end{split}
+    \end{equation}
+    which are quantities which should be constant in different regimes and we can easily check if our implementation of $\Hp$ is correct, which is exactly what we sought. 
+
+\subsection{For $\eta$}
+
+    In order to test $\eta$ we consider the definition, solve the integral and consider the same regimes as above, where one density parameter dominates:
+
+    \begin{equation}
+        \begin{split}
+            \eta &= \int_{-\infty}^x \frac{c\d x}{\Hp} = \frac{-2c}{\alpha_i}\int_{x=-\infty}^{x=x}\frac{\d\Hp}{\Hp^2} \\
+            &= \frac{2c}{\alpha_i}\left(\frac{1}{\Hp(x)}-\frac{1}{\Hp(-\infty)}\right),
+        \end{split}
+    \end{equation}
+    where we have used that:
+    \begin{equation}
+        \begin{split}
+            \dv{\Hp}{x} &= -\frac{\alpha_i}{2}\Hp \\
+            \implies \d x &= -\frac{2}{\alpha_i\Hp}\d\Hp.
+        \end{split}
+    \end{equation}
+    
+    Since we consider regimes where one density parameter dominates, we have that $\Hp(x)\propto \sqrt{\expe{-\alpha_ix}}$, meaning that we have:
+    \begin{equation}
+        \left(\frac{1}{\Hp(x)}-\frac{1}{\Hp(-\infty)}\right) \approx 
+        \begin{cases}
+            \frac{1}{\Hp} \quad &\alpha_i>0 \\
+            -\infty \quad &\alpha_i <0.
+        \end{cases}
+    \end{equation}
+    Combining the above yields:
+    \begin{equation}
+        \frac{\eta\Hp}{c} \approx 
+        \begin{cases}
+            \frac{2}{\alpha_i} \quad &\alpha_i>0 \\
+            \infty \quad &\alpha_i<0.
+        \end{cases}
+    \end{equation}
+    Notice the positive sign before $\infty$. This is due to $\alpha_i$ now being negative. 
+    

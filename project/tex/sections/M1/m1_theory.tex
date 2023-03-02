@@ -88,30 +88,22 @@
             \chi \cdot \frac{\sinh\left(\sqrt{\abs{\O_{k0}}}H_0\chi/c\right)}{\sqrt{\abs{\O_{k0}}}H_0\chi/c} \qquad &\O_{k0} > 0
         \end{cases}
     \end{equation}
-    
     It is then straigtforward to define the angular diameter distance:
     \begin{equation}\label{eq:m1:theory:measures:angular_distance_def}
         d_A = \expe{x}r,
     \end{equation}
-
     and the luminosity distance:
-    
     \begin{equation}\label{eq:m1:theory:measures:luminosity_distance}
-        d_L = \expe{-x}r.
+        d_L = \expe{-x}r,
     \end{equation}
-
-    \TODO{derive the above?}
-
-    We also have the following useful relations:
-
+    both of which are derived in \cref{app:derivations}. The temporal quantities $\eta$ and $t$ have the following evolutions with $x$:
     \begin{equation}\label{eq:m1:theory:measures:eta_diffeq}
         \dv{\eta}{x} = \frac{c}{\Hp}.
     \end{equation}
-
     \begin{equation}\label{eq:m1:theory:measures:t_diffeq}
         \dv{t}{x} = \frac{1}{H}.
     \end{equation}
-    \TODO{explain further above}
+    Both differential equations are easy to solve numerically. Their derivation may also be found in \cref{app:derivations}
 
 
 
@@ -148,8 +140,8 @@
         \end{split}
     \end{equation}
 
-  
-
+\subsubsection{Equalities and present day values}
+    \TODO{something about the equalities and present day values. }
 
 \subsubsection{Analytical solutions and sanity checks}
     There are several ways we may check that both our workings and numerical implementations are indeed correct. The simplest way is to always ensure that the sum of all density parameters add up to 1, for all times: $\sum_i\O_i=1$. 
@@ -178,7 +170,7 @@
 
     \begin{equation}
         \label{eq:m1:theory:sanity:eta_sanity}
-        \frac{\eta\Hp}{c} = 
+        \frac{\eta\Hp}{c} \approx 
         \begin{cases}
             1 \qquad &\alpha_\mathrm{rad} = 2 \\
             2 \qquad &\alpha_\mathrm{M} = 1\\
