@@ -61,23 +61,23 @@
     The main measure of time is usually the scale factor $a$, or its logarithm $x$. We then have the \textit{cosmic time} $t$ defined as:
 
     \begin{equation}\label{eq:m1:theory:measures:cosmic_time}
-        t = \int_0^a\frac{\d a}{aH} = \int_0^{e^x}\frac{\d x}{H}.
+        t = \int_0^a\frac{\d a}{aH} = \int_{-\infty}^{x}\frac{\d x}{H}.
     \end{equation}
     Another temporal measure is the \textit{conformal time} $\eta$ defined as $\d t = e^x\d\eta$ yielding:
 
-    \begin{equation}
-        \eta = \int_0^{e^x}\frac{\d x}{e^xH} \equiv \int_0^{e^x}\frac{\d x}{\Hp},
+    \begin{equation}\label{eq:m1:theory:measures:conformal_time}
+        \eta = \int_0^a\frac{c\d a}{a^2H} = \int_{-\infty}^{x}\frac{c\d x}{e^xH} \equiv \int_{-\infty}^{x}\frac{c\d x}{\Hp},
     \end{equation}
-    where $\Hp=e^xH$ is defined as the \textit{conformal Hubble parameter}. \checkthis{$\eta c$ yields the distance to the \textit{particle horizon}}. We may also choose to measure time in terms of the \textit{redshift} $z$, where $1+z = 1/a = \expe{-x}$.
+
+    where $\Hp=e^xH$ is defined as the \textit{conformal Hubble parameter}. We may also choose to measure time in terms of the \textit{redshift} $z$, where $1+z = 1/a = \expe{-x}$.
 
     The comoving distance is defined as follows:
 
     \begin{equation}
-        \chi = some integral = \eta_0-\eta
+        \label{eq:m1:theory:measures:conformal ditance}
+        \chi = \int_1^a\frac{c\d a}{a^2H} = \int_0^x\frac{c\d x}{\Hp} = \eta_0-\eta
     \end{equation}
-    \FIXME{check signs}
-
-    \TODO{double check the integral limits}
+  
 
     The radial distance is given in terms of the comoving distance and the curvature density today $\O_{k0}$ as:
 
@@ -117,10 +117,81 @@
 
 \subsubsection{$\Lambda$CDM-model}
 
-    In the $\Lambda$CDM model, the universe consists of matter in terms of baryonic matter ($b$) and cold dark matter (CDM), radiation in terms of photons ($\gamma$) and neutrinos ($\nu$) and dark energy in terms of a cosmological constant ($\Lambda$). 
+    In the $\Lambda$CDM model, the universe consists of matter in terms of baryonic matter ($b$) and cold dark matter (CDM), radiation in terms of photons ($\gamma$) and neutrinos ($\nu$) and dark energy in terms of a cosmological constant ($\Lambda$). In addition, we must allow for some curvature ($k$). As a result, the parameters of the model will be the present values of the Hubble rate, $H_0$, the baryon density $\O_{b0}$, the cold dark matter density $\O_{\mathrm{CDM}0}$, photon density $\O_{\gamma0}$, neutrino density $\O_{\nu0}$, dark energy density $\O_{\Lambda0}$, and the curvature density $\O_{k0}$. The present temperature of the cosmic microwave background radiation $T_{\mathrm{CMB}0}$ fixes the radiation density today through:
+
+    \begin{equation}\label{eq:m1:theory:lambdaCDM:radiation_densities}
+        \begin{split}
+            \O_{\gamma0} &= \frac{16\pi^3G}{90}\cdot\frac{(k_b T_{\mathrm{CMB}0})^4}{\hbar^3c^5H_0^2}, \\
+            \O_{\nu0} &= N_\mathrm{eff} \cdot\frac{7}{8} \cdot \left( \frac{4}{3} \right)^{4/3}\cdot \O_{\gamma0}.
+        \end{split}
+    \end{equation}
+    The total radiation density is $\O_\mathrm{rad}=\O_\gamma+\O_\nu$ and the total matter density is $\O_\mathrm{M} = \O_b+\O_\mathrm{CDM}$. We are thus left with three fixed parameters. 
+
+    The Hubble equation from \cref{eq:m1:theory:fundamentals:Hubble_equation} may be redefined in terms of the conformal Hubble parameter $\Hp$ as:
+    
+    \begin{equation}
+        \begin{split}
+            \Hp &= H_0\sqrt{U}\\
+            U &\equiv \sum_i\O_{i0}\expe{-\alpha_i}x, 
+        \end{split}
+    \end{equation}
+    where we have defined $\alpha_i\equiv(1+3\omega_i)$ and $i\in\{\mathrm{M}, \mathrm{rad}, \Lambda, k\}$. Since we know the values of the various $\omega_i$ it follows that:
+    
+    \begin{equation}
+        \label{eq:m1:theory:lambdaCDM:alpha_values}
+        \begin{split}
+            \alpha_\mathrm{M} &= 1\\
+            \alpha_\mathrm{rad} &= 2\\
+            \alpha_k &= 0\\
+            \alpha_\Lambda &= -2
+        \end{split}
+    \end{equation}
+
+  
 
 
+\subsubsection{Analytical solutions and sanity checks}
+    There are several ways we may check that both our workings and numerical implementations are indeed correct. The simplest way is to always ensure that the sum of all density parameters add up to 1, for all times: $\sum_i\O_i=1$. 
+    
+    If we only consider the most dominant density parameter, that is $\O_i >> \sum_{j\neq i}\O_j$, we end up with the following analytical expressions for different temporal regimes:
 
-\begin{equation}\label{eq:m1:chi2_test_def}
-    \chi^2(h, \O_{m0}, \O_{k0}) = \sum_{i=1}^N \frac{(d_L(z, \O_{m0}, \O_{k0}) - d_L^\mathrm{obs}(z_i))^2}{\sigma_i^2}
-\end{equation}
+    \begin{equation}
+        \label{eq:m1:theory:sanity:first_deriv_sanity}
+        \frac{1}{\Hp}\dv{\Hp}{x} \approx - \frac{\alpha_i}{2} = 
+        \begin{cases}
+            -1 \qquad &\alpha_\mathrm{rad} = 2 \\
+            -\frac{1}{2} \qquad &\alpha_\mathrm{M} = 1\\
+            1 \qquad &\alpha_\Lambda = -2
+        \end{cases}
+    \end{equation}
+
+    \begin{equation}
+        \label{eq:m1:theory:sanity:second_deriv_sanity}
+        \frac{1}{\Hp}\dv[2]{\Hp}{x} \approx \frac{\alpha_i^2}{4} = 
+        \begin{cases}
+            1 \qquad &\alpha_\mathrm{rad} = 2 \\
+            \frac{1}{4} \qquad &\alpha_\mathrm{M} = 1\\
+            1 \qquad &\alpha_\Lambda = -2
+        \end{cases}
+    \end{equation}
+
+    \begin{equation}
+        \label{eq:m1:theory:sanity:eta_sanity}
+        \frac{\eta\Hp}{c} = 
+        \begin{cases}
+            1 \qquad &\alpha_\mathrm{rad} = 2 \\
+            2 \qquad &\alpha_\mathrm{M} = 1\\
+            \infty \qquad &\alpha_\Lambda = -2
+        \end{cases}
+    \end{equation}
+
+    These equations will be useful when making sure that the implementations are correct. For a thorough derivation, see \cref{app:sanity}.
+
+   
+    \TODO{find place for the below:}
+
+    \begin{equation}\label{eq:m1:chi2_test_def}
+        \chi^2(h, \O_{m0}, \O_{k0}) = \sum_{i=1}^N \frac{(d_L(z, \O_{m0}, \O_{k0}) - d_L^\mathrm{obs}(z_i))^2}{\sigma_i^2}
+    \end{equation}
+
+

@@ -1,25 +1,16 @@
 \subsection{Methods}\label{sec:m1:methods}
 
 \subsubsection{Initial equation}
+    We have to consider the time evolution of the density parameters, given some present value, as function of our chosen time parameter, here $x$. We have the following equation:
 
-\begin{equation}\label{eq:m1:density_evolutions}
-    \begin{split}
-        \O_k(a) &= \O_{k0}\expe{-2x}\left( \frac{H_0^2}{H(x)^2}\right) \\
-        \O_\cdm(a) &=\O_{\cdm0}\expe{-3x}\left( \frac{H_0^2}{H(x)^2}\right)\\
-        \O_{b0}(a) &=\O_{b0}\expe{-3x}\left( \frac{H_0^2}{H(a)^2}\right)\\
-        \O_{\gamma0}(a) &=\O_{\gamma0}\expe{-4x}\left( \frac{H_0^2}{H(x)^2}\right)\\
-        \O_{\nu0}(a) &=\O_{\nu0}\expe{-4x}\left( \frac{H_0^2}{H(x)^2}\right)\\
-        \O_{\Lambda0} &=\O_{\Lambda0}\left( \frac{H_0^2}{H(x)^2}\right)
-    \end{split}
-\end{equation}
+    \begin{equation}\label{eq:m1:methods:initial:density_evolution}
+        \O_n = \expe{-\alpha_nx}\O_{n0}\Hp_\mathrm{rat}^2
+    \end{equation}
+    where we have defined the ratio $\Hp_\mathrm{rat} \equiv H_0/\Hp$, and the new index $n$ are all the densitis: $n\in\{b, \mathrm{CDM}, \gamma, \nu, \Lambda, k\}$.
+
+    We also implement functions to solve for the luminosity distance (\cref{eq:m1:theory:measures:luminosity_distance}), angular distance (\cref{eq:m1:theory:measures:angular_distance_def}), and the conformal distance (\cref{eq:m1:theory:measures:conformal ditance}).
 
 
-\begin{equation}\label{eq:m1:radiation_densities}
-    \begin{split}
-        \O_{\gamma0} &= \frac{16\pi^3G}{90}\cdot\frac{(k_b T_{\mathrm{CMB}0})^4}{\hbar^3c^5H_0^2} \\
-        \O_{\nu0} &= N_\mathrm{eff} \cdot\frac{7}{8} \cdot \left( \frac{4}{3} \right)^{4/3}\cdot \O_{\gamma0}
-    \end{split}
-\end{equation}
 
 \subsubsection{ODEs}
 
