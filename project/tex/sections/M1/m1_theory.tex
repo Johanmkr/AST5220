@@ -141,7 +141,25 @@
     \end{equation}
 
 \subsubsection{Equalities and present day values}
-    \TODO{something about the equalities and present day values. }
+     Given the evolution of the density parameters with time, where the proportionality constant is the present day density, we introduce the \textit{radiation-matter equality}, i.e. the time radiation and matter densities were equal: $\rho_\mathrm{rad}=\rho_\mathrm{M}$. According to \cref{eq:m1:theory:fundamentals:solution_to_density_diff_eq} this can be expressed as:
+     \begin{equation}\label{eq:m1:theory:equalities:radiation_matter}
+        \begin{split}
+            \rho_\mathrm{rad0}e^{-4x} &= \rho_\mathrm{M0}\expe{-3x} \\
+            e^x &= \frac{\rho_\mathrm{rad0}}{\rho_\mathrm{M0}} \implies x_\mathrm{rM} = \ln\left(\frac{\O_\mathrm{rad0}}{\O_\mathrm{M0}}\right),
+        \end{split}
+     \end{equation}
+     where $x_\mathrm{rM}$ now denotes the time of radiation-matter equality. 
+
+     Similarly, the \textit{matter-dark energy equality}, where $\rho_\mathrm{M}=\rho_\Lambda$ can be found to be:
+     \begin{equation}\label{eq:m1:theory:equalities:matter_dark_energy}
+        \begin{split}
+            \rho_\Lambda &= \rho_\mathrm{M0}\expe{-3x} \\
+            \implies x_{\mathrm{M}\Lambda} &= \frac{1}{3}\ln\left(\frac{\O_\mathrm{M0}}{\O_\Lambda}\right)
+        \end{split}
+     \end{equation}
+     The time of matter-dark energy equality coincides with when the universe starts to accelerate, since this acceleration is driven by the dark energy, represented by the cosmological constant. From this time onwards, dark energy dominates the universe, and thus accelerating the expansion. 
+
+     The age of the universe today, and the conformal time today can both be found by evaluating the solutions to the differential equations of $t$ and $\eta$ at the present time (where $x=0$). This is done numerically. 
 
 \subsubsection{Analytical solutions and sanity checks}
     There are several ways we may check that both our workings and numerical implementations are indeed correct. The simplest way is to always ensure that the sum of all density parameters add up to 1, for all times: $\sum_i\O_i=1$. 
