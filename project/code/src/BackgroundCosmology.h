@@ -25,9 +25,18 @@ class BackgroundCosmology{
     double OmegaR_tot;                  // Total radiation density
     double H0;                      // The Hubble parameter today H0 = 100h km/s/Mpc
 
+    // Equalities
+    double x_RM;                     // Radiation-matter equality
+    double x_ML;                     // Matter-dark energy equality
+    double x_acc;                    // Acceleration starts
+    double x0 = 0.0;                 // Value today
+
     // Present values
     double t0;                      // Age of universe today [s] 
     double eta0;                    // Conformal time today [s]
+
+    // Misc
+    double toGyr = 1/(1e9*365*24*60*60);  // Conversion from [s] to [Gyr]
 
     // Start and end of x-integration (can be changed)
     double x_start = Constants.x_start;
@@ -64,10 +73,9 @@ class BackgroundCosmology{
     // Output some results to file
     void output(const std::string filename, double x_min=-20.0, double x_max = 5.0, int n_pts = (int)1e5) const;
 
-    //  Include several tests here
-    void test() const;
+    void write_table_of_important_values(const std::string filename) const;
 
-    // Get functions that we must implement
+    // Get functions
     double eta_of_x(double x) const;
     double deta_of_x(double x) const;
     double H_of_x(double x) const;
@@ -96,6 +104,7 @@ class BackgroundCosmology{
     // Extra
     double get_r_of_x(double x) const;
     double get_t_of_x(double x) const;
+    double get_z_of_x(double x) const;
   
 
 };

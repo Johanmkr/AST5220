@@ -1,9 +1,10 @@
 from plot_utils import *
 
 #   Generate data objects
-Cosmology = Data("backgroundcosmology.txt")
+Cosmology = Data("backgroundcosmology.csv")
 Sdata = Data("supernovadata.txt")
-Sfit = Data("results_supernovafitting.txt", skiprows=300)
+Sfit = Data("results_supernovafitting.csv", skiprows=300)
+embed()
 
 
 
@@ -132,9 +133,10 @@ def posterior_pdf():
 
 
 if __name__=="__main__":
-    conformal_hubble_factor()
-    cosmic_conformal_time()
-    supernova_data()
-    omega_restrictions_plot()
-    posterior_pdf()
+    pass
+    # conformal_hubble_factor()
+    # cosmic_conformal_time()
+    # supernova_data()
+    # omega_restrictions_plot()
+    # posterior_pdf()
 

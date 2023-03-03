@@ -36,17 +36,22 @@ int main(int argc, char **argv){
   BackgroundCosmology cosmo(h, OmegaB, OmegaCDM, OmegaK, Neff, TCMB);
   // BackgroundCosmology cosmo(.7, .25, .25, 0, Neff, TCMB);
 
+  Utils::StartTiming("Solve & write");
   cosmo.solve();
   cosmo.info();
-  cosmo.test();
   
   // Output background evolution quantities
-  cosmo.output("data/backgroundcosmology.txt");
+  cosmo.output("data/backgroundcosmology.csv");
+  cosmo.write_table_of_important_values("data/table_of_values.csv");
+  Utils::EndTiming("Solve & write");
   // cosmo.output("data/backgroundcosmology-2_0.txt", -2.0, 1.0, (int)1e5);
 
   // Do the supernova fits. Uncomment when you are ready to run this
   // Make sure you read the comments on the top of src/SupernovaFitting.h
-  // mcmc_fit_to_supernova_data("data/supernovadata.txt", "data/results_supernovafitting.txt");
+
+  // Utils::StartTiming("SupernovaFit");
+  // mcmc_fit_to_supernova_data("data/supernovadata.txt", "data/results_supernovafitting.csv");
+  // Utils::EndTiming("SupernovaFit");
 
   // Remove when module is completed
   return 0;

@@ -6,7 +6,7 @@ import seaborn as sns
 from IPython import embed
 import astropy.constants as const
 from astropy import units
-
+ 
 # plt.style.use('seaborn')
 plt.rc('text', usetex=True)
 plt.rc('font', family='Serif')
@@ -96,29 +96,48 @@ lbls = {
 
 #   Set up data class
 class Data:
-    def __init__(self, filename, skiprows=0):
-        f = open(data_path+filename)
-        header = f.readline()
-        f.close()
-        column_names = header.split()[1:]
-        # Accound for the units in supernovadata.txt
-        for i, name in reversed(list(enumerate(column_names))):
-            if name in ["(Gpc)", "Acceptrate"]:
-                column_names.pop(i)
-        data = np.loadtxt(data_path + filename, skiprows=skiprows)
-        data_dict = {}
-        for i, key in enumerate(column_names):
-            data_dict[key] = data[:,i]
-        self.dF = pd.DataFrame(data_dict)
+    def __init__(self, filename):
+        # embed()
+        # f = open(data_path+filename)
+        # header = f.readline()
+        # f.close()
+        # column_names = header.split(",")
+        # # Accound for the units in supernovadata.txt
+        # # for i, name in reversed(list(enumerate(column_names))):
+        # #     if name in ["(Gpc)", "Acceptrate"]:
+        # #         column_names.pop(i)
+        # data = np.loadtxt(data_path + filename, skiprows=skiprows)
+        # data_dict = {}
+        # for i, key in enumerate(column_names):
+        #     data_dict[key] = data[:,i]
+        # self.dF = pd.DataFrame(data_dict)
+        if filename[-3:] == "txt":
+            f = open(data_path+filename)
+            header = f.readline()
+            f.close()
+            column_names = header.split(" ")
+        elif filename[-3:] == "csv":
+            self.dF = pd.read_csv(data_path+filename)
+            self.dF.columns = self.dF.columns.str.strip()
+        else:
+            print("----Provide valid file!----")
     
     def __call__(self):
         return self.dF
     
     def __str__(self):
-        return self.to_string()
+        return self.dF.to_string()
     
     def __getitem__(self, item):
-        return self.dF[item]
+        try:
+            return self.dF[item]
+        except KeyError:
+            key_vals = self.dF.keys()
+            embed()
+            for key in key_vals:
+                print(key)
+                if item in key:
+                    return self.dF[key]
     
     def print_frame(self):
         print(self.dF)

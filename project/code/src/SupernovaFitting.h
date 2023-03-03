@@ -35,7 +35,7 @@ void mcmc_fit_to_supernova_data(std::string supernovadata_filename, std::string 
   // The number of parameters to fit
   const int nparam = 3;
   // Maximal number of samples to generate
-  const int maxsteps = 10000;
+  const int maxsteps = 1000;
   // Seed for random number generator
   const int seed = 1234;
   // How many meters in a Gpc
@@ -133,7 +133,7 @@ void mcmc_fit_to_supernova_data(std::string supernovadata_filename, std::string 
   int nsample = 0;
   double oldchi2 = std::numeric_limits<double>::max();
   std::ofstream out(outfile.c_str());
-  out << "#          chi2            h           OmegaM           OmegaK               Acceptrate\n";
+  out << "      chi2,            h,           OmegaM,           OmegaK,               Acceptrate,\n";
   while(nsample < maxsteps){
     steps++;
     
@@ -168,10 +168,10 @@ void mcmc_fit_to_supernova_data(std::string supernovadata_filename, std::string 
       // Write sample to file and screen
       std::cout << "#          chi2            h           OmegaM           OmegaK               Acceptrate\n";
       std::cout << std::setw(15) << chi2 << " ";
-      out       << std::setw(15) << chi2 << " ";
+      out       << std::setw(15) << chi2 << " , ";
       for(int i = 0; i < nparam; i++){
         std::cout << std::setw(15) << parameters[i] << " ";
-        out << std::setw(15) << parameters[i] << " ";
+        out << std::setw(15) << parameters[i] << " , ";
       }
       out << "\n";
       std::cout << std::setw(15) << " " << nsample/double(steps)*100.0 << "%\n";
