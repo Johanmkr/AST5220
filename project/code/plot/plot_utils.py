@@ -96,28 +96,27 @@ lbls = {
 
 #   Set up data class
 class Data:
-    def __init__(self, filename):
-        # embed()
-        # f = open(data_path+filename)
-        # header = f.readline()
-        # f.close()
-        # column_names = header.split(",")
-        # # Accound for the units in supernovadata.txt
-        # # for i, name in reversed(list(enumerate(column_names))):
-        # #     if name in ["(Gpc)", "Acceptrate"]:
-        # #         column_names.pop(i)
-        # data = np.loadtxt(data_path + filename, skiprows=skiprows)
-        # data_dict = {}
-        # for i, key in enumerate(column_names):
-        #     data_dict[key] = data[:,i]
-        # self.dF = pd.DataFrame(data_dict)
+    def __init__(self, filename, skiprows=0):
         if filename[-3:] == "txt":
             f = open(data_path+filename)
-            header = f.readline()
+            header = f.readline()[1:]
             f.close()
             column_names = header.split(" ")
+            actual_column_names = []
+            for name in column_names:
+                if name == "":
+                    pass
+                elif name[0] in ["("]:
+                    pass
+                else:
+                    actual_column_names.append(name)
+            data = np.loadtxt(data_path + filename, skiprows=skiprows)
+            data_dict = {}
+            for i, key in enumerate(actual_column_names):
+                data_dict[key] = data[:,i]
+            self.dF = pd.DataFrame(data_dict)
         elif filename[-3:] == "csv":
-            self.dF = pd.read_csv(data_path+filename)
+            self.dF = pd.read_csv(data_path+filename, skiprows=skiprows)
             self.dF.columns = self.dF.columns.str.strip()
         else:
             print("----Provide valid file!----")

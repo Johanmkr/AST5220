@@ -4,7 +4,7 @@ from plot_utils import *
 Cosmology = Data("backgroundcosmology.csv")
 Sdata = Data("supernovadata.txt")
 Sfit = Data("results_supernovafitting.csv", skiprows=300)
-embed()
+
 
 
 
