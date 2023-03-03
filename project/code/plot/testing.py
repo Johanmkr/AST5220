@@ -1,6 +1,6 @@
 from plot_utils import *
 
-Cosmology = Data("backgroundcosmology.txt")
+Cosmology = Data("backgroundcosmology.csv")
 
 def testing_Omegas():
     """

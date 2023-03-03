@@ -4,6 +4,8 @@ from plot_utils import *
 Cosmology = Data("backgroundcosmology.csv")
 Sdata = Data("supernovadata.txt")
 Sfit = Data("results_supernovafitting.csv", skiprows=300)
+ValueTab = Data("table_of_values.csv")
+# embed()
 
 
 
@@ -79,7 +81,7 @@ def omega_restrictions_plot():
 
     oneSDthres = 3.53
     chi2min = np.min(chi2)
-
+    
     accepted = (chi2 - chi2min) < oneSDthres
 
     selected_omegaM = np.where(accepted, OmegaM, np.nan)
@@ -129,14 +131,18 @@ def posterior_pdf():
 
     save_push(ppdf, "posterior_pdf")
 
+def create_table():
+    styler = ValueTab.dF.style
+    styler.format({"x": '{:.2f}', "z": '{:.2f}', "t [Gyr]": '{:.6f}'})
+    styler.hide(axis="index")
+    styler.to_latex(latex_path + "value_table.tex")
 
 
 
 if __name__=="__main__":
-    pass
-    # conformal_hubble_factor()
-    # cosmic_conformal_time()
-    # supernova_data()
-    # omega_restrictions_plot()
-    # posterior_pdf()
-
+    conformal_hubble_factor()
+    cosmic_conformal_time()
+    supernova_data()
+    omega_restrictions_plot()
+    posterior_pdf()
+    create_table()

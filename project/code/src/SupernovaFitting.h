@@ -35,7 +35,7 @@ void mcmc_fit_to_supernova_data(std::string supernovadata_filename, std::string 
   // The number of parameters to fit
   const int nparam = 3;
   // Maximal number of samples to generate
-  const int maxsteps = 1000;
+  const int maxsteps = 10000;
   // Seed for random number generator
   const int seed = 1234;
   // How many meters in a Gpc

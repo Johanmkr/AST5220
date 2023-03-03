@@ -40,7 +40,7 @@ CMAP = "winter"
 here = os.path.abspath(".")
 data_path = here + "/../data/"
 plot_path = here + "/../../output/figures/"
-latex_path = here + "/../../latex/"
+latex_path = here + "/../../tex/tables/"
 
 def save_push(fig, pdf_name, save=SAVE, push=PUSH, show=SHOW, tight=TIGHT):
     """Function to save, plot and/push figures
@@ -106,7 +106,7 @@ class Data:
             for name in column_names:
                 if name == "":
                     pass
-                elif name[0] in ["("]:
+                elif name[0] in ["(", "["]:
                     pass
                 else:
                     actual_column_names.append(name)
@@ -116,8 +116,9 @@ class Data:
                 data_dict[key] = data[:,i]
             self.dF = pd.DataFrame(data_dict)
         elif filename[-3:] == "csv":
-            self.dF = pd.read_csv(data_path+filename, skiprows=skiprows)
+            self.dF = pd.read_csv(data_path+filename, skiprows=range(1,skiprows+1))
             self.dF.columns = self.dF.columns.str.strip()
+
         else:
             print("----Provide valid file!----")
     
@@ -132,9 +133,7 @@ class Data:
             return self.dF[item]
         except KeyError:
             key_vals = self.dF.keys()
-            embed()
             for key in key_vals:
-                print(key)
                 if item in key:
                     return self.dF[key]
     
