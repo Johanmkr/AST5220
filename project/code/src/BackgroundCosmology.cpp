@@ -20,14 +20,13 @@ BackgroundCosmology::BackgroundCosmology(
 {
 
   //  H0
-  H0 = h * Constants.H0_over_h; // FIXME: is this correct?
+  H0 = h * Constants.H0_over_h;
 
   // OmegaR
-  // OmegaR = 5.047e-5 * std::pow(TCMB/2.7255, 4) * (0.7/h)*(0.7/h);
-  OmegaR = 16 * M_PI * M_PI * M_PI * Constants.G * std::pow(Constants.k_b*TCMB, 4) / (90 * std::pow(Constants.hbar*Constants.c, 3)*Constants.c*Constants.c * H0 * H0);
+  double k_bTCMB = Constants.k_b * TCMB;
+  OmegaR = 16 * M_PI * M_PI * M_PI * Constants.G * (k_bTCMB*k_bTCMB*k_bTCMB*k_bTCMB)/ (90 * (Constants.hbar*Constants.hbar*Constants.hbar) * (Constants.c*Constants.c*Constants.c*Constants.c*Constants.c) * H0 * H0);
 
   // OmegaNu
-  // OmegaNu = 3.491e-5 * std::pow(TCMB/2.7255, 4) * (0.7/h) * (0.7/h) * (Neff/3.046);
   OmegaNu = Neff * 7./8. * std::pow(4./11., 4./3.)*OmegaR;
 
   //  OmegaLambda
@@ -45,16 +44,14 @@ BackgroundCosmology::BackgroundCosmology(
 
 // Solve the background
 void BackgroundCosmology::solve(int nr_points){
-  // int nr_points = (int)1e5; // Change this accordingly
-
   Vector x_array = Utils::linspace(x_start, x_end, nr_points);
-
 
   /*
   Making the eta spline:
   */
 
   // Utils::StartTiming("Eta");
+
   // The ODE for deta/dx
   ODEFunction detadx = [&](double x, const double *eta, double *detadx){
      detadx[0] = Constants.c/Hp_of_x(x);
@@ -75,6 +72,7 @@ void BackgroundCosmology::solve(int nr_points){
   */
 
   // Utils::StartTiming("t");
+
   // ODE for dtdx
   ODEFunction dtdx = [&](double x, const double *eta, double *dtdx){
     dtdx[0] = 1/H_of_x(x);
@@ -121,7 +119,7 @@ double BackgroundCosmology::dHpdx_of_x(double x) const{
 }
 
 double BackgroundCosmology::ddHpddx_of_x(double x) const{
-  return H0*(-1/(4*std::pow(u_of_x(x), 3./2.)) * dudx_of_x(x)*dudx_of_x(x) + 1/(2*sqrt(u_of_x(x)))*dduddx_of_x(x));
+  return H0*(-1/(4*(sqrt(u_of_x(x))*sqrt(u_of_x(x))*sqrt(u_of_x(x))))* dudx_of_x(x)*dudx_of_x(x) + 1/(2*sqrt(u_of_x(x)))*dduddx_of_x(x));
 }
 
 double BackgroundCosmology::get_OmegaB(double x) const{ 
@@ -187,7 +185,6 @@ double BackgroundCosmology::get_luminosity_distance_of_x(double x) const{
   // return get_comoving_distance_of_x(x) * exp(-x);
 }
 double BackgroundCosmology::get_comoving_distance_of_x(double x) const{
-  // FIXME: check this.
   return eta_of_x(0)-eta_of_x(x);
 }
 

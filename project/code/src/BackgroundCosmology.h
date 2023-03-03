@@ -24,7 +24,10 @@ class BackgroundCosmology{
     double OmegaM;                  // Total matter density
     double OmegaR_tot;                  // Total radiation density
     double H0;                      // The Hubble parameter today H0 = 100h km/s/Mpc
+
+    // Present values
     double t0;                      // Age of universe today [s] 
+    double eta0;                    // Conformal time today [s]
 
     // Start and end of x-integration (can be changed)
     double x_start = Constants.x_start;
