@@ -17,12 +17,13 @@ def conformal_hubble_factor():
     Hp = Cosmology["Hp"]
 
     chf, ax = plt.subplots()
-    ax.plot(xvals, Hp, color="blue", label=lbls["Hp"])
+    ax.plot(xvals, Hp, color=colors[0], label=lbls["Hp"])
     ax.set_xlabel(lbls["x"])
-    ax.set_ylabel("insert unit")
+    ax.set_ylabel(r"$\mathcal{H}$ [s$^{-1}$]")
     ax.set_title(r"Conformal Hubble factor $\mathcal{H}(x)$", loc="left")
-    ax.legend(loc="best", fancybox=True)
+    # ax.legend(loc="best", fancybox=True)
     ax.set_yscale("log")
+
     save_push(chf, "conformal_hubble_factor")
 
 def cosmic_conformal_time():
@@ -35,8 +36,8 @@ def cosmic_conformal_time():
     eta_c = eta/const.c.to("m/Gyr")
 
     ct, ax = plt.subplots()
-    ax.plot(xvals, t, color="blue", label=lbls["t"])
-    ax.plot(xvals, eta_c, color="red", label=r"$\frac{\eta}{c}$")
+    ax.plot(xvals, t, color=colors[0], label=lbls["t"])
+    ax.plot(xvals, eta_c, color=colors[-1], label=r"$\frac{\eta}{c}$")
 
     ax.set_xlabel(lbls["x"])
     ax.set_ylabel(lbls["t"]+" [Gyr]")
@@ -57,16 +58,16 @@ def supernova_data():
     zvals_pred = np.exp(-xvals_pred)-1
 
     sdFig, ax = plt.subplots()
-    ax.errorbar(zvals_sn, dL_obs/zvals_sn, yerr=error/zvals_sn, label="Observation", fmt="none",  ecolor="red")
-    ax.plot(zvals_pred, dL_pred/zvals_pred, color="blue", label="Prediction")
+    ax.errorbar(zvals_sn, dL_obs/zvals_sn, yerr=error/zvals_sn, label="Observation", fmt="none",  ecolor=colors[0])
+    ax.plot(zvals_pred, dL_pred/zvals_pred, color=colors[-1], label="Prediction")
     # ax.set_yscale("log")
     ax.set_xscale("log")
-    ax.set_ylim(3,10)
+    ax.set_ylim(3.5,8)
     ax.set_xlim(0.005,1.45)
     ax.set_xlabel(lbls["z"])
     ax.set_ylabel(r"$d_L/z$" + " [Gpc]")
     ax.set_title(r"Luminosity distance $d_L$", loc="left")
-    ax.legend(loc="best", fancybox=True)    
+    ax.legend(loc="upper left", fancybox=True)    
     
     save_push(sdFig, "supernova_data")
 
@@ -81,7 +82,7 @@ def omega_restrictions_plot():
 
     oneSDthres = 3.53
     chi2min = np.min(chi2)
-    
+
     accepted = (chi2 - chi2min) < oneSDthres
 
     selected_omegaM = np.where(accepted, OmegaM, np.nan)
@@ -94,8 +95,8 @@ def omega_restrictions_plot():
 
     OmegaPlane, ax = plt.subplots() 
     scat = ax.scatter(selected_omegaM, selected_omegaLambda, c=selected_chi2, cmap=CMAP)
-    flatline = ax.plot((0,1), (1,0), color="black", ls="--", label=r"Flat space")
-    l1 = ax.legend(loc="upper right", fancybox=True, bbox_to_anchor=(1, 1.15))
+    flatline = ax.plot((0,1), (1,0), color="black", ls="--")
+    # l1 = ax.legend(loc="upper right", fancybox=True, bbox_to_anchor=(1, 1.15))
 
     cbar = plt.colorbar(scat, ax=ax, label=r"$\chi^2$")
 
@@ -122,8 +123,8 @@ def posterior_pdf():
     gaussian = 1/(sigma*np.sqrt(2*np.pi))*np.exp(-(bins-mu)**2/(2*sigma**2))
 
     ppdf, ax = plt.subplots()
-    hstg = ax.hist(bins[:-1], bins, weights=counts, color="teal", label="Samples", density=True)
-    ax.plot(bins, gaussian, color="red", label="Fitted pdf")
+    hstg = ax.hist(bins[:-1], bins, weights=counts, color=colors[-1], label="Samples", density=True)
+    ax.plot(bins, gaussian, color=colors[0], label="Fitted pdf")
     ax.set_xlabel(r"$H_0$ [km s$^{-1}$Mpc$^{-1}$]")
     ax.set_ylabel("Probability")
     ax.set_title(r"Posterior pdf of $H_0$", loc="left")

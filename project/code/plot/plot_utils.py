@@ -6,18 +6,19 @@ import seaborn as sns
 from IPython import embed
 import astropy.constants as const
 from astropy import units
+
+colors = plt.cm.winter(np.linspace(0,1,5))
  
 # plt.style.use('seaborn')
 plt.rc('text', usetex=True)
-plt.rc('font', family='Serif')
-sns.set_theme()
-sns.color_palette("hls", 8)
+plt.rc('font', family='sans-serif')
+sns.set_theme(palette="winter")
 
 # other rc parameters
 plt.rc('figure', figsize=(12,7))
-SMALL_SIZE = 25
-MEDIUM_SIZE = 30
-BIGGER_SIZE = 35
+SMALL_SIZE = 30
+MEDIUM_SIZE = 35
+BIGGER_SIZE = 40
 plt.rc('font', size=MEDIUM_SIZE)         # controls default text sizes
 plt.rc('axes', titlesize=MEDIUM_SIZE)    # fontsize of the axes title
 plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
@@ -25,7 +26,7 @@ plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
-plt.rc('lines', linewidth=2)
+plt.rc('lines', linewidth=3)
 
 # Visual parameters for saving/showing
 SAVE = True
