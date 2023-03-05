@@ -1,107 +1,5 @@
 \appendix
 
-% \section{Derivation of the Friedmann equations}\label{app:friedmann}
-%     The Einstein equation relates the curvature of spacetime to the distribution of matter and energy within it, and is given by:
-
-%     $$G_{\mu\nu} = 8\pi T_{\mu\nu}$$
-
-%     where $G_{\mu\nu}$ is the Einstein tensor, which describes the curvature of spacetime, and $T_{\mu\nu}$ is the stress-energy tensor, which describes the distribution of matter and energy. To derive the Friedmann equations from this equation, we need to first make some assumptions about the geometry and matter content of the universe.
-
-%     We assume that the universe is homogeneous and isotropic, which implies that the metric for the universe can be written in the following form:
-
-%     $$ds^2 = -c^2 dt^2 + a(t)^2\left[\frac{dr^2}{1-kr^2} + r^2(d\theta^2 + \sin^2\theta d\phi^2)\right]$$
-
-%     where $a(t)$ is the scale factor of the universe, $k$ is the curvature of space, and $c$ is the speed of light.
-
-%     With this metric, we can compute the Christoffel symbols, which describe the connection coefficients of spacetime, using the following equation:
-
-%     $$\Gamma^{\rho}{\mu\nu} = \frac{1}{2}g^{\rho\sigma}\left(\frac{\partial g{\sigma\mu}}{\partial x^{\nu}}+\frac{\partial g_{\sigma\nu}}{\partial x^{\mu}}-\frac{\partial g_{\mu\nu}}{\partial x^{\sigma}}\right)$$
-
-%     where $g_{\mu\nu}$ is the metric tensor and $g^{\mu\nu}$ is its inverse. After computing all the non-zero Christoffel symbols, we can use them to calculate the components of the Einstein tensor, which are given by:
-
-%     $$G_{00} = -3\frac{\ddot{a}}{a} - 3\frac{k}{a^2}$$
-%     $$G_{ij} = (\ddot{a} + 2\frac{\dot{a}^2}{a^2} + 2\frac{k}{a^2})\delta_{ij}$$
-
-%     where $\delta_{ij}$ is the Kronecker delta.
-
-%     Next, we need to specify the stress-energy tensor, which describes the distribution of matter and energy in the universe. For a homogeneous and isotropic universe, this tensor takes the form of a perfect fluid, with energy density $\rho$ and pressure $p$ given by:
-
-%     $$T_{00} = \rho c^2$$
-%     $$T_{ij} = p a^2\delta_{ij}$$
-
-%     Substituting these expressions for the stress-energy tensor into the Einstein equation, and equating the components of the Einstein tensor to the corresponding components of the stress-energy tensor, we obtain the following equations:
-
-%     $$\frac{\ddot{a}}{a} = -\frac{4\pi G}{3}(\rho + 3p) + \frac{\Lambda}{3}$$
-%     $$(\frac{\dot{a}}{a})^2 + \frac{k}{a^2} = \frac{8\pi G}{3}\rho + \frac{\Lambda}{3}$$
-
-%     These are the Friedmann equations, which describe the evolution of the scale factor and energy density of the universe. The first equation describes the acceleration of the expansion of the universe, and the second equation relates the expansion rate to the energy density and curvature of space.
-
-
-%     In order to compute the Christoffel symbols, we start with the metric for the universe, which we assume is homogeneous and isotropic:
-
-%     $$ds^2 = -c^2 dt^2 + a(t)^2\left[\frac{dr^2}{1-kr^2} + r^2(d\theta^2 + \sin^2\theta d\phi^2)\right]$$
-
-%     where $a(t)$ is the scale factor of the universe, $k$ is the curvature of space, and $c$ is the speed of light.
-
-%     The non-zero components of the metric tensor are:
-
-%     $$g_{00} = -c^2, \quad g_{11} = a^2\frac{1}{1-kr^2}, \quad g_{22} = a^2r^2, \quad g_{33} = a^2r^2\sin^2\theta$$
-
-%     Using the metric tensor, we can calculate the inverse metric tensor:
-
-%     $$g^{00} = -\frac{1}{c^2}, \quad g^{11} = \frac{1-kr^2}{a^2}, \quad g^{22} = \frac{1}{a^2r^2}, \quad g^{33} = \frac{1}{a^2r^2\sin^2\theta}$$
-
-%     We can now use these expressions to compute the Christoffel symbols, which are given by:
-
-%     $$\Gamma^0_{00} = \Gamma^0_{i0} = \Gamma^i_{00} = 0$$
-
-%     $$\Gamma^i_{jk} = \frac{1}{2}g^{il}(\frac{\partial g_{jl}}{\partial x^k}+\frac{\partial g_{kl}}{\partial x^j}-\frac{\partial g_{jk}}{\partial x^l})$$
-
-%     where $i,j,k,l$ are indices running over the three spatial coordinates, and $x^j$ are the coordinates themselves.
-
-%     For the diagonal terms, we have:
-
-%     $$\Gamma^1_{11} = -\frac{kr}{1-kr^2}, \quad \Gamma^2_{22} = -r(1-kr^2), \quad \Gamma^3_{33} = -r(1-kr^2)\sin^2\theta$$
-
-%     For the off-diagonal terms, we have:
-
-%     $$\Gamma^1_{22} = \Gamma^1_{33} = \frac{1}{r}, \quad \Gamma^2_{33} = -\sin\theta\cos\theta$$
-
-%     All other Christoffel symbols are either zero or can be obtained by symmetry. We can now use these Christoffel symbols to calculate the components of the Einstein tensor, which are given by:
-
-%     $$G_{00} = -3\frac{\ddot{a}}{a} - 3\frac{k}{a^2}$$
-%     $$G_{ij} = (\ddot{a} + 2\frac{\dot{a}^2}{a^2} + 2\frac{k}{a^2})\delta_{ij}$$
-
-%     where $\delta_{ij}$ is the Kronecker delta.
-
-%     Next, we need to specify the stress-energy tensor, which describes the distribution of matter and energy in the universe. For a homogeneous and isotropic universe, this tensor takes the form of a perfect fluid, with energy density $\rho$ and pressure $p$ given by:
-
-%     $$T_{00} = \rho c^2$$
-
-%     $$T_{ij} = p a^2 \delta_{ij}$$
-
-%     Plugging these expressions into the Einstein equation, $G_{\mu\nu} = \frac{8\pi G}{c^4}T_{\mu\nu}$, we get:
-
-%     $$-3\frac{\ddot{a}}{a}-3\frac{k}{a^2}=\frac{8\pi G}{c^4}\rho c^2$$
-
-%     $$(\ddot{a}+2\frac{\dot{a}^2}{a^2}+2\frac{k}{a^2})\delta_{ij}=-\frac{8\pi G}{c^4}p a^2 \delta_{ij}$$
-
-%     Simplifying the second equation by dividing both sides by $\delta_{ij}$ and using the first equation to eliminate the term involving $k$, we get:
-
-%     $$\ddot{a}+2\frac{\dot{a}^2}{a}-\frac{8\pi G}{3c^2}(\rho + \frac{3p}{c^2})=0$$
-
-%     This is the first Friedmann equation, which describes the evolution of the scale factor of the universe. The second Friedmann equation can be obtained by taking the trace of the Einstein equation, which gives:
-
-%     $$3\frac{\ddot{a}}{a}+3\frac{k}{a^2}=4\pi G(\rho+\frac{3p}{c^2})$$
-
-%     Eliminating $k$ using the first Friedmann equation, we get:
-
-%     $$\left(\frac{\dot{a}}{a}\right)^2=\frac{8\pi G}{3}\rho-\frac{kc^2}{a^2}$$
-
-%     This is the second Friedmann equation, which relates the Hubble parameter (the time derivative of the scale factor) to the energy density of the universe.
-
-%     Thus, we have derived the Friedmann equations from the Einstein equation by explicitly computing all the Christoffel symbols and using the stress-energy tensor of a perfect fluid.
-
 \section{Useful derivations}\label{app:derivations}
     \subsection{Angular diameter distance}
         This is related to the physical distance of say, an object, whose extent is small compared to the distance at which we observe is. If the extension of the object is $\Delta s$, and we measure an angular size of $\Delta\theta$, then the angular distance to the object is:
@@ -188,7 +86,7 @@
     and
     \begin{equation}
         \begin{split}
-            \frac{1}{\Hp}\dv[2]{\Hp}{x} &\approx \frac{\alpha^2\O_{i0}\expe{-\alpha_ix}}{2\O_{i0}\expe{-\alpha_ix}} - \left(\frac{\alpha_i}{2}\right)^2 \\
+            \frac{1}{\Hp}\dv[2]{\Hp}{x} &\approx \frac{\alpha_i^2\O_{i0}\expe{-\alpha_ix}}{2\O_{i0}\expe{-\alpha_ix}} - \left(\frac{\alpha_i}{2}\right)^2 \\
             &= \frac{\alpha_i^2}{2} - \frac{\alpha_i^2}{4} = \frac{\alpha_i^2}{4}
         \end{split}
     \end{equation}

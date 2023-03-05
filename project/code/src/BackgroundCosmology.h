@@ -50,6 +50,14 @@ class BackgroundCosmology{
     double u_of_x(double x) const;
     double dudx_of_x(double x) const;
     double dduddx_of_x(double x) const;
+
+    // alpha_values
+    // struct{
+    //   double M=1.0;
+    //   double k=0.0;
+    //   double R=2.0;
+    //   double L=-2.0;
+    // }alpha;
     
   public:
 
@@ -82,6 +90,7 @@ class BackgroundCosmology{
     double Hp_of_x(double x) const;
     double dHpdx_of_x(double x) const;
     double ddHpddx_of_x(double x) const;
+    // double Hp_ratio(double x) const;
     double get_OmegaB(double x = 0.0) const; 
     double get_OmegaM(double x = 0.0) const; 
     double get_OmegaR(double x = 0.0) const;

@@ -161,7 +161,7 @@
 
      The age of the universe today, and the conformal time today can both be found by evaluating the solutions to the differential equations of $t$ and $\eta$ at the present time (where $x=0$). This is done numerically. 
 
-\subsubsection{Analytical solutions and sanity checks}
+\subsubsection{Analytical solutions and sanity checks}\label{sec:m1:theory:sanity}
     There are several ways we may check that both our workings and numerical implementations are indeed correct. The simplest way is to always ensure that the sum of all density parameters add up to 1, for all times: $\sum_i\O_i=1$. 
     
     If we only consider the most dominant density parameter, that is $\O_i >> \sum_{j\neq i}\O_j$, we end up with the following analytical expressions for different temporal regimes:
@@ -198,11 +198,5 @@
 
     These equations will be useful when making sure that the implementations are correct. For a thorough derivation, see \cref{app:sanity}.
 
-   
-    \TODO{find place for the below:}
-
-    \begin{equation}\label{eq:m1:chi2_test_def}
-        \chi^2(h, \O_{m0}, \O_{k0}) = \sum_{i=1}^N \frac{(d_L(z, \O_{m0}, \O_{k0}) - d_L^\mathrm{obs}(z_i))^2}{\sigma_i^2}
-    \end{equation}
 
 

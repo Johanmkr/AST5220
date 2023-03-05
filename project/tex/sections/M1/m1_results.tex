@@ -1,56 +1,62 @@
 \subsection{Results}\label{sec:m1:results}
 
 \subsubsection{Tests}\label{sec:m1:results:tests}
+    \cref{fig:m1:omega_tests} show the evolution of the density fractions with time. They sum to one across all times which was required. At early times the radiation density dominates (orange line). The intersection between the orange and green lines mark the radiation-matter equality, after which matter is the dominating density. Likewise, the intersection between the green and purple lines mark the matter-dark energy equality, where dark energy (manifested in the cosmological constant) become the dominating density. Time can thus be divided into three regimes; radiation dominated, matter dominated, and dark energy dominated eras. 
+    \begin{figure}
+        \includegraphics[width=\linewidth]{testing_omegas.pdf}
+        \caption{Density fractions $\O_i$ as function of $x$. For low $x$, radiation dominates, before matter dominates and dark has just become the dominant energy density today $x=0$, and will continue to dominate into the future. The sum of densities sums to one across all times, as required.}
+        \label{fig:m1:omega_tests}
+    \end{figure}
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{testing_omegas.pdf}
-    \caption{Density fractions $\O_i$ as function of $x$. For low $x$, radiation dominates, before matter dominates and dark has just become the dominant energy density today $x=0$, and will continue to dominate into the future. The sum of densities sums to one across all times, as required.}
-    \label{fig:m1:omega_tests}
-\end{figure}
+    As explained in section \cref{sec:m1:theory:sanity}, we have analytical solutions for constructions of $\eta$ and $\Hp$ in the different regimes. \cref{fig:m1:eta_tests} is the sanity check for $\eta$, showing $\eta\Hp/c$ converging to finite values in the radiation and matter dominated eras (where $\alpha_{\mathrm{rad}, \mathrm{M}}>0$), and diverging towards $+\infty$ in the dark energy dominated era ($\alpha_\Lambda =-2 <0$). This is in accordance with the analytical solutions. The different regimes are shown in shaded colour. It is also worth noticing that $(\d \eta /\d x)\Hp/c$ is one for all regimes, as expected from equation \cref{eq:m1:theory:measures:eta_diffeq}.
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{eta_test.pdf}
-    \caption{Eta tests}
-    \label{fig:m1:eta_tests}
-\end{figure}
+    \begin{figure}
+        \includegraphics[width=\linewidth]{eta_test.pdf}
+        \caption{Sanity check for $\eta$. $\eta\Hp/c$, in blue, is one in the radiation regime, two in the matter regime and diverging toward $+\infty$ in the dark energy regime, as expected from the analytical approximations in each regime. $(\d \eta /\d x)\Hp/c$, in green, is one throughout time, as expected from the differential equation for $\eta$.}
+        \label{fig:m1:eta_tests}
+    \end{figure}
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{Hp_test.pdf}
-    \caption{HP tests}
-    \label{fig:m1:Hp_tests}
-\end{figure}
+    \cref{fig:m1:Hp_tests} is the sanity check confirming that our constructions of $\Hp$ and its derivatives converge to the analytical approximation in the different regimes. The second derivative, as shown in blue, takes the value of one in the radiation regime, one half in the matter regime and one in the dark energy regime. Similarly, the first derivative, as shown in green, take the value negative one in the radiation regime, negative one half in the matter regime and one in the dark energy regime. This is well in accordance with the analytical approximations put forth in section \cref{sec:m1:theory:sanity}. 
+
+    \begin{figure}
+        \includegraphics[width=\linewidth]{Hp_test.pdf}
+        \caption{Sanity check for $\Hp$, showing that the second derivative (blue) converge to one, one half, and one in the radiation, matter and dark energy regimes respectively. The first derivative (green) converge to negative one, negative one half and one in the same regimes, which are shown as a shaded background.}
+        \label{fig:m1:Hp_tests}
+    \end{figure}
+
+    These sanity checks are confirmations that the implementation of the model yields the same result as the analytical approximation in the different regimes for various constructions of $\eta$ and $\Hp$ and their derivatives.
 
 \subsubsection{Analysis}
 
-\input{tables/value_table.tex}
+    The conformal Hubble factor, $\Hp$, is plotted against time, $x$, in \cref{fig:m1:conformal_hubble_factor_Hp}. It is decreasing in the radiation and matter regimes and increasing in the dark energy regime. Since this is a measure of the expansion of the universe, the acceleration seem to coincide with the matter-dark energy equality. 
+    \begin{figure}
+        \includegraphics[width=\linewidth]{conformal_hubble_factor.pdf}
+        \caption{$\Hp$ as function of $x$. It is decreasing in the radiation and matter regimes, and increasing in the dark energy regime.}
+        \label{fig:m1:conformal_hubble_factor_Hp}
+    \end{figure}
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{conformal_hubble_factor.pdf}
-    \caption{Conformal Hubble factor.}
-    \label{fig:m1:conformal_hubble_factor_Hp}
-\end{figure}
+    \begin{figure}
+        \includegraphics[width=\linewidth]{cosmic_conformal_time.pdf}
+        \caption{Cosmic time (in blue) and conformal time (green). Cosmic times increase drastically in the dark energy regime showing a seemingly divergent behaviour. Conformal time increased in the matter regime and seem to converge in the dark energy regime.}
+        \label{fig:m1:cosmic_conformal_time}
+    \end{figure}
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{cosmic_conformal_time.pdf}
-    \caption{cosmic time.}
-    \label{fig:m1:cosmic_conformal_time}
-\end{figure}
+    \begin{figure}
+        \includegraphics[width=\linewidth]{supernova_data.pdf}
+        \caption{Luminosity distance from supernova data shown in blue, and the prediction from the model in green. Notice the $x$-axis is now the redshift $z=e^x-1$.}
+        \label{fig:m1:supernova_data}
+    \end{figure}
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{supernova_data.pdf}
-    \caption{Supernova data fitted}
-    \label{fig:m1:supernova_data}
-\end{figure}
+    \begin{figure}
+        \includegraphics[width=\linewidth]{omega_plane.pdf}
+        \caption{Scatter plot showing the $chi^2$-error of the luminosity distance $d_L$ between the observed values and the prediction, as function of $\O_\mathrm{M}$ and $\O_\Lambda$. The data shown is within $1\sigma$ (standard deviation). The black dotted line signifies a flat universe. }
+        \label{fig:m1:omega_planes}
+    \end{figure}
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{omega_plane.pdf}
-    \caption{one sigma confidence plot}
-    \label{fig:m1:omega_planes}
-\end{figure}
+    \begin{figure}
+        \includegraphics[width=\linewidth]{posterior_pdf.pdf}
+        \caption{Posterior probability distribution (pdf) of $H_0$ as result of the MCMC sampling. The samples are shown in green, and the construction pdf in blue. }
+        \label{fig:m1:posterior_pdf}
+    \end{figure}
 
-\begin{figure}
-    \includegraphics[width=\linewidth]{posterior_pdf.pdf}
-    \caption{posterior pdf.}
-    \label{fig:m1:posterior_pdf}
-\end{figure}
-
+    \input{tables/value_table.tex}
