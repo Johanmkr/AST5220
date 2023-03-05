@@ -25,8 +25,15 @@
     \end{figure}
 
     These sanity checks are confirmations that the implementation of the model yields the same result as the analytical approximation in the different regimes for various constructions of $\eta$ and $\Hp$ and their derivatives.
-
+    
 \subsubsection{Analysis}
+
+    \cref{sec:m1:theory:equalities} indicate how we can calculate the radiation-matter equality (RM-equality), matter-dark energy equality (ML-equality), when the acceleration of the universe started, the age of the universe and the conformal time today. The result is shown in \cref{tab:m1:important_values}. We note that the equalities is in accordance with the sanity checks, and the age of the universe today (in cosmic time) is about 13.9 Gyr. 
+    \begin{table}
+        \input{tables/value_table.tex}
+        \caption{Important quantities in the evolution of the universe.}
+        \label{tab:m1:important_values}
+    \end{table}
 
     The conformal Hubble factor, $\Hp$, is plotted against time, $x$, in \cref{fig:m1:conformal_hubble_factor_Hp}. It is decreasing in the radiation and matter regimes and increasing in the dark energy regime. Since this is a measure of the expansion of the universe, the acceleration seem to coincide with the matter-dark energy equality. 
     \begin{figure}
@@ -35,11 +42,15 @@
         \label{fig:m1:conformal_hubble_factor_Hp}
     \end{figure}
 
+    \cref{fig:m1:cosmic_conformal_time} show the cosmic time $t$ and the conformal time $\eta/c$. We observe that the cosmic time accelerates around matter-dark energy equality, and seems to diverge, whereas the conformal time increases in the matter regime and seem to converge in the dark energy regime.
+
     \begin{figure}
         \includegraphics[width=\linewidth]{cosmic_conformal_time.pdf}
         \caption{Cosmic time (in blue) and conformal time (green). Cosmic times increase drastically in the dark energy regime showing a seemingly divergent behaviour. Conformal time increased in the matter regime and seem to converge in the dark energy regime.}
         \label{fig:m1:cosmic_conformal_time}
     \end{figure}
+
+    \cref{fig:m1:supernova_data} shows the supernova data as blue error bars, with the theoretical prediction plotted above it. The quantity plotted is the luminosity distance divided by redshift, $d_L/z$ for better comparison. We notice the accordance between the two, and also note that the $x$-axis in this plot is the redshift $z$ instead of the logarithm of the scale factor. This means that earlier times are to the right in the plot (high redshift), as opposed to the other plots. 
 
     \begin{figure}
         \includegraphics[width=\linewidth]{supernova_data.pdf}
@@ -47,11 +58,15 @@
         \label{fig:m1:supernova_data}
     \end{figure}
 
+    \cref{fig:m1:omega_planes} shows the $\chi^2$-values found from \cref{eq:m1:chi2_test_def}, to 1$\sigma$ accuracy. The black dotted line represent a flat universe, where the matter and dark energy are the main constituents of the universe. The supernova data originate in close temporal proximity to us, we thus assume that the contribution from the radiation density is negligible for making constraints on $\O_\mathrm{M}$ and $\O_\Lambda$ today. 
+
     \begin{figure}
         \includegraphics[width=\linewidth]{omega_plane.pdf}
         \caption{Scatter plot showing the $chi^2$-error of the luminosity distance $d_L$ between the observed values and the prediction, as function of $\O_\mathrm{M}$ and $\O_\Lambda$. The data shown is within $1\sigma$ (standard deviation). The black dotted line signifies a flat universe. }
         \label{fig:m1:omega_planes}
     \end{figure}
+
+    The MCMC method allow us to make a posterior probability distribution of the parameters in question. \cref{fig:m1:posterior_pdf} the distribution of the Hubble factor $H_0$ constructed from the sampled values of $h$. The actual samples are shown in green and the corresponding fitted probability distribution in blue. 
 
     \begin{figure}
         \includegraphics[width=\linewidth]{posterior_pdf.pdf}
@@ -59,4 +74,3 @@
         \label{fig:m1:posterior_pdf}
     \end{figure}
 
-    \input{tables/value_table.tex}

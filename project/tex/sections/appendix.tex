@@ -3,7 +3,6 @@
 \section{Useful derivations}\label{app:derivations}
     \subsection{Angular diameter distance}
         This is related to the physical distance of say, an object, whose extent is small compared to the distance at which we observe is. If the extension of the object is $\Delta s$, and we measure an angular size of $\Delta\theta$, then the angular distance to the object is:
-
         \begin{equation}\label{eq:app:derivations:angular_distance}
             d_A = \frac{\Delta s}{\Delta\theta} = \frac{\d s}{\d\theta} = \sqrt{e^{2x}r^2} = e^xr,
         \end{equation}
@@ -23,7 +22,6 @@
             \implies \dv{\eta}{x} &= \frac{c}{\Hp}.
         \end{split}
     \end{equation}
-
     Likewise, for $t$ we have:
     \begin{equation}
         \begin{split}
@@ -39,14 +37,11 @@
     \begin{equation}
         \dv[n]{U}{x} = \sum_i(-\alpha_i)^n\O_{i0}\expe{-\alpha_ix}.
     \end{equation}
-
     We further have:
     \begin{equation}
         \dv{\Hp}{x} = \frac{H_0}{2}U^{-\frac{1}{2}}\dv{U}{x},
     \end{equation}
-
     and
-    
     \begin{equation}
         \begin{split}
             \dv[2]{\Hp}{x} &= \dv{}{x}\dv{\Hp}{x}\\
@@ -54,25 +49,18 @@
             &=H_0\left[\frac{1}{2U^{\frac{1}{2}}}\dv[2]{U}{x} - \frac{1}{4U^{\frac{3}{2}}}\left(\dv{U}{x}\right)^2\right]
         \end{split}
     \end{equation}
-
-
     Multiplying both equations with $\Hp^{-1} = 1/(H_0U^{\frac{1}{2}})$ yield the following:
-
     \begin{equation}
         \frac{1}{\Hp}\dv{\Hp}{x} = \frac{1}{2U}\dv{U}{x},
     \end{equation}
-
     and 
-
     \begin{equation}
         \begin{split}
             \frac{1}{\Hp}\dv[2]{\Hp}{x} &= \frac{1}{2U}\dv[2]{U}{x} - \frac{1}{4U^2}\left(\dv{U}{x}\right)^2 \\
             &= \frac{1}{2U}\dv[2]{U}{x}-\left(\frac{1}{\Hp}\dv{U}{x}\right)^2
         \end{split}
     \end{equation}
-
     We now make the assumption that one of the density parameters dominate $\O_i>> \sum_{j\neq i}\O_i$, enabling the following approximation:
-    
     \begin{equation}
         \begin{split}
             U &\approx \O_{i0}\expe{-\alpha_ix} \\
@@ -95,7 +83,6 @@
 \subsection{For $\eta$}
 
     In order to test $\eta$ we consider the definition, solve the integral and consider the same regimes as above, where one density parameter dominates:
-
     \begin{equation}
         \begin{split}
             \eta &= \int_{-\infty}^x \frac{c\d x}{\Hp} = \frac{-2c}{\alpha_i}\int_{x=-\infty}^{x=x}\frac{\d\Hp}{\Hp^2} \\
@@ -109,7 +96,6 @@
             \implies \d x &= -\frac{2}{\alpha_i\Hp}\d\Hp.
         \end{split}
     \end{equation}
-    
     Since we consider regimes where one density parameter dominates, we have that $\Hp(x)\propto \sqrt{\expe{-\alpha_ix}}$, meaning that we have:
     \begin{equation}
         \left(\frac{1}{\Hp(x)}-\frac{1}{\Hp(-\infty)}\right) \approx 
