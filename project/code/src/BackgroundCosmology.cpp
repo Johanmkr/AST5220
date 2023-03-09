@@ -40,7 +40,7 @@ BackgroundCosmology::BackgroundCosmology(
   // Equalities
   x_RM = std::log(OmegaR_tot/OmegaM);
   x_ML = std::log(OmegaM/OmegaLambda)/3;
-  x_acc = std::log(OmegaM/OmegaLambda)/3;
+  x_acc = std::log(OmegaM/(2*OmegaLambda))/3;
 
 }
 
@@ -248,7 +248,7 @@ void BackgroundCosmology::info() const{
   std::cout << "h:            " << h           << " "     <<"\n";
   std::cout << "TCMB:         " << TCMB        << " [K]"   <<"\n";
   std::cout << "t0:           " << t0*toGyr << " [Gyr]"  <<"\n";
-  std::cout << "H0:           " << H0 << " [1/s]" <<"\n";
+  std::cout << "H0:           " << H0/toGyr << " [1/Gyr]" <<"\n";
   std::cout << std::endl;
 } 
 

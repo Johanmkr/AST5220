@@ -30,7 +30,7 @@
 #include <array>
 #include <vector>
 
-void mcmc_fit_to_supernova_data(std::string supernovadata_filename, std::string outfile){
+void mcmc_fit_to_supernova_data(std::string supernovadata_filename, std::string outfile, std::string best_params_file){
 
   // The number of parameters to fit
   const int nparam = 3;
@@ -189,4 +189,16 @@ void mcmc_fit_to_supernova_data(std::string supernovadata_filename, std::string 
   for(int i = 0; i < nparam; i++)
     std::cout << best_parameters[i] << " ";
   std::cout << "\n";
+
+
+
+  // Write best-fit to file:
+  std::ofstream out(best_params_file.c_str());
+  out << "      chi2_min,       h,        OmegaM,           OmegaK, \n";
+  out << chi2_min << " , ";
+  for(int i = 0 ; i<nparam; i++)
+    out << best_parameters[i] << " , ";
+  out << "\n";
+
 }
+
