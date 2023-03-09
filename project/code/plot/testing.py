@@ -52,7 +52,7 @@ def testing_Hp():
     ax1.set_title(r"Sanity check of $\mathcal{H}(x)$", loc="left")
     ax1.set_xlabel(r"$x$")
     legend1 = ax1.legend([line1, line2], [line1.get_label(), line2.get_label()], loc="center left", fancybox=True)
-    legend2 = HpFig.legend([rad_area, mat_area, lam_area], [rad_area.get_label(), mat_area.get_label(), lam_area.get_label()], loc="upper right", fancybox=True, ncols=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
+    legend2 = HpFig.legend([rad_area, mat_area, lam_area], [rad_area.get_label(), mat_area.get_label(), lam_area.get_label()], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
 
     save_push(HpFig, "Hp_test")
 
@@ -79,7 +79,7 @@ def testing_eta():
     # ax1.set_yscale("log")
     # ax1.legend(loc="best", fancybox=True)
     legend1 = ax1.legend([line1, line2], [line1.get_label(), line2.get_label()], loc="upper left", fancybox=True)
-    legend2 = etaFig.legend([rad_area, mat_area, lam_area], [rad_area.get_label(), mat_area.get_label(), lam_area.get_label()], loc="upper right", fancybox=True, ncols=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
+    legend2 = etaFig.legend([rad_area, mat_area, lam_area], [rad_area.get_label(), mat_area.get_label(), lam_area.get_label()], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
 
 
     save_push(etaFig, "eta_test")

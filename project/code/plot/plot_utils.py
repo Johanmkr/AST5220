@@ -7,7 +7,19 @@ from IPython import embed
 import astropy.constants as const
 from astropy import units
 
-colors = plt.cm.winter(np.linspace(0,1,5))
+
+#   Colouring for cosmology project
+colours = {
+    "OmegaR": "orange",
+    "OmegaM": "green",
+    "OmegaR": "purple",
+    "etaH/c":   "blue",
+    "H/cdetadx":    "red",
+    "ddHpddx":  "blue",
+    "dHpdx": "red"
+}
+# colors = plt.cm.winter(np.linspace(0,1,5))
+CMAP = "winter"
  
 # plt.style.use('seaborn')
 plt.rc('text', usetex=True)
@@ -31,11 +43,8 @@ plt.rc('lines', linewidth=3)
 # Visual parameters for saving/showing
 SAVE = True
 PUSH = False
-SHOW = False 
+SHOW = False
 TIGHT = True
-
-# misc
-CMAP = "winter"
 
 # folder paths
 here = os.path.abspath(".")
