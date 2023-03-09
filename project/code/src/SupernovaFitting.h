@@ -193,12 +193,12 @@ void mcmc_fit_to_supernova_data(std::string supernovadata_filename, std::string 
 
 
   // Write best-fit to file:
-  std::ofstream out(best_params_file.c_str());
-  out << "      chi2_min,       h,        OmegaM,           OmegaK, \n";
-  out << chi2_min << " , ";
+  std::ofstream bestout(best_params_file.c_str());
+  bestout << "      chi2_min,       h,        OmegaM,           OmegaK, \n";
+  bestout << chi2_min << " , ";
   for(int i = 0 ; i<nparam; i++)
-    out << best_parameters[i] << " , ";
-  out << "\n";
+    bestout << best_parameters[i] << " , ";
+  bestout << "\n";
 
 }
 
