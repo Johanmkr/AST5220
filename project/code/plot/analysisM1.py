@@ -10,6 +10,7 @@ ValueTab = Data("table_of_values.csv")
 
 
 
+
 def conformal_hubble_factor():
     """Plot the conformal Hubble factor Hp agains x.
     """
@@ -23,6 +24,11 @@ def conformal_hubble_factor():
     ax.set_title(r"Conformal Hubble factor $\mathcal{H}(x)$", loc="left")
     # ax.legend(loc="best", fancybox=True)
     ax.set_yscale("log")
+
+    # Set regimes
+    rad_area = ax1.axvspan(x_min, x_RM-tol, color=Colors["OmegaRad"], alpha=.1, label=r"$\Omega_\mathrm{rad}$")
+    mat_area = ax1.axvspan(x_RM+tol, x_ML-tol, color=Colors["OmegaM"], alpha=.1, label=r"$\Omega_\mathrm{M}$")
+    lam_area = ax1.axvspan(x_ML+tol, x_max, color=Colors["OmegaLambda"], alpha=.1, label=r"$\Omega_\Lambda$")
 
     save_push(chf, "conformal_hubble_factor")
 

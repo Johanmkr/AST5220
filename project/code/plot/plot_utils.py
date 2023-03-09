@@ -9,14 +9,20 @@ from astropy import units
 
 
 #   Colouring for cosmology project
-colours = {
-    "OmegaR": "orange",
+Colors = {
+    "OmegaRad": "orange",
     "OmegaM": "green",
-    "OmegaR": "purple",
-    "etaH/c":   "blue",
-    "H/cdetadx":    "red",
+    "OmegaLambda": "purple",
+    "etaHp/c":   "blue",
+    "Hp/cdetadx":    "red",
     "ddHpddx":  "blue",
-    "dHpdx": "red"
+    "dHpdx": "red",
+    "Hp": "blue",
+    "t": "blue",
+    "eta/c": "red",
+    "d_L_obs": "red",
+    "d_L_fid": "blue",
+    "d_L_best": "green"
 }
 # colors = plt.cm.winter(np.linspace(0,1,5))
 CMAP = "winter"
