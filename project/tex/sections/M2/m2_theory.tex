@@ -1,3 +1,47 @@
 \subsection{Theory}\label{sec:m2:theory}
+    The optical depth as a function of conformal time is defines as \cite{AST5220LectureNotes}:
+    \begin{equation}\label{eq:m2:theory:optical_depth}
+        \tau = \int_\eta^{\eta_0} n_e\sigma_\mathrm{T}\expe{-x}\d\eta',
+    \end{equation}
+    where $n_e$ is the electron density and $\sigma_\mathrm{T}$ is the Thompson cross-section. From this we define the visibility function, $g$:
+    \begin{equation}
+        \begin{split}
+            g &= -\dv{\tau}{\eta}\expe{-\tau} = -\Hp\dv{\tau}{x}\expe{-\tau}\\
+            \tilde{g} &\equiv -\dv{\tau}{x}\expe{-\tau} = \frac{g}{\Hp},
+        \end{split}
+    \end{equation}
+    where $\tilde{g}$ is in terms of the preferred time variable, $x$. So far, so good, but in order to find $\tilde{g}$ we need $\tau$, which again require $n_e$, which is not trivial to find, since the electron density changes throughout the evolution of the universe.
+    
+    \subsubsection{Finding the free electron fraction $X_e$}
+    We express the electron density through the free electron fraction $X_e \equiv n_e/n_\mathrm{H} = n_e/n_b$ where we have assumed that the hydrogen make up all the baryons ($n_b=n_\mathrm{H}$). We also ignore the difference between free protons and neutral hydrogen. From \cite{https://doi.org/10.48550/arxiv.astro-ph/0606683} we obtain:
+    \begin{equation}
+        n_b = \frac{\rho_b}{m_\mathrm{H}} = \frac{\O_b\rho_c}{m_\mathrm{H}}\expe{-3x},
+    \end{equation}
+    where $m_\mathrm{H}$ is the mass of the hydrogen atom, and $\rho_c$ the critical density today as defined earlier (\FIXME{cite this?}). At early times, before recombination, $X_e \simeq 1$ (\FIXME{why?}), and is in this regime described by the \textit{Saha equation}, from \cite{dodelson2020modern}:
+    \begin{equation}\label{eq:m2:theory:Saha_equation}
+        \frac{X_e^2}{1-X_e} = \frac{1}{n_b}\left(\frac{m_eT_b}{2\pi}\right)^{3/2}\expe{-\epsilon_0/T_b},
+    \end{equation}
+    where $\epsilon_0 = 13.6\text{ eV}$ is the ionisation energy of hydrogen. The Saha equation is only a good approximation when $X_e \simeq 1$, thus for $X_e < (1-\xi)$, (where we have to define $\xi$) which corresponds to the period during and after recombination, we have to make use of the more accurate \textit{Peebles equation}. From \cite{https://doi.org/10.48550/arxiv.astro-ph/0606683}:
+    \begin{equation}\label{eq:m2:theory:peebles_equation}
+        \dv{X_e}{x} = \frac{C_r(T_b)}{H}\left[\beta(T_b)(1-X_e)-n_\mathrm{H}\alpha^{(2)}(T_b)X_e^2\right],
+    \end{equation}
+    where
+    \begin{equation}
+        \begin{split}
+            C_r(T_b) &= \frac{\Lambda_{2s-1s}+\Lambda_\alpha}{\Lambda_{2s-1s} + \Lambda_\alpha+\beta^{(2)}(T_b)}, \\
+            \Lambda_{2s-1s} &= 8.227 \unit{s}^{-1}, \\
+            \Lambda_\alpha &= H\frac{(3\epsilon_0)^3}{(8\pi)^2n_{1s}}, \\
+            n_{1s} &=(1-X_e)n_\mathrm{H}, \\
+            n_\mathrm{H} &= (1-Y_p)\frac{3H_0^2\O_{b0}}{8\pi Gm_\mathrm{H}}\expe{-3x},\\
+            \beta^{(2)}(T_b) &= \beta(T_b)\expe{3\epsilon_0/4T_b}, \\
+            \beta(T_b) &= \alpha^{(2)}(T_b)\left(\frac{m_eT_b}{2\pi}\right)^{3/2}\expe{-\epsilon_0/T_b}, \\
+            \alpha^{(2)}(T_b) &=\frac{64\pi}{\sqrt{27\pi}}\frac{\alpha^2}{m_e^2}\sqrt{\frac{\epsilon_0}{T_b}}\phi_2(T_b), \\
+            \phi_2(T_b) &= 0.448\ln\left(\frac{\epsilon_0}{T_b}\right).
+        \end{split}
+    \end{equation}
+    \TODO{Add $\sigma_T$ and $\alpha$ to nomenclature}.
 
-Some theory
+    \TODO{Describe the above equations slightly}
+
+    We find by $X_e$ by solving \cref{eq:m2:theory:Saha_equation} for $X_e > (1-\xi)$ and \cref{eq:m2:theory:peebles_equation} for $X_e < (1-\xi)$. 
+    \TODO{Explain why, difficult to integrate Peebles at early times etc. }
