@@ -59,16 +59,63 @@ Clean the plots generated:
 
 ## TODO:
  *  Optimise code
- *  Discuss results more (physical explanations).
  *  Derive Friedmann equations in an appendix.
- *  Write abstract.
- *  Write a proper introduction.
+
+
+ ### Milestone1
+ *  Plots
+    * Show analytical values in different regimes (test plots)
+    * Conformal Hubble, show vertical lines and acc. onset. 
+    * More sensible units of conformal Hubble.
+    * COSMIC TIME -> log yaxis.
+    * ERAS -> use vertical lines
+    * Times -> update table to be more readable.
+    * Give value of 1$\sigma$ constraint.
+    * Use "fiducial cosmology" instead of prediction.
+
+* Code
+    * Use OmegaM and OmegaR_tot
+
+* Report
+    * Write introduction
+    * Write Abstract
+    * Update nomenclature
+
+* Theory
+    * Use "density" instead of "density of curvatere" (only mathematical similaritites, not a real density)
+    * Redshift - what is it really?
+    * Conformal time $\eta$ - what is it really, why do we care about it?
+    * Radial distance is really the radial coordiante in the FRLW line element. 
+    * Typo in eq. 19
+    * Derive acceleration onset. 
+
+* Sanity checks
+    * Nice, use \ll as $\ll$ instead of << 
+
+* Methods
+    * Some sections should be merged and renamed. ODEs and spline are good. 
+    * Naming: model evaluation -> something, cut the resemble reality stuff.
+    * Fix typos.
+    * $\chi^2$ not really errors, but tells us something of the likelihood. 
+
+* Results
+    * Talk more about $\sigma$ intervals.
+    * Quote constraints on different parameters.
+    * Discuss physical interpretation.
+
+* Appendix
+    * Check feedback on devilry and fix when time is available (lol)
+
+
+### Milestone 2
+* Start
+
 
  ## Questions
- * Right unit on the $\mathcal{H}$ plot?
- * Regime shading on all plots?
- * Colours on plots okay?
- * Nomenclature in that style yay/nay?
+ * FIXED -> no use more sensible. Right unit on the $\mathcal{H}$ plot?
+ * FIXED -> Include lines insteadRegime shading on all plots?
+ * FIXED -> appears so. Colours on plots okay?
+ * FIXED -> Yay. Nomenclature in that style yay/nay?
 
 
 
