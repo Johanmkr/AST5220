@@ -9,11 +9,43 @@ RecombinationHistory::RecombinationHistory(
     double Yp) :
   cosmo(cosmo),
   Yp(Yp)
-{}
+{} 
 
 //====================================================
 // Do all the solving we need to do
 //====================================================
+
+// Import constant from cosmology class
+const double OmegaB = cosmo->get_OmegaB();
+const double TCMB = cosmo->get_TCMB();
+const double H0 = cosmo->get_H0();
+
+// Declare physical constants
+const double k_b         = Constants.k_b;
+const double G           = Constants.G;
+const double m_e         = Constants.m_e;
+const double hbar        = Constants.hbar;
+const double m_H         = Constants.m_H;
+const double epsilon_0   = Constants.epsilon_0;
+const double H0_over_h   = Constants.H0_over_h;
+
+const double c           = Constants.c;
+const double sigma_T     = Constants.sigma_T;
+const double lambda_2s1s = Constants.lambda_2s1s;
+
+
+// Derived Constants
+const double rho_c0 = 3*H0 * H0 / (8 * M_PI * G);   // Critical density today
+
+// Created constants
+const double const_nb_inv = m_H / (OmegaB*rho_c); // Constant part of 1/nb
+const double meTbpow = std::pow(m_e*TCMB/(2*M_PI), 3/2);
+const double const_saha_eq = const_nb_inv * meTbpow; // Constant part of the saha equation
+const double const_eps_tcmb = epsilon_0 / TCMB; // Constant part of exponent of Saha equation.
+
+// Misc constants
+const double global_tol = 1e-5;
+
 
 void RecombinationHistory::solve(){
     
@@ -34,9 +66,10 @@ void RecombinationHistory::solve_number_density_electrons(){
   //=============================================================================
   // TODO: Set up x-array and make arrays to store X_e(x) and n_e(x) on
   //=============================================================================
-  Vector x_array;
-  Vector Xe_arr;
-  Vector ne_arr;
+  // DONE?
+  Vector x_array = Utils::linspace(x_start, x_end, npts_rec_arrays);
+  Vector Xe_arr(npts_rec_arrays);
+  Vector ne_arr(npts_rec_arrays);
 
   // Calculate recombination history
   bool saha_regime = true;
@@ -104,22 +137,7 @@ void RecombinationHistory::solve_number_density_electrons(){
 // Solve the Saha equation to get ne and Xe
 //====================================================
 std::pair<double,double> RecombinationHistory::electron_fraction_from_saha_equation(double x) const{
-  const double a           = exp(x);
- 
-  // Physical constants
-  const double k_b         = Constants.k_b;
-  const double G           = Constants.G;
-  const double m_e         = Constants.m_e;
-  const double hbar        = Constants.hbar;
-  const double m_H         = Constants.m_H;
-  const double epsilon_0   = Constants.epsilon_0;
-  const double H0_over_h   = Constants.H0_over_h;
-
-  // Fetch cosmological parameters
-  //const double OmegaB      = cosmo->get_OmegaB();
-  //...
-  //...
-
+  
   // Electron fraction and number density
   double Xe = 0.0;
   double ne = 0.0;
@@ -127,8 +145,20 @@ std::pair<double,double> RecombinationHistory::electron_fraction_from_saha_equat
   //=============================================================================
   // TODO: Compute Xe and ne from the Saha equation
   //=============================================================================
-  //...
-  //...
+  // DONE?
+  
+  const double b = const_saha_eq * exp(helper_Saha(x));
+  const double discr = b*b+4*b;
+  const double root_val;
+  if(abs(discr-1)<tol){
+    root_val = 1 + (discr-1)/2;
+  }
+  else{
+    root_val = sqrt(discr);
+  }
+  Xe = (-b+root_val)/2;
+  const double nH = exp(-3*x)/const_nb_inv;
+  ne = Xe*nH;
 
   return std::pair<double,double>(Xe, ne);
 }
@@ -142,29 +172,38 @@ int RecombinationHistory::rhs_peebles_ode(double x, const double *Xe, double *dX
   const double X_e         = Xe[0];
   const double a           = exp(x);
 
-  // Physical constants in SI units
-  const double k_b         = Constants.k_b;
-  const double G           = Constants.G;
-  const double c           = Constants.c;
-  const double m_e         = Constants.m_e;
-  const double hbar        = Constants.hbar;
-  const double m_H         = Constants.m_H;
-  const double sigma_T     = Constants.sigma_T;
-  const double lambda_2s1s = Constants.lambda_2s1s;
-  const double epsilon_0   = Constants.epsilon_0;
+  // Constants for finding RHS of peebles eq.
+  const double Tb = TCMB / a;
+  const double eps_tb = const_eps_tcmb * a;
+  const double alpha = sqrt(3*sigma_T/(8*M_PI))*m_e;
+  const double H = cosmo->H_of_x(x);
 
-  // Cosmological parameters
-  // const double OmegaB      = cosmo->get_OmegaB();
-  // ...
-  // ...
+  // Finding the terms involved in the RHS
+  const double phi2 = 0.448 * log(eps_tb);
+  const double alpha2 = 64*M_PI*alpha*alpha*phi2 / (m_e * m_e) * sqrt(eps_tb/(27*M_PI));
+  const double beta = alpha2*meTbpow / (sqrt(a)*sqrt(a)*sqrt(a))*exp(-eps_tb);
+  const dobule beta2;
+  if(eps_tb > 200){
+    beta2 = 0;
+  }
+  else{
+    beta2 = beta*exp(eps_tb*3/4)
+  }
+  const double nH = 1 / (a*a*a*const_nb_inv);
+  const double n1s = (1-X_e)*nH;
+  const double Lambda_alpha = H * 9 * epsilon_0*epsilon_0*epsilon_0 / (64 * M_PI * M_PI * n1s);
+  const double Cr = (lambda_2s1s + Lambda_alpha) / (lambda_2s1s + Lambda_alpha + beta2);
+
+  const double rhs = Cr/H * (beta*(1-X_e) - nH*alpha2*X_e*X_e);
 
   //=============================================================================
   // TODO: Write the expression for dXedx
   //=============================================================================
   //...
   //...
+  // DONE?
   
-  dXedx[0] = 0.0;
+  dXedx[0] = rhs;
 
   return GSL_SUCCESS;
 }
@@ -210,6 +249,14 @@ void RecombinationHistory::solve_for_optical_depth_tau(){
 
   Utils::EndTiming("opticaldepth");
 }
+
+//====================================================
+// Utility methods
+//====================================================
+double RecombinationHistory::helper_Saha(double x) const{
+  return 3/2 * x -const_eps_tcmb*exp(x);
+}
+
 
 //====================================================
 // Get methods
