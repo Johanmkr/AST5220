@@ -28,6 +28,20 @@ class RecombinationHistory{
     // Xe for when to switch between Saha and Peebles
     const double Xe_saha_limit = 0.99;
 
+    // Constants from cosmology class
+    double OmegaB;
+    double TCMB;
+    double H0;
+    void set_cosmo_constant();
+
+    // Derived Constants
+    double rho_c0;   // Critical density today
+    double const_nb_inv;; // Constant part of 1/nb
+    double meTbpow;
+    double const_saha_eq; // Constant part of the saha equation
+    double const_eps_tcmb;  // Constant part of exponent of Saha equation.
+    void set_derived_constants();
+
     //===============================================================
     // [1] Computation of Xe (Saha and Peebles equation)
     //===============================================================
@@ -50,6 +64,7 @@ class RecombinationHistory{
 
     // Splines contained in this class
     Spline log_Xe_of_x_spline{"Xe"};
+    Spline log_ne_of_x_spline{"ne"};
     Spline tau_of_x_spline{"tau"}; 
     Spline g_tilde_of_x_spline{"g"};  
 

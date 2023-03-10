@@ -15,11 +15,6 @@ RecombinationHistory::RecombinationHistory(
 // Do all the solving we need to do
 //====================================================
 
-// Import constant from cosmology class
-const double OmegaB = cosmo->get_OmegaB();
-const double TCMB = cosmo->get_TCMB();
-const double H0 = cosmo->get_H0();
-
 // Declare physical constants
 const double k_b         = Constants.k_b;
 const double G           = Constants.G;
@@ -34,26 +29,37 @@ const double sigma_T     = Constants.sigma_T;
 const double lambda_2s1s = Constants.lambda_2s1s;
 
 
-// Derived Constants
-const double rho_c0 = 3*H0 * H0 / (8 * M_PI * G);   // Critical density today
 
-// Created constants
-const double const_nb_inv = m_H / (OmegaB*rho_c); // Constant part of 1/nb
-const double meTbpow = std::pow(m_e*TCMB/(2*M_PI), 3/2);
-const double const_saha_eq = const_nb_inv * meTbpow; // Constant part of the saha equation
-const double const_eps_tcmb = epsilon_0 / TCMB; // Constant part of exponent of Saha equation.
+
 
 // Misc constants
 const double global_tol = 1e-5;
 
+void RecombinationHistory::set_cosmo_constant(){
+  OmegaB = cosmo->get_OmegaB();
+  TCMB = cosmo->get_TCMB();
+  H0 = cosmo->get_H0();
+}
+
+void RecombinationHistory::set_derived_constants(){
+  rho_c0 = 3*H0 * H0 / (8 * M_PI * G);   // Critical density today
+  const_nb_inv = m_H / (OmegaB*rho_c0); // Constant part of 1/nb
+  meTbpow = std::pow(hbar*hbar*m_e*TCMB/(2*M_PI*k_b), 3/2); 
+  const_saha_eq = const_nb_inv * meTbpow; // Constant part of the saha equation
+  const_eps_tcmb = epsilon_0 / TCMB / k_b; // Constant part of exponent of Saha equation.
+}
 
 void RecombinationHistory::solve(){
+
+  // Set constants
+  set_cosmo_constant();
+  set_derived_constants();    
     
   // Compute and spline Xe, ne
   solve_number_density_electrons();
    
   // Compute and spline tau, dtaudx, ddtauddx, g, dgdx, ddgddx, ...
-  solve_for_optical_depth_tau();
+  // solve_for_optical_depth_tau();
 }
 
 //====================================================
@@ -73,62 +79,93 @@ void RecombinationHistory::solve_number_density_electrons(){
 
   // Calculate recombination history
   bool saha_regime = true;
-  for(int i = 0; i < npts_rec_arrays; i++){
+  int idx = 0;
+  // for(int i = 0; i < npts_rec_arrays; i++){
+  while(saha_regime){
 
     //==============================================================
     // TODO: Get X_e from solving the Saha equation so
     // implement the function electron_fraction_from_saha_equation
     //==============================================================
-    auto Xe_ne_data = electron_fraction_from_saha_equation(x_array[i]);
+    auto Xe_ne_data = electron_fraction_from_saha_equation(x_array[idx]);
 
     // Electron fraction and number density
     const double Xe_current = Xe_ne_data.first;
     const double ne_current = Xe_ne_data.second;
 
+    // Fill Xe and ne arrays with current values
+    Xe_arr[idx] = Xe_current;
+    ne_arr[idx] = ne_current;
+
+    // Update the index count
+    idx += 1;
+
     // Are we still in the Saha regime?
-    if(Xe_current < Xe_saha_limit)
+    if(Xe_current < Xe_saha_limit || idx>=npts_rec_arrays)
       saha_regime = false;
-
-    if(saha_regime){
-      
-      //=============================================================================
-      // TODO: Store the result we got from the Saha equation
-      //=============================================================================
-      //...
-      //...
-
-    } else {
-
-      //==============================================================
-      // TODO: Compute X_e from current time til today by solving 
-      // the Peebles equation (NB: if you solve all in one go remember to
-      // exit the for-loop!)
-      // Implement rhs_peebles_ode
-      //==============================================================
-      //...
-      //...
-
-      // The Peebles ODE equation
-      ODESolver peebles_Xe_ode;
-      ODEFunction dXedx = [&](double x, const double *Xe, double *dXedx){
-        return rhs_peebles_ode(x, Xe, dXedx);
-      };
-      
-      //=============================================================================
-      // TODO: Set up IC, solve the ODE and fetch the result 
-      //=============================================================================
-      //...
-      //...
-    
-    }
   }
 
-  //=============================================================================
-  // TODO: Spline the result. Implement and make sure the Xe_of_x, ne_of_x 
-  // functions are working
-  //=============================================================================
-  //...
-  //...
+  // Find number of elements of origianl x_array filled by the Saha equataion
+  const int nr_elements_filled_by_Saha = idx;
+
+  //  Check if we have already filled the entire array or if we have to solve Peebles.
+  if(nr_elements_filled_by_Saha < npts_rec_arrays){
+
+    // Make new x-array of the x-points not solved by Saha.
+    const int npts_ode_array = npts_rec_arrays-nr_elements_filled_by_Saha;
+    Vector x_ode(npts_ode_array);
+
+    // Fill the new x-array
+    for(int i=0; i<npts_ode_array; i++){
+      x_ode[i] = x_array[idx-1+i];
+    }
+
+    // The Peebles ODE equation
+    ODESolver peebles_Xe_ode;
+    ODEFunction dXedx = [&](double x, const double *Xe, double *dXedx){
+      return rhs_peebles_ode(x, Xe, dXedx);
+    };
+
+    // Initial Xe will be the last added value from the Saha regime. 
+    double Xe_init_val = Xe_arr[idx-1];
+    Vector Xe_init_vec{Xe_init_val};
+
+    // Solve the ODE
+    peebles_Xe_ode.solve(dXedx, x_ode, Xe_init_vec);
+
+    // Get resultant Xe-array (will be of length (npts_ode_array))
+    auto Xe_ode = peebles_Xe_ode.get_data_by_component(0);
+
+    // Update original Xe and ne arrays
+    for(int i=idx; i<npts_rec_arrays; i++){
+      // Calculate values
+      double nH_temp, Xe_temp, ne_temp;
+      nH_temp = exp(-3*x_array[i])/const_nb_inv;
+      Xe_temp = Xe_ode[i-idx];
+      ne_temp = Xe_temp*nH_temp;
+
+      // Fill arrays
+      Xe_arr[i] = Xe_temp;
+      ne_arr[i] = ne_temp;
+    }
+  }
+  else{
+    std::cout << "------ Xe-array completely filled by Saha equation. Are you sure this is correct? ------" << std::endl;
+  }
+  
+
+  // Create new arrays containing the log of Xe and ne
+  Vector log_Xe_arr(npts_rec_arrays);
+  Vector log_ne_arr(npts_rec_arrays);
+
+  for(int i=0; i<npts_rec_arrays; i++){
+    log_Xe_arr[i] = log(Xe_arr[i]);
+    log_ne_arr[i] = log(ne_arr[i]);
+  }
+
+  // Make splines of the result
+  log_Xe_of_x_spline.create(x_array, log_Xe_arr, "Xe");
+  log_ne_of_x_spline.create(x_array, log_ne_arr, "ne");
 
   Utils::EndTiming("Xe");
 }
@@ -149,8 +186,8 @@ std::pair<double,double> RecombinationHistory::electron_fraction_from_saha_equat
   
   const double b = const_saha_eq * exp(helper_Saha(x));
   const double discr = b*b+4*b;
-  const double root_val;
-  if(abs(discr-1)<tol){
+  double root_val;
+  if(abs(discr-1)<global_tol){
     root_val = 1 + (discr-1)/2;
   }
   else{
@@ -180,14 +217,16 @@ int RecombinationHistory::rhs_peebles_ode(double x, const double *Xe, double *dX
 
   // Finding the terms involved in the RHS
   const double phi2 = 0.448 * log(eps_tb);
-  const double alpha2 = 64*M_PI*alpha*alpha*phi2 / (m_e * m_e) * sqrt(eps_tb/(27*M_PI));
+  const double alpha2 = hbar*hbar/c*64*M_PI*alpha*alpha*phi2 / (m_e * m_e) * sqrt(eps_tb/(27*M_PI));
   const double beta = alpha2*meTbpow / (sqrt(a)*sqrt(a)*sqrt(a))*exp(-eps_tb);
-  const dobule beta2;
+  double beta2;
+
+  // Checking for large exponent to avoid overflow
   if(eps_tb > 200){
     beta2 = 0;
   }
   else{
-    beta2 = beta*exp(eps_tb*3/4)
+    beta2 = beta*exp(eps_tb*3/4);
   }
   const double nH = 1 / (a*a*a*const_nb_inv);
   const double n1s = (1-X_e)*nH;
@@ -254,7 +293,7 @@ void RecombinationHistory::solve_for_optical_depth_tau(){
 // Utility methods
 //====================================================
 double RecombinationHistory::helper_Saha(double x) const{
-  return 3/2 * x -const_eps_tcmb*exp(x);
+  return 3/2 * x - const_eps_tcmb*exp(x);
 }
 
 
@@ -316,25 +355,11 @@ double RecombinationHistory::ddgddx_tilde_of_x(double x) const{
 }
 
 double RecombinationHistory::Xe_of_x(double x) const{
-
-  //=============================================================================
-  // TODO: Implement
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  return exp(log_Xe_of_x_spline(x));
 }
 
 double RecombinationHistory::ne_of_x(double x) const{
-
-  //=============================================================================
-  // TODO: Implement
-  //=============================================================================
-  //...
-  //...
-
-  return 0.0;
+  return exp(log_ne_of_x_spline(x));
 }
 
 double RecombinationHistory::get_Yp() const{
@@ -356,21 +381,23 @@ void RecombinationHistory::info() const{
 //====================================================
 void RecombinationHistory::output(const std::string filename) const{
   std::ofstream fp(filename.c_str());
-  const int npts       = 5000;
+  const int npts       = int(1e5);
   const double x_min   = x_start;
   const double x_max   = x_end;
 
+  fp << "  x  , " << "   Xe  , " << "  ne   , " << "\n";
+
   Vector x_array = Utils::linspace(x_min, x_max, npts);
   auto print_data = [&] (const double x) {
-    fp << x                    << " ";
-    fp << Xe_of_x(x)           << " ";
-    fp << ne_of_x(x)           << " ";
-    fp << tau_of_x(x)          << " ";
-    fp << dtaudx_of_x(x)       << " ";
-    fp << ddtauddx_of_x(x)     << " ";
-    fp << g_tilde_of_x(x)      << " ";
-    fp << dgdx_tilde_of_x(x)   << " ";
-    fp << ddgddx_tilde_of_x(x) << " ";
+    fp << x                    << " , ";
+    fp << Xe_of_x(x)           << " , ";
+    fp << ne_of_x(x)           << " , ";
+    // fp << tau_of_x(x)          << " ";
+    // fp << dtaudx_of_x(x)       << " ";
+    // fp << ddtauddx_of_x(x)     << " ";
+    // fp << g_tilde_of_x(x)      << " ";
+    // fp << dgdx_tilde_of_x(x)   << " ";
+    // fp << ddgddx_tilde_of_x(x) << " ";
     fp << "\n";
   };
   std::for_each(x_array.begin(), x_array.end(), print_data);
