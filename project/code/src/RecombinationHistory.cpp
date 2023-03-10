@@ -44,9 +44,9 @@ void RecombinationHistory::set_cosmo_constant(){
 void RecombinationHistory::set_derived_constants(){
   rho_c0 = 3*H0 * H0 / (8 * M_PI * G);   // Critical density today
   const_nb_inv = m_H / (OmegaB*rho_c0); // Constant part of 1/nb
-  meTbpow = std::pow(hbar*hbar*m_e*TCMB/(2*M_PI*k_b), 3/2); 
+  meTbpow = std::pow(k_b*m_e*TCMB/(2*M_PI*hbar*hbar), 3/2); 
   const_saha_eq = const_nb_inv * meTbpow; // Constant part of the saha equation
-  const_eps_tcmb = epsilon_0 / TCMB / k_b; // Constant part of exponent of Saha equation.
+  const_eps_tcmb = epsilon_0 / (TCMB *k_b); // Constant part of exponent of Saha equation.
 }
 
 void RecombinationHistory::solve(){
@@ -99,7 +99,7 @@ void RecombinationHistory::solve_number_density_electrons(){
 
     // Update the index count
     idx += 1;
-
+  
     // Are we still in the Saha regime?
     if(Xe_current < Xe_saha_limit || idx>=npts_rec_arrays)
       saha_regime = false;
@@ -212,26 +212,26 @@ int RecombinationHistory::rhs_peebles_ode(double x, const double *Xe, double *dX
   // Constants for finding RHS of peebles eq.
   const double Tb = TCMB / a;
   const double eps_tb = const_eps_tcmb * a;
-  const double alpha = sqrt(3*sigma_T/(8*M_PI))*m_e;
+  const double alpha = c/hbar*sqrt(3*sigma_T/(8*M_PI))*m_e;
   const double H = cosmo->H_of_x(x);
 
   // Finding the terms involved in the RHS
-  const double phi2 = 0.448 * log(eps_tb);
-  const double alpha2 = hbar*hbar/c*64*M_PI*alpha*alpha*phi2 / (m_e * m_e) * sqrt(eps_tb/(27*M_PI));
+  const double phi2 = 0.448 * log(eps_tb); // dimensionless
+  const double alpha2 = hbar*hbar/c*64*M_PI*alpha*alpha*phi2 / (m_e * m_e) * sqrt(eps_tb/(27*M_PI)); // dimension m^3/s
   const double beta = alpha2*meTbpow / (sqrt(a)*sqrt(a)*sqrt(a))*exp(-eps_tb);
-  double beta2;
+  double beta2; // dimension 1/s
 
   // Checking for large exponent to avoid overflow
   if(eps_tb > 200){
     beta2 = 0;
   }
   else{
-    beta2 = beta*exp(eps_tb*3/4);
+    beta2 = beta*exp(eps_tb*3/4); // dimensino 1/s
   }
-  const double nH = 1 / (a*a*a*const_nb_inv);
-  const double n1s = (1-X_e)*nH;
-  const double Lambda_alpha = H * 9 * epsilon_0*epsilon_0*epsilon_0 / (64 * M_PI * M_PI * n1s);
-  const double Cr = (lambda_2s1s + Lambda_alpha) / (lambda_2s1s + Lambda_alpha + beta2);
+  const double nH = 1 / (a*a*a*const_nb_inv); // dimension 1/m^3
+  const double n1s = (1-X_e)*nH; // dimension 1/m^3
+  const double Lambda_alpha = 1 / (hbar*hbar*hbar*c*c*c) * H * 9 * epsilon_0*epsilon_0*epsilon_0 / (64 * M_PI * M_PI * n1s); // dimension 1/s
+  const double Cr = (lambda_2s1s + Lambda_alpha) / (lambda_2s1s + Lambda_alpha + beta2); // dimensionless
 
   const double rhs = Cr/H * (beta*(1-X_e) - nH*alpha2*X_e*X_e);
 
