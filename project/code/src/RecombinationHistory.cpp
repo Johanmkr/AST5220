@@ -105,6 +105,12 @@ void RecombinationHistory::solve_number_density_electrons(){
       saha_regime = false;
   }
 
+  std::cout << "idx: " << idx << std::endl;
+  std::cout << "idx frac: " << idx/npts_rec_arrays << std::endl;
+  std::cout << "indx value: " << Xe_arr[idx] << std::endl;
+  std::cout << "prev index values: " << Xe_arr[idx-1] << std::endl;
+
+
   // Find number of elements of origianl x_array filled by the Saha equataion
   const int nr_elements_filled_by_Saha = idx;
 
@@ -226,11 +232,11 @@ int RecombinationHistory::rhs_peebles_ode(double x, const double *Xe, double *dX
     beta2 = 0;
   }
   else{
-    beta2 = beta*exp(eps_tb*3/4); // dimensino 1/s
+    beta2 = beta*exp(eps_tb*3/4); // dimension 1/s
   }
   const double nH = 1 / (a*a*a*const_nb_inv); // dimension 1/m^3
   const double n1s = (1-X_e)*nH; // dimension 1/m^3
-  const double Lambda_alpha = 1 / (hbar*hbar*hbar*c*c*c) * H * 9 * epsilon_0*epsilon_0*epsilon_0 / (64 * M_PI * M_PI * n1s); // dimension 1/s
+  const double Lambda_alpha = 1 / (hbar*hbar*hbar*c*c*c) * H * 27 * epsilon_0*epsilon_0*epsilon_0 / (64 * M_PI * M_PI * n1s); // dimension 1/s
   const double Cr = (lambda_2s1s + Lambda_alpha) / (lambda_2s1s + Lambda_alpha + beta2); // dimensionless
 
   const double rhs = Cr/H * (beta*(1-X_e) - nH*alpha2*X_e*X_e);
@@ -257,6 +263,23 @@ void RecombinationHistory::solve_for_optical_depth_tau(){
 
   // Set up x-arrays to integrate over. We split into three regions as we need extra points in reionisation
   const int npts = int(1e6);
+
+  // BELOW DOES NOT WORK WHY?
+  // Vector x_array_1 = Utils::linspace(0,7, npts); //after recombination
+  // Vector x_array_2 = Utils::linspace(7,9, 2*npts); //for recombination
+  // Vector x_array_3 = Utils::linspace(9,20, npts); // before recombination
+
+  // Vector x_array_tau_rev(4*npts);
+
+  // for(int i=0; i<npts;i++){
+  //   x_array_tau_rev[i] = x_array_1[i];
+  // }
+  // for(int i=npts; i<3*npts; i++){
+  //   x_array_tau_rev[i] = x_array_2[i-npts];
+  // }
+  // for(int i=3*npts; i<4*npts;i++){
+  //   x_array_tau_rev[i] = x_array_3[i-3*npts];
+  // }
 
   // x-array that goes backwards in time, by using positive, strictly increasing x-values
   Vector x_array_tau_rev = Utils::linspace(0, -x_start, npts);
@@ -293,7 +316,7 @@ void RecombinationHistory::solve_for_optical_depth_tau(){
   // This spline is now for positive x-values -> need to account for this when calling the function
   // tau_of_x_spline.create(x_array_tau_rev, tau_vec_inv, "tau");
 
-  // Reverse the arrays and compute visibility func
+  // Reverse the arrays
   Vector x_array_tau(npts);
   Vector tau_vec(npts);
   for(int i=0;i<npts;i++){
@@ -424,8 +447,8 @@ void RecombinationHistory::info() const{
 void RecombinationHistory::output(const std::string filename) const{
   std::ofstream fp(filename.c_str());
   const int npts       = int(1e5);
-  const double x_min   = x_start;
-  const double x_max   = x_end;
+  const double x_min   = -12.0;
+  const double x_max   = 0;
 
   fp << "  x  , " << "   Xe  , " << "  ne   , " << " tau  , " << "  dtaudx    , " << " ddtauddx  , " << "  g    , " << "    dgdx  , " <<  "  ddgddx   ," << "\n";
 

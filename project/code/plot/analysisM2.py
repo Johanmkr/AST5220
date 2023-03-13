@@ -12,7 +12,7 @@ def plot_Xe():
     Xe, ax = plt.subplots()
     ax.plot(xvals, Xe_vals)
     ax.set_yscale("log")
-    # ax.set_xlim(-12,0)
+    ax.set_xlim(-12,0)
 
     save_push(Xe, "Xe_electron_fraction")
 
@@ -30,6 +30,8 @@ def plot_tau():
     ax.plot(xvals, -dtauvals, color="red", label="dtau")
     ax.plot(xvals, ddtauvals, color="green", label="ddtau")
     ax.set_yscale("log")
+    ax.set_xlim(-12,0)
+
 
     ax.legend(loc="best")
 
@@ -44,16 +46,19 @@ def plot_g():
 
     G1, ax1 = plt.subplots()
     ax1.plot(xvals, g_vals, color="blue", label="g")
+    ax1.set_xlim(-12,0)
     ax1.legend()
     save_push(G1, "g_of_x")
 
     G2, ax2 = plt.subplots()
     ax2.plot(xvals, dgvals, color="blue", label="dgdx")
+    ax2.set_xlim(-12,0)
     ax2.legend()
     save_push(G2, "dg_of_x")
 
     G3, ax3 = plt.subplots()
     ax3.plot(xvals, ddgvals, color="blue", label="ddgddx")
+    ax3.set_xlim(-12,0)
     ax3.legend()
     save_push(G3, "ddg_of_x")
 
