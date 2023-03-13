@@ -23,13 +23,13 @@ class RecombinationHistory{
     const double x_end    = Constants.x_end;
     
     // Numbers of points of Xe,ne array (modify as you see fit)
-    const int npts_rec_arrays = int(1e5);
+    const int npts_rec_arrays = int(1e6);
   
     // Xe for when to switch between Saha and Peebles
     const double Xe_saha_limit = 0.99;
 
     // Constants from cosmology class
-    double OmegaB;
+    double OmegaB; 
     double TCMB;
     double H0;
     void set_cosmo_constant();

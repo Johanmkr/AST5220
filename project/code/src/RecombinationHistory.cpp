@@ -59,7 +59,7 @@ void RecombinationHistory::solve(){
   solve_number_density_electrons();
    
   // Compute and spline tau, dtaudx, ddtauddx, g, dgdx, ddgddx, ...
-  // solve_for_optical_depth_tau();
+  solve_for_optical_depth_tau();
 }
 
 //====================================================
@@ -256,10 +256,13 @@ void RecombinationHistory::solve_for_optical_depth_tau(){
   Utils::StartTiming("opticaldepth");
 
   // Set up x-arrays to integrate over. We split into three regions as we need extra points in reionisation
-  const int npts = 1000;
-  Vector x_array = Utils::linspace(x_start, x_end, npts);
+  const int npts = int(1e6);
+
+  // x-array that goes backwards in time, by using positive, strictly increasing x-values
+  Vector x_array_tau_rev = Utils::linspace(0, -x_start, npts);
 
   // The ODE system dtau/dx, dtau_noreion/dx and dtau_baryon/dx
+  ODESolver tauOde;
   ODEFunction dtaudx = [&](double x, const double *tau, double *dtaudx){
 
     //=============================================================================
@@ -269,22 +272,61 @@ void RecombinationHistory::solve_for_optical_depth_tau(){
     //...
 
     // Set the derivative for photon optical depth
-    dtaudx[0] = 0.0;
+
+    // Derivative for -dtaudx
+
+    // Since we are using positive increasing x-values, we must provide the negative x-values in the functions for ne_of_x and H_of_x. Notice that this is actually -dtaudx in order for ut to integrate backwards. 
+    
+    dtaudx[0] = c*sigma_T*ne_of_x(-x)/(cosmo->H_of_x(-x));
 
     return GSL_SUCCESS;
   };
+
+  // Initial Xe will be the last added value from the Saha regime. 
+  Vector tau_init_vec{0.0};
+
+  tauOde.solve(dtaudx, x_array_tau_rev, tau_init_vec);
+
+  auto tau_vec_inv = tauOde.get_data_by_component(0);
+
+  // USEFULL ANYMORE?
+  // This spline is now for positive x-values -> need to account for this when calling the function
+  // tau_of_x_spline.create(x_array_tau_rev, tau_vec_inv, "tau");
+
+  // Reverse the arrays and compute visibility func
+  Vector x_array_tau(npts);
+  Vector tau_vec(npts);
+  for(int i=0;i<npts;i++){
+    x_array_tau[i] = -x_array_tau_rev[npts-1-i];
+    tau_vec[i] = tau_vec_inv[npts-1-i];
+  }
+
+  // spline the result
+  tau_of_x_spline.create(x_array_tau, tau_vec, "tau");
+
 
   //=============================================================================
   // TODO: Set up and solve the ODE and make tau splines
   //=============================================================================
   //...
   //...
+  // DONE?
 
   //=============================================================================
   // TODO: Compute visibility functions and spline everything
   //=============================================================================
   //...
   //...
+
+  Vector g_tilde(npts);
+  for(int i=0;i<npts;i++){
+    double const x_loc = x_array_tau[i];
+    g_tilde[i] = -dtaudx_of_x(x_loc) * exp(-tau_of_x(x_loc));
+  }
+
+  g_tilde_of_x_spline.create(x_array_tau, g_tilde, "g");
+
+
 
   Utils::EndTiming("opticaldepth");
 }
@@ -314,7 +356,7 @@ double RecombinationHistory::dtaudx_of_x(double x) const{
   //...
   //...
 
-  return 0.0;
+  return tau_of_x_spline.deriv_x(x);
 }
 
 double RecombinationHistory::ddtauddx_of_x(double x) const{
@@ -325,7 +367,7 @@ double RecombinationHistory::ddtauddx_of_x(double x) const{
   //...
   //...
 
-  return 0.0;
+  return tau_of_x_spline.deriv_xx(x);
 }
 
 double RecombinationHistory::g_tilde_of_x(double x) const{
@@ -340,7 +382,7 @@ double RecombinationHistory::dgdx_tilde_of_x(double x) const{
   //...
   //...
 
-  return 0.0;
+  return g_tilde_of_x_spline.deriv_x(x);
 }
 
 double RecombinationHistory::ddgddx_tilde_of_x(double x) const{
@@ -351,7 +393,7 @@ double RecombinationHistory::ddgddx_tilde_of_x(double x) const{
   //...
   //...
 
-  return 0.0;
+  return g_tilde_of_x_spline.deriv_xx(x);
 }
 
 double RecombinationHistory::Xe_of_x(double x) const{
@@ -385,19 +427,19 @@ void RecombinationHistory::output(const std::string filename) const{
   const double x_min   = x_start;
   const double x_max   = x_end;
 
-  fp << "  x  , " << "   Xe  , " << "  ne   , " << "\n";
+  fp << "  x  , " << "   Xe  , " << "  ne   , " << " tau  , " << "  dtaudx    , " << " ddtauddx  , " << "  g    , " << "    dgdx  , " <<  "  ddgddx   ," << "\n";
 
   Vector x_array = Utils::linspace(x_min, x_max, npts);
   auto print_data = [&] (const double x) {
     fp << x                    << " , ";
     fp << Xe_of_x(x)           << " , ";
     fp << ne_of_x(x)           << " , ";
-    // fp << tau_of_x(x)          << " ";
-    // fp << dtaudx_of_x(x)       << " ";
-    // fp << ddtauddx_of_x(x)     << " ";
-    // fp << g_tilde_of_x(x)      << " ";
-    // fp << dgdx_tilde_of_x(x)   << " ";
-    // fp << ddgddx_tilde_of_x(x) << " ";
+    fp << tau_of_x(x)          << " , ";
+    fp << dtaudx_of_x(x)       << " , ";
+    fp << ddtauddx_of_x(x)     << " , ";
+    fp << g_tilde_of_x(x)      << " , ";
+    fp << dgdx_tilde_of_x(x)   << " , ";
+    fp << ddgddx_tilde_of_x(x) << " , ";
     fp << "\n";
   };
   std::for_each(x_array.begin(), x_array.end(), print_data);
