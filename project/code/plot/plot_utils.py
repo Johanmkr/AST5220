@@ -48,7 +48,7 @@ plt.rc('lines', linewidth=3)
 
 # Visual parameters for saving/showing
 SAVE = True
-PUSH = False
+PUSH = True
 SHOW = False
 TIGHT = True
 

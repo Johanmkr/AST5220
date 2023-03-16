@@ -10,12 +10,18 @@ x_min = Cosmology["x"][0]
 x_max = np.asarray(Cosmology["x"])[-1]
 x_RM = ValueTab["x"][0]
 x_ML = ValueTab["x"][1]
-tol = .5e-1
+x_accel_start = ValueTab["x"][2]
+tol = .3e-1
 
-def set_regimes(ax):
+
+
+def set_regimes(ax, borders=True):
     rad_area = ax.axvspan(x_min, x_RM-tol, color=Colors["OmegaRad"], alpha=.1, label=r"$\Omega_\mathrm{rad}$")
     mat_area = ax.axvspan(x_RM+tol, x_ML-tol, color=Colors["OmegaM"], alpha=.1, label=r"$\Omega_\mathrm{M}$")
     lam_area = ax.axvspan(x_ML+tol, x_max, color=Colors["OmegaLambda"], alpha=.1, label=r"$\Omega_\Lambda$")
+    if borders:
+        ax.axvline(x_RM, color="black", ls="--")
+        ax.axvline(x_ML, color="black", ls="--")
     return [rad_area, mat_area, lam_area]
 
 def testing_Omegas():
@@ -27,14 +33,15 @@ def testing_Omegas():
     OmegaM = Cosmology["OmegaB"] + Cosmology["OmegaCDM"]
     
     omegaFig, ax1 = plt.subplots()
-    ax1.plot(xvals, Cosmology["OmegaLambda"]+OmegaRad+OmegaM, label="Sum", ls="--", color="black")
     ax1.plot(xvals, OmegaRad, label=r"$\Omega_\mathrm{rad}$", color=Colors["OmegaRad"])
     ax1.plot(xvals, OmegaM, label=r"$\Omega_\mathrm{M}$", color=Colors["OmegaM"])
     ax1.plot(xvals, Cosmology["OmegaLambda"], label=r"$\Omega_\Lambda$", color=Colors["OmegaLambda"])
+    ax1.plot(xvals, Cosmology["OmegaLambda"]+OmegaRad+OmegaM, label="Sum", ls="--", color="white", lw=2)
     ax1.set_xlabel(r"$x$")
     ax1.set_title(r"Density fractions $\Omega_X$", loc="left")
     ax1.legend(loc='center left', ncol=1, fancybox=True)
     
+    regimes = set_regimes(ax1)
     save_push(omegaFig, "testing_omegas")
 
 def testing_Hp():
@@ -54,6 +61,17 @@ def testing_Hp():
     line2, = ax1.plot(xvals, ratiodHp, label=r"$\frac{1}{\mathcal{H}}\frac{\mathrm{d}\mathcal{H}}{\mathrm{d}x}$", color=Colors["dHpdx"])
 
     regimes = set_regimes(ax1)
+
+    #   adding the analytical values
+    #   for double deriv
+    ax1.hlines(1, x_min, x_RM, color="snow", ls="--", lw=2)
+    ax1.hlines(1/4, x_RM, x_ML, color="snow", ls="--", lw=2)
+    ax1.hlines(1, x_ML, x_max, color="snow", ls="--", lw=2)
+
+    #   for single deriv
+    ax1.hlines(-1, x_min, x_RM, color="snow", ls="--", lw=2)
+    ax1.hlines(-1/2, x_RM, x_ML, color="snow", ls="--", lw=2)
+    # ax1.hlines(1, x_ML, x_max, color="white", ls="--")
     
     ax1.set_title(r"Sanity check of $\mathcal{H}(x)$", loc="left")
     ax1.set_xlabel(r"$x$")
@@ -61,7 +79,6 @@ def testing_Hp():
 
     # legend2 = HpFig.legend([rad_area, mat_area, lam_area], [rad_area.get_label(), mat_area.get_label(), lam_area.get_label()], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
     legend2 = HpFig.legend(regimes, [regime.get_label() for regime in regimes], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
-
 
     save_push(HpFig, "Hp_test")
 
@@ -81,6 +98,13 @@ def testing_eta():
     ax1.set_title(r"Sanity check for $\eta(x)$", loc="left")
     ax1.set_xlabel(r"$x$")
 
+    regimes = set_regimes(ax1)
+
+    #   Adding analytical solutions
+    ax1.hlines(1, x_min, x_RM, color="snow", ls="--", lw=2)
+    ax1.hlines(2, x_RM, x_ML, color="snow", ls="--", lw=2)
+    # ax1.axvline(x_ML, color="snow", lw=2, ls="--")
+
     rad_area = ax1.axvspan(x_min, x_RM-tol, color=Colors["OmegaRad"], alpha=.1, label=r"$\Omega_\mathrm{rad}$")
     mat_area = ax1.axvspan(x_RM+tol, x_ML-tol, color=Colors["OmegaM"], alpha=.1, label=r"$\Omega_\mathrm{M}$")
     lam_area = ax1.axvspan(x_ML+tol, x_max, color=Colors["OmegaLambda"], alpha=.1, label=r"$\Omega_\Lambda$")
@@ -88,7 +112,8 @@ def testing_eta():
     # ax1.set_yscale("log")
     # ax1.legend(loc="best", fancybox=True)
     legend1 = ax1.legend([line1, line2], [line1.get_label(), line2.get_label()], loc="upper left", fancybox=True)
-    legend2 = etaFig.legend([rad_area, mat_area, lam_area], [rad_area.get_label(), mat_area.get_label(), lam_area.get_label()], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
+    legend2 = etaFig.legend(regimes, [regime.get_label() for regime in regimes], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
+
 
 
     save_push(etaFig, "eta_test")
@@ -99,20 +124,23 @@ def conformal_hubble_factor():
     """Plot the conformal Hubble factor Hp agains x.
     """
     xvals = Cosmology["x"]
-    Hp = Cosmology["Hp"]
+    Hp = Cosmology["Hp"]*100*(1/units.s).to("km/s/Mpc")
 
     chf, ax = plt.subplots()
-    ax.plot(xvals, Hp, color=colors[0], label=lbls["Hp"])
+    ax.plot(xvals, Hp, color=Colors["Hp"], label=lbls["Hp"])
+    ax.axvline(x_accel_start, color="black", ls="--", label="Accel. onset")
     ax.set_xlabel(lbls["x"])
-    ax.set_ylabel(r"$\mathcal{H}$ [s$^{-1}$]")
+    ax.set_ylabel(r"$\mathcal{H}$ [100 kms$^{-1}$Mpc$^{-1}$]")
     ax.set_title(r"Conformal Hubble factor $\mathcal{H}(x)$", loc="left")
-    # ax.legend(loc="best", fancybox=True)
+    ax.legend(loc="best", fancybox=True)
     ax.set_yscale("log")
 
+    regimes = set_regimes(ax, borders=False)
+
     # Set regimes
-    rad_area = ax1.axvspan(x_min, x_RM-tol, color=Colors["OmegaRad"], alpha=.1, label=r"$\Omega_\mathrm{rad}$")
-    mat_area = ax1.axvspan(x_RM+tol, x_ML-tol, color=Colors["OmegaM"], alpha=.1, label=r"$\Omega_\mathrm{M}$")
-    lam_area = ax1.axvspan(x_ML+tol, x_max, color=Colors["OmegaLambda"], alpha=.1, label=r"$\Omega_\Lambda$")
+    # rad_area = ax1.axvspan(x_min, x_RM-tol, color=Colors["OmegaRad"], alpha=.1, label=r"$\Omega_\mathrm{rad}$")
+    # mat_area = ax1.axvspan(x_RM+tol, x_ML-tol, color=Colors["OmegaM"], alpha=.1, label=r"$\Omega_\mathrm{M}$")
+    # lam_area = ax1.axvspan(x_ML+tol, x_max, color=Colors["OmegaLambda"], alpha=.1, label=r"$\Omega_\Lambda$")
 
     save_push(chf, "conformal_hubble_factor")
 
@@ -126,14 +154,16 @@ def cosmic_conformal_time():
     eta_c = eta/const.c.to("m/Gyr")
 
     ct, ax = plt.subplots()
-    ax.plot(xvals, t, color=colors[0], label=lbls["t"])
-    ax.plot(xvals, eta_c, color=colors[-1], label=r"$\frac{\eta}{c}$")
+    ax.plot(xvals, t, color=Colors["t"], label=lbls["t"])
+    ax.plot(xvals, eta_c, color=Colors["eta/c"], label=r"$\frac{\eta}{c}$")
+
 
     ax.set_xlabel(lbls["x"])
     ax.set_ylabel(lbls["t"]+" [Gyr]")
     ax.set_title(r"Cosmic time $t(x)$ and conformal time $\eta(x)/c$.", loc="left")
     ax.legend(loc="best", fancybox=True)
-    # ax.set_yscale("log")
+    regimes = set_regimes(ax, borders=False)
+    ax.set_yscale("log")
     save_push(ct, "cosmic_conformal_time")
 
 
@@ -236,7 +266,7 @@ if __name__=="__main__":
     testing_eta()
     conformal_hubble_factor()
     cosmic_conformal_time()
-    supernova_data()
-    omega_restrictions_plot()
-    posterior_pdf()
+    # supernova_data()
+    # omega_restrictions_plot()
+    # posterior_pdf()
     # create_table()
