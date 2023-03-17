@@ -43,9 +43,17 @@ int main(int argc, char **argv){
   
   // Output background evolution quantities
   cosmo.output("data/backgroundcosmology.csv");
+  cosmo.output("data/backgroundcosmologyLumDist.csv", log(0.01+1)-1, log(1.3+1)+1, (int)1e5);
   cosmo.write_table_of_important_values("data/table_of_values.csv");
   Utils::EndTiming("Solve & write");
-  // cosmo.output("data/backgroundcosmology-2_0.txt", -2.0, 1.0, (int)1e5);
+
+  BackgroundCosmology bestFit(0.702, 0.05, 0.259-0.05, 0.067, Neff, TCMB);
+  Utils::StartTiming("Solve best params");
+  bestFit.solve();
+  bestFit.info();
+  bestFit.output("data/bestFitBackground.csv", log(0.01+1)-1, log(1.3+1)+1, (int)1e5);
+  Utils::EndTiming("Solve best params");
+
 
   // Do the supernova fits. Uncomment when you are ready to run this
   // Make sure you read the comments on the top of src/SupernovaFitting.h
@@ -55,7 +63,7 @@ int main(int argc, char **argv){
   // Utils::EndTiming("SupernovaFit");
 
   // Remove when module is completed
-  // return 0;
+  return 0;
 
   //=========================================================================
   // Module II

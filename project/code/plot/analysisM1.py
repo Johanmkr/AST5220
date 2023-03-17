@@ -6,13 +6,24 @@ Sdata = Data("supernovadata.txt")
 Sfit = Data("results_supernovafitting.csv", skiprows=300)
 ValueTab = Data("table_of_values.csv")
 
+LumDistData = Data("backgroundcosmologyLumDist.csv")
+LumDistDataBestFit = Data("bestFitBackground.csv")
+
+idx_today = np.argmin(np.abs(Cosmology["x"]))
+
 x_min = Cosmology["x"][0]
 x_max = np.asarray(Cosmology["x"])[-1]
 x_RM = ValueTab["x"][0]
 x_ML = ValueTab["x"][1]
 x_accel_start = ValueTab["x"][2]
-tol = .3e-1
+tol = 1e-2
 
+OmegaRad0 = Cosmology["OmegaR"][idx_today] + Cosmology["OmegaNu"][idx_today]
+OmegaM0 = Cosmology["OmegaB"][idx_today] + Cosmology["OmegaCDM"][idx_today]
+OmegaLambda0 = Cosmology["OmegaLambda"][idx_today]
+H0 = Cosmology["Hp"][idx_today]
+
+# embed()
 
 
 def set_regimes(ax, borders=True):
@@ -60,7 +71,7 @@ def testing_Hp():
     line1, = ax1.plot(xvals, ratioddHp, label=r"$\frac{1}{\mathcal{H}}\frac{\mathrm{d}^2\mathcal{H}}{\mathrm{d}x^2}$", color=Colors["ddHpddx"])
     line2, = ax1.plot(xvals, ratiodHp, label=r"$\frac{1}{\mathcal{H}}\frac{\mathrm{d}\mathcal{H}}{\mathrm{d}x}$", color=Colors["dHpdx"])
 
-    regimes = set_regimes(ax1)
+    regimes = set_regimes(ax1, borders=False)
 
     #   adding the analytical values
     #   for double deriv
@@ -98,7 +109,7 @@ def testing_eta():
     ax1.set_title(r"Sanity check for $\eta(x)$", loc="left")
     ax1.set_xlabel(r"$x$")
 
-    regimes = set_regimes(ax1)
+    regimes = set_regimes(ax1, borders=False)
 
     #   Adding analytical solutions
     ax1.hlines(1, x_min, x_RM, color="snow", ls="--", lw=2)
@@ -125,10 +136,23 @@ def conformal_hubble_factor():
     """
     xvals = Cosmology["x"]
     Hp = Cosmology["Hp"]*100*(1/units.s).to("km/s/Mpc")
+    xvals_rad = np.linspace(x_min, x_RM, 100)
+    xvals_mat = np.linspace(x_RM, x_ML, 100)
+    xvals_lam = np.linspace(x_ML, x_max, 100)
+    rad_anal = H0*np.sqrt(OmegaRad0)*np.exp(-xvals_rad)*100*(1/units.s).to("km/s/Mpc")
+    mat_anal = H0*np.sqrt(OmegaM0)*np.exp(-xvals_mat/2)*100*(1/units.s).to("km/s/Mpc")
+    lam_anal = H0*np.sqrt(OmegaLambda0)*np.exp(xvals_lam)*100*(1/units.s).to("km/s/Mpc")
 
     chf, ax = plt.subplots()
     ax.plot(xvals, Hp, color=Colors["Hp"], label=lbls["Hp"])
-    ax.axvline(x_accel_start, color="black", ls="--", label="Accel. onset")
+    ax.axvline(x_accel_start, color="black", ls="--", label="Accel. start")
+
+    #   Plot analytical solutions in regimes
+    ax.plot(xvals_rad, rad_anal, color="snow", ls="--", lw=2)
+    ax.plot(xvals_mat, mat_anal, color="snow", ls="--", lw=2)
+    ax.plot(xvals_lam, lam_anal, color="snow", ls="--", lw=2)
+
+
     ax.set_xlabel(lbls["x"])
     ax.set_ylabel(r"$\mathcal{H}$ [100 kms$^{-1}$Mpc$^{-1}$]")
     ax.set_title(r"Conformal Hubble factor $\mathcal{H}(x)$", loc="left")
@@ -173,14 +197,21 @@ def supernova_data():
     zvals_sn = Sdata["z"]
     dL_obs = Sdata["d_L"]
     error = Sdata["Error"]
-    xvals_pred = Cosmology["x"]
-    dL_pred = Cosmology["d_L"]*units.m.to("Gpc")
+
+    #   Fiducial cosmology
+    xvals_pred = LumDistData["x"]
+    dL_pred = LumDistData["d_L"]*units.m.to("Gpc")
     zvals_pred = np.exp(-xvals_pred)-1
 
+    #   Best fit cosmology
+    xvalsBF = LumDistDataBestFit["x"]
+    dLBF = LumDistDataBestFit["d_L"]*units.m.to("Gpc")
+    zvalsBF = np.exp(-xvalsBF) -1
+
     sdFig, ax = plt.subplots()
-    ax.errorbar(zvals_sn, dL_obs/zvals_sn, yerr=error/zvals_sn, label="Observation", fmt="none",  ecolor=colors[0])
-    ax.plot(zvals_pred, dL_pred/zvals_pred, color=colors[-1], label="Prediction")
-    # ax.set_yscale("log")
+    ax.errorbar(zvals_sn, dL_obs/zvals_sn, yerr=error/zvals_sn, label="Observation", fmt="none",  ecolor=Colors["d_L_obs"])
+    ax.plot(zvals_pred, dL_pred/zvals_pred, color=Colors["d_L_fid"], label="Fiducial cosmology")
+    ax.plot(zvalsBF, dLBF/zvalsBF, color=Colors["d_L_best"], label="Best fit")
     ax.set_xscale("log")
     ax.set_ylim(3.5,8)
     ax.set_xlim(0.005,1.45)
@@ -199,6 +230,8 @@ def omega_restrictions_plot():
     chi2 = Sfit["chi2"]
     OmegaM = Sfit["OmegaM"]
     OmegaK = Sfit["OmegaK"]
+    # OmegaLambda = 1-(OmegaK+OmegaM)
+
 
     oneSDthres = 3.53
     chi2min = np.min(chi2)
@@ -229,6 +262,37 @@ def omega_restrictions_plot():
 
     save_push(OmegaPlane, "omega_plane")
 
+def prob_plots():
+    OmegaM = Sfit["OmegaM"]
+    OmegaK = Sfit["OmegaK"]
+
+    countM, binsM = np.histogram(OmegaM, bins=150)
+    countK, binsK = np.histogram(OmegaK, bins=150)
+
+
+    sigmaM, muM = np.std(OmegaM), np.mean(OmegaM)
+    sigmaK, muK = np.std(OmegaK), np.mean(OmegaK)
+
+    gaussianM = 1/(sigmaM*np.sqrt(2*np.pi))*np.exp(-(binsM-muM)**2/(2*sigmaM**2))
+    gaussianK = 1/(sigmaK*np.sqrt(2*np.pi))*np.exp(-(binsK-muK)**2/(2*sigmaK**2))
+
+    probs, (ax1, ax2) = plt.subplots(ncols=1, nrows=2, figsize=(12,12))
+    histM = ax1.hist(binsM[:-1], binsM, weights=countM, color=Colors["hist"], label=lbls["OmegaM"], density=True)
+    ax1.plot(binsM, gaussianM, color=Colors["gaussian"])
+
+    histK = ax2.hist(binsK[:-1], binsK, weights=countK, color=Colors["hist"], label=lbls["OmegaK"], density=True)
+    ax2.plot(binsK, gaussianK, color=Colors["gaussian"])
+
+    ax1.set_title(lbls["OmegaM"])
+    ax2.set_title(lbls["OmegaK"])
+    probs.suptitle("Posterior pdfs")
+
+    l1 = ax1.legend(loc="best", fancybox=True)
+    l2 = ax2.legend(loc="best", fancybox=True)
+
+    save_push(probs, "probs_M_K.pdf")
+
+
 def posterior_pdf():
     h = Sfit["h"]
 
@@ -243,8 +307,8 @@ def posterior_pdf():
     gaussian = 1/(sigma*np.sqrt(2*np.pi))*np.exp(-(bins-mu)**2/(2*sigma**2))
 
     ppdf, ax = plt.subplots()
-    hstg = ax.hist(bins[:-1], bins, weights=counts, color=colors[-1], label="Samples", density=True)
-    ax.plot(bins, gaussian, color=colors[0], label="Fitted pdf")
+    hstg = ax.hist(bins[:-1], bins, weights=counts, color=Colors["hist"], label="Samples", density=True)
+    ax.plot(bins, gaussian, color=Colors["gaussian"], label="Fitted pdf")
     ax.set_xlabel(r"$H_0$ [km s$^{-1}$Mpc$^{-1}$]")
     ax.set_ylabel("Probability")
     ax.set_title(r"Posterior pdf of $H_0$", loc="left")
@@ -261,12 +325,13 @@ def create_table():
 
 
 if __name__=="__main__":
-    testing_Omegas()
-    testing_Hp()
-    testing_eta()
-    conformal_hubble_factor()
-    cosmic_conformal_time()
+    # testing_Omegas()
+    # testing_Hp()
+    # testing_eta()
+    # conformal_hubble_factor()
+    # cosmic_conformal_time()
     # supernova_data()
+    prob_plots()
     # omega_restrictions_plot()
-    # posterior_pdf()
+    posterior_pdf()
     # create_table()
