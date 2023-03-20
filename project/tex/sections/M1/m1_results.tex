@@ -1,10 +1,10 @@
-\subsection{Results}\label{sec:m1:results}
+\subsection{Results and discussion}\label{sec:m1:results}
 
 \subsubsection{Tests}\label{sec:m1:results:tests}
     \cref{fig:m1:omega_tests} show the evolution of the density fractions with time. They sum to one across all times which was required. At early times the radiation density dominates (orange line). The intersection between the orange and green lines mark the radiation-matter equality, after which matter is the dominating density. Likewise, the intersection between the green and purple lines mark the matter-dark energy equality, where dark energy (manifested in the cosmological constant) become the dominating density. Time can thus be divided into three regimes; radiation dominated, matter dominated, and dark energy dominated eras. 
     \begin{figure}
         \includegraphics[width=\linewidth]{testing_omegas.pdf}
-        \caption{Density fractions $\O_i$ as function of $x$. For low $x$, radiation dominates, before matter dominates and dark has just become the dominant energy density today $x=0$, and will continue to dominate into the future. The sum of densities sums to one across all times, as required.}
+        \caption{Density fractions $\O_i$ as function of $x$. For low $x$, radiation dominates, before matter dominates and dark energy has just become the dominant energy density today $x=0$, and will continue to dominate into the future. The sum of densities sums to one across all times, as required (white dotted line). The black dotted lines are the radiation-matter equality at $x=-8.13$ and the matter-dark energy equality at $x=-0.26$, both stated in \cref{tab:m1:important_values}. The domination of each regime is shown as a shaded background with similar colour as its respective graph. }
         \label{fig:m1:omega_tests}
     \end{figure}
 
@@ -12,7 +12,7 @@
 
     \begin{figure}
         \includegraphics[width=\linewidth]{eta_test.pdf}
-        \caption{Sanity check for $\eta$. $\eta\Hp/c$, in blue, is one in the radiation regime, two in the matter regime and diverging toward $+\infty$ in the dark energy regime, as expected from the analytical approximations in each regime. $(\d \eta /\d x)\Hp/c$, in green, is one throughout time, as expected from the differential equation for $\eta$.}
+        \caption{Sanity check for $\eta$. $\eta\Hp/c$, in blue, is 1 in the radiation regime, 2 in the matter regime and diverging toward $+\infty$ in the dark energy regime, as expected from the analytical approximations in each regime. Remembering that this is strictly correct only in the radiation regime explains the mismatch of the white doted line in the matter regime. $(\d \eta /\d x)\Hp/c$, in red, is 1 throughout time, as expected from the differential equation for $\eta$.}
         \label{fig:m1:eta_tests}
     \end{figure}
 
@@ -20,7 +20,7 @@
 
     \begin{figure}
         \includegraphics[width=\linewidth]{Hp_test.pdf}
-        \caption{Sanity check for $\Hp$, showing that the second derivative (blue) converge to one, one half, and one in the radiation, matter and dark energy regimes respectively. The first derivative (green) converge to negative one, negative one half and one in the same regimes, which are shown as a shaded background.}
+        \caption{Sanity check for $\Hp$, showing that the second derivative (blue) converge to the analytical expressions shown as white dotted lines in the different regimes. The first derivative (red) converge to its analytical values in the same regimes, which again are shown with a shaded colour.}
         \label{fig:m1:Hp_tests}
     \end{figure}
 
@@ -38,7 +38,7 @@
     The conformal Hubble factor, $\Hp$, is plotted against time, $x$, in \cref{fig:m1:conformal_hubble_factor_Hp}. It is decreasing in the radiation and matter regimes and increasing in the dark energy regime. Since this is a measure of the expansion of the universe, the acceleration seem to coincide with the matter-dark energy equality. 
     \begin{figure}
         \includegraphics[width=\linewidth]{conformal_hubble_factor.pdf}
-        \caption{$\Hp$ as function of $x$. It is decreasing in the radiation and matter regimes, and increasing in the dark energy regime.}
+        \caption{$\Hp$ as function of $x$. It is decreasing in the radiation and matter regimes, and increasing in the dark energy regime, tightly following its analytical approximation in each regime.}
         \label{fig:m1:conformal_hubble_factor_Hp}
     \end{figure}
 
@@ -46,7 +46,7 @@
 
     \begin{figure}
         \includegraphics[width=\linewidth]{cosmic_conformal_time.pdf}
-        \caption{Cosmic time (in blue) and conformal time (green). Cosmic times increase drastically in the dark energy regime showing a seemingly divergent behaviour. Conformal time increased in the matter regime and seem to converge in the dark energy regime.}
+        \caption{Cosmic time (in blue) and conformal time (red). \TODO{find meaning behind this plot}.}
         \label{fig:m1:cosmic_conformal_time}
     \end{figure}
 
@@ -54,7 +54,7 @@
 
     \begin{figure}
         \includegraphics[width=\linewidth]{supernova_data.pdf}
-        \caption{Luminosity distance from supernova data shown in blue, and the prediction from the model in green. Notice the $x$-axis is now the redshift $z=e^x-1$.}
+        \caption{The luminosity distance predicted using the fiducial cosmology in blue, against observations of actual supernovas in red (or rather the confidence interval of the observations). The green line is found from computing the luminosity distance using a cosmology of the best fit parameters from the supernova fitting; $h=0.702, \O_\mathrm{b0} = 0.05, \O_\mathrm{CDM0} = 0.209, \O_\mathrm{k}=0.067, N_\mathrm{eff}=3.046, T_\mathrm{CMB}=2.7255 \text{K}$. Notice the $x$-axis is now the redshift $z=e^x-1$.}
         \label{fig:m1:supernova_data}
     \end{figure}
 
@@ -66,11 +66,18 @@
         \label{fig:m1:omega_planes}
     \end{figure}
 
-    The MCMC method allow us to make a posterior probability distribution of the parameters in question. \cref{fig:m1:posterior_pdf} the distribution of the Hubble factor $H_0$ constructed from the sampled values of $h$. The actual samples are shown in green and the corresponding fitted probability distribution in blue. 
+    The MCMC method allow us to make a posterior probability distribution of the parameters in question. \cref{fig:m1:posterior_pdf_H0} the distribution of the Hubble factor $H_0$ constructed from the sampled values of $h$. The actual samples are shown in green and the corresponding fitted probability distribution in blue. 
+
+
+    \begin{figure}
+        \includegraphics[width=\linewidth]{probs_M_K.pdf}
+        \caption{Posterior probability distributions (pdfs) of $\O_mathrm{M}$ and $\O_\mathrm{k}$ as result of the MCMC sampling. The samples as shown in turquoise and the constructed pdfs in green. The mean $\mu$ is shown as a black dotted line, with the $1\sigma$ confidence interval in shaded blue ($\mu\pm 1\sigma$)}
+        \label{fig:m1:posterior_pdf_omega_m_k}
+    \end{figure}
 
     \begin{figure}
         \includegraphics[width=\linewidth]{posterior_pdf.pdf}
-        \caption{Posterior probability distribution (pdf) of $H_0$ as result of the MCMC sampling. The samples are shown in green, and the construction pdf in blue. }
-        \label{fig:m1:posterior_pdf}
+        \caption{Posterior probability distribution (pdf) of $H_0$ as result of the MCMC sampling.}
+        \label{fig:m1:posterior_pdf_H0}
     \end{figure}
 

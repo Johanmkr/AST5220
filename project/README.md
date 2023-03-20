@@ -63,15 +63,6 @@ Clean the plots generated:
 
 
  ### Milestone1
- *  Plots
-    * Show analytical values in different regimes (test plots)
-    * Conformal Hubble, show vertical lines and acc. onset. 
-    * More sensible units of conformal Hubble.
-    * COSMIC TIME -> log yaxis.
-    * ERAS -> use vertical lines
-    * Times -> update table to be more readable.
-    * Give value of 1$\sigma$ constraint.
-    * Use "fiducial cosmology" instead of prediction.
 
 * Code
     * Use OmegaM and OmegaR_tot
@@ -80,6 +71,7 @@ Clean the plots generated:
     * Write introduction
     * Write Abstract
     * Update nomenclature
+    * Make tables with fiducial cosmology and best fit cosmology
 
 * Theory
     * Use "density" instead of "density of curvatere" (only mathematical similaritites, not a real density)
@@ -89,6 +81,7 @@ Clean the plots generated:
     * Typo in eq. 19
     * Derive acceleration onset. 
     * Present sanity checks for conformal Hubble. 
+    * Cite the Planck Data in the introduction.
 
 * Sanity checks
     * Nice, use \ll as $\ll$ instead of << 
