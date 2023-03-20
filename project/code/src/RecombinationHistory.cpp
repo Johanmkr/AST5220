@@ -105,25 +105,27 @@ void RecombinationHistory::solve_number_density_electrons(){
       saha_regime = false;
   }
 
-  std::cout << "idx: " << idx << std::endl;
-  std::cout << "idx frac: " << idx/npts_rec_arrays << std::endl;
-  std::cout << "indx value: " << Xe_arr[idx] << std::endl;
-  std::cout << "prev index values: " << Xe_arr[idx-1] << std::endl;
 
 
-  // Find number of elements of origianl x_array filled by the Saha equataion
-  const int nr_elements_filled_by_Saha = idx;
+  // Find number of elements of origianl x_array filled by the Saha equataion (which are valid)
+  const int nr_elements_filled_by_Saha = idx-1;
+  int last_Saha_idx = idx-2;
+
+  std::cout << "Idx: " << idx << std::endl;
+  std::cout << "idx - 1: " << Xe_arr[idx-1] << std::endl;
+
+
 
   //  Check if we have already filled the entire array or if we have to solve Peebles.
   if(nr_elements_filled_by_Saha < npts_rec_arrays){
 
     // Make new x-array of the x-points not solved by Saha.
-    const int npts_ode_array = npts_rec_arrays-nr_elements_filled_by_Saha;
+    const int npts_ode_array = npts_rec_arrays-last_Saha_idx;
     Vector x_ode(npts_ode_array);
 
     // Fill the new x-array
     for(int i=0; i<npts_ode_array; i++){
-      x_ode[i] = x_array[idx-1+i];
+      x_ode[i] = x_array[last_Saha_idx+i];
     }
 
     // The Peebles ODE equation
@@ -132,8 +134,8 @@ void RecombinationHistory::solve_number_density_electrons(){
       return rhs_peebles_ode(x, Xe, dXedx);
     };
 
-    // Initial Xe will be the last added value from the Saha regime. 
-    double Xe_init_val = Xe_arr[idx-1];
+    // Initial Xe will be the last (valid) added value from the Saha regime. 
+    double Xe_init_val = Xe_arr[last_Saha_idx];
     Vector Xe_init_vec{Xe_init_val};
 
     // Solve the ODE
@@ -142,22 +144,56 @@ void RecombinationHistory::solve_number_density_electrons(){
     // Get resultant Xe-array (will be of length (npts_ode_array))
     auto Xe_ode = peebles_Xe_ode.get_data_by_component(0);
 
+
     // Update original Xe and ne arrays
-    for(int i=idx; i<npts_rec_arrays; i++){
+    for(int i=last_Saha_idx; i<npts_rec_arrays; i++){
       // Calculate values
       double nH_temp, Xe_temp, ne_temp;
       nH_temp = exp(-3*x_array[i])/const_nb_inv;
-      Xe_temp = Xe_ode[i-idx];
+      Xe_temp = Xe_ode[i-last_Saha_idx];
       ne_temp = Xe_temp*nH_temp;
 
       // Fill arrays
       Xe_arr[i] = Xe_temp;
       ne_arr[i] = ne_temp;
     }
+
+    std::cout << "xe ode 0 " << Xe_ode[0] << std::endl;
+    std::cout << "xe ode 1 " << Xe_ode[1] << std::endl;
+    std::cout << "xe ode 2 " << Xe_ode[2] << std::endl;
+    std::cout << "xe ode 3 " << Xe_ode[3] << std::endl;
+    std::cout << "xe ode 4 " << Xe_ode[4] << std::endl;
+    std::cout << "xe ode 5 " << Xe_ode[5] << std::endl;
+    std::cout << "xe ode 6 " << Xe_ode[6] << std::endl;
   }
   else{
     std::cout << "------ Xe-array completely filled by Saha equation. Are you sure this is correct? ------" << std::endl;
   }
+
+
+
+
+  std::cout << "last_saha_idx+10 " << Xe_arr[last_Saha_idx+10] << std::endl;
+  std::cout << "last_saha_idx+9 " << Xe_arr[last_Saha_idx+9] << std::endl;
+  std::cout << "last_saha_idx+8 " << Xe_arr[last_Saha_idx+8] << std::endl;
+  std::cout << "last_saha_idx+7 " << Xe_arr[last_Saha_idx+7] << std::endl;
+  std::cout << "last_saha_idx+6 " << Xe_arr[last_Saha_idx+6] << std::endl;
+  std::cout << "last_saha_idx+5 " << Xe_arr[last_Saha_idx+5] << std::endl;
+  std::cout << "last_saha_idx+4 " << Xe_arr[last_Saha_idx+4] << std::endl;
+  std::cout << "last_saha_idx+3 " << Xe_arr[last_Saha_idx+3] << std::endl;
+  std::cout << "last_saha_idx+2 " << Xe_arr[last_Saha_idx+2] << std::endl;
+  std::cout << "last_saha_idx+1 " << Xe_arr[last_Saha_idx+1] << std::endl;
+  std::cout << "last_saha_idx " << Xe_arr[last_Saha_idx] << std::endl;
+  std::cout << "last_saha_idx-1 " << Xe_arr[last_Saha_idx-1] << std::endl;
+  std::cout << "last_saha_idx-2 " << Xe_arr[last_Saha_idx-2] << std::endl;
+  std::cout << "last_saha_idx-3 " << Xe_arr[last_Saha_idx-3] << std::endl;
+  std::cout << "last_saha_idx-4 " << Xe_arr[last_Saha_idx-4] << std::endl;
+  std::cout << "last_saha_idx-5 " << Xe_arr[last_Saha_idx-5] << std::endl;
+  std::cout << "last_saha_idx-6 " << Xe_arr[last_Saha_idx-6] << std::endl;
+  std::cout << "last_saha_idx-7 " << Xe_arr[last_Saha_idx-7] << std::endl;
+  std::cout << "last_saha_idx-8 " << Xe_arr[last_Saha_idx-8] << std::endl;
+  std::cout << "last_saha_idx-9 " << Xe_arr[last_Saha_idx-9] << std::endl;
+  std::cout << "last_saha_idx-10 " << Xe_arr[last_Saha_idx-10] << std::endl;
   
 
   // Create new arrays containing the log of Xe and ne
@@ -218,7 +254,7 @@ int RecombinationHistory::rhs_peebles_ode(double x, const double *Xe, double *dX
   // Constants for finding RHS of peebles eq.
   const double Tb = TCMB / a;
   const double eps_tb = const_eps_tcmb * a;
-  const double alpha = c/hbar*sqrt(3*sigma_T/(8*M_PI))*m_e;
+  const double alpha = c/hbar*sqrt(3*sigma_T/(8*M_PI))*m_e; // Dimensionless fine structure constant. 
   const double H = cosmo->H_of_x(x);
 
   // Finding the terms involved in the RHS
@@ -234,6 +270,8 @@ int RecombinationHistory::rhs_peebles_ode(double x, const double *Xe, double *dX
   else{
     beta2 = beta*exp(eps_tb*3/4); // dimension 1/s
   }
+  // beta2 = beta*exp(eps_tb*3/4); // dimension 1/s
+
   const double nH = 1 / (a*a*a*const_nb_inv); // dimension 1/m^3
   const double n1s = (1-X_e)*nH; // dimension 1/m^3
   const double Lambda_alpha = 1 / (hbar*hbar*hbar*c*c*c) * H * 27 * epsilon_0*epsilon_0*epsilon_0 / (64 * M_PI * M_PI * n1s); // dimension 1/s

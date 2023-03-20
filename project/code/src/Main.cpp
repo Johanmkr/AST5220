@@ -63,7 +63,7 @@ int main(int argc, char **argv){
   // Utils::EndTiming("SupernovaFit");
 
   // Remove when module is completed
-  return 0;
+  // return 0;
 
   //=========================================================================
   // Module II
