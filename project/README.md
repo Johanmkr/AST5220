@@ -88,6 +88,7 @@ Clean the plots generated:
     * Radial distance is really the radial coordiante in the FRLW line element. 
     * Typo in eq. 19
     * Derive acceleration onset. 
+    * Present sanity checks for conformal Hubble. 
 
 * Sanity checks
     * Nice, use \ll as $\ll$ instead of << 

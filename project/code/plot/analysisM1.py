@@ -277,27 +277,41 @@ def prob_plots():
     gaussianK = 1/(sigmaK*np.sqrt(2*np.pi))*np.exp(-(binsK-muK)**2/(2*sigmaK**2))
 
     probs, (ax1, ax2) = plt.subplots(ncols=1, nrows=2, figsize=(12,12))
-    histM = ax1.hist(binsM[:-1], binsM, weights=countM, color=Colors["hist"], label=lbls["OmegaM"], density=True)
-    ax1.plot(binsM, gaussianM, color=Colors["gaussian"])
+    histM = ax1.hist(binsM[:-1], binsM, weights=countM, color=Colors["hist"], label="samples", density=True)
+    gausM, = ax1.plot(binsM, gaussianM, color=Colors["gaussian"], label="fit")
 
-    histK = ax2.hist(binsK[:-1], binsK, weights=countK, color=Colors["hist"], label=lbls["OmegaK"], density=True)
-    ax2.plot(binsK, gaussianK, color=Colors["gaussian"])
+    histK = ax2.hist(binsK[:-1], binsK, weights=countK, color=Colors["hist"], density=True)
+    gausK, = ax2.plot(binsK, gaussianK, color=Colors["gaussian"])
 
-    ax1.set_title(lbls["OmegaM"])
-    ax2.set_title(lbls["OmegaK"])
-    probs.suptitle("Posterior pdfs")
+    muMl = ax1.axvline(muM, ls="--", color="black", lw=2, label=r"$\mu$")
+    mumK = ax2.axvline(muK, ls="--", color="black", lw=2)
 
-    l1 = ax1.legend(loc="best", fancybox=True)
-    l2 = ax2.legend(loc="best", fancybox=True)
+    oneSM = ax1.fill_between(binsM, 0, gaussianM, where=sigmaM > abs(binsM-muM), color="blue", alpha=0.2, label=r"$\mu\pm 1\sigma$")
+    oneSK = ax2.fill_between(binsK, 0, gaussianK, where=sigmaK > abs(binsK-muK), color="blue", alpha=0.2)
+
+    ax1.set_xlabel(lbls["OmegaM"])
+    ax2.set_xlabel(lbls["OmegaK"])
+    ax1.set_ylabel("Probability")
+    ax2.set_ylabel("Probability")
+    ax1.text(0.45, 3, r"$\mu_M = {mu:.3f} \\ \sigma_M = {sigma:.3f}$".format(mu=muM, sigma=sigmaM))
+    ax2.text(-.9, 1, r"$\mu_K = {mu:.3f} \\ \sigma_K = {sigma:.3f}$".format(mu=muK, sigma=sigmaK))
+    probs.suptitle(r"Posterior pdf of $\Omega_M$ and $\Omega_K$", x=.1, horizontalalignment="left")
+    probs.legend(loc="center right", fancybox=True, bbox_to_anchor=[0.97, 0.90], ncol=4, fontsize=26)
+
 
     save_push(probs, "probs_M_K.pdf")
+    print(f"For OmegaM:")
+    print(f"mu = {muM:.3f}, sigma = {sigmaM:.3f}")
+    print(f"For OmegaK:")
+    print(f"mu = {muK:.3f}, sigma = {sigmaK:.3f}")
 
 
 def posterior_pdf():
     h = Sfit["h"]
 
     #   Make H0 from h
-    H0 = 100* h
+    # H0 =100 * h
+    H0 = h
 
     #create count and bins
     counts, bins = np.histogram(H0, bins=150)
@@ -309,12 +323,17 @@ def posterior_pdf():
     ppdf, ax = plt.subplots()
     hstg = ax.hist(bins[:-1], bins, weights=counts, color=Colors["hist"], label="Samples", density=True)
     ax.plot(bins, gaussian, color=Colors["gaussian"], label="Fitted pdf")
-    ax.set_xlabel(r"$H_0$ [km s$^{-1}$Mpc$^{-1}$]")
+    ax.axvline(mu, ls="--", color="black", lw=2)
+    ax.fill_between(bins, 0, gaussian, where=sigma > abs(bins-mu), color="blue", alpha=0.2)
+    ax.text(.71, 50, r"$\mu = {mu:.3f} \\ \sigma = {sigma:.3f}$".format(mu=mu, sigma=sigma))
+    ax.set_xlabel(r"$H_0$ [100 km s$^{-1}$Mpc$^{-1}$]")
     ax.set_ylabel("Probability")
     ax.set_title(r"Posterior pdf of $H_0$", loc="left")
-    l1 = ax.legend(loc="best", fancybox=True)
+    # l1 = ax.legend(loc="best", fancybox=True)
 
     save_push(ppdf, "posterior_pdf")
+    print(f"H0:")
+    print(f"mu = {mu:.3f}, sigma = {sigma:.3f}")
 
 def create_table():
     styler = ValueTab.dF.style
@@ -325,13 +344,13 @@ def create_table():
 
 
 if __name__=="__main__":
-    # testing_Omegas()
-    # testing_Hp()
-    # testing_eta()
-    # conformal_hubble_factor()
-    # cosmic_conformal_time()
-    # supernova_data()
+    testing_Omegas()
+    testing_Hp()
+    testing_eta()
+    conformal_hubble_factor()
+    cosmic_conformal_time()
+    supernova_data()
     prob_plots()
-    # omega_restrictions_plot()
+    omega_restrictions_plot()
     posterior_pdf()
     # create_table()

@@ -23,8 +23,8 @@ Colors = {
     "d_L_obs": "red",
     "d_L_fid": "blue",
     "d_L_best": "springgreen",
-    "hist": "lightsteelblue",
-    "gaussian": "blue"
+    "hist": "turquoise",
+    "gaussian": "forestgreen"
 }
 # colors = plt.cm.winter(np.linspace(0,1,5))
 CMAP = "winter"
