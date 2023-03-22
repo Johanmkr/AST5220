@@ -10,6 +10,10 @@ from astropy import units
 
 #   Colouring for cosmology project
 Colors = {
+    #   Background cosmology
+    "primary": "blue",
+    "secondary": "red",
+    "tertiary": "green",
     "OmegaRad": "orange",
     "OmegaM": "green",
     "OmegaLambda": "purple",
@@ -24,7 +28,18 @@ Colors = {
     "d_L_fid": "blue",
     "d_L_best": "springgreen",
     "hist": "turquoise",
-    "gaussian": "forestgreen"
+    "gaussian": "forestgreen",
+
+    #   Recombination
+    "Xe": "blue",
+    "XeSaha": "dodgerblue",
+    "tau": "red",
+    "dtaudx": "orangered", 
+    "ddtauddx": "orange",
+    "g": "forestgreen",
+    "dgdx": "darkgreen",
+    "ddgddx": "olive"
+
 }
 # colors = plt.cm.winter(np.linspace(0,1,5))
 CMAP = "winter"
@@ -32,7 +47,9 @@ CMAP = "winter"
 # plt.style.use('seaborn')
 plt.rc('text', usetex=True)
 plt.rc('font', family='sans-serif')
-sns.set_theme(palette="winter")
+sns.set_style("dark")
+# sns.set_context("paper")
+# sns.despine()
 
 # other rc parameters
 plt.rc('figure', figsize=(12,7))
@@ -110,12 +127,19 @@ lbls = {
     "H": r"$H$",
     "h": r"$h$",
     "t": r"$t$",
-    "z": r"$z$"
+    "z": r"$z$",
+    "Xe": r"$X_e$",
+    "tau": r"$\tau$",
+    "-dtaudx": r"$-\tau'$",
+    "ddtauddx": r"$\tau''$",
+    "g": r"$\tilde{g}$",
+    "dgdx": r"$\tilde{g}'$",
+    "ddgddx": r"$\tilde{g}''$"
 }
 
 #   Set up data class
 class Data:
-    def __init__(self, filename, skiprows=0):
+    def __init__(self, filename:str, skiprows:int=0)->None:
         if filename[-3:] == "txt":
             f = open(data_path+filename)
             header = f.readline()[1:]
@@ -156,12 +180,18 @@ class Data:
                 if item in key:
                     return self.dF[key]
     
+    def get_keys(self):
+        return self.dF.keys()[:-1]
+    
     def print_frame(self):
         print(self.dF)
 
-#   Different utility functions
-
-# def add_shaded_areas(axis):
+class Milestone:
+    def __init__(self, data:Data)->None:
+        self.data = data
+        for key in self.data.get_keys():
+            exec(f"self.{key} = self.data[key]")
+        
     
 if __name__=="__main__":
     print("Utility file only.")
