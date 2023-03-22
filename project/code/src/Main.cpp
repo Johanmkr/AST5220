@@ -76,6 +76,7 @@ int main(int argc, char **argv){
 
   // Output recombination quantities
   rec.output("data/recombination.csv");
+  rec.analysis_output("data/recomb_analysis.csv");
   
   // Remove when module is completed
   return 0;
