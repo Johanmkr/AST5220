@@ -64,9 +64,12 @@ class RecombinationHistory{
 
     // Splines contained in this class
     Spline log_Xe_of_x_spline{"Xe"};
+    Spline log_XeSaha_of_x_spline{"XeSaha"};
     Spline log_ne_of_x_spline{"ne"};
     Spline tau_of_x_spline{"tau"}; 
-    Spline g_tilde_of_x_spline{"g"};  
+    Spline dtaudx_of_x_spline{"dtaudx"};
+    Spline g_tilde_of_x_spline{"g"}; 
+    Spline dg_tildedx_of_x_spline{"dgdx"};
 
   public:
 
@@ -97,6 +100,7 @@ class RecombinationHistory{
     double dgdx_tilde_of_x(double x) const;
     double ddgddx_tilde_of_x(double x) const;
     double Xe_of_x(double x) const;
+    double XeSaha_of_x(double x) const;
     double ne_of_x(double x) const;
     double get_nb_of_x(double x) const;
     double get_nH_of_x(double x) const;

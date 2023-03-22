@@ -75,6 +75,7 @@ void RecombinationHistory::solve_number_density_electrons(){
   // DONE?
   Vector x_array = Utils::linspace(x_start, x_end, npts_rec_arrays);
   Vector Xe_arr(npts_rec_arrays);
+  Vector Xe_arr_saha(npts_rec_arrays);
   Vector ne_arr(npts_rec_arrays);
 
   // Calculate recombination history
@@ -95,6 +96,7 @@ void RecombinationHistory::solve_number_density_electrons(){
 
     // Fill Xe and ne arrays with current values
     Xe_arr[idx] = Xe_current;
+    Xe_arr_saha[idx] = Xe_current;
     ne_arr[idx] = ne_current;
 
     // Update the index count
@@ -107,26 +109,16 @@ void RecombinationHistory::solve_number_density_electrons(){
 
 
 
+
   // Find number of elements of origianl x_array filled by the Saha equataion (which are valid)
   const int nr_elements_filled_by_Saha = idx-1;
   int last_Saha_idx = idx-2;
 
-  std::cout << "Idx: " << idx << std::endl;
-  std::cout << "idx - 1: " << Xe_arr[idx-1] << std::endl;
-
-  std::cout << "last_saha_idx-1 " << Xe_arr[last_Saha_idx-1] << std::endl;
-  std::cout << "last_saha_idx-2 " << Xe_arr[last_Saha_idx-2] << std::endl;
-  std::cout << "last_saha_idx-3 " << Xe_arr[last_Saha_idx-3] << std::endl;
-  std::cout << "last_saha_idx-4 " << Xe_arr[last_Saha_idx-4] << std::endl;
-  std::cout << "last_saha_idx-5 " << Xe_arr[last_Saha_idx-5] << std::endl;
-  std::cout << "last_saha_idx-6 " << Xe_arr[last_Saha_idx-6] << std::endl;
-  std::cout << "last_saha_idx-7 " << Xe_arr[last_Saha_idx-7] << std::endl;
-  std::cout << "last_saha_idx-8 " << Xe_arr[last_Saha_idx-8] << std::endl;
-  std::cout << "last_saha_idx-9 " << Xe_arr[last_Saha_idx-9] << std::endl;
-  std::cout << "last_saha_idx-10 " << Xe_arr[last_Saha_idx-10] << std::endl;
-
-
-
+  // Fill rest with saha for comparison
+  for(int i=last_Saha_idx+1; i<npts_rec_arrays; i++){
+    auto Xe_ne_data = electron_fraction_from_saha_equation(x_array[i]);
+    Xe_arr_saha[i] = Xe_ne_data.first;
+  }
 
   //  Check if we have already filled the entire array or if we have to solve Peebles.
   if(nr_elements_filled_by_Saha < npts_rec_arrays){
@@ -170,68 +162,25 @@ void RecombinationHistory::solve_number_density_electrons(){
       ne_arr[i] = ne_temp;
     }
 
-    std::cout << "xe ode 0 " << Xe_ode[0] << std::endl;
-    std::cout << "xe ode 1 " << Xe_ode[1] << std::endl;
-    std::cout << "xe ode 2 " << Xe_ode[2] << std::endl;
-    std::cout << "xe ode 3 " << Xe_ode[3] << std::endl;
-    std::cout << "xe ode 4 " << Xe_ode[4] << std::endl;
-    std::cout << "xe ode 5 " << Xe_ode[5] << std::endl;
-    std::cout << "xe ode 6 " << Xe_ode[6] << std::endl;
   }
   else{
     std::cout << "------ Xe-array completely filled by Saha equation. Are you sure this is correct? ------" << std::endl;
-  }
-
-
-
-  std::cout << "last_saha_idx+23 " << Xe_arr[last_Saha_idx+23] << std::endl;
-  std::cout << "last_saha_idx+22 " << Xe_arr[last_Saha_idx+22] << std::endl;
-  std::cout << "last_saha_idx+21 " << Xe_arr[last_Saha_idx+21] << std::endl;
-  std::cout << "last_saha_idx+20 " << Xe_arr[last_Saha_idx+20] << std::endl;
-  std::cout << "last_saha_idx+19 " << Xe_arr[last_Saha_idx+19] << std::endl;
-  std::cout << "last_saha_idx+18 " << Xe_arr[last_Saha_idx+18] << std::endl;
-  std::cout << "last_saha_idx+17 " << Xe_arr[last_Saha_idx+17] << std::endl;
-  std::cout << "last_saha_idx+16 " << Xe_arr[last_Saha_idx+16] << std::endl;
-  std::cout << "last_saha_idx+15 " << Xe_arr[last_Saha_idx+15] << std::endl;
-  std::cout << "last_saha_idx+14 " << Xe_arr[last_Saha_idx+14] << std::endl;
-  std::cout << "last_saha_idx+13 " << Xe_arr[last_Saha_idx+13] << std::endl;
-  std::cout << "last_saha_idx+12 " << Xe_arr[last_Saha_idx+12] << std::endl;
-  std::cout << "last_saha_idx+11 " << Xe_arr[last_Saha_idx+11] << std::endl;
-  std::cout << "last_saha_idx+10 " << Xe_arr[last_Saha_idx+10] << std::endl;
-  std::cout << "last_saha_idx+9 " << Xe_arr[last_Saha_idx+9] << std::endl;
-  std::cout << "last_saha_idx+8 " << Xe_arr[last_Saha_idx+8] << std::endl;
-  std::cout << "last_saha_idx+7 " << Xe_arr[last_Saha_idx+7] << std::endl;
-  std::cout << "last_saha_idx+6 " << Xe_arr[last_Saha_idx+6] << std::endl;
-  std::cout << "last_saha_idx+5 " << Xe_arr[last_Saha_idx+5] << std::endl;
-  std::cout << "last_saha_idx+4 " << Xe_arr[last_Saha_idx+4] << std::endl;
-  std::cout << "last_saha_idx+3 " << Xe_arr[last_Saha_idx+3] << std::endl;
-  std::cout << "last_saha_idx+2 " << Xe_arr[last_Saha_idx+2] << std::endl;
-  std::cout << "last_saha_idx+1 " << Xe_arr[last_Saha_idx+1] << std::endl;
-  std::cout << "last_saha_idx " << Xe_arr[last_Saha_idx] << std::endl;
-  std::cout << "last_saha_idx-1 " << Xe_arr[last_Saha_idx-1] << std::endl;
-  std::cout << "last_saha_idx-2 " << Xe_arr[last_Saha_idx-2] << std::endl;
-  std::cout << "last_saha_idx-3 " << Xe_arr[last_Saha_idx-3] << std::endl;
-  std::cout << "last_saha_idx-4 " << Xe_arr[last_Saha_idx-4] << std::endl;
-  std::cout << "last_saha_idx-5 " << Xe_arr[last_Saha_idx-5] << std::endl;
-  std::cout << "last_saha_idx-6 " << Xe_arr[last_Saha_idx-6] << std::endl;
-  std::cout << "last_saha_idx-7 " << Xe_arr[last_Saha_idx-7] << std::endl;
-  std::cout << "last_saha_idx-8 " << Xe_arr[last_Saha_idx-8] << std::endl;
-  std::cout << "last_saha_idx-9 " << Xe_arr[last_Saha_idx-9] << std::endl;
-  std::cout << "last_saha_idx-10 " << Xe_arr[last_Saha_idx-10] << std::endl;
-
-
+  
 
   // Create new arrays containing the log of Xe and ne
   Vector log_Xe_arr(npts_rec_arrays);
+  Vector log_XeSaha_arr(npts_rec_arrays);
   Vector log_ne_arr(npts_rec_arrays);
 
   for(int i=0; i<npts_rec_arrays; i++){
     log_Xe_arr[i] = log(Xe_arr[i]);
+    log_XeSaha_arr[i] = log(Xe_arr_saha[i]);
     log_ne_arr[i] = log(ne_arr[i]);
   }
 
   // Make splines of the result
   log_Xe_of_x_spline.create(x_array, log_Xe_arr, "Xe");
+  log_XeSaha_of_x_spline.create(x_array, log_XeSaha_arr, "XeSaha");
   log_ne_of_x_spline.create(x_array, log_ne_arr, "ne");
 
   Utils::EndTiming("Xe");
@@ -254,8 +203,7 @@ std::pair<double,double> RecombinationHistory::electron_fraction_from_saha_equat
   double Tb = cosmo->get_TCMB(x);
   double nb = get_nb_of_x(x);
 
-  double b = 1./nb * std::pow(k_b*m_e*Tb/(2.*M_PI*hbar*hbar), 1.5) * exp(-epsilon_0/Tb);
-  std::cout<< b<< std::endl;
+  double b = 1./nb * std::pow(k_b*m_e*Tb/(2.0*M_PI*hbar*hbar), 1.5) * exp(-epsilon_0/(k_b*Tb));
   if(b>1e7)
     Xe = 1.0;
   else{
@@ -299,14 +247,14 @@ int RecombinationHistory::rhs_peebles_ode(double x, const double *Xe, double *dX
 
   // Constants for finding RHS of peebles eq.
   const double Tb = cosmo->get_TCMB(x);
-  const double eps_tb = epsilon_0/Tb;
+  const double eps_tb = epsilon_0/(k_b*Tb);
   const double alpha = c/hbar*sqrt(3.0*sigma_T/(8.0*M_PI))*m_e; // Dimensionless fine structure constant. 
   const double H = cosmo->H_of_x(x);
 
   // Finding the terms involved in the RHS
   const double phi2 = 0.448 * log(eps_tb); // dimensionless
   const double alpha2 = hbar*hbar/c*64.0*M_PI*alpha*alpha*phi2 / (m_e * m_e) * sqrt(eps_tb/(27.0*M_PI)); // dimension m^3/s
-  const double beta = alpha2* std::pow(k_b*m_e*Tb/(2.0*M_PI), 1.5) * exp(-eps_tb);
+  const double beta = alpha2* std::pow(k_b*m_e*Tb/(2.0*M_PI*hbar*hbar), 1.5) * exp(-eps_tb);
   double beta2; // dimension 1/s
 
   // Checking for large exponent to avoid overflow
@@ -408,8 +356,15 @@ void RecombinationHistory::solve_for_optical_depth_tau(){
     tau_vec[i] = tau_vec_inv[npts-1-i];
   }
 
-  // spline the result
+  // Generate dtaudx
+  Vector dtau_vec(npts);
+  for(int i=0;i<npts;i++){
+    dtau_vec[i] = -c*ne_of_x(x_array_tau[i])*sigma_T / (cosmo->H_of_x(x_array_tau[i]));
+  }
+
+  // spline the results
   tau_of_x_spline.create(x_array_tau, tau_vec, "tau");
+  dtaudx_of_x_spline.create(x_array_tau, dtau_vec, "dtaudx");
 
 
   //=============================================================================
@@ -425,13 +380,23 @@ void RecombinationHistory::solve_for_optical_depth_tau(){
   //...
   //...
 
+  // Generate gtilde
   Vector g_tilde(npts);
   for(int i=0;i<npts;i++){
     double const x_loc = x_array_tau[i];
     g_tilde[i] = -dtaudx_of_x(x_loc) * exp(-tau_of_x(x_loc));
   }
 
+
+  // Generate dgtildedx
+  Vector dg_tildedx(npts);
+  for(int i=0;i<npts;i++){
+    double x = x_array_tau[i];
+    dg_tildedx[i] = exp(-tau_of_x(x)) * (dtaudx_of_x(x)*dtaudx_of_x(x) - ddtauddx_of_x(x));
+  }
+  
   g_tilde_of_x_spline.create(x_array_tau, g_tilde, "g");
+  dg_tildedx_of_x_spline.create(x_array_tau, dg_tildedx, "dgdx");
 
 
 
@@ -463,7 +428,7 @@ double RecombinationHistory::dtaudx_of_x(double x) const{
   //...
   //...
 
-  return tau_of_x_spline.deriv_x(x);
+  return dtaudx_of_x_spline(x);
 }
 
 double RecombinationHistory::ddtauddx_of_x(double x) const{
@@ -474,7 +439,7 @@ double RecombinationHistory::ddtauddx_of_x(double x) const{
   //...
   //...
 
-  return tau_of_x_spline.deriv_xx(x);
+  return dtaudx_of_x_spline.deriv_x(x);
 }
 
 double RecombinationHistory::g_tilde_of_x(double x) const{
@@ -489,7 +454,7 @@ double RecombinationHistory::dgdx_tilde_of_x(double x) const{
   //...
   //...
 
-  return g_tilde_of_x_spline.deriv_x(x);
+  return dg_tildedx_of_x_spline(x);
 }
 
 double RecombinationHistory::ddgddx_tilde_of_x(double x) const{
@@ -500,11 +465,15 @@ double RecombinationHistory::ddgddx_tilde_of_x(double x) const{
   //...
   //...
 
-  return g_tilde_of_x_spline.deriv_xx(x);
+  return dg_tildedx_of_x_spline.deriv_x(x);
 }
 
 double RecombinationHistory::Xe_of_x(double x) const{
   return exp(log_Xe_of_x_spline(x));
+}
+
+double RecombinationHistory::XeSaha_of_x(double x) const{
+  return exp(log_XeSaha_of_x_spline(x));
 }
 
 double RecombinationHistory::ne_of_x(double x) const{
@@ -542,12 +511,13 @@ void RecombinationHistory::output(const std::string filename) const{
   const double x_min   = -12.0;
   const double x_max   = 0;
 
-  fp << "  x  , " << "   Xe  , " << "  ne   , " << " tau  , " << "  dtaudx    , " << " ddtauddx  , " << "  g    , " << "    dgdx  , " <<  "  ddgddx   ," << "\n";
+  fp << "  x  , " << "   Xe  , " << " XeSaha  , " << "  ne   , " << " tau  , " << "  dtaudx    , " << " ddtauddx  , " << "  g    , " << "    dgdx  , " <<  "  ddgddx   ," << "\n";
 
   Vector x_array = Utils::linspace(x_min, x_max, npts);
   auto print_data = [&] (const double x) {
     fp << x                    << " , ";
     fp << Xe_of_x(x)           << " , ";
+    fp << XeSaha_of_x(x)       << " , ";
     fp << ne_of_x(x)           << " , ";
     fp << tau_of_x(x)          << " , ";
     fp << dtaudx_of_x(x)       << " , ";
