@@ -29,6 +29,7 @@ Colors = {
     "d_L_best": "springgreen",
     "hist": "turquoise",
     "gaussian": "forestgreen",
+    "analytical": "chocolate",
 
     #   Recombination
     "Xe": "blue",
@@ -47,7 +48,7 @@ CMAP = "winter"
 # plt.style.use('seaborn')
 plt.rc('text', usetex=True)
 plt.rc('font', family='sans-serif')
-sns.set_style("dark")
+sns.set_style("ticks")
 # sns.set_context("paper")
 # sns.despine()
 
@@ -67,9 +68,9 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 plt.rc('lines', linewidth=3)
 
 # Visual parameters for saving/showing
-SAVE = False
+SAVE = True
 PUSH = False
-SHOW = True
+SHOW = False
 TIGHT = True
 
 # folder paths

@@ -41,20 +41,25 @@
 
     \TODO{Describe the above equations slightly}
 
-    We find by $X_e$ by solving ~\cref{eq:m2:theory:Saha_equation} for $X_e > (1-\xi)$ and ~\cref{eq:m2:theory:peebles_equation} for $X_e < (1-\xi)$. In theory, it is possible to solve the Peebles equation at very early times, but the equation is very stiff resulting in unstable numerical solutions at early times (high temperatures).
-    \TODO{Explain why, difficult to integrate Peebles at early times etc. }
+    We find $X_e$ by solving ~\cref{eq:m2:theory:Saha_equation} for $X_e > (1-\xi)$ and ~\cref{eq:m2:theory:peebles_equation} for $X_e < (1-\xi)$. In theory, it is possible to solve the Peebles equation at very early times, but the equation is very stiff resulting in unstable numerical solutions at early times (high temperatures), hence the Saha approximation.
 
-\subsubsection{Optical depth $\tau$}\label{sec:m2:theory:optical_depth}
+\subsubsection{Optical depth $\tau$, and visibility function $\tilde{g}$}\label{sec:m2:theory:optical_depth}
     The optical depth as a function of conformal time is defines as \cite{AST5220LectureNotes}:
     \begin{equation}\label{eq:m2:theory:optical_depth}
         \tau = \int_\eta^{\eta_0} n_e\sigma_\mathrm{T}\expe{-x}\d\eta',
     \end{equation}
-    where $n_e$ is the electron density and $\sigma_\mathrm{T}$ is the Thompson cross-section. From this we define the visibility function, $g$:
-    \begin{equation}
+    where $n_e$ is the electron density and $\sigma_\mathrm{T}$ is the Thompson cross-section. In differential form, restoring original units, this is:
+    \begin{equation}\label{eq:m2:theory:optical_depth_differential}
+        \dv{\tau}{x} = -\frac{cn_e\sigma_T}{H}.    
+    \end{equation} 
+    From this we define the visibility function, $g$:
+    \begin{equation}\label{eq:m2:theory:visibility_function}
         \begin{split}
             g &= -\dv{\tau}{\eta}\expe{-\tau} = -\Hp\dv{\tau}{x}\expe{-\tau}\\
             \tilde{g} &\equiv -\dv{\tau}{x}\expe{-\tau} = \frac{g}{\Hp},
         \end{split}
     \end{equation}
-    where $\tilde{g}$ is in terms of the preferred time variable, $x$. So far, so good, but in order to find $\tilde{g}$ we need $\tau$, which again require $n_e$, which is not trivial to find, since the electron density changes throughout the evolution of the universe.
-    
+    where $\tilde{g}$ is in terms of the preferred time variable, $x$. Notable thing about the visibility function $\tilde{g}$ is that it is a true probability distribution, describing the probability density of some photon to last have scattered at time $x$. Because of this, we have that $\int_{-\infty}^0\tilde{g}(x)\d x = 1$. We also take note of the derivative of the visibility function:
+    \begin{equation}\label{eq:m2:theory:visibility_function_deriv}
+        \dv{\tilde{g}}{x} = e^{-\tau}\left[\left(\dv{\tau}{x}\right)^2-\dv[2]{\tau}{x}\right]
+    \end{equation}

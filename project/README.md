@@ -102,7 +102,7 @@ Clean the plots generated:
 
 
 ### Milestone 2
-* Start
+* Derive Saha and Peebles in appendix.
 
 
  ## Questions

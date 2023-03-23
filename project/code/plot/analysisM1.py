@@ -47,10 +47,12 @@ def testing_Omegas():
     ax1.plot(xvals, OmegaRad, label=r"$\Omega_\mathrm{rad}$", color=Colors["OmegaRad"])
     ax1.plot(xvals, OmegaM, label=r"$\Omega_\mathrm{M}$", color=Colors["OmegaM"])
     ax1.plot(xvals, Cosmology["OmegaLambda"], label=r"$\Omega_\Lambda$", color=Colors["OmegaLambda"])
-    ax1.plot(xvals, Cosmology["OmegaLambda"]+OmegaRad+OmegaM, label="Sum", ls="--", color="white", lw=2)
+    ax1.plot(xvals, Cosmology["OmegaLambda"]+OmegaRad+OmegaM, label="Sum", ls="--", color=Colors["analytical"], lw=2)
     ax1.set_xlabel(r"$x$")
     ax1.set_title(r"Density fractions $\Omega_X$", loc="left")
     ax1.legend(loc='center left', ncol=1, fancybox=True)
+    ax1.minorticks_on()
+
     
     regimes = set_regimes(ax1)
     save_push(omegaFig, "testing_omegas")
@@ -75,18 +77,20 @@ def testing_Hp():
 
     #   adding the analytical values
     #   for double deriv
-    ax1.hlines(1, x_min, x_RM, color="snow", ls="--", lw=2)
-    ax1.hlines(1/4, x_RM, x_ML, color="snow", ls="--", lw=2)
-    ax1.hlines(1, x_ML, x_max, color="snow", ls="--", lw=2)
+    ax1.hlines(1, x_min, x_RM, color=Colors["analytical"], ls="--", lw=2)
+    ax1.hlines(1/4, x_RM, x_ML, color=Colors["analytical"], ls="--", lw=2)
+    ax1.hlines(1, x_ML, x_max, color=Colors["analytical"], ls="--", lw=2)
 
     #   for single deriv
-    ax1.hlines(-1, x_min, x_RM, color="snow", ls="--", lw=2)
-    ax1.hlines(-1/2, x_RM, x_ML, color="snow", ls="--", lw=2)
+    ax1.hlines(-1, x_min, x_RM, color=Colors["analytical"], ls="--", lw=2)
+    ax1.hlines(-1/2, x_RM, x_ML, color=Colors["analytical"], ls="--", lw=2)
     # ax1.hlines(1, x_ML, x_max, color="white", ls="--")
     
     ax1.set_title(r"Sanity check of $\mathcal{H}(x)$", loc="left")
     ax1.set_xlabel(r"$x$")
     legend1 = ax1.legend([line1, line2], [line1.get_label(), line2.get_label()], loc="center left", fancybox=True)
+    ax1.minorticks_on()
+
 
     # legend2 = HpFig.legend([rad_area, mat_area, lam_area], [rad_area.get_label(), mat_area.get_label(), lam_area.get_label()], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
     legend2 = HpFig.legend(regimes, [regime.get_label() for regime in regimes], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
@@ -112,8 +116,8 @@ def testing_eta():
     regimes = set_regimes(ax1, borders=False)
 
     #   Adding analytical solutions
-    ax1.hlines(1, x_min, x_RM, color="snow", ls="--", lw=2)
-    ax1.hlines(2, x_RM, x_ML, color="snow", ls="--", lw=2)
+    ax1.hlines(1, x_min, x_RM, color=Colors["analytical"], ls="--", lw=2)
+    ax1.hlines(2, x_RM, x_ML, color=Colors["analytical"], ls="--", lw=2)
     # ax1.axvline(x_ML, color="snow", lw=2, ls="--")
 
     rad_area = ax1.axvspan(x_min, x_RM-tol, color=Colors["OmegaRad"], alpha=.1, label=r"$\Omega_\mathrm{rad}$")
@@ -126,6 +130,7 @@ def testing_eta():
     legend2 = etaFig.legend(regimes, [regime.get_label() for regime in regimes], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
 
 
+    ax1.minorticks_on()
 
     save_push(etaFig, "eta_test")
 
@@ -148,9 +153,9 @@ def conformal_hubble_factor():
     ax.axvline(x_accel_start, color="black", ls="--", label="Accel. start")
 
     #   Plot analytical solutions in regimes
-    ax.plot(xvals_rad, rad_anal, color="snow", ls="--", lw=2)
-    ax.plot(xvals_mat, mat_anal, color="snow", ls="--", lw=2)
-    ax.plot(xvals_lam, lam_anal, color="snow", ls="--", lw=2)
+    ax.plot(xvals_rad, rad_anal, color=Colors["analytical"], ls="--", lw=2)
+    ax.plot(xvals_mat, mat_anal, color=Colors["analytical"], ls="--", lw=2)
+    ax.plot(xvals_lam, lam_anal, color=Colors["analytical"], ls="--", lw=2)
 
 
     ax.set_xlabel(lbls["x"])
@@ -165,6 +170,7 @@ def conformal_hubble_factor():
     # rad_area = ax1.axvspan(x_min, x_RM-tol, color=Colors["OmegaRad"], alpha=.1, label=r"$\Omega_\mathrm{rad}$")
     # mat_area = ax1.axvspan(x_RM+tol, x_ML-tol, color=Colors["OmegaM"], alpha=.1, label=r"$\Omega_\mathrm{M}$")
     # lam_area = ax1.axvspan(x_ML+tol, x_max, color=Colors["OmegaLambda"], alpha=.1, label=r"$\Omega_\Lambda$")
+    ax.minorticks_on()
 
     save_push(chf, "conformal_hubble_factor")
 
@@ -188,6 +194,8 @@ def cosmic_conformal_time():
     ax.legend(loc="best", fancybox=True)
     regimes = set_regimes(ax, borders=False)
     ax.set_yscale("log")
+    ax.minorticks_on()
+
     save_push(ct, "cosmic_conformal_time")
 
 
@@ -218,7 +226,9 @@ def supernova_data():
     ax.set_xlabel(lbls["z"])
     ax.set_ylabel(r"$d_L/z$" + " [Gpc]")
     ax.set_title(r"Luminosity distance $d_L$", loc="left")
-    ax.legend(loc="upper left", fancybox=True)    
+    ax.legend(loc="upper left", fancybox=True)  
+    ax.minorticks_on()
+
     
     save_push(sdFig, "supernova_data")
 
@@ -258,6 +268,8 @@ def omega_restrictions_plot():
     ax.set_ylim(.2,1)
     ax.set_xlim(0,0.6)
     ax.set_title(r"$1\sigma$ confidence plot of $(\Omega_M \;\mathrm{x}\; \Omega_\Lambda)$", loc="left")
+    ax.minorticks_on()
+
     # fig.savefig(plot_path+"omega_restrictions.pdf", bbox_inches=None)
 
     save_push(OmegaPlane, "omega_plane")
@@ -297,6 +309,8 @@ def prob_plots():
     ax2.text(-.9, 1, r"$\mu_K = {mu:.3f} \\ \sigma_K = {sigma:.3f}$".format(mu=muK, sigma=sigmaK))
     probs.suptitle(r"Posterior pdf of $\Omega_M$ and $\Omega_K$", x=.1, horizontalalignment="left")
     probs.legend(loc="center right", fancybox=True, bbox_to_anchor=[0.97, 0.90], ncol=4, fontsize=26)
+    ax1.minorticks_on()
+
 
 
     save_push(probs, "probs_M_K.pdf")
@@ -329,6 +343,8 @@ def posterior_pdf():
     ax.set_xlabel(r"$H_0$ [100 km s$^{-1}$Mpc$^{-1}$]")
     ax.set_ylabel("Probability")
     ax.set_title(r"Posterior pdf of $H_0$", loc="left")
+    ax.minorticks_on()
+
     # l1 = ax.legend(loc="best", fancybox=True)
 
     save_push(ppdf, "posterior_pdf")
