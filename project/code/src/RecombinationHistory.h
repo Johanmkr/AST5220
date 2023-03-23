@@ -27,7 +27,8 @@ class RecombinationHistory{
   
     // Xe for when to switch between Saha and Peebles
     const double Xe_saha_limit = 0.99;
-
+    double toGyr = 1/(1e9*365*24*60*60);  // Conversion from [s] to [Gyr]
+    double toMyr = 1/(1e6*365*24*60*60);  // Conversion from [s] to [Myr]
     // Constants from cosmology class
     double OmegaB; 
     double TCMB;
@@ -96,6 +97,8 @@ class RecombinationHistory{
     void output(const std::string filename) const;
 
     void analysis_output(const std::string filename) const;
+    // void recombination(const std::string filename) const;
+
 
 
     // Get functions that we must implement

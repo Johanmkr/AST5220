@@ -3,6 +3,10 @@ from plot_utils import *
 class Recombination(Milestone):
     def __init__(self, data:Data)->None:
         super().__init__(data)
+        self.AnalData = Data("recomb_analysis.csv")
+        self.x_LS, self.x_rec, self.x_recSaha = self.AnalData["x"][0], self.AnalData["x"][1], self.AnalData["x"][2]
+        # self.t_LS, self.t_rec, self.t_recSaha = self.AnalData["t"][0], self.AnalData["t"][1], self.AnalData["t"][2]
+        # self.r_s_LS, self.r_s_rec, self.r_s_recSaha = self.AnalData["r_s"][0], self.AnalData["r_s"][1], self.AnalData["r_s"][2]
 
     def plot_Xe(self)->None:
         XeFig, ax = plt.subplots()
@@ -15,7 +19,7 @@ class Recombination(Milestone):
         SahaLine, = ax.plot(self.x, self.XeSaha, color=Colors["XeSaha"], ls="dashed", lw=2)
         SahaLine.set_label("Saha")
 
-        # misc
+        # Misc
         ax.set_xlim(-8,-4)
         ax.set_ylim(0.0001, 1.2)
         ax.set_yscale("log")
@@ -23,7 +27,13 @@ class Recombination(Milestone):
         ax.set_ylabel(lbls["Xe"])
         ax.set_title(r"Free electron fraction, $X_e$", loc="left")
 
+        # Plot lines
+        ax.axvline(self.x_rec, lw=2, ls="dashdot", color="black", label="Recombination")
+        ax.axvline(self.x_recSaha, lw=2, ls="dotted", color="black", label="Saha recombination")
+        ax.axhline(self.Xe[np.argmin(np.abs(self.x))], lw=2, ls="dashed", color="chocolate", label="Freeze out")
+
         # Make legend
+        ax.minorticks_on()
         L1 = ax.legend(loc="best", fancybox=True)
         
         # Make self variable and create plot
@@ -37,6 +47,7 @@ class Recombination(Milestone):
         tau, = ax.plot(self.x, self.tau, label=lbls["tau"], color=Colors["tau"])
         dtau, = ax.plot(self.x, -self.dtaudx, label=lbls["-dtaudx"], color=Colors["dtaudx"], ls="dashed", lw=2)
         ddtau, = ax.plot(self.x, self.ddtauddx, label=lbls["ddtauddx"], color=Colors["ddtauddx"], ls="dashdot", lw=2)
+        lines = [tau, dtau, ddtau]
 
         # Titles
         ax.set_title(r"Optical depth, $\tau$", loc="left")
@@ -47,9 +58,12 @@ class Recombination(Milestone):
         ax.set_yscale("log")
         ax.set_xlim(-10,-4)
         ax.set_ylim(1e-5, 1e5)
+        lsline = ax.axvline(self.x_LS, lw=2, ls="dashed", color="black", label="Last scattering")
 
         # Make legend
-        L1 = ax.legend(loc="best", fancybox=True)
+        ax.minorticks_on()
+        L1 = ax.legend(lines, [line.get_label() for line in lines], loc="best", fancybox=True)
+        L2 = fig.legend([lsline], ["Last Scattering"], loc="upper right", fancybox=True)
 
         # Make self variable and create plot
         self.TauFig = fig
@@ -62,6 +76,7 @@ class Recombination(Milestone):
         g, = ax.plot(self.x, self.g/np.abs(self.g).max(), label=lbls["g"], color=Colors["g"])
         dg, = ax.plot(self.x, self.dgdx/np.abs(self.dgdx).max(), label=lbls["dgdx"], color=Colors["dgdx"], ls="dashed", lw=2)
         ddg, = ax.plot(self.x, self.ddgddx/np.abs(self.ddgddx).max(), label=lbls["ddgddx"], color=Colors["ddgddx"], ls="dashdot", lw=2)
+        lines = [g, dg, ddg]
 
         # Titles
         ax.set_xlabel(lbls["x"])
@@ -69,13 +84,24 @@ class Recombination(Milestone):
 
         # Misc
         ax.set_xlim(-7.5,-6)
+        lsline = ax.axvline(self.x_LS, lw=2, ls="dashed", color="black")
+
 
         # Make legend
-        L1 = ax.legend(loc="best", fancybox=True)
+        ax.minorticks_on()
+        L1 = ax.legend(lines, [line.get_label() for line in lines], loc="upper right", fancybox=True)
+        L2 = fig.legend([lsline], ["Last Scattering"], loc="upper right", fancybox=True)
 
         # Make self variable and create plot
         self.GFig = fig
         save_push(self.GFig, "visibility_function")
+
+    def make_table(self)->None:
+        styler = self.AnalData.dF.style
+        styler.format({"x": '{:.2f}', "z": '{:.2f}', "t [Myr]": '{:.3f}', "r_s [Gyr]": '{:.1f}'})
+        styler.hide(axis="index")
+        styler.hide_columns([self.AnalData.dF.keys()[-1]])
+        styler.to_latex(latex_path + "recomb_analysis.tex")
 
 
     def make_plots(self):
@@ -87,68 +113,8 @@ class Recombination(Milestone):
 
 
 
-
-# def plot_Xe():
-#     xvals = Recombination["x"]
-#     Xe_vals = Recombination["Xe"]
-
-#     Xe, ax = plt.subplots()
-#     ax.plot(xvals, Xe_vals)
-#     ax.set_yscale("log")
-#     ax.set_xlim(-12,0)
-
-#     save_push(Xe, "Xe_electron_fraction")
-
-
-
-# def plot_tau():
-#     xvals = Recombination["x"]
-#     tau_vals = Recombination["tau"]
-#     dtauvals = Recombination["dtaudx"]
-#     ddtauvals = Recombination["ddtauddx"]
-
-
-#     Tau, ax = plt.subplots()
-#     ax.plot(xvals, tau_vals, color="blue", label="tau")
-#     ax.plot(xvals, -dtauvals, color="red", label="dtau")
-#     ax.plot(xvals, ddtauvals, color="green", label="ddtau")
-#     ax.set_yscale("log")
-#     ax.set_xlim(-12,0)
-
-
-#     ax.legend(loc="best")
-
-#     save_push(Tau, "tau_of_x")
-
-# def plot_g():
-#     xvals = Recombination["x"]
-#     g_vals = Recombination["g"]
-#     dgvals = Recombination["dgdx"]
-#     ddgvals = Recombination["ddgddx"]
-#     # embed()
-
-#     G1, ax1 = plt.subplots()
-#     ax1.plot(xvals, g_vals, color="blue", label="g")
-#     ax1.set_xlim(-12,0)
-#     ax1.legend()
-#     save_push(G1, "g_of_x")
-
-#     G2, ax2 = plt.subplots()
-#     ax2.plot(xvals, dgvals, color="blue", label="dgdx")
-#     ax2.set_xlim(-12,0)
-#     ax2.legend()
-#     save_push(G2, "dg_of_x")
-
-#     G3, ax3 = plt.subplots()
-#     ax3.plot(xvals, ddgvals, color="blue", label="ddgddx")
-#     ax3.set_xlim(-12,0)
-#     ax3.legend()
-#     save_push(G3, "ddg_of_x")
-
-
 if __name__=="__main__":
-    # plot_Xe()
-    # plot_tau()
-    # plot_g()
     Rec = Recombination(Data("recombination.csv"))
     Rec.make_plots()
+    # Rec.make_table()
+    # print(Rec.AnalData)

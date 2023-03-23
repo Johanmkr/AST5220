@@ -52,6 +52,7 @@ void RecombinationHistory::solve(){
    
   // Compute and spline tau, dtaudx, ddtauddx, g, dgdx, ddgddx, ...
   solve_for_optical_depth_tau();
+  solve_for_sound_horizon();
 }
 
 void RecombinationHistory::solve_number_density_electrons(){
@@ -366,7 +367,7 @@ double RecombinationHistory::get_R_of_x(double x) const{
 }
 
 double RecombinationHistory::get_cs_of_x(double x) const{
-  double const R = get_R_of_x(x);
+  double R = get_R_of_x(x);
   return c*sqrt(R/(3*(1+R)));
 }
 
@@ -383,7 +384,9 @@ double RecombinationHistory::get_Yp() const{
 //====================================================
 void RecombinationHistory::info() const{
   std::cout << "\n";
+  std::cout << "==================================================\n";
   std::cout << "Info about recombination/reionization history class:\n";
+  std::cout << "==================================================\n";
   std::cout << "Yp:          " << Yp          << "\n";
   std::cout << std::endl;
 } 
@@ -436,7 +439,6 @@ void RecombinationHistory::analysis_output(const std::string filename) const{
   }
 
   // Find out when recombination happened: Xe=0.1
-
   double Xe_min, XeSaha_min, x_rec, x_recSaha;
   x_rec = x_recSaha = x_array[0];
   Xe_min = Xe_of_x(x_rec);
@@ -456,10 +458,53 @@ void RecombinationHistory::analysis_output(const std::string filename) const{
       XeSaha_min = XeSaha_of_x(x_recSaha);
     }
   }
-  std::cout << "tau min: "<<tau_min<< "    "<<"x_LS: "<< x_LS<<std::endl;
-  std::cout << "Xe min: "<<Xe_min<< "    "<<"x_rec: "<< x_rec<<std::endl;
-  std::cout << "XeSaha min: "<<XeSaha_min<< "    "<<"x_recSaha: "<< x_recSaha<<std::endl;
+  // std::cout << "tau min: "<<tau_min<< "    "<<"x_LS: "<< x_LS<<std::endl;
+  // std::cout << "Xe min: "<<Xe_min<< "    "<<"x_rec: "<< x_rec<<std::endl;
+  // std::cout << "XeSaha min: "<<XeSaha_min<< "    "<<"x_recSaha: "<< x_recSaha<<std::endl;
 
+  //  Get last scattering times
+  double t_LS = cosmo->get_t_of_x(x_LS);
+  double z_LS = cosmo->get_z_of_x(x_LS);
+
+  //  Get recombination times
+  double t_rec = cosmo->get_t_of_x(x_rec);
+  double z_rec = cosmo->get_z_of_x(x_rec);
+
+  //  Get Saha recombination times
+  double t_recSaha = cosmo->get_t_of_x(x_recSaha);
+  double z_recSaha = cosmo->get_z_of_x(x_recSaha);
+
+  //  Get the sound horizons
+  double rs_LS = get_s_of_x(x_LS);
+  double rs_rec = get_s_of_x(x_rec);
+  double rs_recSaha = get_s_of_x(x_recSaha);
+
+  double freeze_out = Xe_of_x(0);
+  double freeze_outSaha = XeSaha_of_x(0);
+
+  std::cout <<"\n";
+  std::cout << "==================================================\n";
+  std::cout << "Analysis of recombination class: \n";
+  std::cout << "==================================================\n";
+  std::cout << "Phenomenon      " << "    x    " << "    z     "  << "     t  [Myr]" << "     r_s [Gyr] " << "\n";
+  std::cout << "Last scattering " << x_LS << "  " << z_LS << "  " << t_LS*toMyr <<  "  " << rs_LS*toGyr << "\n";
+  std::cout << "Recombination   " << x_rec << "  " << z_rec <<"  " << t_rec*toMyr <<  "  " << rs_rec*toGyr << "\n";
+  std::cout << "Saha recomb     " << x_recSaha << "  " << z_recSaha <<"  " << t_recSaha*toMyr <<  "  " << rs_recSaha*toGyr << "\n";
+  std::cout << "Freeze out      " << freeze_out <<"\n";
+  std::cout << "Freeze out Saha " << freeze_outSaha << "\n";
+  std::cout << std::endl;
+
+  // write to file
+  std::ofstream fp(filename.c_str());
+  fp << "Phenomenon  " << ",";
+  fp << "    x       " << ",";
+  fp << "    z       " << ",";
+  fp << "    t [Myr] " << ",";
+  fp << "   r_s [Gyr]" << ",";
+  fp << "\n";
+  fp << "Last scattering " << " , " << x_LS << " , " << z_LS << " , " << t_LS*toMyr <<  " , " << rs_LS*toGyr <<" , " << "\n";
+  fp << "Recombination   " << " , " << x_rec << " , " << z_rec << " , " << t_rec*toMyr <<  " , " << rs_rec*toGyr <<" , " << "\n";
+  fp << "Saha            " << " , " << x_recSaha << " , " << z_recSaha << " , " << t_recSaha*toMyr << " , " << rs_recSaha*toGyr << " , " <<"\n";
 
 }
 
