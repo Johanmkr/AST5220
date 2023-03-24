@@ -363,7 +363,7 @@ double RecombinationHistory::get_nH_of_x(double x) const{
 }
 
 double RecombinationHistory::get_R_of_x(double x) const{
-  return 4.0*cosmo->get_OmegaR() / (3.0 * cosmo->get_OmegaB()) * exp(-x);
+  return 4.0*cosmo->get_OmegaR(x) / (3.0 * cosmo->get_OmegaB(x)) * exp(-x);
 }
 
 double RecombinationHistory::get_cs_of_x(double x) const{
