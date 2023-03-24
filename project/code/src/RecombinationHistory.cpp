@@ -486,10 +486,10 @@ void RecombinationHistory::analysis_output(const std::string filename) const{
   std::cout << "==================================================\n";
   std::cout << "Analysis of recombination class: \n";
   std::cout << "==================================================\n";
-  std::cout << "Phenomenon      " << "    x    " << "    z     "  << "     t  [Myr]" << "     r_s [Gyr] " << "\n";
-  std::cout << "Last scattering " << x_LS << "  " << z_LS << "  " << t_LS*toMyr <<  "  " << rs_LS*toGyr << "\n";
-  std::cout << "Recombination   " << x_rec << "  " << z_rec <<"  " << t_rec*toMyr <<  "  " << rs_rec*toGyr << "\n";
-  std::cout << "Saha recomb     " << x_recSaha << "  " << z_recSaha <<"  " << t_recSaha*toMyr <<  "  " << rs_recSaha*toGyr << "\n";
+  std::cout << "Phenomenon      " << "    x    " << "    z     "  << "     t  [Myr]" << "     r_s [Mpc] " << "\n";
+  std::cout << "Last scattering " << x_LS << "  " << z_LS << "  " << t_LS*toMyr <<  "  " << rs_LS*toMpc << "\n";
+  std::cout << "Recombination   " << x_rec << "  " << z_rec <<"  " << t_rec*toMyr <<  "  " << rs_rec*toMpc << "\n";
+  std::cout << "Saha recomb     " << x_recSaha << "  " << z_recSaha <<"  " << t_recSaha*toMyr <<  "  " << rs_recSaha*toMpc << "\n";
   std::cout << "Freeze out      " << freeze_out <<"\n";
   std::cout << "Freeze out Saha " << freeze_outSaha << "\n";
   std::cout << std::endl;
@@ -500,11 +500,11 @@ void RecombinationHistory::analysis_output(const std::string filename) const{
   fp << "    x       " << ",";
   fp << "    z       " << ",";
   fp << "    t [Myr] " << ",";
-  fp << "   r_s [Gyr]" << ",";
+  fp << "   r_s [Mpc]" << ",";
   fp << "\n";
-  fp << "Last scattering " << " , " << x_LS << " , " << z_LS << " , " << t_LS*toMyr <<  " , " << rs_LS*toGyr <<" , " << "\n";
-  fp << "Recombination   " << " , " << x_rec << " , " << z_rec << " , " << t_rec*toMyr <<  " , " << rs_rec*toGyr <<" , " << "\n";
-  fp << "Saha            " << " , " << x_recSaha << " , " << z_recSaha << " , " << t_recSaha*toMyr << " , " << rs_recSaha*toGyr << " , " <<"\n";
+  fp << "Last scattering " << " , " << x_LS << " , " << z_LS << " , " << t_LS*toMyr <<  " , " << rs_LS*toMpc <<" , " << "\n";
+  fp << "Recombination   " << " , " << x_rec << " , " << z_rec << " , " << t_rec*toMyr <<  " , " << rs_rec*toMpc <<" , " << "\n";
+  fp << "Saha            " << " , " << x_recSaha << " , " << z_recSaha << " , " << t_recSaha*toMyr << " , " << rs_recSaha*toMpc << " , " <<"\n";
 
 }
 

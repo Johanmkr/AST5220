@@ -27,8 +27,9 @@ class RecombinationHistory{
   
     // Xe for when to switch between Saha and Peebles
     const double Xe_saha_limit = 0.99;
-    double toGyr = 1/(1e9*365*24*60*60);  // Conversion from [s] to [Gyr]
-    double toMyr = 1/(1e6*365*24*60*60);  // Conversion from [s] to [Myr]
+    double toGyr = 1.0/(1e9*365*24*60*60);  // Conversion from [s] to [Gyr]
+    double toMyr = 1.0/(1e6*365*24*60*60);  // Conversion from [s] to [Myr]
+    double toMpc = 3.24077929e-23;    // Conversion from [m] to [Mpc]
     // Constants from cosmology class
     double OmegaB; 
     double TCMB;
