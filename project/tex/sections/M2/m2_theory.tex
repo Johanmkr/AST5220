@@ -50,7 +50,7 @@
     \end{equation}
     where $n_e$ is the electron density and $\sigma_\mathrm{T}$ is the Thompson cross-section. In differential form, restoring original units, this is:
     \begin{equation}\label{eq:m2:theory:optical_depth_differential}
-        \dv{\tau}{x} = -\frac{cn_e\sigma_T}{H}.    
+        \dv{\tau}{x} = -\frac{cn_e\sigma_Te^x}{\Hp}.    
     \end{equation} 
     From this we define the visibility function, $g$:
     \begin{equation}\label{eq:m2:theory:visibility_function}
@@ -66,4 +66,8 @@
 
 
 \subsubsection{Sound horizon}
-    One last thing we want to find is the sound horizon, 
+    In the early Universe, before any decoupling, the photons and electrons are coupled through Thompson scattering, and protons and electrons are coupled through coulomb interactions. Because of this, photons interact with baryons and move alongside with them as one fluid, in which wave propagates with a speed $c_s$, from ~\cite{dodelson2020modern}:
+    \begin{equation}\label{eq:m2:theory:sound_horizon}
+        c_s \equiv c\left[3(1+R)\right]^{-\frac{1}{2}} \quad ; \quad R\equiv\frac{3\O_b}{4\O_\gamma},
+    \end{equation}
+    where $R$ is the \textit{baryon-to-photon energy ratio}.

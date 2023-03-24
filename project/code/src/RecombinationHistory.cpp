@@ -305,10 +305,10 @@ void RecombinationHistory::solve_for_sound_horizon(){
   Vector x_array_s = Utils::linspace(x_start, x_end, npts);
   ODESolver sOde;
   ODEFunction dsdx = [&](double x, const double *s, double *dsdx){
-    dsdx[0] = get_cs_of_x(x) / cosmo->H_of_x(x);
+    dsdx[0] = get_cs_of_x(x) / cosmo->Hp_of_x(x);
     return GSL_SUCCESS;
   };
-  double init_val = get_cs_of_x(x_array_s[0])/cosmo->H_of_x(x_array_s[0]);
+  double init_val = get_cs_of_x(x_array_s[0])/cosmo->Hp_of_x(x_array_s[0]);
   Vector s_init_vec{init_val};
   sOde.solve(dsdx, x_array_s, s_init_vec);
   auto s_vec = sOde.get_data_by_component(0);
@@ -363,12 +363,12 @@ double RecombinationHistory::get_nH_of_x(double x) const{
 }
 
 double RecombinationHistory::get_R_of_x(double x) const{
-  return 4.0*cosmo->get_OmegaR(x) / (3.0 * cosmo->get_OmegaB(x)) * exp(-x);
+  return (3.0 * cosmo->get_OmegaB(x))/4.0*cosmo->get_OmegaR(x);
 }
 
 double RecombinationHistory::get_cs_of_x(double x) const{
   double R = get_R_of_x(x);
-  return c*sqrt(R/(3*(1+R)));
+  return c*sqrt(1./(3.*(1.+R)));
 }
 
 double RecombinationHistory::get_s_of_x(double x) const{
@@ -493,6 +493,7 @@ void RecombinationHistory::analysis_output(const std::string filename) const{
   std::cout << "Freeze out      " << freeze_out <<"\n";
   std::cout << "Freeze out Saha " << freeze_outSaha << "\n";
   std::cout << std::endl;
+
 
   // write to file
   std::ofstream fp(filename.c_str());
