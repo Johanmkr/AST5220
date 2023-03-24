@@ -9,7 +9,7 @@
     \end{equation}
     where $n_i$ are the number densities of the reactants, $\Gamma_1$ is the reaction rate and $H$ the Hubble parameter (expansion rate of the universe). If the reaction rate is much larger than the expansion rate of the universe, $\Gamma_1 \gg H$, then ~\cref{eq:m2:theory:equilibrium_interaction} ensures equilibrium between protons, electron and photons. When $\Gamma_1$ drops below $H$, then the expansion rate becomes dominant and the reaction rate is unable to sustain equilibrium. This happens when the temperature of universe becomes lower than the binding energy of hydrogen, hence stable neutral hydrogen is able to form. As a consequence, the photons \textit{decouple} from the protons and electron. When $\Gamma_1 \ll H$, there are practically no interactions and the number density becomes constant for a comoving volume. Massive particles \textit{freeze out} and their abundance become constant. 
 
-\subsubsection{Free electron fraction $X_e$}\label{sec:m2:theory:free_electron_fraction}
+\subsubsection{Hydrogen recombination}\label{sec:m2:theory:hydrogen_recombination}
     We express the electron density through the free electron fraction $X_e \equiv n_e/n_\mathrm{H} = n_e/n_b$ where we have assumed that hydrogen make up all the baryons ($n_b=n_\mathrm{H}$). We also ignore the difference between free protons and neutral hydrogen. From ~\cite{https://doi.org/10.48550/arxiv.astro-ph/0606683} we obtain:
     \begin{equation}\label{eq:m2:theory:baryon_number_density}
         n_b = \frac{\rho_b}{m_\mathrm{H}} = \frac{\O_b\rho_c}{m_\mathrm{H}}\expe{-3x},
@@ -43,7 +43,7 @@
 
     We find $X_e$ by solving ~\cref{eq:m2:theory:Saha_equation} for $X_e > (1-\xi)$ and ~\cref{eq:m2:theory:peebles_equation} for $X_e < (1-\xi)$. In theory, it is possible to solve the Peebles equation at very early times, but the equation is very stiff resulting in unstable numerical solutions at early times (high temperatures), hence the Saha approximation.
 
-\subsubsection{Optical depth $\tau$, and visibility function $\tilde{g}$}\label{sec:m2:theory:optical_depth}
+\subsubsection{Visibility}\label{sec:m2:theory:visibility}
     The optical depth as a function of conformal time is defines as \cite{AST5220LectureNotes}:
     \begin{equation}\label{eq:m2:theory:optical_depth}
         \tau = \int_\eta^{\eta_0} n_e\sigma_\mathrm{T}\expe{-x}\d\eta',
@@ -66,8 +66,16 @@
 
 
 \subsubsection{Sound horizon}
-    In the early Universe, before any decoupling, the photons and electrons are coupled through Thompson scattering, and protons and electrons are coupled through coulomb interactions. Because of this, photons interact with baryons and move alongside with them as one fluid, in which wave propagates with a speed $c_s$, from ~\cite{dodelson2020modern}:
-    \begin{equation}\label{eq:m2:theory:sound_horizon}
+    Let's take a small step back and consider the situation of the early Universe. Before any decoupling, the photons and electrons are coupled through Thompson scattering, and protons and electrons are coupled through coulomb interactions. Because of this, photons interact with baryons and move alongside with them as one fluid, in which wave propagates with a speed $c_s$, from ~\cite{dodelson2020modern}:
+    \begin{equation}\label{eq:m2:theory:sound_speed}
         c_s \equiv c\left[3(1+R)\right]^{-\frac{1}{2}} \quad ; \quad R\equiv\frac{3\O_b}{4\O_\gamma},
     \end{equation}
-    where $R$ is the \textit{baryon-to-photon energy ratio}.
+    where $R$ is the \textit{baryon-to-photon energy ratio}. By the definition of $R$, if the baryon density is negligible compared to the radiation density, $R\sim0$, and we recover the wave propagation speed in a relativistic fluid: $c_s=3^{-1/2}$ (~\cite{dodelson2020modern}). The total distance such a wave would have travelled in a time $t$ (since the beginning of the Universe) is called the \textit{sound horizon}, found by simply integrating $c_s$ through time, accounting for the expansion of space itself by including a factor $e^{-x}$:
+    \begin{equation}\label{eq:m2:theory:sound_horizon_def}
+        s = \int_0^tc_se^{-x}\d t = \int_{-\infty}^x\frac{c_s}{\Hp}\d x,
+    \end{equation}
+    where the variables are changed to $x$. On differential form:
+    \begin{equation}\label{eq:m2:theory:sound_horizon_differential}
+        \dv{s}{x} = \frac{c_s}{\Hp},
+    \end{equation}
+    which is a straightforward differential equation to solve given some initial conditions. 
