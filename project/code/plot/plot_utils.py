@@ -135,7 +135,10 @@ lbls = {
     "ddtauddx": r"$\tau''$",
     "g": r"$\tilde{g}$",
     "dgdx": r"$\tilde{g}'$",
-    "ddgddx": r"$\tilde{g}''$"
+    "dgdx10": r"$\tilde{g}'/10$",
+    "ddgddx": r"$\tilde{g}''$",
+    "ddgddx300": r"$\tilde{g}''/300$"
+
 }
 
 #   Set up data class

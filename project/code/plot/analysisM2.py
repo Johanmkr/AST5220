@@ -13,18 +13,18 @@ class Recombination(Milestone):
 
         # Plot Xe from Saha and peebles
         XeLine, = ax.plot(self.x, self.Xe, color=Colors["Xe"])
-        XeLine.set_label("Peebles")
+        XeLine.set_label(lbls["Xe"] + " (Peebles)")
 
         # Plot Xe from Saha only
         SahaLine, = ax.plot(self.x, self.XeSaha, color=Colors["XeSaha"], ls="dashed", lw=2)
-        SahaLine.set_label("Saha")
+        SahaLine.set_label(lbls["Xe"] + " (Saha)")
 
         # Misc
         ax.set_xlim(-8,-4)
         ax.set_ylim(0.0001, 1.2)
         ax.set_yscale("log")
         ax.set_xlabel(lbls["x"])
-        ax.set_ylabel(lbls["Xe"])
+        # ax.set_ylabel(lbls["Xe"])
         ax.set_title(r"Free electron fraction, $X_e$", loc="left")
 
         # Plot lines
@@ -73,9 +73,9 @@ class Recombination(Milestone):
         fig, ax = plt.subplots()
 
         # Make lines
-        g, = ax.plot(self.x, self.g/np.abs(self.g).max(), label=lbls["g"], color=Colors["g"])
-        dg, = ax.plot(self.x, self.dgdx/np.abs(self.dgdx).max(), label=lbls["dgdx"], color=Colors["dgdx"], ls="dashed", lw=2)
-        ddg, = ax.plot(self.x, self.ddgddx/np.abs(self.ddgddx).max(), label=lbls["ddgddx"], color=Colors["ddgddx"], ls="dashdot", lw=2)
+        g, = ax.plot(self.x, self.g, label=lbls["g"], color=Colors["g"])
+        dg, = ax.plot(self.x, self.dgdx/10, label=lbls["dgdx10"], color=Colors["dgdx"], ls="dashed", lw=2)
+        ddg, = ax.plot(self.x, self.ddgddx/300, label=lbls["ddgddx300"], color=Colors["ddgddx"], ls="dashdot", lw=2)
         lines = [g, dg, ddg]
 
         # Titles
@@ -98,7 +98,7 @@ class Recombination(Milestone):
 
     def make_table(self)->None:
         styler = self.AnalData.dF.style
-        styler.format({"x": '{:.2f}', "z": '{:.2f}', "t [Myr]": '{:.3f}', "r_s [Gyr]": '{:.1f}'})
+        styler.format({"x": '{:.4f}', "z": '{:.2f}', "t [Myr]": '{:.4f}', "r_s [Mpc]": '{:.2f}'})
         styler.hide(axis="index")
         styler.hide_columns([self.AnalData.dF.keys()[-1]])
         styler.to_latex(latex_path + "recomb_analysis.tex")
