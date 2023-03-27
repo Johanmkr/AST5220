@@ -63,7 +63,7 @@ class Recombination(Milestone):
         # Make legend
         ax.minorticks_on()
         L1 = ax.legend(lines, [line.get_label() for line in lines], loc="best", fancybox=True)
-        L2 = fig.legend([lsline], ["Last Scattering"], loc="upper right", fancybox=True)
+        L2 = fig.legend([lsline], ["Last Scattering"], loc="upper right", fancybox=True, bbox_to_anchor=(.955, 0.995))
 
         # Make self variable and create plot
         self.TauFig = fig
@@ -90,7 +90,7 @@ class Recombination(Milestone):
         # Make legend
         ax.minorticks_on()
         L1 = ax.legend(lines, [line.get_label() for line in lines], loc="upper right", fancybox=True)
-        L2 = fig.legend([lsline], ["Last Scattering"], loc="upper right", fancybox=True)
+        L2 = fig.legend([lsline], ["Last Scattering"], loc="upper right", fancybox=True, bbox_to_anchor=(.935, 0.995))
 
         # Make self variable and create plot
         self.GFig = fig
