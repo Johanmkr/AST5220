@@ -23,7 +23,7 @@
     \begin{equation}
         \dv{\tau_\mathrm{rev}}{x_\mathrm{rev}} = -\dv{\tau}{x} = \frac{cn_e\sigma_Te^x}{\Hp},
     \end{equation}
-    and solving for positive $x_\mathrm{rev}$: $x_\mathrm{rev}\in[0,20]$. In order to undo this reversal, we map $\tau=-\tau_\mathrm{rev}$ to its corresponding $x=-x_\mathrm{rev}$. Having found $\tau$, we find its derivative by solving equation ~\cref{eq:m2:theory:optical_depth_differential}, and further the find the visibility function from ~\cref{eq:m2:theory:visibility_function} and its derivative from ~\cref{eq:m2:theory:visibility_function_deriv}. All of these four quantities are splines, and their derivatives are obtained numerically.
+    and solving for positive $x_\mathrm{rev}$: $x_\mathrm{rev}\in[0,20]$. In order to undo this reversal, we map $\tau=-\tau_\mathrm{rev}$ to its corresponding $x=-x_\mathrm{rev}$. Having found $\tau$, we find its derivative by solving equation ~\cref{eq:m2:theory:optical_depth_differential}, and further the find the visibility function from ~\cref{eq:m2:theory:visibility_function} and its derivative from ~\cref{eq:m2:theory:visibility_function_deriv}. We ensure that $\int_{-\infty}^0\tilde{g}\d x=1$ as a sanity check. All of these four quantities are splined, and their derivatives are obtained numerically.
 
     In order to solve equation ~\cref{eq:m2:theory:sound_horizon_def} for the sound horizon, we choose initial conditions $s_i = c_{s,i}/{\Hp_i}$ where the subscript $i$ denote a very early time (in our case when $x=-20$). We are then able to solve the differential equation for the sound horizon, ~\cref{eq:m2:theory:sound_horizon_differential}, numerically and then spline the result. 
 

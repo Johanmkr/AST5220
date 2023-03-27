@@ -94,6 +94,7 @@ class Recombination(Milestone):
 
         # Make self variable and create plot
         self.GFig = fig
+        print(f"The integral of the visibility function is: {np.trapz(self.g, self.x):.2f}")
         save_push(self.GFig, "visibility_function")
 
     def make_table(self)->None:
