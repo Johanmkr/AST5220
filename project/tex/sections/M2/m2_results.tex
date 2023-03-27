@@ -3,9 +3,9 @@
     \subsubsection{Times and sound horizon}
     The relevant times for last scattering, recombination and Saha recombination are obtained as explained in ~\cref{sec:m2:methods:analysis}, and presented in ~\cref{tab:m2:recomb_analysis}. These times are given in terms of $x$, the redshift $z$ and the cosmic time $t$ (in Myr). The sound horizon is given in units of megaparsecs (Mpc). Last scattering occurred when $x=-6.9853$, at redshift $z=1079.67$, which is slightly after recombination when $x=-6.9855$ at redshift $z=1079.83$. If the Saha approximation was valid when the electron fraction dropped, recombination would have happened when $x=-7.1404$ at redshift $1260.89$ which is significantly earlier. However, this is not the case since photons drop out of equilibrium with the primordial plasma as soon as hydrogen begin to form, and the free electron fraction is reduced. Thus, this number may only be used for comparison. Another thing worth noting is the validity of these numbers.
     \begin{table}
+        \label{tab:m2:recomb_analysis}
         \include{tables/recomb_analysis.tex}
         \caption{The times of last scattering and recombination given in terms of $x$, the redshift $z$, the cosmic time $t$ and the sound horizon $r_s$. Also included is the time of recombination found using the Saha approximation only.}
-        \label{tab:m2:recomb_analysis}
     \end{table}
 
     \subsubsection{Free electron fraction}
@@ -27,13 +27,13 @@
         \label{fig:m2:optical_depth}
     \end{figure}
 
-    Another way of arriving at similar conclusions is by considering the visibility function in ~\cref{fig:m2:visibility_function}. Here, $\tilde{g}$ is shown in green along with its derivatives. The scaling follow that of ~\cite{https://doi.org/10.48550/arxiv.astro-ph/0606683}, in order to fit the graphs into the same figure. $\tilde{g}$ describes the probability that a photon reaching us today scattered at time $x$. The peak of this function indicates the time were \textit{the most} photons scattered for the last time, and is thus used as a definition of the last scattering surface.
+    Another way of arriving at similar conclusions is by considering the visibility function in ~\cref{fig:m2:visibility_function}. Here, $\tilde{g}$ is shown in green along with its derivatives. The scaling follow that of ~\cite{https://doi.org/10.48550/arxiv.astro-ph/0606683}, in order to fit the graphs into the same figure. $\tilde{g}$ describes the probability that a photon reaching us today scattered at time $x$. The peak of this function indicates the time were \textit{the most} photons scattered for the last time, and is thus used as a definition of the last scattering surface. The visibility function is skewed forward in time. \TODO{why?}
     \begin{figure}
         \includegraphics[width=\linewidth]{visibility_function.pdf}
-        \caption{Somecaption}
+        \caption{The visibility function $\tilde{g}$ and its first and second derivatives as functions of $x$. The time of last scattering is shown as a dashed black line, which by definition coincides with the peak of the visibility function}.
         \label{fig:m2:visibility_function}
     \end{figure}
 
     \subsubsection{General discussion}
-    Vailidity of values -> definition of events etc. This happens gradually. 
+    One key thing to keep in mind is that recombination did not happen instantaneously, but rather over a relatively short period in which neutral hydrogen formed rapidly. This caused a rapid decrease of the free electron fraction, which again caused the optical depth to decrease by several magnitudes. In the same period, we see a that the visibility function is non-zero, meaning the probability of last scattering is (relatively) very high in this period. The times quoted in ~\cref{tab:m2:recomb_analysis} are times that arise from our quite rigid, but fair definition of last scattering and recombination. However, these times do not encapsulate the duration of the abovementioned period.  One could also define the last scattering surface as the time when $\tau=1$ which is the transition between optically thick and optically thin media (when the photon travels exactly one mean free path before scattering). However, the visibility function is arguably a better choice since this is a proper probability distribution, so its peak represents the \textit{actual} time when the probability of last scattering was the highest. Nevertheless, if we change these definitions we ought to expect different times as a result.
 
