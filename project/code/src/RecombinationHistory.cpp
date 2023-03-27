@@ -423,18 +423,18 @@ void RecombinationHistory::analysis_output(const std::string filename) const{
   const int npts = int(1e6);
   Vector x_array = Utils::linspace(x_start, x_end, npts);
 
-  //  Find when last scattering happens (tau=1)
-  double tau_min, x_LS;
+  //  Find when last scattering happens (peak of visibility function)
+  double gmax, x_LS;
   x_LS = x_array[0];
-  tau_min = tau_of_x(x_LS);
+  gmax = g_tilde_of_x(x_LS);
 
   // Iterate through and save values for tau close to 1
   for(int i=0;i<npts; i++){
     double x_temp = x_array[i];
-    double tau_temp = tau_of_x(x_temp);
-    if(abs(tau_temp-1) < abs(tau_min-1)){
+    double gtemp = g_tilde_of_x(x_temp);
+    if(gtemp > gmax){
       x_LS = x_temp;
-      tau_min = tau_of_x(x_LS);
+      gmax = g_tilde_of_x(x_LS);
     }
   }
 
