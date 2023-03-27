@@ -98,7 +98,9 @@ void RecombinationHistory::solve_number_density_electrons(){
     double const Xe_current = Xe_ne_data.first;
     //check for non-zero and negative values
     double actXe_current = Xe_current < global_tol ? global_tol: Xe_current;
-    Xe_arr_saha[i] = actXe_current;
+    double actXe_current1 = std::isnan(actXe_current) ? global_tol: actXe_current;
+    std::cout << actXe_current1 << std::endl;
+    Xe_arr_saha[i] = actXe_current1;
   }
 
   //  Check if we have already filled the entire array or if we have to solve Peebles.
@@ -178,11 +180,11 @@ std::pair<double,double> RecombinationHistory::electron_fraction_from_saha_equat
   double Tb = cosmo->get_TCMB(x);
   double nb = get_nb_of_x(x);
 
-  double b = 1./nb * std::pow(k_b*m_e*Tb/(2.0*M_PI*hbar*hbar), 1.5) * exp(-epsilon_0/(k_b*Tb));
-  if(b>1e7)
+  double K = 1./nb * std::pow(k_b*m_e*Tb/(2.0*M_PI*hbar*hbar), 1.5) * exp(-epsilon_0/(k_b*Tb));
+  if(4.0/K < global_tol)
     Xe = 1.0;
   else{
-    Xe = (-b+sqrt(b*b+4.0*b))/2.0;
+    Xe = K/2. * (-1+sqrt(1+4./K));
   }
 
   const double nH = get_nH_of_x(x);
