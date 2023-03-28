@@ -81,7 +81,7 @@ Clean the plots generated:
     * Typo in eq. 19
     * Derive acceleration onset. 
     * Present sanity checks for conformal Hubble. 
-    * Cite the Planck Data in the introduction.
+ 
 
 * Sanity checks
     * Nice, use \ll as $\ll$ instead of << 
