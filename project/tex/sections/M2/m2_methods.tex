@@ -1,25 +1,39 @@
 \subsection{Methods}\label{sec:m2:methods}
 
-\subsubsection{Computing $X_e$}
+\subsubsection{Computing $X_e$}\label{sec:m2:methods:electron_fraction}
     First things first, we need to compute the free electron fraction $X_e$. We are for the most part not interested in things happening in the future here, so the temporal range of choice will be $x\in[-20,0)$ where $x=0$ is today, and $x=-20$ is sufficiently long ago, so that the range encapsulated effect studied here. In the early Universe, the energies are so high that all baryonic matter is in the form of free electron, $X_e\simeq1$, so we will start by solving the Saha equation, ~\cref{eq:m2:theory:Saha_equation}. We continue to solve equation ~\cref{eq:m2:theory:Saha_equation} as long as $X_e>1-\xi$ where we use $\xi=0.01$.
 
     If we define:
     \begin{equation}
         K \equiv \frac{1}{n_b}\left(\frac{k_Bm_eT_b}{2\pi\hbar^2}\right)^{3/2}\expe{-\epsilon_0/k_BT_b},
     \end{equation}
-    then equaton ~\cref{eq:m2:theory:Saha_equation} takes the form $X_e^2 + KX_e - K = 0$, which is solved as a normal quadratic equation\footnote{$ay^2+by+c=0$ has solutions $$y=\frac{-b\pm\sqrt{b^2-4ac}}{2}$$.}, where $a=1$, $b=K$ and $c=-K$. Since $0\leq X_e\leq1$ we choose the positive solution, given by: $X_e = (-K+\sqrt{K^2+4K})/2$. We note that for very large values of $K$, the two terms inside the parenthesis are \TODO{finish this ahah wtf}.
+    then equaton ~\cref{eq:m2:theory:Saha_equation} takes the form $X_e^2 + KX_e - K = 0$, which is solved as a normal quadratic equation\footnote{$ay^2+by+c=0$ has solutions $$y=\frac{-b\pm\sqrt{b^2-4ac}}{2}.$$}, where $a=1$, $b=K$ and $c=-K$. Since $0\leq X_e\leq1$ we choose the positive solution, given by:
+    \begin{equation}\label{eq:m2:methods:sqrt_approx}
+        X_e = \frac{-K+\sqrt{K^2+4K}}{2} = \frac{K}{2}\left(-1+\sqrt{1+4K^{-1}}\right)
+    \end{equation}
+    This solution has the potential to become numerically unstable if the parenthesis is close to zero, i.e. for $K\gg1$. We then make use of the approximation $\sqrt{1+4K^{-1}} \approx 1+(2K^{-1})$ for $\abs{4K^{-1}}\ll1$, which ensures $X_e\simeq1$ for very high temperatures (large $K$).
 
 
-    We continue to solve the Peebles equation as stated in ~\cref{eq:m2:theory:peebles_equation}, where the r.h.s. is implemented sequentially as ~\cref{eq:m2:theory:peebles_CR}-~\cref{eq:m2:theory:peebles_phi2} in reverse order. The initial condition is the last computed electron fraction above the cut-off: $X_{e0}=\min(X_e>1-\xi)$ as found from the Saha equation. It is solved for the x-range not solved by Saha. 
+    We continue to solve the Peebles equation as stated in ~\cref{eq:m2:theory:peebles_equation}, where the r.h.s. is implemented sequentially as ~\cref{eq:m2:theory:peebles_CR}-~\cref{eq:m2:theory:peebles_phi2} in reverse order. The initial condition is the last computed electron fraction above the cut-off: $X_{e0}=\min(X_e>1-\xi)$ as found from the Saha equation. It is solved for the x-range not solved by the Saha equation. 
 
     Having found $X_e$ for the entire x-range, we compute $n_e$ and spline both results.
 
-\subsection{Computing $\tau$ and $\tilde{g}$}
-    With $n_e$ we are able to solve the optical depth as defined in ~\cref{eq:m2:theory:optical_depth_differential}. The iniital condition for this equation is that the optical depth today is zero: $\tau(x=0)=0$, meaning we have to solve this backwards in time. This is done by using the negative differential:
+\subsubsection{Computing $\tau$ and $\tilde{g}$}\label{sec:m2:methods:tau_and_g}
+    With $n_e$ we are able to solve the optical depth as defined in ~\cref{eq:m2:theory:optical_depth_differential}. The inital condition for this equation is that the optical depth today is zero: $\tau(x=0)=0$, meaning we have to solve this backwards in time. This is done by using the negative differential:
     \begin{equation}
         \dv{\tau_\mathrm{rev}}{x_\mathrm{rev}} = -\dv{\tau}{x} = \frac{cn_e\sigma_Te^x}{\Hp},
     \end{equation}
-    and solving for positive $x_\mathrm{rev}$: $x_\mathrm{rev}\in[0,20]$. In order to undo this reversal, we map $\tau=-\tau_\mathrm{rev}$ to its corresponding $x=-x_\mathrm{rev}$.
+    and solving for positive $x_\mathrm{rev}$: $x_\mathrm{rev}\in[0,20]$. In order to undo this reversal, we map $\tau=-\tau_\mathrm{rev}$ to its corresponding $x=-x_\mathrm{rev}$. Having found $\tau$, we find its derivative by solving equation ~\cref{eq:m2:theory:optical_depth_differential}, and further the find the visibility function from ~\cref{eq:m2:theory:visibility_function} and its derivative from ~\cref{eq:m2:theory:visibility_function_deriv}. We ensure that $\int_{-\infty}^0\tilde{g}\d x=1$ as a sanity check. All of these four quantities are splined, and their derivatives are obtained numerically.
+
+    In order to solve equation ~\cref{eq:m2:theory:sound_horizon_def} for the sound horizon, we choose initial conditions $s_i = c_{s,i}/{\Hp_i}$ where the subscript $i$ denote a very early time (in our case when $x=-20$). We are then able to solve the differential equation for the sound horizon, ~\cref{eq:m2:theory:sound_horizon_differential}, numerically and then spline the result. 
+
+
+\subsubsection{Analysis}\label{sec:m2:methods:analysis}
+    Having splines for the relevant quantities enables us to compute some important times in the early universe. Firstly, the \textit{last scattering surface}, is the time when most photons scattered for the last time, and decoupled from the plasma. This is not expected to have happened instantly, but recalling that the visibility function $\tilde{g}$ is a probability distribution function for when photons last scattered, we simply use the peak of this function as the definition of the last scattering surface. 
+
+    Further, we want to find a time for when recombination happened, i.e. when free electron was captured by protons to form hydrogen atoms. Thus, this coincides with the reduction of the free electron fraction, and we will use $X_e=0.1$ as the definition for when recombination happened. These numbers can also be computed using only the Saha approximation, for comparison. We also compute the sound horizon at these decouplings: $r_s = s(x_\mathrm{dec})$.
+
+    The last thing we want to compute is the freeze out abundance of free electrons, i.e. the free electron abundance today, which is found by evaluating the spline for $X_e$ at $x=0$.
 
 
 
