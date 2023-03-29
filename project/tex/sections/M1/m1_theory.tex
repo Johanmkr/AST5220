@@ -43,9 +43,6 @@
     which is the Hubble equation we will use further.
 
 
-
-
-
 \subsubsection{Measure of time and space}\label{sec:m1:measure_time_space}
     The main measure of time is usually the scale factor $a$, or its logarithm $x$. We then have the \textit{cosmic time} $t$ defined as:
     \begin{equation}\label{eq:m1:theory:measures:cosmic_time}
@@ -138,7 +135,7 @@
 \subsubsection{Analytical solutions and sanity checks}\label{sec:m1:theory:sanity}
     There are several ways we may check that both our workings and numerical implementations are indeed correct. The simplest way is to always ensure that the sum of all density parameters add up to 1, for all times: $\sum_i\O_i=1$. 
     
-    If we only consider the most dominant density parameter, that is $\O_i >> \sum_{j\neq i}\O_j$, we end up with the following analytical expressions for different temporal regimes:
+    If we only consider the most dominant density parameter, that is $\O_i \gg \sum_{j\neq i}\O_j$, we end up with the following analytical expressions for different temporal regimes:
     \begin{equation}
         \label{eq:m1:theory:sanity:first_deriv_sanity}
         \frac{1}{\Hp}\dv{\Hp}{x} \approx - \frac{\alpha_i}{2} = 

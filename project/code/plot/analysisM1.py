@@ -47,9 +47,9 @@ def testing_Omegas():
     ax1.plot(xvals, OmegaRad, label=r"$\Omega_\mathrm{rad}$", color=Colors["OmegaRad"])
     ax1.plot(xvals, OmegaM, label=r"$\Omega_\mathrm{M}$", color=Colors["OmegaM"])
     ax1.plot(xvals, Cosmology["OmegaLambda"], label=r"$\Omega_\Lambda$", color=Colors["OmegaLambda"])
-    ax1.plot(xvals, Cosmology["OmegaLambda"]+OmegaRad+OmegaM, label="Sum", ls="--", color=Colors["analytical"], lw=2)
+    ax1.plot(xvals, Cosmology["OmegaLambda"]+OmegaRad+OmegaM, label=r"$\mathrm{Sum}$", ls="--", color=Colors["analytical"], lw=2)
     ax1.set_xlabel(r"$x$")
-    ax1.set_title(r"Density fractions $\Omega_X$", loc="left")
+    ax1.set_title(r"$\mathrm{Density\ fractions,}\ \Omega_i$", loc="left")
     ax1.legend(loc='center left', ncol=1, fancybox=True)
     ax1.minorticks_on()
 
@@ -86,7 +86,7 @@ def testing_Hp():
     ax1.hlines(-1/2, x_RM, x_ML, color=Colors["analytical"], ls="--", lw=2)
     # ax1.hlines(1, x_ML, x_max, color="white", ls="--")
     
-    ax1.set_title(r"Sanity check of $\mathcal{H}(x)$", loc="left")
+    ax1.set_title(r"$\mathrm{Sanity\ check\ of}\ \mathcal{H}(x)$", loc="left")
     ax1.set_xlabel(r"$x$")
     legend1 = ax1.legend([line1, line2], [line1.get_label(), line2.get_label()], loc="center left", fancybox=True)
     ax1.minorticks_on()
@@ -110,7 +110,7 @@ def testing_eta():
     line1, = ax1.plot(xvals, etaHpc, label=r"$\frac{\eta\mathcal{H}}{c}$", color=Colors["etaHp/c"])
     line2, = ax1.plot(xvals, detaHpc, label=r"$\frac{\mathcal{H}}{c}\frac{\mathrm{d}\eta}{\mathrm{d}x}$", color=Colors["Hp/cdetadx"])
 
-    ax1.set_title(r"Sanity check for $\eta(x)$", loc="left")
+    ax1.set_title(r"$\mathrm{Sanity\ check\ for}\ \eta(x)$", loc="left")
     ax1.set_xlabel(r"$x$")
 
     regimes = set_regimes(ax1, borders=False)
@@ -150,7 +150,7 @@ def conformal_hubble_factor():
 
     chf, ax = plt.subplots()
     ax.plot(xvals, Hp, color=Colors["Hp"], label=lbls["Hp"])
-    ax.axvline(x_accel_start, color="black", ls="--", label="Accel. start")
+    ax.axvline(x_accel_start, color="black", ls="--", label=r"$\mathrm{Accel.\ start}$")
 
     #   Plot analytical solutions in regimes
     ax.plot(xvals_rad, rad_anal, color=Colors["analytical"], ls="--", lw=2)
@@ -159,8 +159,8 @@ def conformal_hubble_factor():
 
 
     ax.set_xlabel(lbls["x"])
-    ax.set_ylabel(r"$\mathcal{H}$ [100 kms$^{-1}$Mpc$^{-1}$]")
-    ax.set_title(r"Conformal Hubble factor $\mathcal{H}(x)$", loc="left")
+    ax.set_ylabel(r"$100\ \mathrm{kms}^{-1}\mathrm{Mpc}^{-1}$")
+    ax.set_title(r"$\mathrm{Conformal\ Hubble\ factor}\ \mathcal{H}(x)$", loc="left")
     ax.legend(loc="best", fancybox=True)
     ax.set_yscale("log")
 
@@ -189,8 +189,8 @@ def cosmic_conformal_time():
 
 
     ax.set_xlabel(lbls["x"])
-    ax.set_ylabel(lbls["t"]+" [Gyr]")
-    ax.set_title(r"Cosmic time $t(x)$ and conformal time $\eta(x)/c$.", loc="left")
+    ax.set_ylabel(r"$\mathrm{Gyr}$")
+    ax.set_title(r"$\mathrm{Cosmic\ time}\ t(x)\  \mathrm{and\ conformal\ time}\ \eta(x)/c$.", loc="left")
     ax.legend(loc="best", fancybox=True)
     regimes = set_regimes(ax, borders=False)
     ax.set_yscale("log")
@@ -217,20 +217,66 @@ def supernova_data():
     zvalsBF = np.exp(-xvalsBF) -1
 
     sdFig, ax = plt.subplots()
-    ax.errorbar(zvals_sn, dL_obs/zvals_sn, yerr=error/zvals_sn, label="Observation", fmt="none",  ecolor=Colors["d_L_obs"])
-    ax.plot(zvals_pred, dL_pred/zvals_pred, color=Colors["d_L_fid"], label="Fiducial cosmology")
-    ax.plot(zvalsBF, dLBF/zvalsBF, color=Colors["d_L_best"], label="Best fit")
+    ax.errorbar(zvals_sn, dL_obs/zvals_sn, yerr=error/zvals_sn, label=r"$\mathrm{Observation}$", fmt=".",  ecolor=Colors["d_L_obs"], capsize=4, elinewidth=1.5, color="red", markersize=7)
+    ax.plot(zvals_pred, dL_pred/zvals_pred, color=Colors["d_L_fid"], label=r"$\mathrm{Fiducial\ cosmology}$")
+    ax.plot(zvalsBF, dLBF/zvalsBF, color=Colors["d_L_best"], label=r"$\mathrm{Best\ fit}$")
     ax.set_xscale("log")
     ax.set_ylim(3.5,8)
     ax.set_xlim(0.005,1.45)
     ax.set_xlabel(lbls["z"])
-    ax.set_ylabel(r"$d_L/z$" + " [Gpc]")
-    ax.set_title(r"Luminosity distance $d_L$", loc="left")
+    ax.set_ylabel(r"$\mathrm{Gpc}$")
+    ax.set_title(r"$\mathrm{Luminosity\ distance},\ d_L$", loc="left")
     ax.legend(loc="upper left", fancybox=True)  
     ax.minorticks_on()
 
     
     save_push(sdFig, "supernova_data")
+
+
+def goodness_of_fit():
+    N = len(Sdata["d_L"])
+    chi2 = Sfit["chi2"]
+    chi2_over_N = chi2/N
+
+    
+    counts, bins = np.histogram(chi2_over_N, bins=150)
+    sigma, mu = np.std(chi2_over_N), np.mean(chi2_over_N)
+
+    gaussian = 1/(sigma*np.sqrt(2*np.pi))*np.exp(-(bins-mu)**2/(2*sigma**2))
+
+    # goodnes, (ax1, ax2) = plt.subplots(ncols=1, nrows=2, figsize=(12,12))
+    goodnes, ax1 = plt.subplots()
+    hstg = ax1.hist(bins[:-1], bins, weights=counts, color=Colors["hist"], label=r"$\mathrm{samples}$", density=True)
+    ax1.plot(bins, gaussian, color=Colors["gaussian"], label=r"$\mathrm{fit}$")
+    ax1.axvline(mu, ls="--", color="black", lw=2, label=r"$\mu={mu:.3f}$".format(mu=mu))
+    ax1.fill_between(bins, 0, gaussian, where=sigma > abs(bins-mu), color="blue", alpha=0.2, label=r"$\mu\pm 1\sigma$; $\sigma={sigma:.3f}$".format(sigma=sigma))
+    # ax1.text(1.4, 2, r"$\mu = {mu:.3f} \\ \sigma = {sigma:.3f}$".format(mu=mu, sigma=sigma))
+    ax1.set_title(r"$\mathrm{Goodness\ of\ fit}$")
+    ax1.set_xlabel(r"$\chi^2/N$")
+    ax1.legend(loc="best", fancybox=True)
+
+
+
+    # oneSDthres = 3.53
+    # chi2min = np.min(chi2)
+    # accepted = (chi2 - chi2min) < oneSDthres
+    # chi2 = np.where(accepted, chi2, np.nan)
+    # chi2 = chi2[np.isfinite(chi2)]
+    # chi2_over_N = chi2/N
+    
+    # counts, bins = np.histogram(chi2_over_N, bins=150)
+    # sigma, mu = np.std(chi2_over_N), np.mean(chi2_over_N)
+
+    # gaussian = 1/(sigma*np.sqrt(2*np.pi))*np.exp(-(bins-mu)**2/(2*sigma**2))
+    # hstg = ax2.hist(bins[:-1], bins, weights=counts, color=Colors["hist"], label="Samples", density=True)
+    # ax2.plot(bins, gaussian, color=Colors["gaussian"], label="Fitted pdf")
+    # ax2.axvline(mu, ls="--", color="black", lw=2)
+    # ax2.fill_between(bins, 0, gaussian, where=sigma > abs(bins-mu), color="blue", alpha=0.2)
+
+
+    save_push(goodnes, "goodnes_of_fit")
+
+
 
 
 
@@ -267,7 +313,7 @@ def omega_restrictions_plot():
     ax.set_ylabel(lbls["OmegaLambda"])
     ax.set_ylim(.2,1)
     ax.set_xlim(0,0.6)
-    ax.set_title(r"$1\sigma$ confidence plot of $(\Omega_M \;\mathrm{x}\; \Omega_\Lambda)$", loc="left")
+    ax.set_title(r"$1\sigma\ \mathrm{confidence\ plot\ of}\ (\Omega_M \;\mathrm{x}\; \Omega_\Lambda)$", loc="left")
     ax.minorticks_on()
 
     # fig.savefig(plot_path+"omega_restrictions.pdf", bbox_inches=None)
@@ -289,8 +335,8 @@ def prob_plots():
     gaussianK = 1/(sigmaK*np.sqrt(2*np.pi))*np.exp(-(binsK-muK)**2/(2*sigmaK**2))
 
     probs, (ax1, ax2) = plt.subplots(ncols=1, nrows=2, figsize=(12,12))
-    histM = ax1.hist(binsM[:-1], binsM, weights=countM, color=Colors["hist"], label="samples", density=True)
-    gausM, = ax1.plot(binsM, gaussianM, color=Colors["gaussian"], label="fit")
+    histM = ax1.hist(binsM[:-1], binsM, weights=countM, color=Colors["hist"], label=r"$\mathrm{samples}$", density=True)
+    gausM, = ax1.plot(binsM, gaussianM, color=Colors["gaussian"], label=r"$\mathrm{fit}$")
 
     histK = ax2.hist(binsK[:-1], binsK, weights=countK, color=Colors["hist"], density=True)
     gausK, = ax2.plot(binsK, gaussianK, color=Colors["gaussian"])
@@ -303,13 +349,14 @@ def prob_plots():
 
     ax1.set_xlabel(lbls["OmegaM"])
     ax2.set_xlabel(lbls["OmegaK"])
-    ax1.set_ylabel("Probability")
-    ax2.set_ylabel("Probability")
+    # ax1.set_ylabel("Probability")
+    # ax2.set_ylabel("Probability")
     ax1.text(0.45, 3, r"$\mu_M = {mu:.3f} \\ \sigma_M = {sigma:.3f}$".format(mu=muM, sigma=sigmaM))
-    ax2.text(-.9, 1, r"$\mu_K = {mu:.3f} \\ \sigma_K = {sigma:.3f}$".format(mu=muK, sigma=sigmaK))
-    probs.suptitle(r"Posterior pdf of $\Omega_M$ and $\Omega_K$", x=.1, horizontalalignment="left")
+    ax2.text(-.9, 1, r"$\mu_k = {mu:.3f} \\ \sigma_k = {sigma:.3f}$".format(mu=muK, sigma=sigmaK))
+    probs.suptitle(r"$\mathrm{Posterior\ pdf\ of}\ \Omega_M\ \mathrm{and}\ \Omega_k$", x=.1, horizontalalignment="left")
     probs.legend(loc="center right", fancybox=True, bbox_to_anchor=[0.97, 0.90], ncol=4, fontsize=26)
     ax1.minorticks_on()
+    ax2.minorticks_on()
 
 
 
@@ -340,9 +387,9 @@ def posterior_pdf():
     ax.axvline(mu, ls="--", color="black", lw=2)
     ax.fill_between(bins, 0, gaussian, where=sigma > abs(bins-mu), color="blue", alpha=0.2)
     ax.text(.71, 50, r"$\mu = {mu:.3f} \\ \sigma = {sigma:.3f}$".format(mu=mu, sigma=sigma))
-    ax.set_xlabel(r"$H_0$ [100 km s$^{-1}$Mpc$^{-1}$]")
-    ax.set_ylabel("Probability")
-    ax.set_title(r"Posterior pdf of $H_0$", loc="left")
+    ax.set_xlabel(r"$100\ \mathrm{kms}^{-1}\mathrm{Mpc}^{-1}$")
+    # ax.set_ylabel("Probability")
+    ax.set_title(r"$\mathrm{Posterior\ pdf\ of}\ H_0$", loc="left")
     ax.minorticks_on()
 
     # l1 = ax.legend(loc="best", fancybox=True)
@@ -367,6 +414,7 @@ if __name__=="__main__":
     cosmic_conformal_time()
     supernova_data()
     prob_plots()
+    goodness_of_fit()
     omega_restrictions_plot()
     posterior_pdf()
     # create_table()

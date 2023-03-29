@@ -68,9 +68,16 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 plt.rc('lines', linewidth=3)
 
 # Visual parameters for saving/showing
-SAVE = True
-PUSH = False
-SHOW = False
+# Manual Switches
+TEST = True
+
+# SAVE = False
+# PUSH = False
+# SHOW = True
+
+SAVE = False if TEST else True
+PUSH = False if TEST else True
+SHOW = False if not TEST else True
 TIGHT = True
 
 # folder paths

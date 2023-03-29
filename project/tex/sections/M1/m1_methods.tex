@@ -23,16 +23,20 @@
     We then proceed by making splines of both $\eta$ and $t$ in order to evaluate accurately for any $x\in(-20,5)$. 
 
 
-\subsubsection{Model evaluation}
-    We evaluate the model by computing the quantities presented in \cref{sec:m1:theory:sanity} and compare with the analytical solutions in different regimes. This will ensure that the model behave as expected.
-
-    Furthermore, we want the model to somewhat resemble reality, we thus use measures of the luminosity distance of supernovas at different redshifts $z$, acquired by \cite{Betoule_2014}. This data is compared to the prediction made by our model. 
-
-    
-    In order to constrain the possible values $\O_\mathrm{M}$ and $\O_\Lambda$ we find the $\chi^2$-error between the luminosity distance of the supernovas and the predictions made by our model. The $\O$-s are sampled with Markov-Chain Monte Carlo sampling using the Metropolis-Hastings algorithm. The $\chi^2$-erros is given by:
+\subsubsection{Supernova data}
+    We make predictions of the luminosity distance at different redshifts $z$, according to the discussion in ~\cref{sec:m1:measure_time_space}. These predictions are compared with real supernova observations, acquired by \cite{Betoule_2014}. In order to constrain the possible values of $\O_\mathrm{M}$ and $\O_\Lambda$ we find the $\chi^2$-value between the luminosity distance of the supernovas and our predictions. The $\O$-s are sampled with Markov-Chain Monte Carlo sampling using the Metropolis-Hastings algorithm. The $\chi^2$-values are given by:
     \begin{equation}\label{eq:m1:chi2_test_def}
         \chi^2(h, \O_{m0}, \O_{k0}) = \sum_{i=1}^N \frac{(d_L(z, \O_{m0}, \O_{k0}) - d_L^\mathrm{obs}(z_i))^2}{\sigma_i^2}.
     \end{equation}
+    It is easy to see from ~\cref{eq:m1:chi2_test_def} that if the difference between prediction and observation matches the uncertainties in the observed data, then we have $\chi^2 \simeq N$, which is the best fit we can hope for (since we fit to data which has an intrinsic uncertainty already). If $\chi^2\ll N$, then we \textit{over-fit} the model, while if $\chi^2\gg N$ then we have an increasingly bad fit. In summary, we may analyse the following quantity
+    \begin{equation}\label{eq:m1:goodness_of_fit}
+        \frac{\chi^2}{N} \begin{cases}
+            \ll &1 \quad \mathrm{over-fitting,} \\
+            \simeq &1 \quad \mathrm{good\ fit,}\\
+            \gg &1 \quad \mathrm{bad\ fit,}
+        \end{cases}
+    \end{equation}
+    in order to determine the goodness of fit. 
 
 
     
