@@ -119,6 +119,8 @@ def testing_eta():
     #   Adding analytical solutions
     ax1.hlines(1, x_min, x_RM, color=Colors["analytical"], ls="--", lw=2)
     ax1.hlines(2, x_RM, x_ML, color=Colors["analytical"], ls="--", lw=2)
+    # xx = np.linspace(x_RM+3, x_ML, 100)
+    # ax1.plot(xx, 2*(1-np.sqrt(OmegaM0/OmegaRad0*np.exp(-xx))), color="black")
     # ax1.axvline(x_ML, color="snow", lw=2, ls="--")
 
     # rad_area = ax1.axvspan(x_min, x_RM-tol, color=Colors["OmegaRad"], alpha=.1, label=r"$\Omega_\mathrm{rad}$")
@@ -413,14 +415,14 @@ def create_table():
 
 
 if __name__=="__main__":
-    testing_Omegas()
-    testing_Hp()
+    # testing_Omegas()
+    # testing_Hp()
     testing_eta()
-    conformal_hubble_factor()
-    cosmic_conformal_time()
-    supernova_data()
-    prob_plots()
-    goodness_of_fit()
-    omega_restrictions_plot()
-    posterior_pdf()
+    # conformal_hubble_factor()
+    # cosmic_conformal_time()
+    # supernova_data()
+    # prob_plots()
+    # goodness_of_fit()
+    # omega_restrictions_plot()
+    # posterior_pdf()
     # create_table()

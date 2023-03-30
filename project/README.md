@@ -29,7 +29,7 @@ explain
 
 Navigate to the `code`-folder. 
 
-Comment/uncomment line 52-54 in `main.cpp` in order to disable/enable the supernova-fitting.
+Comment/uncomment line 61-63 in `main.cpp` in order to disable/enable the supernova-fitting.
 
 Build c++ codes:
 
@@ -68,7 +68,6 @@ Clean the plots generated:
 
 * Report
     * Write Abstract
-    * Make tables with fiducial cosmology and best fit cosmology
 
 * Theory
 
@@ -78,8 +77,6 @@ Clean the plots generated:
 * Methods 
 
 * Results
-    * Talk more about $\sigma$ intervals.
-    * Quote constraints on different parameters.
     * Discuss physical interpretation.
 
 * Appendix
@@ -91,10 +88,7 @@ Clean the plots generated:
 
 
  ## Questions
- * FIXED -> no use more sensible. Right unit on the $\mathcal{H}$ plot?
- * FIXED -> Include lines insteadRegime shading on all plots?
- * FIXED -> appears so. Colours on plots okay?
- * FIXED -> Yay. Nomenclature in that style yay/nay?
+
 
 
 
