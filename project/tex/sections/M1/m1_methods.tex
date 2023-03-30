@@ -1,6 +1,4 @@
 \subsection{Methods}\label{sec:m1:methods}
-
-\subsubsection{Initial equation}
     We have to consider the time evolution of the density parameters, given some present value, as function of our chosen time parameter, here $x$. The density evolution is implemented as:
     \begin{equation}\label{eq:m1:methods:initial:density_evolution}
         \O_n = \expe{-\alpha_nx}\O_{n0}\Hp_\mathrm{rat}^2
@@ -23,12 +21,27 @@
     We then proceed by making splines of both $\eta$ and $t$ in order to evaluate accurately for any $x\in(-20,5)$. 
 
 
-\subsubsection{Supernova data}
-    We make predictions of the luminosity distance at different redshifts $z$, according to the discussion in ~\cref{sec:m1:measure_time_space}. These predictions are compared with real supernova observations, acquired by \cite{Betoule_2014}. In order to constrain the possible values of $\O_\mathrm{M}$ and $\O_\Lambda$ we find the $\chi^2$-value between the luminosity distance of the supernovas and our predictions. The $\O$-s are sampled with Markov-Chain Monte Carlo sampling using the Metropolis-Hastings algorithm. The $\chi^2$-values are given by:
-    \begin{equation}\label{eq:m1:chi2_test_def}
-        \chi^2(h, \O_{m0}, \O_{k0}) = \sum_{i=1}^N \frac{(d_L(z, \O_{m0}, \O_{k0}) - d_L^\mathrm{obs}(z_i))^2}{\sigma_i^2}.
+\subsubsection{Fit to supernova data}
+    We make predictions of the luminosity distance at different redshifts $z$, according to the discussion in ~\cref{sec:m1:measure_time_space}. These predictions are compared with real supernova observations, acquired by ~\cite{Betoule_2014}. In order to constrain the possible values of $h$, $\O_\mathrm{M}$ and $\O_\Lambda$ we find the $\chi^2$-value between the luminosity distance of the supernovas and our predictions. The $\O$-s are sampled with Markov-Chain Monte Carlo sampling using the Metropolis-Hastings algorithm. 
+    
+    The parameters in question are $\Theta = \{h, \O_{m0}, \O_{k0}\}$, and we denote the observed data $\mathcal{D}_i = d_L^\mathrm{obs}(z_i)$.
+    We assume the likelihood that the observed data is true, follows a normal distribution, with the observed value as mean, and uncertainty as standard deviation. Mathematically: $P(\mathcal{D}_i|\Theta) \sim \mathcal{N}(\mathcal{D}_i, \sigma_i^2)$. The total likelihood is thus the product of all $N$ data points:
+    \begin{equation}\label{eq:m1:methods:fit:likelihood}
+        \mathcal{L}(\Theta|\mathcal{D}) = \prod_{i=1}^NP(\mathcal{D}_i|\Theta) \propto \exp{-\frac{\chi^2}{2}}
     \end{equation}
-    It is easy to see from ~\cref{eq:m1:chi2_test_def} that if the difference between prediction and observation matches the uncertainties in the observed data, then we have $\chi^2 \simeq N$, which is the best fit we can hope for (since we fit to data which has an intrinsic uncertainty already). If $\chi^2\ll N$, then we \textit{over-fit} the model, while if $\chi^2\gg N$ then we have an increasingly bad fit. In summary, we may analyse the following quantity
+    The last proportionality follows from the fact that $P$ is normally distributed and that we use:
+    \begin{equation}\label{eq:m1:methods:fit:chi2}
+        \chi^2(\Theta) = \sum_{i=1}^N\frac{(d_L(z_i, \Theta)-\mathcal{D}_i)^2}{\sigma_i^2}.
+    \end{equation}
+    We use as prior (the probability that the observed data are true without any further information), a uniform distribution that is 1 if the parameters are within the following ranges (0 otherwise): $0.5 < h < 1.5$, $0.0 < \O_{m0} < 1.0$, $-1.0 < \O_{k0} < 1.0$. These are the absolute ranges of the parameters. Thus, according to Bayes' theorem, within these ranges we have that the posterior probability 
+    \begin{equation}\label{eq:m1:methods:fit:posterior_prob}
+        P(\Theta|\mathcal{D}) \propto \mathcal{L}(\Theta|\mathcal{D}) \cdot \mathrm{Prior} = \mathcal{L}(\Theta|\mathcal{D}). 
+    \end{equation}
+    Thus, finding the most probable set of parameters $\Theta$ is equivalent to find the set with the largest likelihood, which again is similar to finding the set which minimises $\chi^2$. 
+
+    When performing MCMC sampling (with MH-algorithm), we use ~\cref{eq:m1:methods:fit:likelihood} as the likelihood function. That means that we would expect normally distributed values of the different parameters, $\Theta$. We may from the distributions of each parameter estimate the mean (true value) and a confidence interval from its standard deviation. We may also find the $1\sigma$ confidence space for the collection of parameters in $\Theta$, by considering the distribution of $\chi^2$. This is a famous distribution whose $1\sigma$ interval (for $k=3$ degrees of freedom in this case) is given by $\abs{\chi^2-\chi^2_\mathrm{min}} < 3.53$. 
+    
+    It is also of interest to say something about whether the fit is any good at all. It is easy to see from ~\cref{eq:m1:methods:fit:chi2} that if the difference between prediction and observation matches the uncertainties in the observed data, then we have $\chi^2 \simeq N$, which is the best fit we can hope for (since we fit to data which has an intrinsic uncertainty already). If $\chi^2\ll N$, then we \textit{over-fit} the model, while if $\chi^2\gg N$ then we have an increasingly bad fit. In summary, we may analyse the following quantity
     \begin{equation}\label{eq:m1:goodness_of_fit}
         \frac{\chi^2}{N} \begin{cases}
             \ll &1 \quad \mathrm{over-fitting,} \\
