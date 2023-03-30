@@ -1,48 +1,49 @@
 \subsection{Results and discussion}\label{sec:m1:results}
 
 \subsubsection{Tests}\label{sec:m1:results:tests}
-    \cref{fig:m1:omega_tests} show the evolution of the density fractions with time. They sum to one across all times which was required. At early times the radiation density dominates (orange line). The intersection between the orange and green lines mark the radiation-matter equality, after which matter is the dominating density. Likewise, the intersection between the green and purple lines mark the matter-dark energy equality, where dark energy (manifested in the cosmological constant) become the dominating density. Time can thus be divided into three regimes; radiation dominated, matter dominated, and dark energy dominated eras. 
+    ~\cref{fig:m1:omega_tests} show the evolution of the density fractions with time. They sum to one across all times which was required. At early times the radiation density dominates (orange line). The intersection between the orange and green lines mark the radiation-matter equality, after which matter is the dominating density. Likewise, the intersection between the green and purple lines mark the matter-dark energy equality, where dark energy (manifested in the cosmological constant) become the dominating density. Time can thus be divided into three regimes; radiation dominated, matter dominated, and dark energy dominated eras, separated by black dotted lines in the plot. 
     \begin{figure}
         \includegraphics[width=\linewidth]{testing_omegas.pdf}
-        \caption{Density fractions $\O_i$ as function of $x$. For low $x$, radiation dominates, before matter dominates and dark energy has just become the dominant energy density today $x=0$, and will continue to dominate into the future. The sum of densities sums to one across all times, as required (white dotted line). The black dotted lines are the radiation-matter equality at $x=-8.13$ and the matter-dark energy equality at $x=-0.26$, both stated in \cref{tab:m1:important_values}. The domination of each regime is shown as a shaded background with similar colour as its respective graph. }
+        \caption{Density fractions $\O_i$ as function of $x$. For low $x$, radiation dominates, before matter dominates and dark energy has just become the dominant energy density today $x=0$, and will continue to dominate into the future. The sum of densities sums to one across all times, as required (white dotted line). The black dotted lines are the radiation-matter equality at $x=-8.13$ and the matter-dark energy equality at $x=-0.26$, both stated in ~\cref{tab:m1:important_values}. The domination of each regime is shown as a shaded background with similar colour as its respective graph. }
         \label{fig:m1:omega_tests}
     \end{figure}
-
-    As explained in section \cref{sec:m1:theory:sanity}, we have analytical solutions for constructions of $\eta$ and $\Hp$ in the different regimes. \cref{fig:m1:eta_tests} is the sanity check for $\eta$, showing $\eta\Hp/c$ converging to finite values in the radiation and matter dominated eras (where $\alpha_{\mathrm{rad}, \mathrm{M}}>0$), and diverging towards $+\infty$ in the dark energy dominated era ($\alpha_\Lambda =-2 <0$). This is in accordance with the analytical solutions. The different regimes are shown in shaded colour. It is also worth noticing that $(\d \eta /\d x)\Hp/c$ is one for all regimes, as expected from equation \cref{eq:m1:theory:measures:eta_diffeq}.
+    
+    \TODO{fix this}
+    As explained in section ~\cref{sec:m1:theory:sanity}, we have analytical solutions for constructions of $\eta$ and $\Hp$ in the different regimes. \cref{fig:m1:eta_tests} is the sanity check for $\eta$, showing $\eta\Hp/c$ converging to finite values in the radiation and matter dominated eras (where $\alpha_{\mathrm{rad}, \mathrm{M}}>0$), and diverging towards $+\infty$ in the dark energy dominated era ($\alpha_\Lambda =-2 <0$). This is in accordance with the analytical solutions. The different regimes are shown in shaded colour. It is also worth noticing that $(\d \eta /\d x)\Hp/c$ is one for all regimes, as expected from equation ~\cref{eq:m1:theory:measures:eta_diffeq}. \TODO{to this}
 
     \begin{figure}
         \includegraphics[width=\linewidth]{eta_test.pdf}
-        \caption{Sanity check for $\eta$. $\eta\Hp/c$, in blue, is 1 in the radiation regime, 2 in the matter regime and diverging toward $+\infty$ in the dark energy regime, as expected from the analytical approximations in each regime. Remembering that this is strictly correct only in the radiation regime explains the mismatch of the white doted line in the matter regime. $(\d \eta /\d x)\Hp/c$, in red, is 1 throughout time, as expected from the differential equation for $\eta$.}
+        \caption{Sanity check for $\eta$. $\eta\Hp/c$, in blue, is 1 in the radiation regime, 2 in the matter regime and diverging toward $+\infty$ in the dark energy regime, as expected from the analytical approximations in each regime. Remembering that this is strictly correct only in the radiation regime explains the mismatch of the brown doted line in the matter regime. $(\d \eta /\d x)\Hp/c$, in red, is 1 throughout time, as expected from ~\cref{eq:m1:theory:measures:eta_diffeq}.}
         \label{fig:m1:eta_tests}
     \end{figure}
 
-    \cref{fig:m1:Hp_tests} is the sanity check confirming that our constructions of $\Hp$ and its derivatives converge to the analytical approximation in the different regimes. The second derivative, as shown in blue, takes the value of one in the radiation regime, one half in the matter regime and one in the dark energy regime. Similarly, the first derivative, as shown in green, take the value negative one in the radiation regime, negative one half in the matter regime and one in the dark energy regime. This is well in accordance with the analytical approximations put forth in section \cref{sec:m1:theory:sanity}. 
+    ~\cref{fig:m1:Hp_tests} is the sanity check confirming that our constructions of $\Hp$ and its derivatives converge to the analytical approximation in the different regimes. The second derivative, as shown in blue, takes the value of 1 in the radiation regime, 1/4 in the matter regime and 1 in the dark energy regime. Similarly, the first derivative, as shown in red, take the value -1 in the radiation regime, -1/2 in the matter regime and 1 in the dark energy regime. This is well in accordance with the analytical approximations put forth in section ~\cref{sec:m1:theory:sanity}. 
 
     \begin{figure}
         \includegraphics[width=\linewidth]{Hp_test.pdf}
-        \caption{Sanity check for $\Hp$, showing that the second derivative (blue) converge to the analytical expressions shown as white dotted lines in the different regimes. The first derivative (red) converge to its analytical values in the same regimes, which again are shown with a shaded colour.}
+        \caption{Sanity check for $\Hp$, showing that the second derivative (blue) converge to the analytical expressions shown as brown dotted lines in the different regimes. The first derivative (red) converge to its analytical values in the same regimes, which again are shown with a shaded colour.}
         \label{fig:m1:Hp_tests}
     \end{figure}
 
-    These sanity checks are confirmations that the implementation of the model yields the same result as the analytical approximation in the different regimes for various constructions of $\eta$ and $\Hp$ and their derivatives.
+    These sanity checks are confirmations that the implementations yield the same result as the analytical approximation in the different regimes for various constructions of $\eta$ and $\Hp$ and their derivatives.
     
 \subsubsection{Analysis}
 
-    \cref{sec:m1:theory:equalities} indicate how we can calculate the radiation-matter equality (RM-equality), matter-dark energy equality (ML-equality), when the acceleration of the universe started, the age of the universe and the conformal time today. The result is shown in \cref{tab:m1:important_values}. We note that the equalities is in accordance with the sanity checks, and the age of the universe today (in cosmic time) is about 13.9 Gyr. 
+    In ~\cref{sec:m1:lambdaCDM} we indicate how we can calculate the radiation-matter equality (RM-equality), matter-dark energy equality (ML-equality), when the acceleration of the universe started, the age of the universe and the conformal time today. The result is shown in ~\cref{tab:m1:important_values}. We note that the equalities is in accordance with the sanity checks, and the age of the universe today (in cosmic time) is about 13.9 Gyr. We also note that the acceleration onset is slightly before the matter-dark energy equality at $x=-0.49$ and $x=-0.26$ respectively. 
     \begin{table}
         \input{tables/value_table.tex}
-        \caption{Important quantities in the evolution of the universe.}
+        \caption{Important quantities in the evolution of the universe. RM stands for radiation-matter and ML for matter-dark energy.}
         \label{tab:m1:important_values}
     \end{table}
 
-    The conformal Hubble factor, $\Hp$, is plotted against time, $x$, in \cref{fig:m1:conformal_hubble_factor_Hp}. It is decreasing in the radiation and matter regimes and increasing in the dark energy regime. Since this is a measure of the expansion of the universe, the acceleration seem to coincide with the matter-dark energy equality. 
+    The conformal Hubble factor, $\Hp$, is plotted against time, $x$, in ~\cref{fig:m1:conformal_hubble_factor_Hp}. It is decreasing in the radiation and matter regimes and increasing in the dark energy regime, switching signs at the acceleration onset, which is marked with a black dotted line in the figure. 
     \begin{figure}
         \includegraphics[width=\linewidth]{conformal_hubble_factor.pdf}
         \caption{$\Hp$ as function of $x$. It is decreasing in the radiation and matter regimes, and increasing in the dark energy regime, tightly following its analytical approximation in each regime.}
         \label{fig:m1:conformal_hubble_factor_Hp}
     \end{figure}
 
-    \cref{fig:m1:cosmic_conformal_time} show the cosmic time $t$ and the conformal time $\eta/c$. We observe that the cosmic time accelerates around matter-dark energy equality, and seems to diverge, whereas the conformal time increases in the matter regime and seem to converge in the dark energy regime.
+    ~\cref{fig:m1:cosmic_conformal_time} show the cosmic time $t$ and the conformal time $\eta/c$. The cosmic time is the age of the universe at any given time/size $x$. The low values for the cosmic time at early times suggest a rapid increase of the size of the Universe in a short cosmic time. This is supported by the conformal Hubble factor in ~\cref{fig:m1:conformal_hubble_factor_Hp} which is large for low $x$. The expansion rate of the universe decelerates until the acceleration onset, from which it accelerates. \TODO{explain $\eta$ and $t$ more}
 
     \begin{figure}
         \includegraphics[width=\linewidth]{cosmic_conformal_time.pdf}
@@ -50,8 +51,22 @@
         \label{fig:m1:cosmic_conformal_time}
     \end{figure}
 
+    The results of the supernova fitting, outlined in section ~\cref{sec:m1:methods:fit}, is summarised in ~\cref{tab:m1:best_fit_values}. The parameter values that maximises the likelihood (minimising) $\chi^2$ are: $h=0.702$, $\O_\mathrm{M0} = 0.259$ and $\O_{k0} = 0.274$. We also compute the posterior probability distribution function obtained from ~\cref{eq:m1:methods:fit:posterior_prob} which we have assumed to be normally distributed. From this we obtain a mean value, but also a $1\sigma$ confidence interval, which is:
+    \begin{equation}\label{eq:m1:results:posterior_results}
+        \begin{split}
+            h &= 0.701\pm0.006 \\
+            \O_\mathrm{M0} &= 0.247\pm0.110 \\
+            \O_{k0} &= 0.107 \pm 0.274
+        \end{split}
+    \end{equation}
+    \TODO{cont.}
+    \begin{table}
+        \input{tables/best_fitted_values.tex}
+        \caption{Best and fitted values. The best fit values are those that actually minimise the $\chi^2$-value, which consequently are the most probable values. The fitted values are obtained as the mean and standard deviations of the posterior pdfs of the parameters respectively. }
+        \label{tab:m1:best_fit_values}
+    \end{table}
 
-    \cref{fig:m1:supernova_data} shows the supernova data as blue error bars, with the theoretical prediction plotted above it. The quantity plotted is the luminosity distance divided by redshift, $d_L/z$ for better comparison. We notice the accordance between the two, and also note that the $x$-axis in this plot is the redshift $z$ instead of the logarithm of the scale factor. This means that earlier times are to the right in the plot (high redshift), as opposed to the other plots. 
+    ~\cref{fig:m1:supernova_data} shows the supernova data as red error bars, with the predictions from the fiducial cosmology plotted above it, alongside the best fit parameter values. The quantity plotted is the luminosity distance divided by redshift, $d_L/z$ for better comparison. We notice the accordance between the two, and also note that the $x$-axis in this plot is the redshift $z$ instead of the logarithm of the scale factor. This means that earlier times are to the right in the plot (high redshift), as opposed to the other plots. 
 
     \begin{figure}
         \includegraphics[width=\linewidth]{supernova_data.pdf}

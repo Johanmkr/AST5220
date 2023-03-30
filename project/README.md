@@ -71,17 +71,11 @@ Clean the plots generated:
     * Make tables with fiducial cosmology and best fit cosmology
 
 * Theory
-    Sanity check for $\eta$, this should be done properly if time allows. 
- 
 
 * Sanity checks
-    * Nice, use \ll as $\ll$ instead of << 
+    Sanity check for $\eta$, this should be done properly if time allows. 
 
-* Methods
-    * Some sections should be merged and renamed. ODEs and spline are good. 
-    * Naming: model evaluation -> something, cut the resemble reality stuff.
-    * Fix typos.
-    * $\chi^2$ not really errors, but tells us something of the likelihood. 
+* Methods 
 
 * Results
     * Talk more about $\sigma$ intervals.
