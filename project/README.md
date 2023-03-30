@@ -59,7 +59,6 @@ Clean the plots generated:
 
 ## TODO:
  *  Optimise code
- *  Derive Friedmann equations in an appendix.
 
 
  ### Milestone1
@@ -68,19 +67,11 @@ Clean the plots generated:
     * Use OmegaM and OmegaR_tot
 
 * Report
-    * Write introduction
     * Write Abstract
-    * Update nomenclature
     * Make tables with fiducial cosmology and best fit cosmology
 
 * Theory
-    * Use "density" instead of "density of curvatere" (only mathematical similaritites, not a real density)
-    * Redshift - what is it really?
-    * Conformal time $\eta$ - what is it really, why do we care about it?
-    * Radial distance is really the radial coordiante in the FRLW line element. 
-    * Typo in eq. 19
-    * Derive acceleration onset. 
-    * Present sanity checks for conformal Hubble. 
+    Sanity check for $\eta$, this should be done properly if time allows. 
  
 
 * Sanity checks
