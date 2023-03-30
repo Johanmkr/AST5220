@@ -1,5 +1,6 @@
 from plot_utils import *
-
+# from scipy.stats import chi2
+from scipy.special import gamma
 #   Generate data objects
 Cosmology = Data("backgroundcosmology.csv")
 Sdata = Data("supernovadata.txt")
@@ -252,6 +253,11 @@ def goodness_of_fit():
     ax1.fill_between(bins, 0, gaussian, where=sigma > abs(bins-mu), color="blue", alpha=0.2, label=r"$\mu\pm 1\sigma$; $\sigma={sigma:.3f}$".format(sigma=sigma))
     # ax1.text(1.4, 2, r"$\mu = {mu:.3f} \\ \sigma = {sigma:.3f}$".format(mu=mu, sigma=sigma))
     ax1.set_title(r"$\mathrm{Goodness\ of\ fit}$", loc="left")
+
+    # k=3
+    # chipdf = lambda x, k: x**(k/2-1)*np.exp(-x/2)/(2**(k/2*gamma(k/2)))
+    # ax1.plot(bins, 31*chipdf(bins, k))
+
     ax1.set_xlabel(r"$\chi^2/N$")
     ax1.legend(loc="best", fancybox=True)
 
@@ -309,11 +315,11 @@ def omega_restrictions_plot():
 
     cbar = plt.colorbar(scat, ax=ax, label=r"$\chi^2$")
 
-    ax.set_xlabel(lbls["OmegaM"])
-    ax.set_ylabel(lbls["OmegaLambda"])
+    ax.set_xlabel(r"$\Omega_\mathrm{M0}$")
+    ax.set_ylabel(r"$\Omega_{\Lambda0}$")
     ax.set_ylim(.2,1)
-    ax.set_xlim(0,0.6)
-    ax.set_title(r"$1\sigma\ \mathrm{confidence\ plot\ of}\ (\Omega_M \;\mathrm{x}\; \Omega_\Lambda)$", loc="left")
+    ax.set_xlim(0,0.5)
+    ax.set_title(r"$1\sigma\ \mathrm{confidence\ plot\ of}\ (\Omega_\mathrm{M0} \;\mathrm{x}\; \Omega_{\Lambda0})$", loc="left")
     ax.minorticks_on()
 
     # fig.savefig(plot_path+"omega_restrictions.pdf", bbox_inches=None)
@@ -347,13 +353,13 @@ def prob_plots():
     oneSM = ax1.fill_between(binsM, 0, gaussianM, where=sigmaM > abs(binsM-muM), color="blue", alpha=0.2, label=r"$\mu\pm 1\sigma$")
     oneSK = ax2.fill_between(binsK, 0, gaussianK, where=sigmaK > abs(binsK-muK), color="blue", alpha=0.2)
 
-    ax1.set_xlabel(lbls["OmegaM"])
-    ax2.set_xlabel(lbls["OmegaK"])
+    ax1.set_xlabel(r"$\Omega_\mathrm{M0}$")
+    ax2.set_xlabel(r"$\Omega_{k0}$")
     # ax1.set_ylabel("Probability")
     # ax2.set_ylabel("Probability")
-    ax1.text(0.45, 3, r"$\mu_M = {mu:.3f} \\ \sigma_M = {sigma:.3f}$".format(mu=muM, sigma=sigmaM))
-    ax2.text(-.9, 1, r"$\mu_k = {mu:.3f} \\ \sigma_k = {sigma:.3f}$".format(mu=muK, sigma=sigmaK))
-    probs.suptitle(r"$\mathrm{Posterior\ pdf\ of}\ \Omega_M\ \mathrm{and}\ \Omega_k$", x=.1, horizontalalignment="left")
+    ax1.text(0.45, 3, r"$\mu_\mathrm{M0} = $"+r" ${mu:.3f}$".format(mu=muM)+r"\\ $\sigma_\mathrm{M0}$ = "+r" ${sigma:.3f}$".format(sigma=sigmaM))
+    ax2.text(-.9, 1, r"$\mu_{k0} = $"+r" ${mu:.3f}$".format(mu=muK)+r" \\ $\sigma_{k0} = $"+r" ${sigma:.3f}$".format(sigma=sigmaK))
+    probs.suptitle(r"$\mathrm{Posterior\ pdf\ of}\ \Omega_\mathrm{M0}\ \mathrm{and}\ \Omega_{k0}$", x=.1, horizontalalignment="left")
     probs.legend(loc="center right", fancybox=True, bbox_to_anchor=[0.97, 0.90], ncol=4, fontsize=26)
     ax1.minorticks_on()
     ax2.minorticks_on()

@@ -51,7 +51,7 @@
         \label{fig:m1:cosmic_conformal_time}
     \end{figure}
 
-    The results of the supernova fitting, outlined in section ~\cref{sec:m1:methods:fit}, is summarised in ~\cref{tab:m1:best_fit_values}. The parameter values that maximises the likelihood (minimising) $\chi^2$ are: $h=0.702$, $\O_\mathrm{M0} = 0.259$ and $\O_{k0} = 0.274$. We also compute the posterior probability distribution function obtained from ~\cref{eq:m1:methods:fit:posterior_prob} which we have assumed to be normally distributed. From this we obtain a mean value, but also a $1\sigma$ confidence interval, which is:
+    The results of the supernova fitting, outlined in section ~\cref{sec:m1:methods:fit}, is summarised in ~\cref{tab:m1:best_fit_values}. The parameter values that maximises the likelihood (minimising) $\chi^2$ are: $h=0.702$, $\O_\mathrm{M0} = 0.259$ and $\O_{k0} = 0.274$. We also compute the posterior probability distribution function obtained from ~\cref{eq:m1:methods:fit:posterior_prob} which we have assumed to be normally distributed. From this we obtain a mean value, but also a $1\sigma$ confidence interval, which are:
     \begin{equation}\label{eq:m1:results:posterior_results}
         \begin{split}
             h &= 0.701\pm0.006 \\
@@ -59,14 +59,13 @@
             \O_{k0} &= 0.107 \pm 0.274
         \end{split}
     \end{equation}
-    \TODO{cont.}
+    
     \begin{table}
         \input{tables/best_fitted_values.tex}
         \caption{Best and fitted values. The best fit values are those that actually minimise the $\chi^2$-value, which consequently are the most probable values. The fitted values are obtained as the mean and standard deviations of the posterior pdfs of the parameters respectively. }
         \label{tab:m1:best_fit_values}
     \end{table}
-
-    ~\cref{fig:m1:supernova_data} shows the supernova data as red error bars, with the predictions from the fiducial cosmology plotted above it, alongside the best fit parameter values. The quantity plotted is the luminosity distance divided by redshift, $d_L/z$ for better comparison. We notice the accordance between the two, and also note that the $x$-axis in this plot is the redshift $z$ instead of the logarithm of the scale factor. This means that earlier times are to the right in the plot (high redshift), as opposed to the other plots. 
+    Let's first see for ourselves if these values make sense or not, just with by-eye comparison.~\cref{fig:m1:supernova_data} shows the supernova data as red error bars, with the predictions from the fiducial cosmology plotted above it, alongside the best fit parameter values. The quantity plotted is the luminosity distance divided by redshift, $d_L/z$ for better comparison. We notice the accordance between the two, and also note that the $x$-axis in this plot is the redshift $z$ instead of the logarithm of the scale factor. This means that earlier times are to the right in the plot (high redshift), as opposed to the other plots. Immediately we see that the best fit parameters seems to do a better job at staying within the red error bars. However, the fiducial cosmology is also quite good. Furthermore, the fiducal cosmology stays well within the $1\sigma$ confidence interval found from the posterior pdfs. It is also worth noting that the uncertainties on some observed values are quite large. 
 
     \begin{figure}
         \includegraphics[width=\linewidth]{supernova_data.pdf}
@@ -74,32 +73,33 @@
         \label{fig:m1:supernova_data}
     \end{figure}
 
-    \begin{figure}
-        \includegraphics[width=\linewidth]{goodnes_of_fit.pdf}
-        \caption{Goodness of fit}
-        \label{fig:m1:goodness_of_fit}
-    \end{figure}
-
-    \cref{fig:m1:omega_planes} shows the $\chi^2$-values found from \cref{eq:m1:chi2_test_def}, to 1$\sigma$ accuracy. The black dotted line represent a flat universe, where the matter and dark energy are the main constituents of the universe. The supernova data originate in close temporal proximity to us, we thus assume that the contribution from the radiation density is negligible for making constraints on $\O_\mathrm{M}$ and $\O_\Lambda$ today. 
-
+    Now let's turn to how we have constrained the parameters. ~\cref{fig:m1:omega_planes} shows the $\chi^2$-values found from ~\cref{eq:m1:methods:fit:chi2}, constrained to 1$\sigma$ interval. The black dotted line represent a flat universe, where the matter and dark energy are the main constituents of the universe. The supernova data originate in close temporal proximity to us, we thus assume that the contribution from the radiation density is negligible for making constraints on $\O_\mathrm{M0}$ and $\O_{\Lambda0}$ today. Having only $\O_\mathrm{M0}$, $\O_{\Lambda0}$ and $\O_{k0}$, where only two of them are free yield: $\O_{k0}=1-(\O_\mathrm{M0}+\O_{\Lambda0})$, which fixes the relationship, so that it does not really matter which two of them we constrain, as the constraint on the third automatically follows.\footnote{This is why we are able to put constraints on $\O_{\Lambda0}$ even though this parameter is not (directly) sampled in the MCMC sampling.}
+    
     \begin{figure}
         \includegraphics[width=\linewidth]{omega_plane.pdf}
-        \caption{Scatter plot showing the $chi^2$-error of the luminosity distance $d_L$ between the observed values and the prediction, as function of $\O_\mathrm{M}$ and $\O_\Lambda$. The data shown is within $1\sigma$ (standard deviation). The black dotted line signifies a flat universe. }
+        \caption{Scatter plot showing the $\chi^2$-values of the luminosity distance $d_L$ between the observed values $\mathcal{D}$ and the sampled values, as function of $\O_\mathrm{M0}$ and $\O_{\Lambda0}$. The data shown is the $1\sigma$ confidence region. The black dotted line signifies a flat universe. }
         \label{fig:m1:omega_planes}
     \end{figure}
-
-    The MCMC method allow us to make a posterior probability distribution of the parameters in question. \cref{fig:m1:posterior_pdf_H0} the distribution of the Hubble factor $H_0$ constructed from the sampled values of $h$. The actual samples are shown in green and the corresponding fitted probability distribution in blue. 
-
-
+    
+    From the sampled values we then generate the posterior pdf by making a histogram of all the samples. This is seen for $\O_\mathrm{M0}$ and $\O_{k0}$ in ~\cref{fig:m1:posterior_pdf_omega_m_k} and for $H_0$ in ~\cref{fig:m1:posterior_pdf_H0}, all histograms are in turquoise. From the samples we also find their respective mean and standard deviation, from which we plot a green Gaussian curve on top of the histogram. The means are indicated with black dotted lines, and the $1\sigma$ confidence regions are shaded in blue. Both quantities are also stated in text in each plot, inn accordance with those presented in ~\cref{tab:m1:best_fit_values}. From inspection, we see that the histograms are quite close to being normally distributed, so the fitted Gaussian is quite a good fit. 
+    
     \begin{figure}
         \includegraphics[width=\linewidth]{probs_M_K.pdf}
         \caption{Posterior probability distributions (pdfs) of $\O_mathrm{M}$ and $\O_\mathrm{k}$ as result of the MCMC sampling. The samples as shown in turquoise and the constructed pdfs in green. The mean $\mu$ is shown as a black dotted line, with the $1\sigma$ confidence interval in shaded blue ($\mu\pm 1\sigma$)}
         \label{fig:m1:posterior_pdf_omega_m_k}
     \end{figure}
-
+    
     \begin{figure}
         \includegraphics[width=\linewidth]{posterior_pdf.pdf}
         \caption{Posterior probability distribution (pdf) of $H_0$ as result of the MCMC sampling.}
         \label{fig:m1:posterior_pdf_H0}
     \end{figure}
 
+    Discussing the goodness of the fit further, we may turn to the criterion from ~\cref{eq:m1:fit:goodness_of_fit}. ~\cref{fig:m1:goodness_of_fit} show a histogram of the sampled $\chi^2$ values, divided by $N$. In sight of prior discussion, the mean value of $\chi^2/N$ is 1.052, which is not that much larger than 1. Thus, we deduce that the fit is quite good. Although we also see from the figure that $\chi^2/N$ deviates significantly from the Gaussian curve in green.  
+    
+    \begin{figure}
+        \includegraphics[width=\linewidth]{goodnes_of_fit.pdf}
+        \caption{Goodness of fit}
+        \label{fig:m1:goodness_of_fit}
+    \end{figure}
+    
