@@ -251,7 +251,7 @@ def goodness_of_fit():
     ax1.axvline(mu, ls="--", color="black", lw=2, label=r"$\mu={mu:.3f}$".format(mu=mu))
     ax1.fill_between(bins, 0, gaussian, where=sigma > abs(bins-mu), color="blue", alpha=0.2, label=r"$\mu\pm 1\sigma$; $\sigma={sigma:.3f}$".format(sigma=sigma))
     # ax1.text(1.4, 2, r"$\mu = {mu:.3f} \\ \sigma = {sigma:.3f}$".format(mu=mu, sigma=sigma))
-    ax1.set_title(r"$\mathrm{Goodness\ of\ fit}$")
+    ax1.set_title(r"$\mathrm{Goodness\ of\ fit}$", loc="left")
     ax1.set_xlabel(r"$\chi^2/N$")
     ax1.legend(loc="best", fancybox=True)
 
