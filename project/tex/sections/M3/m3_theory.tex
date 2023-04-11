@@ -2,7 +2,7 @@
 
 \subsubsection{Metric perturbations}
     The perturbed metric in the conformal-Newtonian gauge is given in ~\cite{https://doi.org/10.48550/arxiv.astro-ph/0606683} as:
-    \begin{equation}
+    \begin{equation}\label{eq:m3:theory:perturbed_metric}
         g_\munu = \begin{pmatrix}
             -(1+2\Psi) & 0 \\
             0 & e^{2x}\delta_{ij}(1+2\Phi)
@@ -10,8 +10,36 @@
     \end{equation}
 
 \subsubsection{Fourier space and multipole expansion}
+    Consider a function $f(\vec{x},t)$. Its Fourier transform $\FF$ and inverse $\FF^{-1}$ are defined as:
+    \begin{equation}\label{eq:m3:theory:fourier_def}
+            \FF[f(\vec{x},t)]  \equiv \frac{1}{(2\pi)^{3/2}}\int e^{-i\vec{k}\cdot\vec{x}}f(\vec{x},t)\d^3 x = \tilde{f}(\vec{k},t),
+    \end{equation}
+    \begin{equation}\label{eq:m3:theory:fourier_inv_def}
+        \FF^{-1}[\tilde{f}(\vec{k},t)] \equiv \frac{1}{(2\pi)^{3/2}}\int e^{i\vec{k}\cdot\vec{x}}\tilde{f}(\vec{k},t)\d^3 k = f(\vec{x},t).
+    \end{equation}
+    It becomes apparent from these definitions that taking the spatial derivative with respect to $\vec{x}$ in real space, is the same as multiplying the function with $i\vec{k}$ in Fourier space. This leads to the following property: $\FF[\nabla f(\vec{x},t)] = i\vec{k}\FF[f(\vec{x},t)]$. This is of major significance when working with partial differential equations (PDEs), where:
+    \begin{equation}\label{eq:m3:theory:fourier_pde_tricks}
+        \begin{split}
+            \FF[\nabla^2f(\vec{x},t)] &= i^2\vec{k}\cdot\vec{k}\FF[f(\vec{x},t)] = -k^2\FF[f(\vec{x},t)]\\
+            \FF\left[\dv[n]{f(\vec{x},t)}{t}\right] &= \dv[n]{t}\FF[f(\vec{x},t)].
+        \end{split}
+    \end{equation} 
+    The two equations in ~\cref{eq:m3:theory:fourier_pde_tricks} have the ability of reducing PDEs down to a set of decoupled ODEs. This means that we are able to solve for each mode $k=\abs{\vec{k}}$ independently, which will be of great impact for the equations to come. 
+
+    We will also work with multipole expansions, which are series written as sums of \textit{Legendre polynomials} expanded in $\mu=\cos{\theta}\in[-1,1]$ as:
+    \begin{equation}\label{eq:m3:theory:legendre_expansion}
+        f(\mu) = \sum_{l=0}^{\infty}f_l\mathcal{P}_l(\mu),
+    \end{equation}
+    where $\mathcal{P}_l$ is the $l$-th Legendre polynomial. These are orthogonal in such a way that they form a complete basis, enabling us to express any $f(\mu)$ as in ~\cref{eq:m3:theory:legendre_expansion}. The coefficients $f_l$ are the \textit{Legendre multipoles}:
+    \begin{equation}\label{eq:m3:theory:legendre_coeff}
+        f_l = \frac{2l+1}{2}\int_{-1}^1f(\mu)\mathcal{P}_l(\mu)\d\mu.
+    \end{equation}
+
+
+
 
 \subsubsection{Einstein-Boltzmann equations}
+    We now solve the Boltzmann equation for the different species, starting with photons
 
 \subsubsection{Tight coupling regime}
 
