@@ -39,7 +39,37 @@
 
 
 \subsubsection{Einstein-Boltzmann equations}
-    We now solve the Boltzmann equation for the different species, starting with photons
+    The conformal-Newtonian gauge perturbation, ~\cref{eq:m3:theory:perturbed_metric}, give rise to the Boltzmann equation for radiation and massive particles, both found from the general Boltzmann equation in ~\cref{eq:m2:theory:boltzmann_eq}. We now solve the Boltzmann equation for the different species, starting with photons. In linear order, we have from ~\cite[Eq. 3.74]{dodelson2020modern} that:
+    \begin{equation}\label{eq:m3:theory:boltzmann_for_radiation}
+        \dv{f}{t} = \pdv{f}{t}+\frac{\hat{p}^i}{a}\pdv{f}{x^i}-\left[H+\dot{\Phi} + \frac{1}{a}\hat{p}^i\pdv{\Psi}{x^i}\right]p\pdv{f}{p}.
+    \end{equation}
+    We then define the perturbation to the photons, $\T$, to be the variation of photon temperature around an equilibrium temperature $T^{(0)}$:
+    \begin{equation}\label{eq:m3:theory:temperature_perturbation}
+        T(\vec{x}, \vec{p}, t) = T^{(0)}\left[1+\T(\vec{x}, \vec{p}, t)\right].
+    \end{equation}
+    The collision terms for the photons are governed by Compton scattering \TODO{decide on how much to include here}
+    By expanding equation ~\cref{eq:m3:theory:boltzmann_for_radiation} around its zeroth order Bose-Einstein form (~\cite{dodelson2020modern}), using the temperature perturbation in ~\cref{eq:m3:theory:temperature_perturbation} we obtain the following:
+    \begin{equation}
+        \dot{\T} + \frac{\hat{p}^i}{a}\pdv{\T}{x^i} + \dot{\Phi} + \frac{\hat{p}^i}{a}\pdv{\Psi}{x^i} = n_e\sigma_T\left[\T_0-\T+\vec{\hat{p}}\cdot\vec{v}_b\right]
+    \end{equation} 
+
+
+    from ~\cite[Eq. 3.76]{dodelson2020modern}:
+    \begin{equation}\label{eq:m3:theory:boltzmann_for_massive_particles}
+        \dv{f}{t} = \pdv{f}{t}+\frac{p}{E}\frac{\hat{p}^i}{a}\pdv{f}{x^i} - \left[H+\dot{\Psi}+\frac{E}{ap}\hat{p}^i\Psi_i\right]p\pdv{f}{p}
+    \end{equation}
+
+
+     
+
+    \begin{subequations}
+        \begin{align}
+            \dot{\T} &= -ik\mu(\T+\Psi)-\dot{\Phi}-\dot{\tau}\left[\T_0-\T+i\mu v_b-\frac{\mathcal{P}_2\T_2}{2}\right],\\
+            \dot{\delta}_\cdm &= -3\dot{\Phi}+kv_\cdm \\
+            \dot{v}_\cdm &= -k\Psi-\Hp v_\cdm \\
+        \end{align}
+    \end{subequations}
+
     
     Photon temperature multipoles
     \begin{subequations}\label{eq:m3:theory:photon_temp_multipoles}
