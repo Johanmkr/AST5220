@@ -40,6 +40,43 @@
 
 \subsubsection{Einstein-Boltzmann equations}
     We now solve the Boltzmann equation for the different species, starting with photons
+    
+    Photon temperature multipoles
+    \begin{subequations}\label{eq:m3:theory:photon_temp_multipoles}
+        \begin{align}
+            \T_0' &= -\frac{ck}{\Hp}\T_1-\Phi',\label{eq:m3:theory:photon_monopole}\\
+            \T_1' &= \frac{ck}{3\Hp}\T_0 - \frac{2ck}{3\Hp}\T_2 +\frac{ck}{3\Hp}\Psi+\tau'\left[\T_1+\frac{1}{3}v_b\right],\label{eq:m3:theory:photon_dipole}\\
+            \T_l &= \begin{cases}
+                \frac{lck\T_{l-1}}{(2l+1)\Hp} -\frac{(l+1)ck\T_{l+1}}{(2l+1)\Hp} +\tau'\left[\T_l-\frac{\T_2}{10}\delta_{l,2}\right] , \quad &l\geq2\\
+                \\
+                \frac{ck\T_{l-1}}{\Hp} - c\frac{(l+1)\T_l}{\Hp\eta}+\tau'\T_l, &l=l_\mathrm{max}
+            \end{cases}\label{eq:m3:theory:photon_multipole}
+        \end{align}
+    \end{subequations}
+
+
+    
+    Cold dark matter and baryons
+    \begin{subequations}\label{eq:m3:theory:cdm_baryon_diffeqs}
+        \begin{align}
+            \delta'_\cdm &= \frac{ck}{\Hp}v_\cdm-3\Phi', \label{eq:m3:theory:delta_cdm}\\
+            v'_\cdm &= -v_\cdm-\frac{ck}{\Hp}\Psi, \label{eq:m3:theory:v_cdm}\\
+            \delta'_b &= \frac{ck}{\Hp}v_b - 3\Phi', \label{eq:m3:theory:delta_b}\\
+            v'_b &= -v_b - \frac{ck}{\Hp} + \tau'R^{-1}(3\T_1+v_b) \label{eq:m3:theory:v_b}
+        \end{align}
+    \end{subequations}
+    where $R$ is defined in ~\cref{eq:m2:theory:sound_speed}
+
+
+    Metric perturbations
+
+    \begin{subequations}\label{eq:m3:theory:metric_perturbations_final}
+        \begin{align}
+            \Phi' &= \Psi - \frac{c^2k^2}{3\Hp^2}\Phi + \frac{H_0^2}{2\Hp^2}\mathcal{Y}, \label{eq:m3:theory:phi_perturbation}\\
+            \Psi &= -\Phi - \frac{12H_0^2}{c^2k^2}\O_\gamma\T_2. \label{eq:m3:theory:psi_perturbation}
+        \end{align}
+    \end{subequations}
+    where $\mathcal{Y} = \O_\cdm\delta_\cdm+\O_b\delta_b+4\O_\gamma\T_0$
 
 \subsubsection{Tight coupling regime}
 
