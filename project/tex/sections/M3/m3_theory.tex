@@ -8,6 +8,14 @@
             0 & e^{2x}\delta_{ij}(1+2\Phi)
         \end{pmatrix}
     \end{equation}
+    This means that we perturb the FLRW-metric with $\Psi\ll1$ corresponding to the Newtonian potential governing the motion of non-relativistic particles and $\Phi\ll1$ governing the perturbation of the spatial curvature. \footnote{$\Phi$ may also be interpreted as a \textit{local perturbation to the scale factor}, ~\cite{dodelson2020modern}.} By considering the geodesic equation in this perturbed spacetime we obtain the following:
+    \begin{subequations}\label{eq:m3:theory:geodesic_results}
+        \begin{align}
+            \dv{x^i}{t} &= \frac{\hat{p}^i}{a}\frac{p}{E}(1-\Phi+\Psi) \label{eq:m3:theory:metric_perturb_dxidt}\\
+            \dv{p^i}{t} &= -\left(H+\dv{\Phi}{t}\right)p^i-\frac{E}{a}\Phi_i-\frac{1}{a}\frac{p^i}{E}p^k\Phi_k + \frac{p^2}{aE}\Phi_i \label{eq:m3:theory:metric_perturb_dpidt}\\
+            \dv{p}{t} &= -\left(H+\dv{\Phi}{t}\right)p-\frac{E}{a}\hat{p}^i\Psi_i \label{eq:m3:theory:metric_perturb_dpdt}
+        \end{align}
+    \end{subequations}
 
 \subsubsection{Fourier space and multipole expansion}
     Consider a function $f(\vec{x},t)$. Its Fourier transform $\FF$ and inverse $\FF^{-1}$ are defined as:
@@ -41,13 +49,17 @@
 \subsubsection{Einstein-Boltzmann equations}
     The conformal-Newtonian gauge perturbation, ~\cref{eq:m3:theory:perturbed_metric}, give rise to the Boltzmann equation for radiation and massive particles, both found from the general Boltzmann equation in ~\cref{eq:m2:theory:boltzmann_eq}. We now solve the Boltzmann equation for the different species, starting with photons. In linear order, we have from ~\cite[Eq. 3.74]{dodelson2020modern} that:
     \begin{equation}\label{eq:m3:theory:boltzmann_for_radiation}
-        \dv{f}{t} = \pdv{f}{t}+\frac{\hat{p}^i}{a}\pdv{f}{x^i}-\left[H+\dot{\Phi} + \frac{1}{a}\hat{p}^i\pdv{\Psi}{x^i}\right]p\pdv{f}{p}.
+        \dv{f}{t} = \pdv{f}{t}+\frac{\hat{p}^i}{a}\pdv{f}{x^i}-\left[H+\dv{\Phi}{t} + \frac{1}{a}\hat{p}^i\pdv{\Psi}{x^i}\right]p\pdv{f}{p}.
     \end{equation}
     We then define the perturbation to the photons, $\T$, to be the variation of photon temperature around an equilibrium temperature $T^{(0)}$:
     \begin{equation}\label{eq:m3:theory:temperature_perturbation}
         T(\vec{x}, \vec{p}, t) = T^{(0)}\left[1+\T(\vec{x}, \vec{p}, t)\right].
     \end{equation}
-    The collision terms for the photons are governed by Compton scattering \TODO{decide on how much to include here}
+    The collision terms for the photons are governed by Compton scattering. We use the form found in ~\cite[Eq. 5.22]{dodelson2020modern}:
+    \begin{equation}
+        C[f(\vec{p})] = -p^2\pdv{f^{(0)}}{p}n_e\sigma_T[\T_0 - \T(\hat{\vec{p}}) + \hat{\vec{p}}\cdot\vec{v}_b]
+    \end{equation}
+    where
     By expanding equation ~\cref{eq:m3:theory:boltzmann_for_radiation} around its zeroth order Bose-Einstein form (~\cite{dodelson2020modern}), using the temperature perturbation in ~\cref{eq:m3:theory:temperature_perturbation} we obtain the following:
     \begin{equation}
         \dot{\T} + \frac{\hat{p}^i}{a}\pdv{\T}{x^i} + \dot{\Phi} + \frac{\hat{p}^i}{a}\pdv{\Psi}{x^i} = n_e\sigma_T\left[\T_0-\T+\vec{\hat{p}}\cdot\vec{v}_b\right]
