@@ -65,20 +65,46 @@
     \begin{equation}\label{eq:m3:theory:photon_collision_term}
         C[f(\vec{p})] = -p^2\pdv{f^{(0)}}{p}n_e\sigma_T[\T_0 - \T(\hat{\vec{p}}) + \hat{\vec{p}}\cdot\vec{v}_b]
     \end{equation}
-    where $\T_0$ is the monopole term.\footnote{This is the integral over the photon perturbation at any given point, over all photon directions. It is given by $$\T_0(\vec{x}, t) \equiv \frac{1}{4\pi}\int \d\Omega'\T(\vec{x}, \hat{\vec{p}}', t)$$ where $\O'$ is the solid angle spanned by $\hat{\vec{p}}'$ ~\cite{dodelson2020modern}.} The distribution function for radiation follows the Bose-Einstein distribution function, so we expand $f$ around its zeroth order Bose-Einstein form, ~\cite[Eq. 5.2-5.9]{dodelson2020modern}, using the temperature perturbation in ~\cref{eq:m3:theory:temperature_perturbation}\TODO{Include equation 5.9 in Dodelson?}. This is then inserted into ~\cref{eq:m3:theory:collisionless_bolzmann_general}, which we equate to the collision term in ~\cref{eq:m3:theory:photon_collision_term} in order to obtain the following full Boltzmann equation for radiation:
+    where $\T_0$ is the monopole term.\footnote{This is the integral over the photon perturbation at any given point, over all photon directions. It is given by $$\T_0(\vec{x}, t) \equiv \frac{1}{4\pi}\int \d\Omega'\T(\vec{x}, \hat{\vec{p}}', t)$$ where $\O'$ is the solid angle spanned by $\hat{\vec{p}}'$ ~\cite{dodelson2020modern}.} $\vec{v}_b$ is the bulk velocity of the electrons involved in the process, and is the same as for baryons, hence the subscript. The distribution function for radiation follows the Bose-Einstein distribution function, so we expand $f$ around its zeroth order Bose-Einstein form, ~\cite[Eq. 5.2-5.9]{dodelson2020modern}, using the temperature perturbation in ~\cref{eq:m3:theory:temperature_perturbation}\TODO{Include equation 5.9 in Dodelson?}. This is then inserted into ~\cref{eq:m3:theory:collisionless_bolzmann_general}, which we equate to the collision term in ~\cref{eq:m3:theory:photon_collision_term} in order to obtain the following full Boltzmann equation for radiation:\footnote{Where of course $m=0\iff E=p$.}
     \begin{equation}\label{eq:m3:theory:boltzmann_equation_radiation_full}
         \dv{\T}{t} + \frac{\hat{p}^i}{a}\pdv{\T}{x^i} + \dv{\Phi}{t} + \frac{\hat{p}^i}{a}\pdv{\Psi}{x^i} = n_e\sigma_T\left[\T_0-\T+\vec{\hat{p}}\cdot\vec{v}_b\right]
     \end{equation} 
-
-
-    from ~\cite[Eq. 3.76]{dodelson2020modern}:
-    \begin{equation}\label{eq:m3:theory:boltzmann_for_massive_particles}
-        \dv{f}{t} = \pdv{f}{t}+\frac{p}{E}\frac{\hat{p}^i}{a}\pdv{f}{x^i} - \left[H+\dot{\Psi}+\frac{E}{ap}\hat{p}^i\Psi_i\right]p\pdv{f}{p}
+    
+    For massive particles, we start with cold dark matter (CDM). Firstly, we assume cold dark matter to not interact with any other species, nor self-interact. Thus, we do not have any collision terms. Further, we also assume it to behave like a fluid, neglecting any terms not to first order. We consider cold dark matter to be non-relativistic, thus they will only have a sizeable monopole and dipole term, which means that the evolution is fully characterised by the density and velocity, ~\cite{AST5220LectureNotes}. \TODO{how much about moments should I explain?} Therefore, we take the first and second moment of ~\cref{eq:m3:theory:collisionless_bolzmann_general} and consider them to first order, in order to retrieve the cosmological generalisation of the continuity equation ~\cite[Eq. 5.41]{dodelson2020modern}:
+    \begin{equation}\label{eq:m3:theory:continuity_equation}
+        \pdv{n_c}{t}+\frac{1}{a}\pdv{(n_cv_c^i)}{x^i} + 3\left[H+\pdv{\Phi}{t}\right]n_c=0,
     \end{equation}
+    and the Euler equation ~\cite[Eq. 5.50]{dodelson2020modern}:
+    \begin{equation}\label{eq:m3:theory:euler_equation}
+        \pdv{v_c^i}{t} + Hv_c^i + \frac{1}{a}\pdv{\Psi}{x^i} = 0.
+    \end{equation}
+    In both ~\cref{eq:m3:theory:continuity_equation} and ~\cref{eq:m3:theory:euler_equation}, $n_c$ is the cold dark matter number density, $\vec{v}_c$ its bulk velocity. We then consider the perturbation of $n_c$ to first order:
+    \begin{equation}\label{eq:m3:theory:cdm_number_density_perturbation}
+        n_c(\vec{x}, t) = n_c^{(0)}[1+\delta_c(\vec{x},t)],
+    \end{equation}
+    and consider the first order perturbation to ~\cref{eq:m3:theory:continuity_equation}:
+    \begin{equation}\label{eq:m3:theory:cdm_density_perturbation}
+        \pdv{\delta_c}{t}+\frac{1}{a}\pdv{v_c^i}{x^i} + 3\pdv{\Phi}{t} = 0.
+    \end{equation}
+    ~\cref{eq:m3:theory:cdm_density_perturbation} and ~\cref{eq:m3:theory:euler_equation} now described the evolution of the density perturbation $\delta_c$ and bulk velocity $\vec{v}_c$ of cold dark matter. 
 
+    |
+
+    |
+    
+    |
+    
+    |
+    
+    |
+    
+    |
+    
+    |
+    
+    |
 
      
-
     \begin{subequations}
         \begin{align}
             \dot{\T} &= -ik\mu(\T+\Psi)-\dot{\Phi}-\dot{\tau}\left[\T_0-\T+i\mu v_b-\frac{\mathcal{P}_2\T_2}{2}\right],\\
