@@ -71,22 +71,27 @@
     \end{equation} 
     
     For massive particles, we start with cold dark matter (CDM). Firstly, we assume cold dark matter to not interact with any other species, nor self-interact. Thus, we do not have any collision terms. Further, we also assume it to behave like a fluid, neglecting any terms not to first order. We consider cold dark matter to be non-relativistic, thus they will only have a sizeable monopole and dipole term, which means that the evolution is fully characterised by the density and velocity, ~\cite{AST5220LectureNotes}. \TODO{how much about moments should I explain?} Therefore, we take the first and second moment of ~\cref{eq:m3:theory:collisionless_bolzmann_general} and consider them to first order, in order to retrieve the cosmological generalisation of the continuity equation ~\cite[Eq. 5.41]{dodelson2020modern}:
-    \begin{equation}\label{eq:m3:theory:continuity_equation}
+    \begin{equation}\label{eq:m3:theory:cdm_continuity_equation}
         \pdv{n_c}{t}+\frac{1}{a}\pdv{(n_cv_c^i)}{x^i} + 3\left[H+\pdv{\Phi}{t}\right]n_c=0,
     \end{equation}
     and the Euler equation ~\cite[Eq. 5.50]{dodelson2020modern}:
-    \begin{equation}\label{eq:m3:theory:euler_equation}
+    \begin{equation}\label{eq:m3:theory:cdm_euler_equation}
         \pdv{v_c^i}{t} + Hv_c^i + \frac{1}{a}\pdv{\Psi}{x^i} = 0.
     \end{equation}
-    In both ~\cref{eq:m3:theory:continuity_equation} and ~\cref{eq:m3:theory:euler_equation}, $n_c$ is the cold dark matter number density, $\vec{v}_c$ its bulk velocity. We then consider the perturbation of $n_c$ to first order:
+    In both ~\cref{eq:m3:theory:cdm_continuity_equation} and ~\cref{eq:m3:theory:cdm_euler_equation}, $n_c$ is the cold dark matter number density, $\vec{v}_c$ its bulk velocity. We then consider the perturbation of $n_c$ to first order:
     \begin{equation}\label{eq:m3:theory:cdm_number_density_perturbation}
         n_c(\vec{x}, t) = n_c^{(0)}[1+\delta_c(\vec{x},t)],
     \end{equation}
-    and consider the first order perturbation to ~\cref{eq:m3:theory:continuity_equation}:
+    and consider the first order perturbation to ~\cref{eq:m3:theory:cdm_continuity_equation}:
     \begin{equation}\label{eq:m3:theory:cdm_density_perturbation}
         \pdv{\delta_c}{t}+\frac{1}{a}\pdv{v_c^i}{x^i} + 3\pdv{\Phi}{t} = 0.
     \end{equation}
-    ~\cref{eq:m3:theory:cdm_density_perturbation} and ~\cref{eq:m3:theory:euler_equation} now described the evolution of the density perturbation $\delta_c$ and bulk velocity $\vec{v}_c$ of cold dark matter. 
+    ~\cref{eq:m3:theory:cdm_density_perturbation} and ~\cref{eq:m3:theory:cdm_euler_equation} now described the evolution of the density perturbation $\delta_c$ and bulk velocity $\vec{v}_c$ of cold dark matter.
+
+    For baryons (protons and electrons) we also assume them to behave like a non-relativistic fluid, so taking moments is a similar task as for cold dark matter. The only difference is that baryons interact with each other through Coulomb scattering and Compton scattering. We may ignore Compton scattering between protons and photons due to the small cross-section, but electrons are coupled to both photons and protons. Since the first moment of the Boltzmann equation represents conservations of particle number, and none of the above interactions changes the total baryon particle number, the continuity equation is identical to ~\cref{eq:m3:theory:cdm_continuity_equation}, but for baryons. We also have a baryon perturbation similar to ~\cref{eq:m3:theory:cdm_number_density_perturbation}, which altogether results in the following density perturbation for baryons:
+    \begin{equation}\label{eq:m3:theory:baryon_density_perturbation}
+        \pdv{\delta_b}{t}+\frac{1}{a}\pdv{v_b^i}{x^i} + 3\pdv{\Phi}{t} = 0.
+    \end{equation}
 
     |
 
