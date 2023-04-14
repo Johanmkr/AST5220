@@ -98,7 +98,7 @@
         \pdv{v_b^i}{t}+Hv_b^i + \frac{1}{a}\pdv{\Psi}{x^i} = -n_e\sigma_TR^{-1}(v_\gamma^i-v_b^i)
     \end{equation}
 
-    We have now acquired differential equations for the temperature fluctuations, $\T$ in ~\cref{eq:m3:theory:boltzmann_equation_radiation_full}, and the overdensities\footnote{The fluctuations to the equilibrium densities}, $\delta_c$, $\delta_b$, and bulk velocities $v_c^i$ and $v_b^i$, of cold dark matter and baryons respectively in ~\cref{eq:m3:theory:cdm_density_perturbation}, ~\cref{eq:m3:theory:baryon_density_perturbation}, ~\cref{eq:m3:theory:cdm_euler_equation} and ~\cref{eq:m3:theory:baryon_euler_equation}. In order to make these differential equations easier to solve we make the transformation into Fourier space. We do this by introducing $\mu$ as the cosine of the angle between the Fourier wave vector $\vec{k}$ and the direction of the photon $\vec{p}/\abs{\vec{p}}$. Additionally, velocities are generally longitudinal which enables us to write:
+    We have now acquired differential equations for the temperature fluctuations, $\T$ in ~\cref{eq:m3:theory:boltzmann_equation_radiation_full}, and the overdensities\footnote{The fluctuations to the equilibrium densities.}, $\delta_c$, $\delta_b$, and bulk velocities $v_c^i$ and $v_b^i$, of cold dark matter and baryons respectively in ~\cref{eq:m3:theory:cdm_density_perturbation}, ~\cref{eq:m3:theory:baryon_density_perturbation}, ~\cref{eq:m3:theory:cdm_euler_equation} and ~\cref{eq:m3:theory:baryon_euler_equation}. In order to make these differential equations easier to solve we make the transformation into Fourier space. We do this by introducing $\mu$ as the cosine of the angle between the Fourier wave vector $\vec{k}$ and the direction of the photon $\vec{p}/\abs{\vec{p}}$. Additionally, velocities are generally longitudinal which enables us to write:
     \begin{equation}\label{eq:m3:theory:mu_and_longitudinal_vel_def}
         \begin{split}
             \mu &\equiv \frac{\vec{k}\cdot\vec{p}}{kp} \\
@@ -118,54 +118,55 @@
     In ~\cref{eq:m3:theory:diff_eq_FC_theta} and ~\cref{eq:m3:theory:diff_eq_FC_v_b} we define $\dot{\tau}$ from ~\cref{eq:m2:theory:optical_depth}. Additionally, in ~\cref{eq:m3:theory:diff_eq_FC_theta} we have included the term $\mathcal{P}_2\T_2/2$ in order to account for the angular dependency of Compton scattering previously ignored. We have also used that the photon velocity is proportional to the dipole $\T_1 = -v_\gamma/3$.
 
     Our next step is to once again consider the perturbation to the metric in order to find out how the potentials $\Psi$ and $\Phi$ change with time. In short, this is done by computing the perturbed Christoffel symbols using ~\cref{eq:m3:theory:perturbed_metric}, finding the Ricci tensor and Ricci scalar, and construct the perturbed Einstein tensor. We also have to find the perturbed energy-momentum Tensor, and then solve the Einstein equation in ~\cref{eq:introduction:einstein_equation}. The result yields the time evolution of $\Phi$ and $\Psi$, where we have from ~\cite[Eq. 6.41]{dodelson2020modern}:
-    \begin{equation}
+    \begin{equation}\label{eq:m3:theory:time_evolution_of_Phi}
         k^2\Phi+3\Hp(\dot{\Phi}-\Hp\Psi) = 4\pi Ga^2(\rho_c\delta_c+\rho_b\delta_b+4\rho_\gamma\T_0),
     \end{equation}
     and from ~\cite[Eq. 6.47]{dodelson2020modern}
-    \begin{equation}
+    \begin{equation}\label{eq:m3:theory:Psi_Phi_connection}
         k^2(\Phi+\Psi) = -32\pi Ga^2(\rho_\gamma\T_2):
     \end{equation}
+    ~\cref{eq:m3:theory:time_evolution_of_Phi} and ~\cref{eq:m3:theory:Psi_Phi_connection} are both written in Fourier space. The final step is to write the photon fluctuations $\T$ as a hierarchy of multipoles in accordance with ~\cref{eq:m3:theory:legendre_expansion}. The resultant hierarchy, along with all relevant equations, now written in terms of our preferred temporal variable $x$ is given below: 
 
-    
 
+    \begin{tcolorbox}[
+        width=1.075\linewidth,
+        colback=blue!5!white,
+        colframe=white
+    ]
     
-    Photon temperature multipoles
+    \textbf{Photon temperature multipoles}
     \begin{subequations}\label{eq:m3:theory:photon_temp_multipoles}
         \begin{align}
             \T_0' &= -\frac{ck}{\Hp}\T_1-\Phi',\label{eq:m3:theory:photon_monopole}\\
             \T_1' &= \frac{ck}{3\Hp}\T_0 - \frac{2ck}{3\Hp}\T_2 +\frac{ck}{3\Hp}\Psi+\tau'\left[\T_1+\frac{1}{3}v_b\right],\label{eq:m3:theory:photon_dipole}\\
-            \T_l &= \begin{cases}
+            \T_l' &= \begin{cases}
                 \frac{lck\T_{l-1}}{(2l+1)\Hp} -\frac{(l+1)ck\T_{l+1}}{(2l+1)\Hp} +\tau'\left[\T_l-\frac{\T_2}{10}\delta_{l,2}\right] , \quad &l\geq2\\
                 \\
                 \frac{ck\T_{l-1}}{\Hp} - c\frac{(l+1)\T_l}{\Hp\eta}+\tau'\T_l, &l=l_\mathrm{max}
             \end{cases}\label{eq:m3:theory:photon_multipole}
         \end{align}
     \end{subequations}
-
-
-    
-    Cold dark matter and baryons
+    \\
+    \textbf{Cold dark matter and baryons}
     \begin{subequations}\label{eq:m3:theory:cdm_baryon_diffeqs}
         \begin{align}
-            \delta'_\cdm &= \frac{ck}{\Hp}v_\cdm-3\Phi', \label{eq:m3:theory:delta_cdm}\\
-            v'_\cdm &= -v_\cdm-\frac{ck}{\Hp}\Psi, \label{eq:m3:theory:v_cdm}\\
+            \delta'_c &= \frac{ck}{\Hp}v_c-3\Phi', \label{eq:m3:theory:delta_cdm}\\
+            v'_c &= -v_c-\frac{ck}{\Hp}\Psi, \label{eq:m3:theory:v_cdm}\\
             \delta'_b &= \frac{ck}{\Hp}v_b - 3\Phi', \label{eq:m3:theory:delta_b}\\
             v'_b &= -v_b - \frac{ck}{\Hp} + \tau'R^{-1}(3\T_1+v_b) \label{eq:m3:theory:v_b}
         \end{align}
     \end{subequations}
-    where $R$ is defined in ~\cref{eq:m2:theory:sound_speed}
-
-
-    Metric perturbations
-
+    \\
+    \textbf{Metric perturbations}
     \begin{subequations}\label{eq:m3:theory:metric_perturbations_final}
         \begin{align}
             \Phi' &= \Psi - \frac{c^2k^2}{3\Hp^2}\Phi + \frac{H_0^2}{2\Hp^2}\mathcal{Y}, \label{eq:m3:theory:phi_perturbation}\\
             \Psi &= -\Phi - \frac{12H_0^2}{c^2k^2}\O_\gamma\T_2. \label{eq:m3:theory:psi_perturbation}
         \end{align}
     \end{subequations}
-    where $\mathcal{Y} = \O_\cdm\delta_\cdm+\O_b\delta_b+4\O_\gamma\T_0$
+    where $\mathcal{Y} = \O_c\delta_c+\O_b\delta_b+4\O_\gamma\T_0$
 
+\end{tcolorbox}
 \subsubsection{Tight coupling regime}
 
 \subsubsection{Inflation}
