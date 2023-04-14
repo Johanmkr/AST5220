@@ -45,12 +45,13 @@
 
     We will also work with multipole expansions, which are series written as sums of \textit{Legendre polynomials} expanded in $\mu=\cos{\theta}\in[-1,1]$ as:
     \begin{equation}\label{eq:m3:theory:legendre_expansion}
-        f(\mu) = \sum_{l=0}^{\infty}f_l\mathcal{P}_l(\mu),
+        f(\mu) = \sum_{l=0}^{\infty}\frac{2l+1}{i^l}f_l\mathcal{P}_l(\mu),
     \end{equation}
     where $\mathcal{P}_l$ is the $l$-th Legendre polynomial. These are orthogonal in such a way that they form a complete basis, enabling us to express any $f(\mu)$ as in ~\cref{eq:m3:theory:legendre_expansion}. The coefficients $f_l$ are the \textit{Legendre multipoles}:
     \begin{equation}\label{eq:m3:theory:legendre_coeff}
-        f_l = \frac{2l+1}{2}\int_{-1}^1f(\mu)\mathcal{P}_l(\mu)\d\mu.
+        f_l = \frac{i^l}{2}\int_{-1}^1f(\mu)\mathcal{P}_l(\mu)\d\mu.
     \end{equation}
+    The factors $(2l+1)/i^l$ in ~\cref{eq:m3:theory:legendre_expansion} and $i^l/2$ in ~\cref{eq:m3:theory:legendre_coeff} are just conventional choices. It is convenient to expand functions in this way when we are considering quantities that are function of a direction in the sky - since the Legendre polynomials are closely related to the spherical harmonics, which is a natural choice of basis for such quantities. 
 
 
 
@@ -92,39 +93,29 @@
     \begin{equation}\label{eq:m3:theory:baryon_density_perturbation}
         \pdv{\delta_b}{t}+\frac{1}{a}\pdv{v_b^i}{x^i} + 3\pdv{\Phi}{t} = 0.
     \end{equation}
-    For the Euler equation, we now have to consider the collision terms, where momentum is conserved, but transferred between the baryons and photons. This collision term is found from considering the first moment of the photon distribution and find the momentum transfer due to Compton scattering. According to ~\cite{AST5220LectureNotes} the momentum transfer in the baryon equation is $-n_e\sigma_TR^{-1}(v_\gamma^i-v_b^i)$
-
-
-    \TODO{check both above and below}
-    
-    \begin{equation}
-        \pdv{v_b^i}{t}+Hv_b^i + \frac{1}{a}\pdv{\Psi}{x^i} = -n_e\sigma_TR^{-1}\left[\T_1+\frac{1}{3}v_b^i\right]
+    For the Euler equation, we now have to consider the collision terms, where momentum is conserved, but transferred between the baryons and photons. This collision term is found from considering the first moment of the photon distribution and find the momentum transfer due to Compton scattering. According to ~\cite{AST5220LectureNotes} the momentum transfer in the baryon equation is $-n_e\sigma_TR^{-1}(v_\gamma^i-v_b^i)$, where $R$ is defined in ~\cref{eq:m2:theory:sound_speed}. The Euler equation for baryons, similar to ~\cref{eq:m3:theory:cdm_euler_equation}, but with the momentum transfer as source term now yield:
+    \begin{equation}\label{eq:m3:theory:baryon_euler_equation}
+        \pdv{v_b^i}{t}+Hv_b^i + \frac{1}{a}\pdv{\Psi}{x^i} = -n_e\sigma_TR^{-1}(v_\gamma^i-v_b^i)
     \end{equation}
 
-    |
-
-    |
-    
-    |
-    
-    |
-    
-    |
-    
-    |
-    
-    |
-    
-    |
-
-     
-    \begin{subequations}
+    We have now acquired differential equations for the temperature fluctuations, $\T$ in ~\cref{eq:m3:theory:boltzmann_equation_radiation_full}, and the overdensities\footnote{The fluctuations to the equilibrium densities}, $\delta_c$, $\delta_b$, and bulk velocities $v_c^i$ and $v_b^i$, of cold dark matter and baryons respectively in ~\cref{eq:m3:theory:cdm_density_perturbation}, ~\cref{eq:m3:theory:baryon_density_perturbation}, ~\cref{eq:m3:theory:cdm_euler_equation} and ~\cref{eq:m3:theory:baryon_euler_equation}. In order to make these differential equations easier to solve we make the transformation into Fourier space. We do this by introducing $\mu$ as the cosine of the angle between the Fourier wave vector $\vec{k}$ and the direction of the photon $\vec{p}/\abs{\vec{p}}$. Additionally, velocities are generally longitudinal which enables us to write:
+    \begin{equation}\label{eq:m3:theory:mu_and_longitudinal_vel_def}
+        \begin{split}
+            \mu &\equiv \frac{\vec{k}\cdot\vec{p}}{kp} \\
+            \vec{v} &= i\hat{\vec{k}}v
+        \end{split}
+    \end{equation}
+    This enables us to summarise the differential equations as follows, now in Fourier space, and the time derivative is with respect to conformal time $\eta$:
+    \begin{subequations}\label{eq:m3:theory:diff_eqs_fourier_conformal}
         \begin{align}
-            \dot{\T} &= -ik\mu(\T+\Psi)-\dot{\Phi}-\dot{\tau}\left[\T_0-\T+i\mu v_b-\frac{\mathcal{P}_2\T_2}{2}\right],\\
-            \dot{\delta}_\cdm &= -3\dot{\Phi}+kv_\cdm \\
-            \dot{v}_\cdm &= -k\Psi-\Hp v_\cdm \\
+            \dot{\T} &= -ik\mu(\T+\Psi)-\dot{\Phi}-\dot{\tau}\left[\T_0-\T+i\mu v_b-\frac{\mathcal{P}_2\T_2}{2}\right], \label{eq:m3:theory:diff_eq_FC_theta}\\
+            \dot{\delta}_c &= -3\dot{\Phi}+kv_c, \label{eq:m3:theory:diff_eq_FC_delta_c}\\
+            \dot{v}_c &= -k\Psi-\Hp v_c, \label{eq:m3:theory:diff_eq_FC_v_c}\\
+            \dot{\delta}_b &= -3\dot{\Phi} + kv_b, \label{eq:m3:theory:diff_eq_FC_delta_b}\\
+            \dot{v}_b &= -k\Psi + \dot{\tau}R^{-1}(v_b+3\T_1) - \Hp v_b. \label{eq:m3:theory:diff_eq_FC_v_b}
         \end{align}
     \end{subequations}
+    In ~\cref{eq:m3:theory:diff_eq_FC_theta} and ~\cref{eq:m3:theory:diff_eq_FC_v_b} we define $\dot{\tau}$ from ~\cref{eq:m2:theory:optical_depth}. Additionally, in ~\cref{eq:m3:theory:diff_eq_FC_theta} we have included the term $\mathcal{P}_2\T_2/2$ in order to account for the angular dependency of Compton scattering previously ignored. 
 
     
     Photon temperature multipoles
