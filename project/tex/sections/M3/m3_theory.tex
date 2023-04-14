@@ -115,7 +115,18 @@
             \dot{v}_b &= -k\Psi + \dot{\tau}R^{-1}(v_b+3\T_1) - \Hp v_b. \label{eq:m3:theory:diff_eq_FC_v_b}
         \end{align}
     \end{subequations}
-    In ~\cref{eq:m3:theory:diff_eq_FC_theta} and ~\cref{eq:m3:theory:diff_eq_FC_v_b} we define $\dot{\tau}$ from ~\cref{eq:m2:theory:optical_depth}. Additionally, in ~\cref{eq:m3:theory:diff_eq_FC_theta} we have included the term $\mathcal{P}_2\T_2/2$ in order to account for the angular dependency of Compton scattering previously ignored. 
+    In ~\cref{eq:m3:theory:diff_eq_FC_theta} and ~\cref{eq:m3:theory:diff_eq_FC_v_b} we define $\dot{\tau}$ from ~\cref{eq:m2:theory:optical_depth}. Additionally, in ~\cref{eq:m3:theory:diff_eq_FC_theta} we have included the term $\mathcal{P}_2\T_2/2$ in order to account for the angular dependency of Compton scattering previously ignored. We have also used that the photon velocity is proportional to the dipole $\T_1 = -v_\gamma/3$.
+
+    Our next step is to once again consider the perturbation to the metric in order to find out how the potentials $\Psi$ and $\Phi$ change with time. In short, this is done by computing the perturbed Christoffel symbols using ~\cref{eq:m3:theory:perturbed_metric}, finding the Ricci tensor and Ricci scalar, and construct the perturbed Einstein tensor. We also have to find the perturbed energy-momentum Tensor, and then solve the Einstein equation in ~\cref{eq:introduction:einstein_equation}. The result yields the time evolution of $\Phi$ and $\Psi$, where we have from ~\cite[Eq. 6.41]{dodelson2020modern}:
+    \begin{equation}
+        k^2\Phi+3\Hp(\dot{\Phi}-\Hp\Psi) = 4\pi Ga^2(\rho_c\delta_c+\rho_b\delta_b+4\rho_\gamma\T_0),
+    \end{equation}
+    and from ~\cite[Eq. 6.47]{dodelson2020modern}
+    \begin{equation}
+        k^2(\Phi+\Psi) = -32\pi Ga^2(\rho_\gamma\T_2):
+    \end{equation}
+
+    
 
     
     Photon temperature multipoles
