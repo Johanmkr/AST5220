@@ -129,7 +129,7 @@
 
 
     \begin{tcolorbox}[
-        width=1.075\linewidth,
+        width=1.025\linewidth,
         colback=blue!5!white,
         colframe=white
     ]
@@ -140,9 +140,9 @@
             \T_0' &= -\frac{ck}{\Hp}\T_1-\Phi',\label{eq:m3:theory:photon_monopole}\\
             \T_1' &= \frac{ck}{3\Hp}\T_0 - \frac{2ck}{3\Hp}\T_2 +\frac{ck}{3\Hp}\Psi+\tau'\left[\T_1+\frac{1}{3}v_b\right],\label{eq:m3:theory:photon_dipole}\\
             \T_l' &= \begin{cases}
-                \frac{lck\T_{l-1}}{(2l+1)\Hp} -\frac{(l+1)ck\T_{l+1}}{(2l+1)\Hp} +\tau'\left[\T_l-\frac{\T_2}{10}\delta_{l,2}\right] , \quad &l\geq2\\
+                \frac{lck\T_{l-1}}{(2l+1)\Hp} -\frac{(l+1)ck\T_{l+1}}{(2l+1)\Hp} +\tau'\left[\T_l-\frac{\T_2}{10}\delta_{l,2}\right], &l\geq2\\
                 \\
-                \frac{ck\T_{l-1}}{\Hp} - c\frac{(l+1)\T_l}{\Hp\eta}+\tau'\T_l, &l=l_\mathrm{max}
+                \frac{ck\T_{l-1}}{\Hp} - c\frac{(l+1)\T_l}{\Hp\eta}+\tau'\T_l, &l=l_\mathrm{f}
             \end{cases}\label{eq:m3:theory:photon_multipole}
         \end{align}
     \end{subequations}
@@ -168,6 +168,79 @@
 
 \end{tcolorbox}
 \subsubsection{Tight coupling regime}
+    The tight coupling regime represents the time in the early Universe, before recombination, when both radiation, dark matter and baryons were tightly coupled together, interactions where frequent and efficient, and the primordial plasma very optically thick ($\tau\gg1$). Due to this, the bulk velocity of the baryons (which co-moves with the other species due to the tight coupling) is very low. Furthermore, due to the frequent interactions and low bulk velocity the radiation dipole is suppressed. Altogether, this causes the combination $(3\T_1+v_b)$ to be very small. The optical depth changes rapidly in the tight coupling regime, as seen from ~\cref{fig:m2:optical_depth}, $\abs{\tau'}\gg1$. As a result, any combinations of the form $\tau'(\T_1+v_b)$, as they occur in ~\cref{eq:m3:theory:photon_dipole} and ~\cref{eq:m3:theory:v_b} are extremely numerically unstable. We therefore use said equations in order to rewrite for:
+    \begin{equation}\label{eq:m3:theory:q_rewrite}
+        q = \frac{ck}{\Hp}(\T_0-2\T_2) + \tau'(1+R^{-1})(3\T_1+v_b) - v_b,
+    \end{equation}
+    where we have defined 
+    \begin{equation}\label{eq:m3:theory:q_def}
+        q\equiv (3\T_1+v_b)' \implies \T_1'=(q-v_b')/3
+    \end{equation}
+    We are able to differentiate ~\cref{eq:m3:theory:q_rewrite} w.r.t. $x$ by using $(R^{-1})' = -R^{-1}$ in order to obtain:
+    \begin{equation}\label{eq:m3:theory:q_derivative}
+        \begin{split}
+            q' &= \left[\tau''\left(1+R^{-1}\right)+\left(1-R^{-1}\right)\tau'\right](3\T_1+v_b)\\
+            &+\left[\tau'\left(1+R^{-1}\right)-1\right]q \\
+            &+\frac{ck}{\Hp}\left(\T_0-2\T_2+\Psi+\T_0'-2\T_2'-\frac{\Hp'}{\Hp}(\T_0-2\T_2)\right)
+        \end{split}
+    \end{equation}
+    The treatment leading up to ~\cref{eq:m3:theory:q_derivative} is exact, but now we make the following approximation, ~\cite{AST5220LectureNotes}: In a radiation dominated universe (which is what we have in the tight coupling regime) we have that:
+    \begin{equation}\label{eq:m3:theory:tight_coupling_approximation}
+        \begin{split}
+        \eta\propto a\propto \tau'^{-1}\propto(3\T_1+v_b) &\implies \dv[2]{\eta}(3\T_1+v_b)\approx 0 \\
+        &\implies q' \approx -\frac{\Hp'}{\Hp}q
+        \end{split}
+    \end{equation}
+    We find $q$ by equating ~\cref{eq:m3:theory:q_derivative} and ~\cref{eq:m3:theory:tight_coupling_approximation} and solving for $q$. We further use ~\cref{eq:m3:theory:q_rewrite} and solve for $\tau'(1+R^{-1})(3\T_1+v_b)$ which we substitute into ~\cref{eq:m3:theory:v_b} in order to obtain an equation for $v_b'$. Altogether, this give rise to the following equations, valid in the tight coupling regime:
+    \begin{tcolorbox}[
+        width=1.025\linewidth,
+        colback=blue!5!white,
+        colframe=white
+    ]
+    \textbf{Tight coupling equations}
+    \begin{equation}\label{eq:m3:theory:tight_coupling_q}
+        \begin{split}
+            q&\left[(1+R^{-1})\tau'+\frac{\Hp'}{\Hp}-1\right] = \\
+            &- \left[\tau''\left(1+R^{-1}\right)+\left(1-R^{-1}\right)\tau'\right](3\T_1+v_b) \\
+            &- \frac{ck}{\Hp}\Psi+\left(1-\frac{\Hp'}{\Hp}\right)\frac{ck}{\Hp}(-\T_0+2\T_2)-\frac{ck}{\Hp}\T_0'
+        \end{split}
+    \end{equation}
+    \\
+    \begin{equation}\label{eq:m3:theory:tight_coupling_v_b}
+        \begin{split}
+            v_b'&\left[1+R^{-1}\right] = -v_b-\frac{ck}{\Hp}\Psi\\
+            &+R^{-1}\left(q+\frac{ck}{\Hp}(-\T_0+2\T_2)-\frac{ck}{\Hp}\Psi\right)
+        \end{split}
+    \end{equation}
+    \\
+    \begin{subequations}\label{eq:m3:theory:tight_coupling_all_poles}
+        \begin{align}
+            \T_1 &= \frac{1}{3}(q-v_b'), \label{eq:m3:theory:tight_coupling_monopole}\\
+            \T_2 &= -\frac{20ck}{45\Hp\tau'}\T_1, \label{eq:m3:theory:tight_coupling_dipole}\\
+            \T_l &= -\frac{l}{2l+1}\frac{ck}{\Hp\tau'}\T_{l-1} \quad l>2. \label{eq:m3:theory:tight_coupling_multipole}
+        \end{align}
+    \end{subequations}
+    \end{tcolorbox}
 
 \subsubsection{Inflation}
 \subsubsection{Initial conditions}
+
+    \begin{tcolorbox}[
+        width=1.025\linewidth,
+        colback=blue!5!white,
+        colframe=white
+    ]
+    \textbf{Initial conditions}
+    \begin{subequations}\label{eq:m3:theory:initial_conditions}
+        \begin{align}
+            \Psi &= -\frac{2}{3}, \label{eq:m3:theory:initial_conditions_Psi}\\
+            \Phi &= -\Psi, \label{eq:m3:theory:initial_conditions_Phi}\\
+            \delta_c &= \delta_b = -\frac{3}{2}\Psi, \label{eq:m3:theory:initial_conditions_deltas}\\
+            v_c &= v_b = -\frac{ck}{2\Hp}\Psi, \label{eq:m3:theory:initial_conditions_vs}\\ 
+            \T_0 &= -\frac{1}{2}\Psi, \label{eq:m3:theory:initial_conditions_monopole}\\
+            \T_1 &= \frac{ck}{6\Hp}\Psi, \label{eq:m3:theory:initial_conditions_dipole}\\
+            \T_2 &= -\frac{20ck}{45\Hp\tau'}\T_1, \label{eq:m3:theory:initial_conditions_quadrapole}\\
+            \T_l &= -\frac{l}{2l+1}\frac{ck}{\Hp\tau'}\T_{l-1}.\label{eq:m3:theory:initial_conditions_multipoles}
+        \end{align}
+    \end{subequations}
+    \end{tcolorbox}
