@@ -226,19 +226,39 @@
 
     Assume inflation is driven by a scalar field $\psi(t,\vec{x})$, typically referred to as \textit{inflaton field}. For inflation to happen, the acceleration of the scale factor must be positive, meaning that the inflaton field must model a fluid where the equation of state parameter $\omega$ is negative, i.e. $3p+\rho<0$. By considering the temporal and spatial part of the energy-momentum tensor, ~\cite{dodelson2020modern} obtains the following equations for the pressure and density of the inflaton field:
     \begin{equation}\label{eq:m3:theory:inflaton_density}
-        \rho_\phi = \frac{1}{2}\dot{\phi}^2+V(\phi),
+        \rho_\phi = \frac{1}{2}\left(\dv{\phi}{t}\right)^2+V(\phi),
     \end{equation}
     and 
     \begin{equation}\label{eq:m3:theory:inflaton_pressure}
-        p_\phi = \frac{1}{2}\dot{\phi}^2-V(\phi),
+        p_\phi = \frac{1}{2}\left(\dv{\phi}{t}\right)^2-V(\phi),
     \end{equation}
-    where $1/2\dot{\phi}^2$ is the kinetic energy of the field, and $V(\phi)$ is the potential energy. Thus, $\omega = p/\rho < 0$ implies that the inflaton field must have more potential than kinetic energy. We therefore require it to \textit{roll slowly} in the potential, and thus introduce the \textit{slow roll parameters} $\epsilon_\mathrm{sr}$ and $\delta_\mathrm{sr}$, both of which must be satisfied for the field to be able to perform inflation. These are:
+    where $1/2\left(\dv{\phi}{t}\right)^2$ is the kinetic energy of the field, and $V(\phi)$ is the potential energy. Thus, $\omega = p/\rho < 0$ implies that the inflaton field must have more potential than kinetic energy. We therefore require it to \textit{roll slowly} in the potential, and thus introduce the \textit{slow roll parameters} $\epsilon_\mathrm{sr}$ and $\delta_\mathrm{sr}$, both of which must be satisfied for the field to be able to perform inflation. These are:
     \begin{subequations}\label{eq:m3:theory:slow_roll_parameters}
         \begin{align}
-            \epsilon_\mathrm{sr} &= \frac{E_\mathrm{pl}^2}{16\pi}\left(\frac{v'}{v}\right)^2 \ll1 \label{eq:m3:theory:slow_roll_epsilon}\\
-            \delta_\mathrm{sr} &= \frac{E_\mathrm{pl}}{8\pi}\left( \frac{v''}{v}\right) \ll1\label{eq:m3:theory:slow_roll_delta}
+            \epsilon_\mathrm{sr} &= \frac{E_\mathrm{pl}^2}{16\pi}\left(\frac{V'}{V}\right)^2 \ll1 \label{eq:m3:theory:slow_roll_epsilon}\\
+            \delta_\mathrm{sr} &= \frac{E_\mathrm{pl}}{8\pi}\left( \frac{V''}{V}\right) \ll1,\label{eq:m3:theory:slow_roll_delta}
         \end{align}
     \end{subequations}
+    where the derivative of the potential $V$ is in terms of $\phi$. 
+
+    Next, one of the crucial assumptions is that we can express the inflaton field in terms of a perturbation (or overdensity) as:
+    \begin{equation}\label{eq:m3:theory:inflaton_field_perturb}
+        \phi(t,\vec{x}) = \phi^{(0)}(t) + \delta\phi(t, \vec{x}),
+    \end{equation}
+    where $\phi^{(0)}$ is the equilibrium value of the field, only dependent on time. We will concern ourselves with the perturbation $\delta\phi$ and investigate what happens to it during the inflationary period. Before inflation, we expect $\Psi = \Phi =0$ and the perturbation $\delta\phi$ to be of quantum nature. 
+
+    \TODO{fill more here maybe}
+
+    We introduce the curvature perturbation $\mathcal{R}(\delta\phi, \Psi)$, which is a conserved quantity, as ~\cite{dodelson2020modern}:
+    \begin{equation}\label{eq:m3:theory:curvature_perturbation_def}
+        \mathcal{R} = -\frac{ik_i\delta T^0_i}{k^2(p+\rho)}-\Psi,
+    \end{equation}
+    where $k$ is the mode (in Fourier space), $T^i_0 = g^{i\nu}=\partial_\nu\phi\partial_0\phi$ is the spatial part of the energy-momentum tensor, and $p$ and $\rho$ are the pressure and density. 
+
+    If we consider the situation before inflation, $\Psi=0$. From ~\cref{eq:m3:theory:slow_roll_parameters} we have that $\rho+p=\dot{\phi}^2/a^2$ using conformal time. Further, according to ~\cite[Eq. 7.47]{dodelson2020modern}, $\delta T^i_0=ik_i\dot{\phi}\delta\phi/a^3$. Inserting this into ~\cref{eq:m3:theory:curvature_perturbation_def} yield before the inflation:
+    \begin{equation}\label{eq:m3:theory:initial_curvature_perturbation}
+        \mathcal{R}_\mathrm{initial} = -aH\frac{\delta\phi}{\dot{\phi}}.
+    \end{equation}
 
     \subsubsection{Initial conditions}
 
