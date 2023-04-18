@@ -215,32 +215,50 @@
     \\
     \begin{subequations}\label{eq:m3:theory:tight_coupling_all_poles}
         \begin{align}
-            \T_1 &= \frac{1}{3}(q-v_b'), \label{eq:m3:theory:tight_coupling_monopole}\\
+            \T_1' &= \frac{1}{3}(q-v_b'), \label{eq:m3:theory:tight_coupling_monopole}\\
             \T_2 &= -\frac{20ck}{45\Hp\tau'}\T_1, \label{eq:m3:theory:tight_coupling_dipole}\\
             \T_l &= -\frac{l}{2l+1}\frac{ck}{\Hp\tau'}\T_{l-1} \quad l>2. \label{eq:m3:theory:tight_coupling_multipole}
         \end{align}
     \end{subequations}
     \end{tcolorbox}
+    \subsubsection{Inflation}
+    To be able to numerically integrate ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final} we must determine the initial conditions of each quantity. Thus, we need to know how the Universe behaved at a very early stage. It is proposed that an epoch called \textit{inflation} took place, during which the Universe exponentially increases in size during a very short period of time ~\cite{dodelson2020modern}.\footnote{An inflationary process would also solve the horizon problem, the flatness problem and the monopole problem amongst other things. Details about this can be found in both ~\cite{dodelson2020modern}, ~\cite{carroll_2019}, and ~\cite{weinberg2008cosmology}.} We will describe the inflationary period in order to obtain the initial conditions of the metric perturbations $\Psi$ and $\Phi$. 
 
-\subsubsection{Inflation}
-\subsubsection{Initial conditions}
+    Assume inflation is driven by a scalar field $\psi(t,\vec{x})$, typically referred to as \textit{inflaton field}. For inflation to happen, the acceleration of the scale factor must be positive, meaning that the inflaton field must model a fluid where the equation of state parameter $\omega$ is negative, i.e. $3p+\rho<0$. By considering the temporal and spatial part of the energy-momentum tensor, ~\cite{dodelson2020modern} obtains the following equations for the pressure and density of the inflaton field:
+    \begin{equation}\label{eq:m3:theory:inflaton_density}
+        \rho_\phi = \frac{1}{2}\dot{\phi}^2+V(\phi),
+    \end{equation}
+    and 
+    \begin{equation}\label{eq:m3:theory:inflaton_pressure}
+        p_\phi = \frac{1}{2}\dot{\phi}^2-V(\phi),
+    \end{equation}
+    where $1/2\dot{\phi}^2$ is the kinetic energy of the field, and $V(\phi)$ is the potential energy. Thus, $\omega = p/\rho < 0$ implies that the inflaton field must have more potential than kinetic energy. We therefore require it to \textit{roll slowly} in the potential, and thus introduce the \textit{slow roll parameters} $\epsilon_\mathrm{sr}$ and $\delta_\mathrm{sr}$, both of which must be satisfied for the field to be able to perform inflation. These are:
+    \begin{subequations}\label{eq:m3:theory:slow_roll_parameters}
+        \begin{align}
+            \epsilon_\mathrm{sr} &= \frac{E_\mathrm{pl}^2}{16\pi}\left(\frac{v'}{v}\right)^2 \ll1 \label{eq:m3:theory:slow_roll_epsilon}\\
+            \delta_\mathrm{sr} &= \frac{E_\mathrm{pl}}{8\pi}\left( \frac{v''}{v}\right) \ll1\label{eq:m3:theory:slow_roll_delta}
+        \end{align}
+    \end{subequations}
 
+    \subsubsection{Initial conditions}
+
+    
     \begin{tcolorbox}[
         width=1.025\linewidth,
         colback=blue!5!white,
         colframe=white
-    ]
-    \textbf{Initial conditions}
-    \begin{subequations}\label{eq:m3:theory:initial_conditions}
-        \begin{align}
-            \Psi &= -\frac{2}{3}, \label{eq:m3:theory:initial_conditions_Psi}\\
-            \Phi &= -\Psi, \label{eq:m3:theory:initial_conditions_Phi}\\
-            \delta_c &= \delta_b = -\frac{3}{2}\Psi, \label{eq:m3:theory:initial_conditions_deltas}\\
-            v_c &= v_b = -\frac{ck}{2\Hp}\Psi, \label{eq:m3:theory:initial_conditions_vs}\\ 
-            \T_0 &= -\frac{1}{2}\Psi, \label{eq:m3:theory:initial_conditions_monopole}\\
-            \T_1 &= \frac{ck}{6\Hp}\Psi, \label{eq:m3:theory:initial_conditions_dipole}\\
-            \T_2 &= -\frac{20ck}{45\Hp\tau'}\T_1, \label{eq:m3:theory:initial_conditions_quadrapole}\\
-            \T_l &= -\frac{l}{2l+1}\frac{ck}{\Hp\tau'}\T_{l-1}.\label{eq:m3:theory:initial_conditions_multipoles}
-        \end{align}
-    \end{subequations}
+        ]
+        \textbf{Initial conditions}
+        \begin{subequations}\label{eq:m3:theory:initial_conditions}
+            \begin{align}
+                \Psi &= -\frac{2}{3}, \label{eq:m3:theory:initial_conditions_Psi}\\
+                \Phi &= -\Psi, \label{eq:m3:theory:initial_conditions_Phi}\\
+                \delta_c &= \delta_b = -\frac{3}{2}\Psi, \label{eq:m3:theory:initial_conditions_deltas}\\
+                v_c &= v_b = -\frac{ck}{2\Hp}\Psi, \label{eq:m3:theory:initial_conditions_vs}\\ 
+                \T_0 &= -\frac{1}{2}\Psi, \label{eq:m3:theory:initial_conditions_monopole}\\
+                \T_1 &= \frac{ck}{6\Hp}\Psi, \label{eq:m3:theory:initial_conditions_dipole}\\
+                \T_2 &= -\frac{20ck}{45\Hp\tau'}\T_1, \label{eq:m3:theory:initial_conditions_quadrapole}\\
+                \T_l &= -\frac{l}{2l+1}\frac{ck}{\Hp\tau'}\T_{l-1}.\label{eq:m3:theory:initial_conditions_multipoles}
+            \end{align}
+        \end{subequations}
     \end{tcolorbox}
