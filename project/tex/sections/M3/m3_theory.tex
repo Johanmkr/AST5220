@@ -153,7 +153,7 @@
             \delta'_c &= \frac{ck}{\Hp}v_c-3\Phi', \label{eq:m3:theory:delta_cdm}\\
             v'_c &= -v_c-\frac{ck}{\Hp}\Psi, \label{eq:m3:theory:v_cdm}\\
             \delta'_b &= \frac{ck}{\Hp}v_b - 3\Phi', \label{eq:m3:theory:delta_b}\\
-            v'_b &= -v_b - \frac{ck}{\Hp} + \tau'R^{-1}(3\T_1+v_b) \label{eq:m3:theory:v_b}
+            v'_b &= -v_b - \frac{ck}{\Hp}\Psi + \tau'R^{-1}(3\T_1+v_b) \label{eq:m3:theory:v_b}
         \end{align}
     \end{subequations}
     \\
@@ -249,36 +249,57 @@
 
     \TODO{fill more here maybe}
 
-    We introduce the curvature perturbation $\mathcal{R}(\delta\phi, \Psi)$, which is a conserved quantity, as ~\cite{dodelson2020modern}:
+    We could in principle solve the full Einstein equation where $\Psi$ and $\Phi$ enters through the Einstein tensor, and $\phi$ through the energy-momentum tensor.\footnote{The energy-momentum tensor for $\phi$ is given in ~\cite[Eq. 7.6]{dodelson2020modern} as: $$ T^\alpha_{\;\;\beta}=g^{\alpha\nu}\pdv{\phi}{x^\nu}\pdv{\phi}{x^\beta}-\delta^\alpha_{\;\;\beta}\left[\frac{1}{2}g^\munu\pdv{\phi}{x^\mu}\pdv{\phi}{x^\nu}+V(\phi)\right]. $$} This is not trivial, and instead we introduce the curvature perturbation $\mathcal{R}(\delta\phi, \Psi)$, which is a conserved quantity, as ~\cite{dodelson2020modern}:
     \begin{equation}\label{eq:m3:theory:curvature_perturbation_def}
         \mathcal{R} = -\frac{ik_i\delta T^0_i}{k^2(p+\rho)}-\Psi,
     \end{equation}
     where $k$ is the mode (in Fourier space), $T^i_0 = g^{i\nu}=\partial_\nu\phi\partial_0\phi$ is the spatial part of the energy-momentum tensor, and $p$ and $\rho$ are the pressure and density. 
 
-    If we consider the situation before inflation, $\Psi=0$. From ~\cref{eq:m3:theory:slow_roll_parameters} we have that $\rho+p=\dot{\phi}^2/a^2$ using conformal time. Further, according to ~\cite[Eq. 7.47]{dodelson2020modern}, $\delta T^i_0=ik_i\dot{\phi}\delta\phi/a^3$. Inserting this into ~\cref{eq:m3:theory:curvature_perturbation_def} yield before the inflation:
+    If we consider the situation before inflation, assume $\Psi=0$. From ~\cref{eq:m3:theory:slow_roll_parameters} we have that $\rho+p=\dot{\phi}^2/a^2$ using conformal time. Further, according to ~\cite[Eq. 7.47]{dodelson2020modern}, $\delta T^i_0=ik_i\dot{\phi}\delta\phi/a^3$. Inserting this into ~\cref{eq:m3:theory:curvature_perturbation_def} yield before inflation:
     \begin{equation}\label{eq:m3:theory:initial_curvature_perturbation}
         \mathcal{R}_\mathrm{initial} = -aH\frac{\delta\phi}{\dot{\phi}}.
     \end{equation}
+    Looking at the same situation at the end of inflation, we now assume radiation domination: $p=\rho/3$. According to ~\cite{dodelson2020modern}, $ik_i\delta T^i_0 = -4k\rho_\gamma\T_1/a$ in the radiation dominated era. Inserting this into ~\cref{eq:m3:theory:curvature_perturbation_def} yield:
+    \begin{equation}\label{eq:m3:theory:final_curvature_perturbation}
+        \mathcal{R}_\mathrm{end} = -\frac{3aH\T_1}{k}-\Psi = -\frac{3}{2}\Psi,
+    \end{equation}
+    where the last equality comes from the postulate that the initial condition for the dipole is $\T_1=-k\Phi/6aH$, which will we showed in the following section. For the sake of completeness, we not equate ~\cref{eq:m3:theory:initial_curvature_perturbation} and ~\cref{eq:m3:theory:final_curvature_perturbation} to obtain:
+    \begin{equation}\label{eq:m3:theory:final_Psi_after_inflation}
+        \Psi = \frac{2}{3}aH\frac{\delta\phi}{\dot{\phi}}\Big|_\text{horizon crossing},
+    \end{equation}
+    which is the value of $\Psi$ immediately after inflation, when the mode is of equal size as the horizon (hence horizon crossing). \TODO{check if this actually is correct}
 
     \subsubsection{Initial conditions}
-
-    
-    \begin{tcolorbox}[
-        width=1.025\linewidth,
-        colback=blue!5!white,
-        colframe=white
-        ]
-        \textbf{Initial conditions}
-        \begin{subequations}\label{eq:m3:theory:initial_conditions}
+        We now seek to determine the actual initial conditions enabling us to solve the desired differential equations. At very early times, we make the following assumptions:
+        \begin{subequations}\label{eq:m3:theory:early_conditions}
             \begin{align}
-                \Psi &= -\frac{2}{3}, \label{eq:m3:theory:initial_conditions_Psi}\\
-                \Phi &= -\Psi, \label{eq:m3:theory:initial_conditions_Phi}\\
-                \delta_c &= \delta_b = -\frac{3}{2}\Psi, \label{eq:m3:theory:initial_conditions_deltas}\\
-                v_c &= v_b = -\frac{ck}{2\Hp}\Psi, \label{eq:m3:theory:initial_conditions_vs}\\ 
-                \T_0 &= -\frac{1}{2}\Psi, \label{eq:m3:theory:initial_conditions_monopole}\\
-                \T_1 &= \frac{ck}{6\Hp}\Psi, \label{eq:m3:theory:initial_conditions_dipole}\\
-                \T_2 &= -\frac{20ck}{45\Hp\tau'}\T_1, \label{eq:m3:theory:initial_conditions_quadrapole}\\
-                \T_l &= -\frac{l}{2l+1}\frac{ck}{\Hp\tau'}\T_{l-1}.\label{eq:m3:theory:initial_conditions_multipoles}
+                k\eta &\ll 1 \iff \frac{k}{\Hp}\ll1\label{eq:m3:theory:early_conditions_kmode_eta}\\
+                \tau &\gg 1 \text{ and } \abs{\tau'}\gg1 \label{eq:m3:theory:earl_conditions_tau} \\
+                \T_0&\gg\T_1\gg\T_2\gg\dots\gg\T_l \label{eq:m3:theory:early_conditions_theta}.
             \end{align}
         \end{subequations}
-    \end{tcolorbox}
+        ~\cref{eq:m3:theory:early_conditions_kmode_eta} is necessary in order to ensure causally disconnected regions in the early universe. It also ensures that the modes we are interested in today is outside the horizon ~\cite{AST5220LectureNotes}. We have already established that the universe is optically thick, so ~\cref{eq:m3:theory:earl_conditions_tau} follow directly from ~\cref{fig:m2:optical_depth}. Further, at these scales we expect the lower multipoles to be dominant, thus ~\cref{eq:m3:theory:early_conditions_theta} holds. This is because the causal horizon is smaller than the $k$-modes, making the radiation observed by an hypothetical observer nearly uniform. Applying the assumptions in ~\cref{eq:m3:theory:early_conditions} to ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final} allows to determine the initial conditions. 
+
+        Firstly, the perturbations of $\Phi$ and $\Psi$ evolves slowly outside the horizon, so we may approximate $\Phi'=\Psi'=0$. However, we will use their expression in order to determine other initial conditions. In the following we make use of the assumptions in ~\cref{eq:m3:theory:early_conditions}. ~\cref{eq:m3:theory:photon_monopole} becomes $\T_0'=-\Phi'$. Further, ~\cref{eq:m3:theory:phi_perturbation} turn into $\Phi'=\Psi+2\T_0 \implies \T_0=-\Psi/2$. The overdensities ~\cref{eq:m3:theory:delta_b} and ~\cref{eq:m3:theory:delta_cdm} have similar behaviour\footnote{Because gravity does not care whether it acts on baryons or dark matter.} and we write $\delta'=-3\Phi' = 3\T_0'$. Integrating both sides yield $\delta=-3\Psi/2 + C$, where $C$ is the integration constant. This is put to zero, making the initial conditions \textit{adiabatic}. ~\cref{eq:m3:theory:psi_perturbation} now fixes the relation between the initial conditions of $\Psi$ and $\Phi$ as $\Phi = -\Psi$. 
+
+        For the velocities, we expect the baryon and cold dark matter velocities to have the same initial value, and we find it by considering ~\cref{eq:m3:theory:v_cdm}, which can be written as $(va)'=-cka\Psi/\Hp$. Integration yields $v=-ck\Psi/2\Hp$ where we have omitted the constant of integration. We find the initial conditions for the next multipole terms by following a similar logic. This is also shown in ~\cite[Eq. 7.59]{dodelson2020modern} which fixes the velocities as $v=3ck\Phi/6\Hp$,\footnote{~\cite{dodelson2020modern} uses $iv$ as velocities, but we have multiplied the velocities with $i$ in order to make them real, but ultimately changing signs.} and gives the initial dipole moment $\T_1 = -k\Phi/6aH$. Inserting this into ~\cref{eq:m3:theory:final_curvature_perturbation} yields the desired $\mathcal{R}=-2\Psi/2$. Since $\mathcal{R}$ is conserved, choosing a value for it equations to fixing a normalisation. We will simply use $\mathcal{R}=1$. The full set of adiabatic initial conditions then become: 
+        
+        \begin{tcolorbox}[
+            width=1.025\linewidth,
+            colback=blue!5!white,
+            colframe=white
+            ]
+            \textbf{Initial conditions}
+            \begin{subequations}\label{eq:m3:theory:initial_conditions}
+                \begin{align}
+                    \Psi &= -\frac{2}{3}, \label{eq:m3:theory:initial_conditions_Psi}\\
+                    \Phi &= -\Psi, \label{eq:m3:theory:initial_conditions_Phi}\\
+                    \delta_c &= \delta_b = -\frac{3}{2}\Psi, \label{eq:m3:theory:initial_conditions_deltas}\\
+                    v_c &= v_b = -\frac{ck}{2\Hp}\Psi, \label{eq:m3:theory:initial_conditions_vs}\\ 
+                    \T_0 &= -\frac{1}{2}\Psi, \label{eq:m3:theory:initial_conditions_monopole}\\
+                    \T_1 &= \frac{ck}{6\Hp}\Psi, \label{eq:m3:theory:initial_conditions_dipole}\\
+                    \T_2 &= -\frac{20ck}{45\Hp\tau'}\T_1, \label{eq:m3:theory:initial_conditions_quadrapole}\\
+                    \T_l &= -\frac{l}{2l+1}\frac{ck}{\Hp\tau'}\T_{l-1}.\label{eq:m3:theory:initial_conditions_multipoles}
+                \end{align}
+            \end{subequations}
+        \end{tcolorbox}
