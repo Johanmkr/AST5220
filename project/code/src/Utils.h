@@ -52,23 +52,23 @@ extern struct ConstantsAndUnits {
   const double x_end   = 5.0;
 
   // Include polarization and/or neutrinos?
-  const bool polarization  = true;
-  const bool neutrinos     = true;
+  const bool polarization  = false;
+  const bool neutrinos     = false;
 
   // For integration of perturbations (number of equations and positions in arrays)
   const int n_scalars           = 5;
   const int n_ell_theta         = 8;
-  const int n_ell_thetap        = 8 * polarization;
-  const int n_ell_neutrinos     = 8 * neutrinos;
-  const int n_ell_tot_full      = n_scalars + n_ell_theta + n_ell_thetap + n_ell_neutrinos;
+  // const int n_ell_thetap        = 8 * polarization;
+  // const int n_ell_neutrinos     = 8 * neutrinos;
+  const int n_ell_tot_full      = n_scalars + n_ell_theta //+ n_ell_thetap + n_ell_neutrinos;
   const int ind_deltacdm        = 0; 
   const int ind_deltab          = 1;
   const int ind_vcdm            = 2;
   const int ind_vb              = 3;
   const int ind_Phi             = 4;
   const int ind_start_theta     = n_scalars;
-  const int ind_start_thetap    = ind_start_theta  + n_ell_theta;
-  const int ind_start_nu        = ind_start_thetap + n_ell_thetap;
+  // const int ind_start_thetap    = ind_start_theta  + n_ell_theta;
+  // const int ind_start_nu        = ind_start_thetap + n_ell_thetap;
  
   // For integration of perturbations in tight coupling regime (Only 2 photon multipoles + neutrinos needed)
   const int n_scalars_tc        = 5;

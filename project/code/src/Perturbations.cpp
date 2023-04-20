@@ -37,7 +37,12 @@ void Perturbations::integrate_perturbations(){
   // Start at k_min end at k_max with n_k points with either a
   // quadratic or a logarithmic spacing
   //===================================================================
-  Vector k_array(n_k);
+  double log_k_min = log(k_min);
+  double log_k_max = log(k_max);
+  Vector log_k_array = Utils::linspace(log_k_min, log_k_max, n_k); // Linearly spaced logarithmic values
+  Vector k_array(n_k) = exp(log_k_array);   // Not sure if this works, but will try.
+
+  Vector x_array(n_x) = Utils::linspace(x_start, x_end, n_x);
 
   // Loop over all wavenumbers
   for(int ik = 0; ik < n_k; ik++){
@@ -52,7 +57,27 @@ void Perturbations::integrate_perturbations(){
     double k = k_array[ik];
 
     // Find value to integrate to
-    double x_end_tight = get_tight_coupling_time(k);
+    int x_end_tight_idx = get_tight_coupling_time_idx(k, x_array);
+
+    // Useful numbers
+    int nr_points_in_tc_regime = x_end_tight_idx+1;
+    int nr_points_in_full_regime = n_x - nr_points_in_tc_regime;
+    int first_full_regime_idx = nr_points_in_tc_regime;
+
+    double x_end_tight = x_array[x_end_tight_idx];
+
+    // Make x_vector for tight_coupling
+    Vector x_tc(nr_points_in_tc_regime);
+    for(int i=0; i<nr_points_in_tc_regime; i++){
+      x_tc[i] = x_array[i];
+    }
+
+    // Make x_vector for full system
+    Vector x_full(nr_points_in_full_regime)
+    for (int i=nr_points_in_tc_regime; i<nr_points_in_full_regime; i++){
+      x_full[i-nr_points_in_full_regime] = x_array[i];
+    }
+
 
     //===================================================================
     // TODO: Tight coupling integration
@@ -272,17 +297,34 @@ Vector Perturbations::set_ic_after_tight_coupling(
 // The time when tight coupling end
 //====================================================
 
-double Perturbations::get_tight_coupling_time(const double k) const{
-  double x_tight_coupling_end = 0.0;
+int Perturbations::get_tight_coupling_time_idx(const double k ,Vector x_arr) const{
+  // Initial values:
+  int idx_tc = 0;
+  bool tight_coupling = true;
+  double x_current;
+  double ckHp;
+  double dtaudx;
+  while(tight_coupling){
+    x_current = x_arr[idx];
+    // Calculate necessary stuff
+    ckHp = Constants.c*k / cosmo->Hp_of_x(x_current);
+    dtaudx = abs(rec->dtaudx_of_x(x_current))
+    // Check each condition
+    if(dtaudx<10){
+      tight_coupling = false;
+    }
+    else if(dtaudx<10*ckHp){
+      tight_coupling = false;
+    }
+    else if(x_current>-8.3){
+      tight_coupling = false;
+    }
+    else{
+      idx_tc++;
+    }
+  }
 
-  //=============================================================================
-  // TODO: compute and return x for when tight coupling ends
-  // Remember all the three conditions in Callin
-  //=============================================================================
-  // ...
-  // ...
-
-  return x_tight_coupling_end;
+  return idx_tc;
 }
 
 //====================================================

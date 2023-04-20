@@ -49,8 +49,8 @@ class Perturbations{
     // NB: If you use there you have to allocate the container first
     // e.g. Theta_spline = std::vector<Spline2D>(n_ell_theta); before using it
     std::vector<Spline2D> Theta_spline;
-    std::vector<Spline2D> Theta_p_spline;
-    std::vector<Spline2D> Nu_spline;
+    // std::vector<Spline2D> Theta_p_spline;
+    // std::vector<Spline2D> Nu_spline;
     
     //==========================================================
     // [1] Tight coupling ODE system
@@ -64,8 +64,13 @@ class Perturbations{
     // Right hand side of the ODE in the tight coupling regime
     int rhs_tight_coupling_ode(double x, double k, const double *y, double *dydx);
     
-    // Compute the time when tight coupling ends
-    double get_tight_coupling_time(const double k) const;
+    /**
+     * @brief Compute time when tight-coupling ends
+     * 
+     * @param k 
+     * @return double 
+     */
+    int get_tight_coupling_time_idx(const double k, Vector x_arr) const;
     
     //==========================================================
     // [2] The full ODE system 
