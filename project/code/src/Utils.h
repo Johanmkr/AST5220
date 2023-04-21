@@ -60,7 +60,7 @@ extern struct ConstantsAndUnits {
   const int n_ell_theta         = 8;
   // const int n_ell_thetap        = 8 * polarization;
   // const int n_ell_neutrinos     = 8 * neutrinos;
-  const int n_ell_tot_full      = n_scalars + n_ell_theta //+ n_ell_thetap + n_ell_neutrinos;
+  const int n_ell_tot_full      = n_scalars + n_ell_theta; //+ n_ell_thetap + n_ell_neutrinos;
   const int ind_deltacdm        = 0; 
   const int ind_deltab          = 1;
   const int ind_vcdm            = 2;
@@ -73,17 +73,17 @@ extern struct ConstantsAndUnits {
   // For integration of perturbations in tight coupling regime (Only 2 photon multipoles + neutrinos needed)
   const int n_scalars_tc        = 5;
   const int n_ell_theta_tc      = 2;
-  const int n_ell_thetap_tc     = 0;
-  const int n_ell_neutrinos_tc  = n_ell_neutrinos;
-  const int n_ell_tot_tc        = n_scalars_tc + n_ell_theta_tc + n_ell_thetap_tc + n_ell_neutrinos;
+  // const int n_ell_thetap_tc     = 0;
+  // const int n_ell_neutrinos_tc  = n_ell_neutrinos;
+  const int n_ell_tot_tc        = n_scalars_tc + n_ell_theta_tc;// + n_ell_thetap_tc + n_ell_neutrinos;
   const int ind_deltacdm_tc     = 0; 
   const int ind_deltab_tc       = 1;
   const int ind_vcdm_tc         = 2;
   const int ind_vb_tc           = 3;
   const int ind_Phi_tc          = 4;
   const int ind_start_theta_tc  = n_scalars_tc;
-  const int ind_start_thetap_tc = ind_start_theta_tc  + n_ell_theta_tc;
-  const int ind_start_nu_tc     = ind_start_thetap_tc + n_ell_thetap_tc;
+  // const int ind_start_thetap_tc = ind_start_theta_tc  + n_ell_theta_tc;
+  // const int ind_start_nu_tc     = ind_start_thetap_tc + n_ell_thetap_tc;
 
 } Constants;
 
