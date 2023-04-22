@@ -289,19 +289,19 @@ Vector Perturbations::set_ic(const double x, const double k) const{
   //=============================================================================
   // ...
   // ...
-  double Psi = -2./3.;
-  double c = Constants.c;
-  double Hp = cosmo->Hp_of_x(x);
-  double ckHp = c*k/Hp;
+  double Psi      = -2./3.;
+  double c        = Constants.c;
+  double Hp       = cosmo->Hp_of_x(x);
+  double ckHp     = c*k/Hp;
   // SET: Scalar quantities (Gravitational potential, baryons and CDM)
-  Phi = -Psi;
-  delta_cdm = -3./2.*Psi;
-  delta_b = -3./2.*Psi;
-  v_cdm = -.5*ckHp*Psi;
-  v_b = v_cdm;
+  Phi             = -Psi;
+  delta_cdm       = -3./2.*Psi;
+  delta_b         = -3./2.*Psi;
+  v_cdm           = -.5*ckHp*Psi;
+  v_b             = -.5*ckHp*Psi;
   // SET: Photon temperature perturbations (Theta_ell)
-  Theta[0] = -.5*Psi;
-  Theta[1] = ckHp/6.*Psi;
+  Theta[0]        = -.5*Psi;
+  Theta[1]        = ckHp/6.*Psi;
 
   return y_tc;
 }
@@ -505,42 +505,42 @@ int Perturbations::rhs_tight_coupling_ode(double x, double k, const double *y, d
   // double *dNudx           = &dydx[Constants.ind_start_nu_tc];
 
   //  Quantities from other milestones
-  double Rinv = 1. / rec->get_R_of_x(x);
-  double dtau = rec->dtaudx_of_x(x);
-  double ddtau = rec->ddtauddx_of_x(x);
-  double Hp = cosmo->Hp_of_x(x);
-  double dHp = cosmo->dHpdx_of_x(x);
-  double H0 = cosmo->H0;
+  double Rinv       = 1. / rec->get_R_of_x(x);
+  double dtau       = rec->dtaudx_of_x(x);
+  double ddtau      = rec->ddtauddx_of_x(x);
+  double Hp         = cosmo->Hp_of_x(x);
+  double dHp        = cosmo->dHpdx_of_x(x);
+  double H0         = cosmo->H0;
 
   //  Useful quantities
-  double ckHp = Constants.c*k/Hp;
-  double Theta2 = -20./(45.*dtau)*ckHp*Theta[1];
-  double Y = cosmo->get_OmegaCDM(x)*delta_cdm + cosmo->get_OmegaB(x)*delta_b + 4.*cosmo->get_OmegaR(x) * Theta[0];
-  double Psi = -Phi - 12.*H0*H0 / (Constants.c*Constants.c * k *k) * cosmo->get_OmegaR(x)*Theta2; 
+  double ckHp       = Constants.c*k/Hp;
+  double Theta2     = -20./(45.*dtau)*ckHp*Theta[1];
+  double Y          = cosmo->get_OmegaCDM(x)*delta_cdm + cosmo->get_OmegaB(x)*delta_b + 4.*cosmo->get_OmegaR(x) * Theta[0];
+  double Psi        = -Phi - 12.*H0*H0 / (Constants.c*Constants.c * k *k) * cosmo->get_OmegaR(x)*Theta2; 
 
   
-  dPhidx = Psi - 1./3. * ckHp*ckHp*Phi + H0*H0/(2.*Hp*Hp)*Y;
+  dPhidx            = Psi - 1./3. * ckHp*ckHp*Phi + H0*H0/(2.*Hp*Hp)*Y;
   
-  dThetadx[0] = -ckHp * Theta[1] - dPhidx;
+  dThetadx[0]       = -ckHp * Theta[1] - dPhidx;
   
-  ddelta_cdmdx = ckHp * v_cdm - 3.*dPhidx;
+  ddelta_cdmdx      = ckHp * v_cdm - 3.*dPhidx;
   
-  ddelta_bdx = ckHp * v_b - 3.*dPhidx;
+  ddelta_bdx        = ckHp * v_b - 3.*dPhidx;
   
-  dv_cdmdx = -v_cdm - ckHp*Psi;
+  dv_cdmdx          = -v_cdm - ckHp*Psi;
 
   // Tight coupling equations
-  double q = (
+  double q          = (
     -(ddtau * (1.+Rinv) + (1.-Rinv)*dtau)*(3.*Theta[1]+v_b)
     - ckHp*Psi + (1.-dHp/Hp)*ckHp*(-Theta[0]+2.*Theta2)-ckHp*dThetadx[0]
   )/
   ((1+Rinv)*dtau + dHp/Hp-1);
 
-  dv_bdx = (
+  dv_bdx            = (
     -v_b - ckHp*Psi + Rinv * (q + ckHp*(-Theta[0] + 2.*Theta2) - ckHp*Psi)
   )/(1.+Rinv);
 
-  dThetadx[1] = 1./3.*(q - dv_bdx);
+  dThetadx[1]       = 1./3.*(q - dv_bdx);
 
   return GSL_SUCCESS;
 }
