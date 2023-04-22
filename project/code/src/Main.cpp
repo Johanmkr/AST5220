@@ -42,17 +42,17 @@ int main(int argc, char **argv){
   cosmo.info();
   
   // Output background evolution quantities
-  cosmo.output("data/backgroundcosmology.csv");
-  cosmo.output("data/backgroundcosmologyLumDist.csv", log(0.01+1)-1, log(1.3+1)+1, (int)1e5);
-  cosmo.write_table_of_important_values("data/table_of_values.csv");
+  // cosmo.output("data/backgroundcosmology.csv");
+  // cosmo.output("data/backgroundcosmologyLumDist.csv", log(0.01+1)-1, log(1.3+1)+1, (int)1e5);
+  // cosmo.write_table_of_important_values("data/table_of_values.csv");
   Utils::EndTiming("Solve & write");
 
-  BackgroundCosmology bestFit(0.702, 0.05, 0.259-0.05, 0.067, Neff, TCMB);
-  Utils::StartTiming("Solve best params");
-  bestFit.solve();
-  bestFit.info();
-  bestFit.output("data/bestFitBackground.csv", log(0.01+1)-1, log(1.3+1)+1, (int)1e5);
-  Utils::EndTiming("Solve best params");
+  // BackgroundCosmology bestFit(0.702, 0.05, 0.259-0.05, 0.067, Neff, TCMB);
+  // Utils::StartTiming("Solve best params");
+  // bestFit.solve();
+  // bestFit.info();
+  // bestFit.output("data/bestFitBackground.csv", log(0.01+1)-1, log(1.3+1)+1, (int)1e5);
+  // Utils::EndTiming("Solve best params");
 
 
   // Do the supernova fits. Uncomment when you are ready to run this
@@ -75,11 +75,11 @@ int main(int argc, char **argv){
   rec.info();
 
   // Output recombination quantities
-  rec.output("data/recombination.csv");
-  rec.analysis_output("data/recomb_analysis.csv");
+  // rec.output("data/recombination.csv");
+  // rec.analysis_output("data/recomb_analysis.csv");
   
   // Remove when module is completed
-  return 0;
+  // return 0;
 
   //=========================================================================
   // Module III
@@ -92,7 +92,7 @@ int main(int argc, char **argv){
   
   // Output perturbation quantities
   double kvalue = 0.01 / Constants.Mpc;
-  pert.output(kvalue, "perturbations_k0.01.txt");
+  pert.output(kvalue, "data/perturbations_k0.01.csv");
   
   // Remove when module is completed
   return 0;

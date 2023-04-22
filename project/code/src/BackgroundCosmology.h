@@ -23,7 +23,6 @@ class BackgroundCosmology{
     double OmegaK;                  // Curvature density = 1 - OmegaM - OmegaR - OmegaNu - OmegaLambda
     double OmegaM;                  // Total matter density
     double OmegaR_tot;                  // Total radiation density
-    double H0;                      // The Hubble parameter today H0 = 100h km/s/Mpc
 
     // Equalities
     double x_RM;                     // Radiation-matter equality
@@ -72,6 +71,7 @@ class BackgroundCosmology{
         double TCMB
         );
 
+    double H0;                      // The Hubble parameter today H0 = 100h km/s/Mpc
     // Print some useful info about the class
     void info() const;
 

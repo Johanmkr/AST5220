@@ -99,7 +99,7 @@ void RecombinationHistory::solve_number_density_electrons(){
     //check for non-zero and negative values
     double actXe_current = Xe_current < global_tol ? global_tol: Xe_current;
     double actXe_current1 = std::isnan(actXe_current) ? global_tol: actXe_current;
-    std::cout << actXe_current1 << std::endl;
+    // std::cout << actXe_current1 << std::endl;
     Xe_arr_saha[i] = actXe_current1;
   }
 

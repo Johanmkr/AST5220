@@ -64,12 +64,8 @@ class Perturbations{
     // Right hand side of the ODE in the tight coupling regime
     int rhs_tight_coupling_ode(double x, double k, const double *y, double *dydx);
     
-    /**
-     * @brief Compute time when tight-coupling ends
-     * 
-     * @param k 
-     * @return double 
-     */
+
+    // Compute time when tight-coupling ends
     int get_tight_coupling_time_idx(const double k, Vector x_arr) const;
     
     //==========================================================
