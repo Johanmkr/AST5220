@@ -76,6 +76,9 @@ plot_analM1:
 plot_analM2:
 	cd plot && python3 analysisM2.py && cd ..
 
+plot_analM3:
+	cd plot && python3 analysisM3.py && cd ..
+
 cleanpdfs:
 	cd ../output/figures/ && rm *.pdf && cd ../../code
 

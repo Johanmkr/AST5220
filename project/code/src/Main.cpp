@@ -20,6 +20,11 @@ int main(int argc, char **argv){
   double Neff        = 3.046;
   double TCMB        = 2.7255;
 
+  // h = 0.7;
+  // OmegaB = 0.05;
+  // OmegaCDM = 0.45;
+  // Neff = 0;
+
   // Recombination parameters
   // double Yp          = 0.245;
   double Yp          = 0;
@@ -93,6 +98,11 @@ int main(int argc, char **argv){
   // Output perturbation quantities
   double kvalue = 0.01 / Constants.Mpc;
   pert.output(kvalue, "data/perturbations_k0.01.csv");
+  kvalue = 0.1 / Constants.Mpc;
+  pert.output(kvalue, "data/perturbations_k0.1.csv");
+  kvalue = 0.001 / Constants.Mpc;
+  pert.output(kvalue, "data/perturbations_k0.001.csv");
+  
   
   // Remove when module is completed
   return 0;

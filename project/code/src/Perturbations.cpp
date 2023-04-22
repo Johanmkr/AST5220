@@ -289,7 +289,7 @@ Vector Perturbations::set_ic(const double x, const double k) const{
   //=============================================================================
   // ...
   // ...
-  double Psi = -3./2.;
+  double Psi = -2./3.;
   double c = Constants.c;
   double Hp = cosmo->Hp_of_x(x);
   double ckHp = c*k/Hp;
@@ -518,11 +518,15 @@ int Perturbations::rhs_tight_coupling_ode(double x, double k, const double *y, d
   double Y = cosmo->get_OmegaCDM(x)*delta_cdm + cosmo->get_OmegaB(x)*delta_b + 4.*cosmo->get_OmegaR(x) * Theta[0];
   double Psi = -Phi - 12.*H0*H0 / (Constants.c*Constants.c * k *k) * cosmo->get_OmegaR(x)*Theta2; 
 
-  // Is the order relevant here?
+  
   dPhidx = Psi - 1./3. * ckHp*ckHp*Phi + H0*H0/(2.*Hp*Hp)*Y;
+  
   dThetadx[0] = -ckHp * Theta[1] - dPhidx;
+  
   ddelta_cdmdx = ckHp * v_cdm - 3.*dPhidx;
+  
   ddelta_bdx = ckHp * v_b - 3.*dPhidx;
+  
   dv_cdmdx = -v_cdm - ckHp*Psi;
 
   // Tight coupling equations
@@ -531,10 +535,12 @@ int Perturbations::rhs_tight_coupling_ode(double x, double k, const double *y, d
     - ckHp*Psi + (1.-dHp/Hp)*ckHp*(-Theta[0]+2.*Theta2)-ckHp*dThetadx[0]
   )/
   ((1+Rinv)*dtau + dHp/Hp-1);
+
   dv_bdx = (
     -v_b - ckHp*Psi + Rinv * (q + ckHp*(-Theta[0] + 2.*Theta2) - ckHp*Psi)
   )/(1.+Rinv);
-  dThetadx[1] = 1./3.*(q + dv_bdx);
+
+  dThetadx[1] = 1./3.*(q - dv_bdx);
 
   return GSL_SUCCESS;
 }
@@ -607,7 +613,7 @@ int Perturbations::rhs_full_ode(double x, double k, const double *y, double *dyd
   dThetadx[1] = 1./3.*ckHp*Theta[0] - 2./3.*ckHp*Theta[2] + 1./3.*ckHp*Psi + dtau*(Theta[1]+1./3.*v_b);
 
   int l = 2;
-  dThetadx[l] = l*ckHp*Theta[l-1]/(2.*l+1.) - (l+1.)*ckHp*Theta[l+1]/(2.*l+1.) + dtau * (Theta[l] + Theta[2]/10.);
+  dThetadx[l] = l*ckHp*Theta[l-1]/(2.*l+1.) - (l+1.)*ckHp*Theta[l+1]/(2.*l+1.) + dtau * (Theta[l] - Theta[2]/10.);
 
   for(l=3; l<n_ell_theta-1; l++){
     dThetadx[l] = l*ckHp*Theta[l-1]/(2.*l+1.) - (l+1.)*ckHp*Theta[l+1]/(2.*l+1.) + dtau * Theta[l];
