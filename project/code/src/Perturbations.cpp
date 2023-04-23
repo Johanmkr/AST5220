@@ -504,30 +504,37 @@ int Perturbations::rhs_tight_coupling_ode(double x, double k, const double *y, d
   double *dThetadx        = &dydx[Constants.ind_start_theta_tc];
   // double *dNudx           = &dydx[Constants.ind_start_nu_tc];
 
-  //  Quantities from other milestones
-  double Rinv       = 1. / rec->get_R_of_x(x);
-  double dtau       = rec->dtaudx_of_x(x);
-  double ddtau      = rec->ddtauddx_of_x(x);
+  //  Background parameters
   double Hp         = cosmo->Hp_of_x(x);
   double dHp        = cosmo->dHpdx_of_x(x);
   double H0         = cosmo->H0;
+  double OmegaCDM   = cosmo->get_OmegaCDM();
+  double OmegaB     = cosmo->get_OmegaB();
+  double OmegaR     = cosmo->get_OmegaR();
+
+  //  Recombination parameters
+  double Rinv       = 1. / rec->get_R_of_x(x);
+  double dtau       = rec->dtaudx_of_x(x);
+  double ddtau      = rec->ddtauddx_of_x(x);
 
   //  Useful quantities
+  double a          = exp(x);
   double ckHp       = Constants.c*k/Hp;
   double Theta2     = -20./(45.*dtau)*ckHp*Theta[1];
-  double Y          = cosmo->get_OmegaCDM(x)*delta_cdm + cosmo->get_OmegaB(x)*delta_b + 4.*cosmo->get_OmegaR(x) * Theta[0];
+  double Y          = 
+  // double Y          = cosmo->get_OmegaCDM(x)*delta_cdm + cosmo->get_OmegaB(x)*delta_b + 4.*cosmo->get_OmegaR(x) * Theta[0];
   double Psi        = -Phi - 12.*H0*H0 / (Constants.c*Constants.c * k *k) * cosmo->get_OmegaR(x)*Theta2; 
 
   
   dPhidx            = Psi - 1./3. * ckHp*ckHp*Phi + H0*H0/(2.*Hp*Hp)*Y;
   
-  dThetadx[0]       = -ckHp * Theta[1] - dPhidx;
+  dThetadx[0]       = - ckHp * Theta[1] - dPhidx;
   
   ddelta_cdmdx      = ckHp * v_cdm - 3.*dPhidx;
   
   ddelta_bdx        = ckHp * v_b - 3.*dPhidx;
   
-  dv_cdmdx          = -v_cdm - ckHp*Psi;
+  dv_cdmdx          = - v_cdm - ckHp*Psi;
 
   // Tight coupling equations
   double q          = (
@@ -537,7 +544,7 @@ int Perturbations::rhs_tight_coupling_ode(double x, double k, const double *y, d
   ((1+Rinv)*dtau + dHp/Hp-1);
 
   dv_bdx            = (
-    -v_b - ckHp*Psi + Rinv * (q + ckHp*(-Theta[0] + 2.*Theta2) - ckHp*Psi)
+    - v_b - ckHp*Psi + Rinv * (q + ckHp*(-Theta[0] + 2.*Theta2) - ckHp*Psi)
   )/(1.+Rinv);
 
   dThetadx[1]       = 1./3.*(q - dv_bdx);
@@ -594,7 +601,8 @@ int Perturbations::rhs_full_ode(double x, double k, const double *y, double *dyd
 
   //  Useful quantities
   double ckHp = Constants.c*k/Hp;
-  double Y = cosmo->get_OmegaCDM(x)*delta_cdm + cosmo->get_OmegaB(x)*delta_b + 4.*cosmo->get_OmegaR(x) * Theta[0];
+  double a = exp(x);
+  // double Y = cosmo->get_OmegaCDM(x)*delta_cdm + cosmo->get_OmegaB(x)*delta_b + 4.*cosmo->get_OmegaR(x) * Theta[0]
   double Psi = -Phi - 12.*H0*H0 / (Constants.c*Constants.c * k *k) * cosmo->get_OmegaR(x)*Theta[2]; 
 
   //=============================================================================
@@ -602,25 +610,25 @@ int Perturbations::rhs_full_ode(double x, double k, const double *y, double *dyd
   //=============================================================================
 
   // SET: Scalar quantities (Phi, delta, v, ...)
-  dPhidx = Psi - 1./3. * ckHp*ckHp*Phi + H0*H0/(2.*Hp*Hp)*Y;
-  ddelta_cdmdx = ckHp * v_cdm - 3.*dPhidx;
-  ddelta_bdx = ckHp * v_b - 3.*dPhidx;
-  dv_cdmdx = -v_cdm - ckHp*Psi;
-  dv_bdx = -v_b - ckHp*Psi + dtau*Rinv * (3*Theta[1] + v_b);
+  dPhidx          = Psi - 1./3. * ckHp*ckHp*Phi + H0*H0/(2.*Hp*Hp)*Y;
+  ddelta_cdmdx    = ckHp * v_cdm - 3.*dPhidx;
+  ddelta_bdx      = ckHp * v_b - 3.*dPhidx;
+  dv_cdmdx        = -v_cdm - ckHp*Psi;
+  dv_bdx          = -v_b - ckHp*Psi + dtau*Rinv * (3*Theta[1] + v_b);
 
   // SET: Photon multipoles (Theta_ell)
-  dThetadx[0] = -ckHp * Theta[1] - dPhidx;
-  dThetadx[1] = 1./3.*ckHp*Theta[0] - 2./3.*ckHp*Theta[2] + 1./3.*ckHp*Psi + dtau*(Theta[1]+1./3.*v_b);
+  dThetadx[0]     = -ckHp * Theta[1] - dPhidx;
+  dThetadx[1]     = 1./3.*ckHp*Theta[0] - 2./3.*ckHp*Theta[2] + 1./3.*ckHp*Psi + dtau*(Theta[1]+1./3.*v_b);
 
   int l = 2;
-  dThetadx[l] = l*ckHp*Theta[l-1]/(2.*l+1.) - (l+1.)*ckHp*Theta[l+1]/(2.*l+1.) + dtau * (Theta[l] - Theta[2]/10.);
+  dThetadx[l]     = l*ckHp*Theta[l-1]/(2.*l+1.) - (l+1.)*ckHp*Theta[l+1]/(2.*l+1.) + dtau * (Theta[l] - Theta[2]/10.);
 
   for(l=3; l<n_ell_theta-1; l++){
-    dThetadx[l] = l*ckHp*Theta[l-1]/(2.*l+1.) - (l+1.)*ckHp*Theta[l+1]/(2.*l+1.) + dtau * Theta[l];
+    dThetadx[l]   = l*ckHp*Theta[l-1]/(2.*l+1.) - (l+1.)*ckHp*Theta[l+1]/(2.*l+1.) + dtau * Theta[l];
   }
 
   l = n_ell_theta-1;
-  dThetadx[l] = ckHp*Theta[l-1] - Constants.c*(l+1.)*Theta[l]/(Hp*cosmo->eta_of_x(x)) + dtau*Theta[l];
+  dThetadx[l]     = ckHp*Theta[l-1] - Constants.c*(l+1.)*Theta[l]/(Hp*cosmo->eta_of_x(x)) + dtau*Theta[l];
 
   return GSL_SUCCESS;
 }
