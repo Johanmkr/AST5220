@@ -18,15 +18,59 @@ class Perturbation:
 
 
 
-    def monopole(self)->None:
+    def phi_plot(self)->None:
         fig, ax = plt.subplots()
         ax.plot(self.k1_x, self.k1_Phi, label="k1")
         ax.plot(self.k2_x, self.k2_Phi, label="k2")
         ax.plot(self.k3_x, self.k3_Phi, label="k3")
+        ax.minorticks_on()
         ax.legend()
         plt.show()
+
+    def monopole_plot(self)->None:
+        fig, ax = plt.subplots()
+        ax.plot(self.k1_x, self.k1_T0, label="k1")
+        ax.plot(self.k2_x, self.k2_T0, label="k2")
+        ax.plot(self.k3_x, self.k3_T0, label="k3")
+        ax.minorticks_on()
+        ax.legend()
+        plt.show()
+
+    def dipole_plot(self)->None:
+        fig, ax = plt.subplots()
+        ax.plot(self.k1_x, self.k1_T1, label="k1")
+        ax.plot(self.k2_x, self.k2_T1, label="k2")
+        ax.plot(self.k3_x, self.k3_T1, label="k3")
+        ax.minorticks_on()
+        ax.legend()
+        plt.show()
+
+    def delta_plot(self)->None:
+        fig, ax = plt.subplots()
+        ax.plot(self.k1_x, self.k1_delta_b, label="k1")
+        ax.plot(self.k2_x, self.k2_delta_b, label="k2")
+        ax.plot(self.k3_x, self.k3_delta_b, label="k3")
+        ax.minorticks_on()
+        ax.legend()
+        plt.show()
+
+    def velocity_plot(self)->None:
+        fig, ax = plt.subplots()
+        ax.plot(self.k1_x, self.k1_v_b, label="k1")
+        ax.plot(self.k2_x, self.k2_v_b, label="k2")
+        ax.plot(self.k3_x, self.k3_v_b, label="k3")
+        ax.minorticks_on()
+        ax.legend()
+        plt.show()
+
+    def make_plots(self)->None:
+        self.phi_plot()
+        self.monopole_plot()
+        self.dipole_plot()
+        self.delta_plot()
+        self.velocity_plot()
 
 
 if __name__=="__main__":
     Pert = Perturbation(["perturbations_k0.001.csv", "perturbations_k0.01.csv", "perturbations_k0.1.csv"])
-    Pert.monopole()
+    Pert.make_plots()

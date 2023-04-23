@@ -130,42 +130,44 @@ double BackgroundCosmology::ddHpddx_of_x(double x) const{
 
 double BackgroundCosmology::get_OmegaB(double x) const{ 
   if(x == 0.0) return OmegaB;
-  // XXX: Optimisable
-  return OmegaB * H0 * H0 * exp(-3.*x) / (H_of_x(x) * H_of_x(x));
+  double Hret = H0 / Hp_of_x(x);
+  double alpha = 1.0;
+  return OmegaB * exp(-alpha * x) * Hret * Hret;
 }
 
 double BackgroundCosmology::get_OmegaR(double x) const{ 
   if(x == 0.0) return OmegaR;
-  // XXX: Optimisable
-  return OmegaR * H0 * H0 * exp(-4.*x) / (H_of_x(x) * H_of_x(x));
+  double Hret = H0 / Hp_of_x(x);
+  double alpha = 2.0;
+  return OmegaR * exp(-alpha * x) * Hret * Hret;
 }
 
 double BackgroundCosmology::get_OmegaNu(double x) const{ 
   if(x == 0.0) return OmegaNu;
-  //  XXX: Optimisable
-  return OmegaNu * H0 * H0 * exp(-4.*x) / (H_of_x(x) * H_of_x(x));
+  double Hret = H0 / Hp_of_x(x);
+  double alpha = 2.0;
+  return OmegaNu * exp(-alpha * x) * Hret * Hret;
 }
 
 double BackgroundCosmology::get_OmegaCDM(double x) const{ 
   if(x == 0.0) return OmegaCDM;
-  //  XXX: Optimisable
-  return OmegaCDM * H0 * H0 * exp(-3.*x) / (H_of_x(x) * H_of_x(x));
+  double Hret = H0 / Hp_of_x(x);
+  double alpha = 1.0;
+  return OmegaCDM * exp(-alpha * x) * Hret * Hret;
 }
 
 double BackgroundCosmology::get_OmegaLambda(double x) const{ 
   if(x == 0.0) return OmegaLambda;
-  //  XXX: Optimisable
-  return OmegaLambda * H0 * H0 / (H_of_x(x) * H_of_x(x));
+  double Hret = H0 / Hp_of_x(x);
+  double alpha = -2.0;
+  return OmegaLambda * exp(-alpha * x) * Hret * Hret;
 }
 
 double BackgroundCosmology::get_OmegaK(double x) const{ 
   if(x == 0.0) return OmegaK;    
-  //=============================================================================
-  // TODO: Set the range of x and the number of points for the splines
-  // For this Utils::linspace(x_start, x_end, npts) is useful
-  //=============================================================================
-  //  XXX: Optimisable
-  return OmegaK * H0 * H0 * exp(-2.*x) / (H_of_x(x) * H_of_x(x));
+  double Hret = H0 / Hp_of_x(x);
+  double alpha = 0.0;
+  return OmegaK * exp(-alpha * x) * Hret * Hret;
 }
 
 // EXTRA FUNCTIONs

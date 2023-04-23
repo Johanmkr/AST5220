@@ -508,9 +508,9 @@ int Perturbations::rhs_tight_coupling_ode(double x, double k, const double *y, d
   double Hp         = cosmo->Hp_of_x(x);
   double dHp        = cosmo->dHpdx_of_x(x);
   double H0         = cosmo->H0;
-  double OmegaCDM   = cosmo->get_OmegaCDM();
-  double OmegaB     = cosmo->get_OmegaB();
-  double OmegaR     = cosmo->get_OmegaR();
+  double OmegaCDM   = cosmo->get_OmegaCDM(x);
+  double OmegaB     = cosmo->get_OmegaB(x);
+  double OmegaR     = cosmo->get_OmegaR(x);
 
   //  Recombination parameters
   double Rinv       = 1. / rec->get_R_of_x(x);
@@ -518,15 +518,13 @@ int Perturbations::rhs_tight_coupling_ode(double x, double k, const double *y, d
   double ddtau      = rec->ddtauddx_of_x(x);
 
   //  Useful quantities
-  double a          = exp(x);
   double ckHp       = Constants.c*k/Hp;
   double Theta2     = -20./(45.*dtau)*ckHp*Theta[1];
-  double Y          = 
-  // double Y          = cosmo->get_OmegaCDM(x)*delta_cdm + cosmo->get_OmegaB(x)*delta_b + 4.*cosmo->get_OmegaR(x) * Theta[0];
-  double Psi        = -Phi - 12.*H0*H0 / (Constants.c*Constants.c * k *k) * cosmo->get_OmegaR(x)*Theta2; 
+  double Y          = OmegaCDM*delta_cdm + OmegaB*delta_b + 4.*OmegaR * Theta[0];
+  double Psi        = -Phi - 12.*Hp*Hp / (Constants.c*Constants.c * k *k) * cosmo->get_OmegaR(x)*Theta2; 
 
   
-  dPhidx            = Psi - 1./3. * ckHp*ckHp*Phi + H0*H0/(2.*Hp*Hp)*Y;
+  dPhidx            = Psi - 1./3. * ckHp*ckHp*Phi + Y/2.;
   
   dThetadx[0]       = - ckHp * Theta[1] - dPhidx;
   
@@ -590,27 +588,46 @@ int Perturbations::rhs_full_ode(double x, double k, const double *y, double *dyd
   double *dThetadx        = &dydx[Constants.ind_start_theta];
   // double *dTheta_pdx      = &dydx[Constants.ind_start_thetap];
   // double *dNudx           = &dydx[Constants.ind_start_nu];
+  
+  //  Background parameters
+  double Hp         = cosmo->Hp_of_x(x);
+  double dHp        = cosmo->dHpdx_of_x(x);
+  double H0         = cosmo->H0;
+  double OmegaCDM   = cosmo->get_OmegaCDM(x);
+  double OmegaB     = cosmo->get_OmegaB(x);
+  double OmegaR     = cosmo->get_OmegaR(x);
 
-  //  Quantities from other milestones
-  double Rinv = 1. / rec->get_R_of_x(x);
-  double dtau = rec->dtaudx_of_x(x);
-  double ddtau = rec->ddtauddx_of_x(x);
-  double Hp = cosmo->Hp_of_x(x);
-  double dHp = cosmo->dHpdx_of_x(x);
-  double H0 = cosmo->H0;
+  //  Recombination parameters
+  double Rinv       = 1. / rec->get_R_of_x(x);
+  double dtau       = rec->dtaudx_of_x(x);
+  double ddtau      = rec->ddtauddx_of_x(x);
 
   //  Useful quantities
-  double ckHp = Constants.c*k/Hp;
-  double a = exp(x);
-  // double Y = cosmo->get_OmegaCDM(x)*delta_cdm + cosmo->get_OmegaB(x)*delta_b + 4.*cosmo->get_OmegaR(x) * Theta[0]
-  double Psi = -Phi - 12.*H0*H0 / (Constants.c*Constants.c * k *k) * cosmo->get_OmegaR(x)*Theta[2]; 
+  double ckHp       = Constants.c*k/Hp;
+  double Y          = OmegaCDM*delta_cdm + OmegaB*delta_b + 4.*OmegaR * Theta[0];
+  double Psi        = -Phi - 12.*Hp*Hp / (Constants.c*Constants.c * k *k) * cosmo->get_OmegaR(x)*Theta[2]; 
+
+
+  // //  Quantities from other milestones
+  // double Rinv = 1. / rec->get_R_of_x(x);
+  // double dtau = rec->dtaudx_of_x(x);
+  // double ddtau = rec->ddtauddx_of_x(x);
+  // double Hp = cosmo->Hp_of_x(x);
+  // double dHp = cosmo->dHpdx_of_x(x);
+  // double H0 = cosmo->H0;
+
+  // //  Useful quantities
+  // double ckHp = Constants.c*k/Hp;
+  // double a = exp(x);
+  // // double Y = cosmo->get_OmegaCDM(x)*delta_cdm + cosmo->get_OmegaB(x)*delta_b + 4.*cosmo->get_OmegaR(x) * Theta[0]
+  // double Psi = -Phi - 12.*H0*H0 / (Constants.c*Constants.c * k *k) * cosmo->get_OmegaR(x)*Theta[2]; 
 
   //=============================================================================
   // TODO: fill in the expressions for all the derivatives
   //=============================================================================
 
   // SET: Scalar quantities (Phi, delta, v, ...)
-  dPhidx          = Psi - 1./3. * ckHp*ckHp*Phi + H0*H0/(2.*Hp*Hp)*Y;
+  dPhidx          = Psi - 1./3. * ckHp*ckHp*Phi + Y/2.;
   ddelta_cdmdx    = ckHp * v_cdm - 3.*dPhidx;
   ddelta_bdx      = ckHp * v_b - 3.*dPhidx;
   dv_cdmdx        = -v_cdm - ckHp*Psi;
@@ -737,7 +754,7 @@ void Perturbations::info() const{
 void Perturbations::output(const double k, const std::string filename) const{
   std::ofstream fp(filename.c_str());
   const int npts = 5000;
-  fp << " x , " << " T0 , " << " T1 , " << " T2 , " << " Phi , " << " Psi , "<< " Pi , " << "\n";
+  fp << " x , " << " T0 , " << " T1 , " << " T2 , " << " Phi , " << " Psi , "<< " delta_cdm , " << " delta_b , " << " v_cdm , " << " v_b , " << " Pi , " << "\n";
   auto x_array = Utils::linspace(x_start, x_end, npts);
   auto print_data = [&] (const double x) {
     double arg = k * (cosmo->eta_of_x(0.0) - cosmo->eta_of_x(x));
@@ -747,6 +764,10 @@ void Perturbations::output(const double k, const std::string filename) const{
     fp << get_Theta(x,k,2)   << " , ";
     fp << get_Phi(x,k)       << " , ";
     fp << get_Psi(x,k)       << " , ";
+    fp << get_delta_cdm(x,k) << " , ";
+    fp << get_delta_b(x,k)   << " , ";
+    fp << get_v_cdm(x,k)     << " , ";
+    fp << get_v_b(x,k)       << " , ";
     fp << get_Pi(x,k)        << " , ";
     // fp << get_Source_T(x,k)  << " , ";
     // fp << get_Source_T(x,k) * Utils::j_ell(5,   arg)           << " , ";
