@@ -13,11 +13,11 @@ class Recombination(Milestone):
 
         # Plot Xe from Saha and peebles
         XeLine, = ax.plot(self.x, self.Xe, color=Colors["Xe"])
-        XeLine.set_label(lbls["Xe"] + " (Peebles)")
+        XeLine.set_label(lbls["Xe"] + r" $\mathrm{(Peebles)}$")
 
         # Plot Xe from Saha only
         SahaLine, = ax.plot(self.x, self.XeSaha, color=Colors["XeSaha"], ls="dashed", lw=2)
-        SahaLine.set_label(lbls["Xe"] + " (Saha)")
+        SahaLine.set_label(lbls["Xe"] + r" $\mathrm{(Saha)}$")
 
         # Misc
         ax.set_xlim(-8,-4)
@@ -25,12 +25,12 @@ class Recombination(Milestone):
         ax.set_yscale("log")
         ax.set_xlabel(lbls["x"])
         # ax.set_ylabel(lbls["Xe"])
-        ax.set_title(r"Free electron fraction, $X_e$", loc="left")
+        ax.set_title(r"$\mathrm{Free\ electron\ fraction,}\ X_e$", loc="left")
 
         # Plot lines
-        ax.axvline(self.x_rec, lw=2, ls="dashdot", color="black", label="Recombination")
-        ax.axvline(self.x_recSaha, lw=2, ls="dotted", color="black", label="Saha recombination")
-        ax.axhline(self.Xe[np.argmin(np.abs(self.x))], lw=2, ls="dashed", color="chocolate", label="Freeze out")
+        ax.axvline(self.x_rec, lw=2, ls="dashdot", color="black", label=r"$\mathrm{Recombination}$")
+        ax.axvline(self.x_recSaha, lw=2, ls="dotted", color="black", label=r"$\mathrm{Saha\ recombination}$")
+        ax.axhline(self.Xe[np.argmin(np.abs(self.x))], lw=2, ls="dashed", color="chocolate", label=r"$\mathrm{Freeze\ out}$")
 
         # Make legend
         ax.minorticks_on()
@@ -50,7 +50,7 @@ class Recombination(Milestone):
         lines = [tau, dtau, ddtau]
 
         # Titles
-        ax.set_title(r"Optical depth, $\tau$", loc="left")
+        ax.set_title(r"$\mathrm{Optical\ depth,}\ \tau$", loc="left")
         ax.set_xlabel(lbls["x"])
 
 
@@ -58,12 +58,12 @@ class Recombination(Milestone):
         ax.set_yscale("log")
         ax.set_xlim(-10,-4)
         ax.set_ylim(1e-5, 1e5)
-        lsline = ax.axvline(self.x_LS, lw=2, ls="dashed", color="black", label="Last scattering")
+        lsline = ax.axvline(self.x_LS, lw=2, ls="dashed", color="black", label=r"$\mathrm{Last\ scattering}$")
 
         # Make legend
         ax.minorticks_on()
         L1 = ax.legend(lines, [line.get_label() for line in lines], loc="best", fancybox=True)
-        L2 = fig.legend([lsline], ["Last Scattering"], loc="upper right", fancybox=True, bbox_to_anchor=(.955, 0.995))
+        L2 = fig.legend([lsline], [r"$\mathrm{Last\ scattering}$"], loc="upper right", fancybox=True, bbox_to_anchor=(.955, 0.995))
 
         # Make self variable and create plot
         self.TauFig = fig
@@ -80,7 +80,7 @@ class Recombination(Milestone):
 
         # Titles
         ax.set_xlabel(lbls["x"])
-        ax.set_title(r"Visibility function, $\tilde{g}$", loc="left")
+        ax.set_title(r"$\mathrm{Visibility\ function,}\ \tilde{g}$", loc="left")
 
         # Misc
         ax.set_xlim(-7.5,-6)
@@ -90,7 +90,7 @@ class Recombination(Milestone):
         # Make legend
         ax.minorticks_on()
         L1 = ax.legend(lines, [line.get_label() for line in lines], loc="upper right", fancybox=True)
-        L2 = fig.legend([lsline], ["Last Scattering"], loc="upper right", fancybox=True, bbox_to_anchor=(.935, 0.995))
+        L2 = fig.legend([lsline], [r"$\mathrm{Last\ scattering}$"], loc="upper right", fancybox=True, bbox_to_anchor=(.935, 0.995))
 
         # Make self variable and create plot
         self.GFig = fig

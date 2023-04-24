@@ -415,14 +415,14 @@ def create_table():
 
 
 if __name__=="__main__":
-    # testing_Omegas()
-    # testing_Hp()
+    testing_Omegas()
+    testing_Hp()
     testing_eta()
-    # conformal_hubble_factor()
-    # cosmic_conformal_time()
-    # supernova_data()
-    # prob_plots()
-    # goodness_of_fit()
-    # omega_restrictions_plot()
-    # posterior_pdf()
+    conformal_hubble_factor()
+    cosmic_conformal_time()
+    supernova_data()
+    prob_plots()
+    goodness_of_fit()
+    omega_restrictions_plot()
+    posterior_pdf()
     # create_table()

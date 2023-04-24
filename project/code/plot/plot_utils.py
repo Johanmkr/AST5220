@@ -151,9 +151,12 @@ lbls = {
     "dgdx10": r"$\tilde{g}'/10$",
     "ddgddx": r"$\tilde{g}''$",
     "ddgddx300": r"$\tilde{g}''/300$",
-    "k1": r"$k=0.001 \mathrm{Mpc}^{-1}$",
-    "k2": r"$k=0.01 \mathrm{Mpc}^{-1}$",
-    "k3": r"$k=0.1 \mathrm{Mpc}^{-1}$"
+    "k1": r"$0.001$",
+    "k2": r"$0.01$",
+    "k3": r"$0.1$"
+    # "k1": r"$k=0.001 \mathrm{Mpc}^{-1}$",
+    # "k2": r"$k=0.01 \mathrm{Mpc}^{-1}$",
+    # "k3": r"$k=0.1 \mathrm{Mpc}^{-1}$"
 }
 
 #   Set up data class
