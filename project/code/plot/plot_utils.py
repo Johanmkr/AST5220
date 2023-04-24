@@ -40,7 +40,12 @@ Colors = {
     "ddtauddx": "orange",
     "g": "forestgreen",
     "dgdx": "darkgreen",
-    "ddgddx": "olive"
+    "ddgddx": "olive",
+
+    #   Perturbations
+    "k1": "blue",
+    "k2": "red",
+    "k3": "green"
 
 }
 # colors = plt.cm.winter(np.linspace(0,1,5))
@@ -70,7 +75,7 @@ plt.rc('lines', linewidth=3)
 
 # Visual parameters for saving/showing
 # Manual Switches
-TEST = False
+TEST = True
 
 # SAVE = False
 # PUSH = False
@@ -145,8 +150,10 @@ lbls = {
     "dgdx": r"$\tilde{g}'$",
     "dgdx10": r"$\tilde{g}'/10$",
     "ddgddx": r"$\tilde{g}''$",
-    "ddgddx300": r"$\tilde{g}''/300$"
-
+    "ddgddx300": r"$\tilde{g}''/300$",
+    "k1": r"$k=0.001 \mathrm{Mpc}^{-1}$",
+    "k2": r"$k=0.01 \mathrm{Mpc}^{-1}$",
+    "k3": r"$k=0.1 \mathrm{Mpc}^{-1}$"
 }
 
 #   Set up data class
