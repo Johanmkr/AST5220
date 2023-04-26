@@ -303,3 +303,39 @@
                 \end{align}
             \end{subequations}
         \end{tcolorbox}
+
+\subsubsection{Line of sight integration}
+
+    \begin{equation}\label{eq:m3:theory:line_of_sight_integral_definition}
+        \T_l(k,x=0) = \int_{-\infty}^0 \mathcal{S}(k,x)j_l\left[k(\eta_0-\eta(x))\right]\d x,
+    \end{equation}
+    where $j_l\left[k(\eta_0-\eta(x))\right]$ are the spherical Bessel functions. $\mathcal{S}(k,x)$ is known as the \textit{source function} as is given by:
+    
+    \begin{equation}\label{eq:m3:theory:source_function}
+        \begin{split}
+            \mathcal{S}(k,x) &= \tilde{g}\left[\T_0+\Psi+\frac{\T_2}{4}\right] + e^{-\tau}\left[\Psi'-\Phi'\right]\\
+            &-\frac{1}{k}\dv{}{x}\left[\Hp\tilde{g}v_b\right] + \frac{3}{4k^2}\dv{}{x}\left[\Hp\dv{}{x}\left(\Hp\tilde{g}\T_2\right)\right].
+        \end{split}
+    \end{equation}
+    Due to the nature of the product rule, ~\cref{eq:m3:theory:source_function} end up containing a lot of terms. We state the individual result of the differentiated terms below:
+    \begin{equation}\label{eq:m3:theory:dvHgv_b}
+        \dv{}{x}\left[\Hp\tilde{g}v_b\right] = \Hp\tilde{g}v_b' + \Hp\tilde'{g}v_b + \Hp'\tilde{g}v_b
+    \end{equation}
+    and
+    \begin{equation}\label{eq:m3:theory:dvHdvHgT}
+        \begin{split}
+            \dv{}{x}\left[\Hp\dv{}{x}\left(\Hp\tilde{g}\T_2\right)\right] &= \tilde{g}\T_2\left[\Hp''\Hp + \left(\Hp'\right)^2\right] \\
+            &+\Hp^2\left[\tilde{g}\T_2'' + \tilde{g}''\T_2 + 2\tilde{g}'\T_2'\right] \\
+            &+3\Hp'\Hp\left[\tilde{g}\T_2'+\tilde{g}'\T_2\right].
+        \end{split}
+    \end{equation}
+    In order to find $\T_2''$ we insert $l=2$ in ~\cref{eq:m3:theory:photon_multipole} and differentiate:
+    \begin{equation}\label{eq:m3:theory:dipole_double_deriv}
+        \begin{split}
+            \T_2'' &= \dv{}{x}\left[\frac{2ck}{5\Hp}\T_1-\frac{3ck}{5\Hp}\T_3 + \tau'\left(\T_2-\frac{\T_2}{10}\right)\right] \\
+            &= \frac{2ck}{\Hp}\left(\T_1'-\frac{\Hp'}{\Hp}\T_1\right) + \frac{3ck}{5\Hp}\left(\frac{\Hp'}{\Hp}\T_3 - \T_3'\right)\\
+            &+ \frac{9}{10}\left(\tau''\T_2 + \tau'\T_2'\right)
+        \end{split}
+    \end{equation}
+
+
