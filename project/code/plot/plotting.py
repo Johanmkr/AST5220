@@ -24,7 +24,7 @@ def runM2():
 
 def runM3():
     Rec = M2.Recombination(Data("recombination.csv"))
-    Pert = M3.Perturbation(["perturbations_k0.001.csv", "perturbations_k0.01.csv", "perturbations_k0.1.csv"], Rec.x_rec)
+    Pert = M3.Perturbation(["perturbations_k0.001.csv", "perturbations_k0.01.csv", "perturbations_k0.1.csv"], Rec.x_rec, M1.x_RM)
     Pert.make_plots()
 
 if __name__ == "__main__":

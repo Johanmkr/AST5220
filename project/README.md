@@ -69,12 +69,8 @@ Clean the plots generated:
 * Report
     * Write Abstract
 
-* Theory
-
 * Sanity checks
     Sanity check for $\eta$, this should be done properly if time allows. 
-
-* Methods 
 
 * Results
     * Discuss physical interpretation.
@@ -87,8 +83,15 @@ Clean the plots generated:
 * Derive Saha and Peebles in appendix.
 
 
- ## Questions
 
+### Milestone 3
+*   Finish theory of line of sight integration
+*   Write about truncation of the multipole expansion
+*   Write a section about what we expect and how to test the different things
+*   Write method section, briefly   ENOUGH?
+*   Write results, discussion and make comparison between it and the analytical stuff.
+ ## Questions
+*   Division between main text and appendix, especially for milestone 3.
 
 
 

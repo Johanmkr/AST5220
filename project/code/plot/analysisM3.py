@@ -5,7 +5,7 @@ from plot_utils import *
 #         self.DataList = DataList
 
 class Perturbation:
-    def __init__(self, files:list, x_rec=None)->None:
+    def __init__(self, files:list, x_rec=None, x_RM=None)->None:
         self.k1Data = Data(files[0])
         self.k2Data = Data(files[1])
         self.k3Data = Data(files[2])
@@ -16,8 +16,9 @@ class Perturbation:
         for key in self.k3Data.get_keys():
             exec(f"self.k3_{key} = self.k3Data[key]")
         self.LWpoles = 2
-        self.LWrec = 1.5
+        self.MarkLines = 2
         self.x_rec = x_rec
+        self.x_RM = x_RM
 
     def set_k_lables(self, fig, lines):
         leg = fig.legend(lines, [line.get_label() for line in lines], loc="upper right", fancybox=True, ncol=3, title=r"$k\ [\mathrm{Mpc}^{-1}]=$", fontsize=20, title_fontsize=20, bbox_to_anchor=[0.95, 1.01])
@@ -43,9 +44,22 @@ class Perturbation:
         ax2.minorticks_on()
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
+
+        y1min, y1max = ax1.get_ylim()
+        y2min, y2max = ax2.get_ylim()
+
         if self.x_rec is not None:
-            ax1.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
-            ax2.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+            ax1.axvline(self.x_rec, ymax=0.925, color="black", ls="dashed", lw=self.MarkLines)
+            ax1.text(self.x_rec-0.1, y1max - 0.06*(y1max-y1min), r"$x_\mathrm{rec}$", fontsize=30)
+            ax2.axvline(self.x_rec, ymax=0.925, color="black", ls="dashed", lw=self.MarkLines)
+            ax2.text(self.x_rec-0.1, y2max - 0.06*(y2max-y2min), r"$x_\mathrm{rec}$", fontsize=30)
+        
+        if self.x_RM is not None:
+            ax1.axvline(self.x_RM, ymax=0.925, color="black", ls="dashdot", lw=self.MarkLines)
+            ax1.text(self.x_RM-0.1, y1max - 0.06*(y1max-y1min), r"$x_\mathrm{RM}$", fontsize=30)
+            ax2.axvline(self.x_RM, ymax=0.925, color="black", ls="dashdot", lw=self.MarkLines)
+            ax2.text(self.x_RM-0.1, y2max - 0.06*(y2max-y2min), r"$x_\mathrm{RM}$", fontsize=30)
+
         
         save_push(fig, "potentials")
 
@@ -62,8 +76,13 @@ class Perturbation:
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
 
+        ymin, ymax = ax.get_ylim()
         if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+            ax.axvline(self.x_rec, ymax=0.925, color="black", ls="dashed", lw=self.MarkLines)
+            ax.text(self.x_rec-0.1, ymax - 0.06*(ymax-ymin), r"$x_\mathrm{rec}$", fontsize=30)
+        if self.x_RM is not None:
+            ax.axvline(self.x_RM, ymax=0.925, color="black", ls="dashdot", lw=self.MarkLines)
+            ax.text(self.x_RM-0.1, ymax - 0.06*(ymax-ymin), r"$x_\mathrm{RM}$", fontsize=30)
         
         save_push(fig, "monopole")
 
@@ -81,8 +100,14 @@ class Perturbation:
         ax.minorticks_on()
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
+        
+        ymin, ymax = ax.get_ylim()
         if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+            ax.axvline(self.x_rec, ymax=0.925, color="black", ls="dashed", lw=self.MarkLines)
+            ax.text(self.x_rec-0.1, ymax - 0.06*(ymax-ymin), r"$x_\mathrm{rec}$", fontsize=30)
+        if self.x_RM is not None:
+            ax.axvline(self.x_RM, ymax=0.925, color="black", ls="dashdot", lw=self.MarkLines)
+            ax.text(self.x_RM-0.1, ymax - 0.06*(ymax-ymin), r"$x_\mathrm{RM}$", fontsize=30)
         
         save_push(fig, "dipole")
 
@@ -93,15 +118,21 @@ class Perturbation:
         line3, = ax.plot(self.k3_x, self.k3_T2, lw=self.LWpoles, color=Colors["k3"], label=lbls["k3"])
 
         ax.set_xlabel(lbls["x"])
-        ax.set_title(r"$\mathrm{Quadrapole}\ \Theta_2$", loc="left")
+        ax.set_title(r"$\mathrm{Quadrupole}\ \Theta_2$", loc="left")
         ax.set_xlim(-15,0)
         ax.grid(True)
 
         ax.minorticks_on()
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
+        
+        ymin, ymax = ax.get_ylim()
         if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+            ax.axvline(self.x_rec, ymax=0.925, color="black", ls="dashed", lw=self.MarkLines)
+            ax.text(self.x_rec-0.1, ymax - 0.06*(ymax-ymin), r"$x_\mathrm{rec}$", fontsize=30)
+        if self.x_RM is not None:
+            ax.axvline(self.x_RM, ymax=0.925, color="black", ls="dashdot", lw=self.MarkLines)
+            ax.text(self.x_RM-0.1, ymax - 0.06*(ymax-ymin), r"$x_\mathrm{RM}$", fontsize=30)
         
         save_push(fig, "quadrapole")
 
@@ -126,8 +157,9 @@ class Perturbation:
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
         ax.legend([line_lab, dash_lab], [r"$|\delta_c|$", r"$|\delta_b|$"], fancybox=True, loc="best")
-        if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+    
+
+
         
         # ax.legend(loc="best", fancybox=True)
         
@@ -148,8 +180,7 @@ class Perturbation:
         ax.set_ylim(1e-2, 1e5)
         ax.set_yscale("log")
         ax.minorticks_on()
-        if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+        
 
 
         save_push(fig, "delta_comparison")
@@ -176,8 +207,7 @@ class Perturbation:
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
         ax.legend([line_lab, dash_lab], [r"$|v_c|$", r"$|v_b|$"], fancybox=True, loc="best")
-        if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+
         
         save_push(fig, "velocity")
 
@@ -197,8 +227,7 @@ class Perturbation:
         ax.set_ylim(1e-3, 5e1)
         ax.set_yscale("log")
         ax.minorticks_on()
-        if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+   
 
 
         save_push(fig, "velocity_comparison")

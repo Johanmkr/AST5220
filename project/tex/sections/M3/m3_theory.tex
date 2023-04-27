@@ -167,7 +167,7 @@
     where $\mathcal{Y} = \O_c\delta_c+\O_b\delta_b+4\O_\gamma\T_0$ 
 
 \end{tcolorbox}
-\subsubsection{Tight coupling regime}
+\subsubsection{Tight coupling regime}\label{sec:m3:theory:tight_coupling}
     The tight coupling regime represents the time in the early Universe, before recombination, when both radiation, dark matter and baryons were tightly coupled together, interactions where frequent and efficient, and the primordial plasma very optically thick ($\tau\gg1$). Due to this, the bulk velocity of the baryons (which co-moves with the other species due to the tight coupling) is very low. Furthermore, due to the frequent interactions and low bulk velocity the radiation dipole is suppressed. Altogether, this causes the combination $(3\T_1+v_b)$ to be very small. The optical depth changes rapidly in the tight coupling regime, as seen from ~\cref{fig:m2:optical_depth}, $\abs{\tau'}\gg1$. As a result, any combinations of the form $\tau'(\T_1+v_b)$, as they occur in ~\cref{eq:m3:theory:photon_dipole} and ~\cref{eq:m3:theory:v_b} are extremely numerically unstable. We therefore use said equations in order to rewrite for:
     \begin{equation}\label{eq:m3:theory:q_rewrite}
         q = \frac{ck}{\Hp}(\T_0-2\T_2) + \tau'(1+R^{-1})(3\T_1+v_b) - v_b,
@@ -304,7 +304,10 @@
             \end{subequations}
         \end{tcolorbox}
 
-\subsubsection{Line of sight integration}
+\subsubsection{Line-of-sight integration}
+    The idea behind the line-of-sight integration was first proposed by ~\cite{Seljak_1996}, where instead of expanding the photon perturbation in multipoles and then integrating, the integral is solved explicitly and expanded into multipoles at the end. The integral we have so solve explicitly is the following
+
+    \TODO{much stuff here left}
 
     \begin{equation}\label{eq:m3:theory:line_of_sight_integral_definition}
         \T_l(k,x=0) = \int_{-\infty}^0 \mathcal{S}(k,x)j_l\left[k(\eta_0-\eta(x))\right]\d x,
@@ -337,5 +340,8 @@
             &+ \frac{9}{10}\left(\tau''\T_2 + \tau'\T_2'\right)
         \end{split}
     \end{equation}
+
+% \subsubsection{Growth of structure}
+%     Given we have solutions to ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final}, what should they tell us?
 
 
