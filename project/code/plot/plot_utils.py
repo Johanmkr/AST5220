@@ -45,7 +45,10 @@ Colors = {
     #   Perturbations
     "k1": "blue",
     "k2": "red",
-    "k3": "green"
+    "k3": "green",
+    "k3c1": "green",
+    "k3c2": "purple", 
+    "k3c3": "orange"
 
 }
 # colors = plt.cm.winter(np.linspace(0,1,5))

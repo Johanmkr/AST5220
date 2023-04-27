@@ -5,7 +5,7 @@ from plot_utils import *
 #         self.DataList = DataList
 
 class Perturbation:
-    def __init__(self, files:list)->None:
+    def __init__(self, files:list, x_rec=None)->None:
         self.k1Data = Data(files[0])
         self.k2Data = Data(files[1])
         self.k3Data = Data(files[2])
@@ -16,32 +16,36 @@ class Perturbation:
         for key in self.k3Data.get_keys():
             exec(f"self.k3_{key} = self.k3Data[key]")
         self.LWpoles = 2
+        self.LWrec = 1.5
+        self.x_rec = x_rec
 
     def set_k_lables(self, fig, lines):
         leg = fig.legend(lines, [line.get_label() for line in lines], loc="upper right", fancybox=True, ncol=3, title=r"$k\ [\mathrm{Mpc}^{-1}]=$", fontsize=20, title_fontsize=20, bbox_to_anchor=[0.95, 1.01])
         leg._legend_box.align = "left"
-
-
 
     def potentials_plot(self)->None:
         fig, (ax1, ax2) = plt.subplots(ncols=1, nrows=2, figsize=(12,12), sharex=True)
         line1, = ax1.plot(self.k1_x, self.k1_Phi, color=Colors["k1"], label=lbls["k1"])
         line2, = ax1.plot(self.k2_x, self.k2_Phi, color=Colors["k2"], label=lbls["k2"])
         line3, = ax1.plot(self.k3_x, self.k3_Phi, color=Colors["k3"], label=lbls["k3"])
-        ax2.plot(self.k1_x, 1e4*(self.k1_Phi+self.k1_Psi), color=Colors["k1"])
-        ax2.plot(self.k2_x, 1e4*(self.k2_Phi+self.k2_Psi), color=Colors["k2"])
-        ax2.plot(self.k3_x, 1e4*(self.k3_Phi+self.k3_Psi), color=Colors["k3"])
+        ax2.plot(self.k1_x, (self.k1_Phi+self.k1_Psi), color=Colors["k1"])
+        ax2.plot(self.k2_x, (self.k2_Phi+self.k2_Psi), color=Colors["k2"])
+        ax2.plot(self.k3_x, (self.k3_Phi+self.k3_Psi), color=Colors["k3"])
 
         ax1.set_xlim(-15,0)
         ax2.set_xlim(-15,0)
+        ax2.set_ylim(-0.01, 0.03)
 
         ax2.set_xlabel(lbls["x"])
         ax1.set_title(r"$\mathrm{Potential}\ \Phi$", loc="left")
-        ax2.set_title(r"$\mathrm{Sum:\ }\ 10^4\cdot(\Phi+\Psi)$", loc="left")
+        ax2.set_title(r"$\mathrm{Sum:\ }(\Phi+\Psi)$", loc="left")
 
         ax2.minorticks_on()
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
+        if self.x_rec is not None:
+            ax1.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+            ax2.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
         
         save_push(fig, "potentials")
 
@@ -57,6 +61,9 @@ class Perturbation:
         ax.minorticks_on()
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
+
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
         
         save_push(fig, "monopole")
 
@@ -74,6 +81,8 @@ class Perturbation:
         ax.minorticks_on()
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
         
         save_push(fig, "dipole")
 
@@ -91,6 +100,8 @@ class Perturbation:
         ax.minorticks_on()
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
         
         save_push(fig, "quadrapole")
 
@@ -107,7 +118,7 @@ class Perturbation:
         line_lab, = ax.plot(np.nan, np.nan, color="grey")
         dash_lab, = ax.plot(np.nan, np.nan, color="grey", ls="dashed")
         ax.set_xlabel(lbls["x"])
-        ax.set_ylim(1e-1, 1e5)
+        ax.set_ylim(1e-2, 1e5)
         ax.set_xlim(-15,0)
         ax.set_yscale("log")
         ax.minorticks_on()
@@ -115,11 +126,33 @@ class Perturbation:
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
         ax.legend([line_lab, dash_lab], [r"$|\delta_c|$", r"$|\delta_b|$"], fancybox=True, loc="best")
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
         
         # ax.legend(loc="best", fancybox=True)
         
         save_push(fig, "delta")
 
+    def delta_comp_plot(self)->None:
+        fig, ax = plt.subplots(figsize=(12,10))
+        ax.plot(self.k3_x, abs(self.k3_delta_cdm), lw=4, color=Colors["k3c1"], label=r"$|\delta_c|$")
+        ax.plot(self.k3_x, abs(self.k3_delta_b), lw=3, color=Colors["k3c2"], label=r"$|\delta_b|$", ls="dashed")
+        ax.plot(self.k3_x, abs(4*self.k3_T0), lw=2, color=Colors["k3c3"], label=r"$|\delta_\gamma|$", ls="dashdot")
+
+        ax.legend(fancybox=True, loc="best")
+
+        ax.set_title(r"$\mathrm{Overdensities\ when\ } k=0.1 / \mathrm{Mpc}$", loc="left")
+
+        ax.set_xlabel(lbls["x"])
+        ax.set_xlim(-15,0)
+        ax.set_ylim(1e-2, 1e5)
+        ax.set_yscale("log")
+        ax.minorticks_on()
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+
+
+        save_push(fig, "delta_comparison")
 
     def velocity_plot(self)->None:
         fig, ax = plt.subplots(figsize=(12,10))
@@ -143,8 +176,51 @@ class Perturbation:
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
         ax.legend([line_lab, dash_lab], [r"$|v_c|$", r"$|v_b|$"], fancybox=True, loc="best")
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
         
         save_push(fig, "velocity")
+
+
+    def velocity_comp_plot(self)->None:
+        fig, ax = plt.subplots(figsize=(12,10))
+        ax.plot(self.k3_x, abs(self.k3_v_cdm), lw=4, color=Colors["k3c1"], label=r"$|v_c|$")
+        ax.plot(self.k3_x, abs(self.k3_v_b), lw=3, color=Colors["k3c2"], label=r"$|v_b|$", ls="dashed")
+        ax.plot(self.k3_x, abs(-3*self.k3_T1), lw=2, color=Colors["k3c3"], label=r"$|v_\gamma|$", ls="dashdot")
+
+        ax.legend(fancybox=True, loc="best")
+
+        ax.set_title(r"$\mathrm{Velocities\ when\ } k=0.1 / \mathrm{Mpc}$", loc="left")
+
+        ax.set_xlabel(lbls["x"])
+        ax.set_xlim(-15,0)
+        ax.set_ylim(1e-3, 5e1)
+        ax.set_yscale("log")
+        ax.minorticks_on()
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+
+
+        save_push(fig, "velocity_comparison")
+
+
+    def plot_integrand_test(self)->None:
+        fig, ax = plt.subplots()
+        line1, = ax.plot(self.k1_x, self.k1_S, color=Colors["k1"], label=lbls["k1"])
+        line2, = ax.plot(self.k2_x, self.k2_S, color=Colors["k2"], label=lbls["k2"])
+        line3, = ax.plot(self.k3_x, self.k3_S, color=Colors["k3"], label=lbls["k3"])
+        ax.set_xlabel(lbls["x"])
+        ax.set_xlim(-15,0)
+        ax.minorticks_on()
+
+
+        lines=[line1, line2, line3]
+        self.set_k_lables(fig, lines)
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+
+        save_push(fig, "integrand")
+
 
 
     def make_plots(self)->None:
@@ -153,8 +229,11 @@ class Perturbation:
         self.dipole_plot()
         self.quadrapole_plot()
         self.delta_plot()
+        self.delta_comp_plot()
         self.velocity_plot()
+        self.velocity_comp_plot()
 
+        # self.plot_integrand_test()
 
 if __name__=="__main__":
     Pert = Perturbation(["perturbations_k0.001.csv", "perturbations_k0.01.csv", "perturbations_k0.1.csv"])

@@ -49,50 +49,85 @@ class Perturbations{
     // NB: If you use there you have to allocate the container first
     // e.g. Theta_spline = std::vector<Spline2D>(n_ell_theta); before using it
     std::vector<Spline2D> Theta_spline;
-    // std::vector<Spline2D> Theta_p_spline;
-    // std::vector<Spline2D> Nu_spline;
+
     
     //==========================================================
     // [1] Tight coupling ODE system
     //==========================================================
 
-    // Set the initial conditions at the start (which is in tight coupling)
-    Vector set_ic(
-        const double x, 
-        const double k) const;
+    /**
+     * @brief Set the initial conditions at the start (which is in tight coupling)
+     * 
+     * @param x time
+     * @param k k-mode
+     * @return Vector 
+     */
+    Vector set_ic(const double x, const double k) const;
     
-    // Right hand side of the ODE in the tight coupling regime
+    /**
+     * @brief Compute the right hand side of the ODE in the tight coupling regime.
+     * 
+     * @param x time
+     * @param k k-mode
+     * @param y solution array
+     * @param dydx rhs to be set
+     * @return int 
+     */
     int rhs_tight_coupling_ode(double x, double k, const double *y, double *dydx);
     
 
-    // Compute time when tight-coupling ends
+    /**
+     * @brief Compute time when tight-coupling ends
+     * 
+     * @param k k-mode
+     * @param x_arr x-array
+     * @return int 
+     */
     int get_tight_coupling_time_idx(const double k, Vector x_arr) const;
     
     //==========================================================
     // [2] The full ODE system 
     //==========================================================
     
-    // Set initial condition after tight coupling
-    Vector set_ic_after_tight_coupling(
-        const Vector &y_tight_coupling, 
-        const double x, 
-        const double k) const;
+    /**
+     * @brief Set initial condition after tight coupling
+     * 
+     * @param y_tight_coupling solution array from tight coupling
+     * @param x time
+     * @param k k-mode
+     * @return Vector 
+     */
+    Vector set_ic_after_tight_coupling(const Vector &y_tight_coupling, const double x, const double k) const;
 
-    // Right hand side of the ODE in the full regime
+    /**
+     * @brief Right hand side of the ODE in the full regime
+     * 
+     * @param x time
+     * @param k k-mode
+     * @param y solution array
+     * @param dydx rhs to be set
+     * @return int 
+     */
     int rhs_full_ode(double x, double k, const double *y, double *dydx);
     
     //==========================================================
     // [3] Integrate the full system
     //==========================================================
     
-    // Integrate perturbations and spline the result
+    /**
+     * @brief Integrate perturbations and spline the result
+     * 
+     */
     void integrate_perturbations();
     
     //==========================================================
     // [4] Compute source functions from the result
     //==========================================================
     
-    // Compute source functions and spline the result
+    /**
+     * @brief Compute source functions and spline the result
+     * 
+     */
     void compute_source_functions();
 
   public:
@@ -121,10 +156,16 @@ class Perturbations{
     double get_Psi(const double x, const double k) const;
     double get_Pi(const double x, const double k) const;
     double get_Theta(const double x, const double k, const int ell) const;
-    double get_Theta_p(const double x, const double k, const int ell) const;
-    double get_Nu(const double x, const double k, const int ell) const;
+
+    // Get the derivatives needed
+    double get_dv_b(const double x, const double k) const;
+    double get_dPhi(const double x, const double k) const;
+    double get_dPsi(const double x, const double k) const;
+    double get_dTheta(const double x, const double k, const int ell) const;
+
+    // Get the photon source function
     double get_Source_T(const double x, const double k) const;
-    double get_Source_E(const double x, const double k) const;
+    // double get_Source_E(const double x, const double k) const;
 };
 
 #endif
