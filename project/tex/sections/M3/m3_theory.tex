@@ -221,7 +221,22 @@
         \end{align}
     \end{subequations}
     \end{tcolorbox}
-    \subsubsection{Inflation}
+
+\subsubsection{Modes, scales and the horizon}\label{sec:m3:theory:modes_scales_horizon}
+    It is now useful to stop and ponder about what we have achieved so far. We have derived a set of differential equations for the perturbation of cosmological observables. Physically, these perturbations are spatial, but during the derivation we transformed all the equations into Fourier space, whose virtue is to remove the spatial dependency. Instead, the equations are expressed in terms of the \textit{Fourier mode} $k$. Each $k$\textit{-mode} is characterised by a comoving wavenumber $\vec{k}$, whose angular dependency is contained in the multipole expansion. Thus, we are left with the scalar $k$ to represent the original spatial distribution, and indeed; each $k$ represent a unique \textit{spatial space}. This is because the Fourier transform decompose the spatial function into its frequency components, and each $k$ represent a certain frequency, inverse proportional to the wavelength, which represent the physical spatial scale. 
+
+    Thus, small $k$-modes represents large wavelengths which in this context mean perturbations on large scales. On the other hand, large $k$-modes represents small-scale perturbations. What is large and what is small is typically defined through the conformal horizon $\eta$, as represented in figure ~\cref{fig:m1:cosmic_conformal_time}, which is a measure of the causally connected regions of the Universe. We follow the definitions of the different regimes as given in ~\cite{dodelson2020modern}:
+    \begin{equation}\label{eq:m3:theory:mode_scale_definition}
+        \begin{split}
+            k\eta &\ll 1 \quad \quad \mathrm{large\ scale\ modes,} \\
+            k\eta &\simeq 1 \quad \quad \mathrm{\ intermediate\ scale\ modes,}\\
+            k\eta &\gg 1 \quad \quad \mathrm{small\ scale\ modes.}
+        \end{split}
+    \end{equation}
+    The horizon will evolve in time, and we thus expect these modes at different scales to also evolve differently in time. At very early times, the horizon is very small, and we expect add modes to be larger than this. We thus define the concept of \textit{super-horizon} modes, which are modes whose scale is larger than the horizon. We ultimately also have \textit{sub-horzon} modes, where the scale is smaller than the horizon. Different modes are expected to undergo \textit{horizon crossing} at different times. 
+    
+    As a result of this Fourier decomposition, we can investigate what happens at different scales for the various perturbations. In order to re-express the perturbations as function of a physical quantity, say $\vec{x}$,\footnote{This is the physical spatial variable, $\vec{x}$, representing a position. If you thought this was a vector quantity of the temporal quantity $x=\ln{a}$ you need to evaluate your choices in life.} we need to integrate across all the different $k$-modes, basically accumulating the contributions to the perturbation across all scales. 
+\subsubsection{Inflation}
     To be able to numerically integrate ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final} we must determine the initial conditions of each quantity. Thus, we need to know how the Universe behaved at a very early stage. It is proposed that an epoch called \textit{inflation} took place, during which the Universe exponentially increases in size during a very short period of time ~\cite{dodelson2020modern}.\footnote{An inflationary process would also solve the horizon problem, the flatness problem and the monopole problem amongst other things. Details about this can be found in both ~\cite{dodelson2020modern}, ~\cite{carroll_2019}, and ~\cite{weinberg2008cosmology}.} We will describe the inflationary period in order to obtain the initial conditions of the metric perturbations $\Psi$ and $\Phi$. 
 
     Assume inflation is driven by a scalar field $\psi(t,\vec{x})$, typically referred to as \textit{inflaton field}. For inflation to happen, the acceleration of the scale factor must be positive, meaning that the inflaton field must model a fluid where the equation of state parameter $\omega$ is negative, i.e. $3p+\rho<0$. By considering the temporal and spatial part of the energy-momentum tensor, ~\cite{dodelson2020modern} obtains the following equations for the pressure and density of the inflaton field:
@@ -268,8 +283,7 @@
         \Psi = \frac{2}{3}aH\frac{\delta\phi}{\dot{\phi}}\Big|_\text{horizon crossing},
     \end{equation}
     which is the value of $\Psi$ immediately after inflation, when the mode is of equal size as the horizon (hence horizon crossing). \TODO{check if this actually is correct}
-
-    \subsubsection{Initial conditions}
+\subsubsection{Initial conditions}
         We now seek to determine the actual initial conditions enabling us to solve the desired differential equations. At very early times, we make the following assumptions:
         \begin{subequations}\label{eq:m3:theory:early_conditions}
             \begin{align}

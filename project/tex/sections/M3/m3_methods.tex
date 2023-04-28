@@ -1,19 +1,18 @@
 \subsection{Methods}\label{sec:m3:methods}
 
 \TODO{more here maybe}
-\subsubsection{Tight coupling}
     It is now time to find solutions to the equations we have developed. The first task is to determine when we have to use the tight coupling equations in ~\cref{eq:m3:theory:tight_coupling_q}, ~\cref{eq:m3:theory:tight_coupling_v_b} and ~\cref{eq:m3:theory:tight_coupling_all_poles}. As discussed in ~\cref{sec:m3:theory:tight_coupling}, the tight coupling regime should be used for early times, when $\tau, |\tau'| \gg1$. We expect it to last no longer than until recombination, and thus define a higher threshold of $x=-8.3$. We also have from ~\cite{https://doi.org/10.48550/arxiv.astro-ph/0606683} that $ck/(\Hp\tau')\ll1$ during tight coupling. Therefore, we adopt the following conditions, all of which must be satisfied for the tight coupling regime to be valid:
     \begin{equation}
         \begin{split}
             \abs{\dv{\tau}{x}} = \tau' &> 10 \\
             \abs{\dv{\tau}{x}} = \tau' &> \frac{10ck}{\Hp} \\
-            x &> -8.3
+            x &< -8.3
         \end{split}
     \end{equation}
     As soon as one of the above conditions fails, we must adopt the full system described in ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final}. It is therefore wise to implement a routine that finds $x=x_\mathrm{tc}$ which will be the transition between tight coupling and the full system. This value will change with $k$. 
 
-\subsubsection{Integration}
-    When integrating we use uniformly spaced values of $x\in[-20,0]$ and logarithmically spaced values of $k\in[0.00005, 0.3]/\mathrm{Mpc}$. The differential equations are then solved with the initial conditions from ~\cref{eq:m3:theory:initial_conditions} for $x\in[-20,x_\mathrm{tc}]$. After tight coupling, the differential equations are solved with initial conditions given as the last solution of the tight coupling equations, for $x\in(x_\mathrm{tc},0]$. At the end, both solutions (for all $k$-s) are ``sown'' together using the same $x$-array, and splined for all $x$ and $k$. 
+    When integrating we use uniformly spaced values of $x\in[-20,0]$ and logarithmically spaced values of $k\in[0.00005, 0.3]/\mathrm{Mpc}$. This should The differential equations are then solved with the initial conditions from ~\cref{eq:m3:theory:initial_conditions} for $x\in[-20,x_\mathrm{tc}]$. After tight coupling, the differential equations are solved with initial conditions given as the last solution of the tight coupling equations, for $x\in(x_\mathrm{tc},0]$. At the end, both solutions (for all $k$-s) are ``sown'' together using the same $x$-array, and splined for all $x$ and $k$. 
 
-\subsubsection{Source function}
     When finding the source function we use the same $x$ and $k$ arrays as in the section above, and solve ~\cref{eq:m3:theory:source_function} for each combination. The result is then splined. 
+
+    When analysing the results, we choose k-modes from all the regimes described in ~\cref{sec:m3:theory:modes_scales_horizon}: $k_1=0.001$/Mpc as the large scale mode, $k_2=0.01$/Mpc as the intermediate scale mode and $k_3=0.1$/Mpc as the small scale mode. 

@@ -90,6 +90,7 @@ Clean the plots generated:
 *   Write a section about what we expect and how to test the different things
 *   Write method section, briefly   ENOUGH?
 *   Write results, discussion and make comparison between it and the analytical stuff.
+*   Update nomenclature 
 
 *   Plot analytical solutions in the different regimes + plot of the horizons $k\eta$ as functions of $x$.
  ## Questions
