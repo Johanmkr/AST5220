@@ -157,6 +157,11 @@ class Perturbation:
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
         ax.legend([line_lab, dash_lab], [r"$|\delta_c|$", r"$|\delta_b|$"], fancybox=True, loc="best")
+
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.MarkLines)
+        if self.x_RM is not None:
+            ax.axvline(self.x_RM, color="black", ls="dashdot", lw=self.MarkLines)
     
 
 
@@ -180,6 +185,12 @@ class Perturbation:
         ax.set_ylim(1e-2, 1e5)
         ax.set_yscale("log")
         ax.minorticks_on()
+
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.MarkLines)
+        if self.x_RM is not None:
+            ax.axvline(self.x_RM, color="black", ls="dashdot", lw=self.MarkLines)
+
         
 
 
@@ -207,7 +218,10 @@ class Perturbation:
         lines=[line1, line2, line3]
         self.set_k_lables(fig, lines)
         ax.legend([line_lab, dash_lab], [r"$|v_c|$", r"$|v_b|$"], fancybox=True, loc="best")
-
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.MarkLines)
+        if self.x_RM is not None:
+            ax.axvline(self.x_RM, color="black", ls="dashdot", lw=self.MarkLines)
         
         save_push(fig, "velocity")
 
@@ -227,6 +241,10 @@ class Perturbation:
         ax.set_ylim(1e-3, 5e1)
         ax.set_yscale("log")
         ax.minorticks_on()
+        if self.x_rec is not None:
+            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.MarkLines)
+        if self.x_RM is not None:
+            ax.axvline(self.x_RM, color="black", ls="dashdot", lw=self.MarkLines)
    
 
 
