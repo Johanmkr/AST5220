@@ -51,6 +51,7 @@ void Perturbations::integrate_perturbations(){
 
 
     // Loop over all wavenumbers
+    #pragma omp parallel for schedule(dynamic, 1) // Dynamic parallelisation across the k-values
     for(int ik = 0; ik < n_k; ik++){
 
       /*
@@ -129,6 +130,7 @@ void Perturbations::integrate_perturbations(){
       /*
         SET INDICES AND FILL f-ARRAYS WITH VALUES FROM BOTH TIGHT-COUPLING AND FULL REGIME
       */
+
       int delta_cdm_idx = Constants.ind_deltacdm;
       int delta_b_idx = Constants.ind_deltab;
       int v_cdm_idx = Constants.ind_vcdm;
