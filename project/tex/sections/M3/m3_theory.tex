@@ -223,7 +223,7 @@
     \end{tcolorbox}
 
 \subsubsection{Modes, scales and the horizon}\label{sec:m3:theory:modes_scales_horizon}
-    It is now useful to stop and ponder about what we have achieved so far. We have derived a set of differential equations for the perturbation of cosmological observables. Physically, these perturbations are spatial, but during the derivation we transformed all the equations into Fourier space, whose virtue is to remove the spatial dependency. Instead, the equations are expressed in terms of the \textit{Fourier mode} $k$. Each $k$\textit{-mode} is characterised by a comoving wavenumber $\vec{k}$, whose angular dependency is contained in the multipole expansion. Thus, we are left with the scalar $k$ to represent the original spatial distribution, and indeed; each $k$ represent a unique \textit{spatial space}. This is because the Fourier transform decompose the spatial function into its frequency components, and each $k$ represent a certain frequency, inverse proportional to the wavelength, which represent the physical spatial scale. 
+    It is now useful to stop and ponder about what we have achieved so far. We have derived a set of differential equations for the perturbation of cosmological observables. Physically, these perturbations are spatial, but during the derivation we transformed all the equations into Fourier space, whose virtue is to remove the spatial dependency. Instead, the equations are expressed in terms of the \textit{Fourier mode} $k$. Each $k$\textit{-mode} is characterised by a comoving wavenumber $\vec{k}$, whose angular dependency is contained in the multipole expansion. Thus, we are left with the scalar $k$ to represent the original spatial distribution, and indeed; each $k$ represent a unique \textit{spatial scale}. This is because the Fourier transform decompose the spatial function into its frequency components, and each $k$ represent a certain frequency, inverse proportional to the wavelength, which represent the physical spatial scale. 
 
     Thus, small $k$-modes represents large wavelengths which in this context mean perturbations on large scales. On the other hand, large $k$-modes represents small-scale perturbations. What is large and what is small is typically defined through the conformal horizon $\eta$, as represented in figure ~\cref{fig:m1:cosmic_conformal_time}, which is a measure of the causally connected regions of the Universe. We follow the definitions of the different regimes as given in ~\cite{dodelson2020modern}:
     \begin{equation}\label{eq:m3:theory:mode_scale_definition}
@@ -239,7 +239,7 @@
 \subsubsection{Inflation}
     To be able to numerically integrate ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final} we must determine the initial conditions of each quantity. Thus, we need to know how the Universe behaved at a very early stage. It is proposed that an epoch called \textit{inflation} took place, during which the Universe exponentially increases in size during a very short period of time ~\cite{dodelson2020modern}.\footnote{An inflationary process would also solve the horizon problem, the flatness problem and the monopole problem amongst other things. Details about this can be found in both ~\cite{dodelson2020modern}, ~\cite{carroll_2019}, and ~\cite{weinberg2008cosmology}.} We will describe the inflationary period in order to obtain the initial conditions of the metric perturbations $\Psi$ and $\Phi$. 
 
-    Assume inflation is driven by a scalar field $\psi(t,\vec{x})$, typically referred to as \textit{inflaton field}. For inflation to happen, the acceleration of the scale factor must be positive, meaning that the inflaton field must model a fluid where the equation of state parameter $\omega$ is negative, i.e. $3p+\rho<0$. By considering the temporal and spatial part of the energy-momentum tensor, ~\cite{dodelson2020modern} obtains the following equations for the pressure and density of the inflaton field:
+    Assume inflation is driven by a scalar field $\phi(t,\vec{x})$, typically referred to as \textit{inflaton field}. For inflation to happen, the acceleration of the scale factor must be positive, meaning that the inflaton field must model a fluid where the equation of state parameter $\omega$ is negative, i.e. $3p+\rho<0$. By considering the temporal and spatial part of the energy-momentum tensor, ~\cite{dodelson2020modern} obtains the following equations for the pressure and density of the inflaton field:
     \begin{equation}\label{eq:m3:theory:inflaton_density}
         \rho_\phi = \frac{1}{2}\left(\dv{\phi}{t}\right)^2+V(\phi),
     \end{equation}
@@ -318,16 +318,21 @@
             \end{subequations}
         \end{tcolorbox}
 
-\subsubsection{Line-of-sight integration}
-    The idea behind the line-of-sight integration was first proposed by ~\cite{Seljak_1996}, where instead of expanding the photon perturbation in multipoles and then integrating, the integral is solved explicitly and expanded into multipoles at the end. The integral we have so solve explicitly is the following
-
-    \TODO{much stuff here left}
-
+\subsubsection{Line of sight integration}
+    \TODO{Sow discussion together, why is this important, iterative scheme etc.}
+    The idea behind the line of sight integration was first proposed by ~\cite{Seljak_1996}, where instead of expanding the photon perturbation in multipoles and then integrating, the integral is solved explicitly and expanded into multipoles at the end. The gist of the derivation is to start with ~\cref{eq:m3:theory:diff_eq_FC_theta} and rewrite it into a form: $\dot{\T}+(ik\eta-\dot{\tau}) = S$, where $S$ is for now just a source term. \footnote{Will return to this later.} This can be rewritten into:
+    \begin{equation}
+        e^{-ik\mu\eta+\tau}\dv{}{\eta}\left[\T e^{ik\mu\eta-\tau}\right] = S,
+    \end{equation} 
+    which we can integrate by parts to obtain:
+    \begin{equation}\label{eq:m3:theory:light_cone_integral}
+        \T(k,\mu,\eta_0) = \int_{\eta_i}^{\eta_0} S e^{ik\mu(\eta-\eta_0)-\tau}\d\eta,
+    \end{equation}
+    where $\eta_0$ is the conformal time today and $\eta_i$ is the initial time from which we start integrating. ~\cref{eq:m3:theory:light_cone_integral} tells us physically that in order to obtain the photon perturbation today, we can integrate an exponentially attenuated source term along the past light cone of the photon. \footnote{Hence the name: line of sight integration.} Then, following the discussion in ~\cite[Eq. 9.49 - Eq. 9.54]{dodelson2020modern} we are able to decompose ~\cref{eq:m3:theory:light_cone_integral} into its individual multipoles, now expressed in terms of $x$:
     \begin{equation}\label{eq:m3:theory:line_of_sight_integral_definition}
         \T_l(k,x=0) = \int_{-\infty}^0 \mathcal{S}(k,x)j_l\left[k(\eta_0-\eta(x))\right]\d x,
     \end{equation}
-    where $j_l\left[k(\eta_0-\eta(x))\right]$ are the spherical Bessel functions. $\mathcal{S}(k,x)$ is known as the \textit{source function} as is given by:
-    
+    where $j_l\left[k(\eta_0-\eta(x))\right]$ are the spherical Bessel functions. $\mathcal{S}(k,x)$ is known as the \textit{source function} and is given by:
     \begin{equation}\label{eq:m3:theory:source_function}
         \begin{split}
             \mathcal{S}(k,x) &= \tilde{g}\left[\T_0+\Psi+\frac{\T_2}{4}\right] + e^{-\tau}\left[\Psi'-\Phi'\right]\\
