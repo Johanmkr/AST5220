@@ -1,7 +1,19 @@
 \subsection{Theory}\label{sec:m3:theory}
 
 \subsubsection{Metric perturbations}
-    The perturbed metric in the conformal-Newtonian gauge is given in ~\cite{https://doi.org/10.48550/arxiv.astro-ph/0606683} as:
+    We will consider a perturbed spacetime where we add some contribution, $h_\munu$, to the flat FLRW metric, $g_\munu^{(0)}$, of the form:
+    \begin{equation}
+        g_\munu = g_\munu^{(0)} + h_\munu.
+    \end{equation}
+    It is fair to assume perturbations to the flat spacetime to be small, so we only concern ourselves with linear perturbations to the metric, which in conformal-Newtonian gauge\footnote{This is effectively the coordinate system in which we express the perturbations.} are:
+    \begin{equation}
+        \begin{split}
+            h_{00} &= -2\Psi, \\
+            h_{0i} &= 0,\\
+            h_{ij} &= 2a^2\delta_{ij}\Phi.
+        \end{split}
+    \end{equation}
+    The perturbed metric in the conformal-Newtonian gauge is thus (as given in ~\cite{https://doi.org/10.48550/arxiv.astro-ph/0606683}):
     \begin{equation}\label{eq:m3:theory:perturbed_metric}
         g_\munu = \begin{pmatrix}
             -(1+2\Psi) & 0 \\
@@ -12,7 +24,7 @@
     \begin{equation}
         P^\mu = \left[E(1-\Psi), p^i\frac{1-\Phi}{a}\right].
     \end{equation}
-    By considering this momentum, and the geodesic equation in this perturbed spacetime we obtain the following ~\cite[Eqs. 3.62, 3.69, 3.71]{dodelson2020modern}:
+    By considering this momentum, and the geodesic equation in this perturbed spacetime we obtain the following for the time evolution of the spatial coordinates, the directional momentum and the magnitude of the momentum~\cite[Eqs. 3.62, 3.69, 3.71]{dodelson2020modern}:
     \begin{subequations}\label{eq:m3:theory:geodesic_results}
         \begin{align}
             \dv{x^i}{t} &= \frac{\hat{p}^i}{a}\frac{p}{E}(1-\Phi+\Psi) \label{eq:m3:theory:metric_perturb_dxidt}\\
@@ -24,7 +36,7 @@
     \begin{equation}\label{eq:m3:theory:collisionless_bolzmann_general}
         \dv{f}{t} = \pdv{f}{t}+\frac{p}{E}\frac{\hat{p}^i}{a}\pdv{f}{x^i}-\left[H+\dv{\Phi}{t} + \frac{E}{ap}\hat{p}^i\pdv{\Psi}{x^i}\right]p\pdv{f}{p}.
     \end{equation}
-    Future work consists mainly of evaluating the collision terms for each species and equate it to ~\cref{eq:m3:theory:collisionless_bolzmann_general}
+    ~\cref{eq:m3:theory:collisionless_bolzmann_general} is important as it tells us how the distribution of a species changes in the perturbed spacetime. The remaning work consists mainly of evaluating the collision terms for each species and equate it to ~\cref{eq:m3:theory:collisionless_bolzmann_general} in order to obtain its evolutionary equations. But first, let's take a look at some important mathematical concepts. 
 
 \subsubsection{Fourier space and multipole expansion}
     Consider a function $f(\vec{x},t)$. Its Fourier transform $\FF$ and inverse $\FF^{-1}$ are defined as:
@@ -56,7 +68,9 @@
 
 
 
-\subsubsection{Einstein-Boltzmann equations}
+% \subsubsection{Einstein-Boltzmann equations}
+
+\subsubsection{Photon perturbation}
     We have two perturbations to the metric, $\Phi(\vec{x}, t)$ to the spatial curvature, and $\Psi(\vec{x},t)$ to the Newtonian potential. We seek to find the effect of these perturbations on baryonic matter, dark energy and radiation, as they ``live'' in a now perturbed spacetime. Let's start by defining the perturbation to the photons, $\T(\vec{x}, \hat{\vec{p}}, t)$, to be the variation of photon temperature around an equilibrium temperature $T^{(0)}$:
     \begin{equation}\label{eq:m3:theory:temperature_perturbation}
         T(\vec{x}, \hat{\vec{p}}, t) = T^{(0)}\left[1+\T(\vec{x}, \hat{\vec{p}}, t)\right].
@@ -70,7 +84,8 @@
     \begin{equation}\label{eq:m3:theory:boltzmann_equation_radiation_full}
         \dv{\T}{t} + \frac{\hat{p}^i}{a}\pdv{\T}{x^i} + \dv{\Phi}{t} + \frac{\hat{p}^i}{a}\pdv{\Psi}{x^i} = n_e\sigma_T\left[\T_0-\T+\vec{\hat{p}}\cdot\vec{v}_b\right]
     \end{equation} 
-    
+
+\subsubsection{Matter perturbation}
     For massive particles, we start with cold dark matter (CDM). Firstly, we assume cold dark matter to not interact with any other species, nor self-interact. Thus, we do not have any collision terms. Further, we also assume it to behave like a fluid, neglecting any terms not to first order. We consider cold dark matter to be non-relativistic, thus they will only have a sizeable monopole and dipole term, which means that the evolution is fully characterised by the density and velocity, ~\cite{AST5220LectureNotes}. \TODO{how much about moments should I explain?} Therefore, we take the first and second moment of ~\cref{eq:m3:theory:collisionless_bolzmann_general} and consider them to first order, in order to retrieve the cosmological generalisation of the continuity equation ~\cite[Eq. 5.41]{dodelson2020modern}:
     \begin{equation}\label{eq:m3:theory:cdm_continuity_equation}
         \pdv{n_c}{t}+\frac{1}{a}\pdv{(n_cv_c^i)}{x^i} + 3\left[H+\pdv{\Phi}{t}\right]n_c=0,
@@ -98,6 +113,7 @@
         \pdv{v_b^i}{t}+Hv_b^i + \frac{1}{a}\pdv{\Psi}{x^i} = -n_e\sigma_TR^{-1}(v_\gamma^i-v_b^i)
     \end{equation}
 
+\subsubsection{Evolutionary equations}
     We have now acquired differential equations for the temperature fluctuations, $\T$ in ~\cref{eq:m3:theory:boltzmann_equation_radiation_full}, and the overdensities\footnote{The fluctuations to the equilibrium densities.}, $\delta_c$, $\delta_b$, and bulk velocities $v_c^i$ and $v_b^i$, of cold dark matter and baryons respectively in ~\cref{eq:m3:theory:cdm_density_perturbation}, ~\cref{eq:m3:theory:baryon_density_perturbation}, ~\cref{eq:m3:theory:cdm_euler_equation} and ~\cref{eq:m3:theory:baryon_euler_equation}. In order to make these differential equations easier to solve we make the transformation into Fourier space. We do this by introducing $\mu$ as the cosine of the angle between the Fourier wave vector $\vec{k}$ and the direction of the photon $\vec{p}/\abs{\vec{p}}$. Additionally, velocities are generally longitudinal which enables us to write:
     \begin{equation}\label{eq:m3:theory:mu_and_longitudinal_vel_def}
         \begin{split}
@@ -319,8 +335,7 @@
         \end{tcolorbox}
 
 \subsubsection{Line of sight integration}
-    \TODO{Sow discussion together, why is this important, iterative scheme etc.}
-    The idea behind the line of sight integration was first proposed by ~\cite{Seljak_1996}, where instead of expanding the photon perturbation in multipoles and then integrating, the integral is solved explicitly and expanded into multipoles at the end. The gist of the derivation is to start with ~\cref{eq:m3:theory:diff_eq_FC_theta} and rewrite it into a form: $\dot{\T}+(ik\eta-\dot{\tau}) = S$, where $S$ is for now just a source term. \footnote{Will return to this later.} This can be rewritten into:
+    We are in principle able to solve for any $\T_l$, but it has to be done iteratively. This is very computationally expensive, so much so that it is desireable to obtain a method of finding \textit{any} $\T_l$ independently. Thankfully, this is possible and obtained through a method called \textit{line of sight integration}. The idea behind the line of sight integration was first proposed by ~\cite{Seljak_1996}, where instead of expanding the photon perturbation in multipoles and then integrating, the integral is solved explicitly and expanded into multipoles at the end. The gist of the derivation is to start with ~\cref{eq:m3:theory:diff_eq_FC_theta} and rewrite it into a form: $\dot{\T}+(ik\eta-\dot{\tau}) = S$, where $S$ is for now just a source term. \footnote{Will return to this later, as the source function $\mathcal{S}$, which serves as the source term when using our preferred coordinate $x$ in Fourier space.} This can be rewritten into:
     \begin{equation}
         e^{-ik\mu\eta+\tau}\dv{}{\eta}\left[\T e^{ik\mu\eta-\tau}\right] = S,
     \end{equation} 
@@ -332,7 +347,7 @@
     \begin{equation}\label{eq:m3:theory:line_of_sight_integral_definition}
         \T_l(k,x=0) = \int_{-\infty}^0 \mathcal{S}(k,x)j_l\left[k(\eta_0-\eta(x))\right]\d x,
     \end{equation}
-    where $j_l\left[k(\eta_0-\eta(x))\right]$ are the spherical Bessel functions. $\mathcal{S}(k,x)$ is known as the \textit{source function} and is given by:
+    where $j_l\left[k(\eta_0-\eta(x))\right]$ are the spherical Bessel functions which account for the projection of some three-dimensional signal\footnote{Characterised by $k$.} onto a two-dimensional sphere.\footnote{Characterised by $l$.} $\mathcal{S}(k,x)$ is known as the \textit{source function} and is given by:
     \begin{equation}\label{eq:m3:theory:source_function}
         \begin{split}
             \mathcal{S}(k,x) &= \tilde{g}\left[\T_0+\Psi+\frac{\T_2}{4}\right] + e^{-\tau}\left[\Psi'-\Phi'\right]\\
@@ -359,6 +374,7 @@
             &+ \frac{9}{10}\left(\tau''\T_2 + \tau'\T_2'\right)
         \end{split}
     \end{equation}
+    Thus, by calculating $\T_0$, $\T_1$ and $\T_2$ (plus their derivatives) iteratively, we are able to independently find any $\T_l$ by integrating the source function (multiplied by the spherical Bessel functions) along the past light cone of a photon. 
 
 % \subsubsection{Growth of structure}
 %     Given we have solutions to ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final}, what should they tell us?
