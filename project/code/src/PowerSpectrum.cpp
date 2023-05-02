@@ -27,8 +27,8 @@ void PowerSpectrum::solve(){
   //=========================================================================
   // TODO: Choose the range of k's and the resolution to compute Theta_ell(k)
   //=========================================================================
-  Vector k_array;
-  Vector log_k_array = log(k_array);
+  // Vector k_array;
+  // Vector log_k_array = log(k_array); 
 
   //=========================================================================
   // TODO: Make splines for j_ell. 
@@ -40,14 +40,15 @@ void PowerSpectrum::solve(){
   // TODO: Line of sight integration to get Theta_ell(k)
   // Implement line_of_sight_integration
   //=========================================================================
-  line_of_sight_integration(k_array);
+
+  // line_of_sight_integration(k_array);
 
   //=========================================================================
   // TODO: Integration to get Cell by solving dCell^f/dlogk = Delta(k) * f_ell(k)^2
   // Implement solve_for_cell
   //=========================================================================
-  auto cell_TT = solve_for_cell(log_k_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
-  cell_TT_spline.create(ells, cell_TT, "Cell_TT_of_ell");
+  // auto cell_TT = solve_for_cell(log_k_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
+  // cell_TT_spline.create(ells, cell_TT, "Cell_TT_of_ell");
   
   //=========================================================================
   // TODO: Do the same for polarization...
@@ -64,9 +65,11 @@ void PowerSpectrum::solve(){
 
 void PowerSpectrum::generate_bessel_function_splines(){
   Utils::StartTiming("besselspline");
+
+  int const size_ell = (int)ells.size();
   
   // Make storage for the splines
-  j_ell_splines = std::vector<Spline>(ells.size());
+  j_ell_splines = std::vector<Spline>(size_ell);
     
   //=============================================================================
   // TODO: Compute splines for bessel functions j_ell(z)
@@ -74,16 +77,33 @@ void PowerSpectrum::generate_bessel_function_splines(){
   // NB: you don't want to go larger than z ~ 40000, then the bessel routines
   // might break down. Use j_ell(z) = Utils::j_ell(ell, z)
   //=============================================================================
+  
+  // Find z_max
+  double z_max           = k_max * eta0 > 30000 ? 30000 : k_max * eta0; //not sure if this works
 
-  for(size_t i = 0; i < ells.size(); i++){
-    const int ell = ells[i];
+  //  Determine the number of points in the array based on 10 samples per oscillation
+  double delta_z        = 2.0*M_PI / (10.*z_max);
 
-    // ...
-    // ...
-    // ...
-    // ...
+  #pragma omp parallel for schedule(dynamic, 1)
+  for(int i = 0; i < size_ell; i++){
+    const int ell  = ells[i];
 
+    // The range vary with l
+    double delta_zl   = delta_z / (ell-1.);
+    // int nr_z          = (int)(z_max / delta_zl);
+    int nr_z          = 25000;
+    Vector z_array    = Utils::linspace(0.0, z_max, nr_z);
+
+    //  Vector to store j_ell values
+    Vector j_ell_arr(nr_z);
+
+    //  Loop across z-array
+    for(int i=0; i<nr_z; i++){
+      // j_ell_arr[i] = Utils::j_ell(ell, z_array[i]);
+      j_ell_arr[i] = std::sph_bessel(ell, z_array[i]);
+    }
     // Make the j_ell_splines[i] spline
+    j_ell_splines[i].create(z_array, j_ell_arr);
   }
 
   Utils::EndTiming("besselspline");

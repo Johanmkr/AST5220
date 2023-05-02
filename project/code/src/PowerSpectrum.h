@@ -31,6 +31,9 @@ class PowerSpectrum {
     const int n_k      = 100;
     const double k_min = Constants.k_min;
     const double k_max = Constants.k_max;
+
+    // Other parameters
+    const double eta0   = cosmo->eta_of_x(0.0);
     
     // The ells's we will compute Theta_ell and Cell for
     Vector ells{ 
@@ -70,7 +73,6 @@ class PowerSpectrum {
     // Splines of the reusult of the LOS integration
     // Theta_ell(k) and ThetaE_ell(k) for polarization
     std::vector<Spline> thetaT_ell_of_k_spline;
-    std::vector<Spline> thetaE_ell_of_k_spline;
     
     //=====================================================================
     // [3] Integrate to get power-spectrum

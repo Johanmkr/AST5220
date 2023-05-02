@@ -8,6 +8,10 @@
 int main(int argc, char **argv){
   Utils::StartTiming("Everything");
 
+  // Control unit
+  bool output = false;
+  bool supernovafit = false;
+
   //=========================================================================
   // Parameters
   //=========================================================================
@@ -42,31 +46,36 @@ int main(int argc, char **argv){
   BackgroundCosmology cosmo(h, OmegaB, OmegaCDM, OmegaK, Neff, TCMB);
   // BackgroundCosmology cosmo(.7, .25, .25, 0, Neff, TCMB);
 
-  Utils::StartTiming("Solve & write");
+  Utils::StartTiming("Solve background");
   cosmo.solve();
   cosmo.info();
+  Utils::EndTiming("Solve background");
   
-  // Output background evolution quantities
-  // cosmo.output("data/backgroundcosmology.csv");
-  // cosmo.output("data/backgroundcosmologyLumDist.csv", log(0.01+1)-1, log(1.3+1)+1, (int)1e5);
-  // cosmo.write_table_of_important_values("data/table_of_values.csv");
-  Utils::EndTiming("Solve & write");
 
-  // BackgroundCosmology bestFit(0.702, 0.05, 0.259-0.05, 0.067, Neff, TCMB);
-  // Utils::StartTiming("Solve best params");
-  // bestFit.solve();
-  // bestFit.info();
-  // bestFit.output("data/bestFitBackground.csv", log(0.01+1)-1, log(1.3+1)+1, (int)1e5);
-  // Utils::EndTiming("Solve best params");
+  if(output){
+    Utils::StartTiming("Output background");
+    // Output background evolution quantities
+    cosmo.output("data/backgroundcosmology.csv");
+    cosmo.output("data/backgroundcosmologyLumDist.csv", log(0.01+1)-1, log(1.3+1)+1, (int)1e5);
+    cosmo.write_table_of_important_values("data/table_of_values.csv");
 
+    // Output best fit values
+    BackgroundCosmology bestFit(0.702, 0.05, 0.259-0.05, 0.067, Neff, TCMB);
+    Utils::StartTiming("Solve best params");
+    bestFit.solve();
+    bestFit.info();
+    bestFit.output("data/bestFitBackground.csv", log(0.01+1)-1, log(1.3+1)+1, (int)1e5);
+    Utils::EndTiming("Solve best params");
+    Utils::EndTiming("Output background");
+  }
 
   // Do the supernova fits. Uncomment when you are ready to run this
   // Make sure you read the comments on the top of src/SupernovaFitting.h
-
-  // Utils::StartTiming("SupernovaFit");
-  // mcmc_fit_to_supernova_data("data/supernovadata.txt", "data/results_supernovafitting.csv", "data/best_fit_params.csv");
-  // Utils::EndTiming("SupernovaFit");
-
+  if(supernovafit){
+    Utils::StartTiming("SupernovaFit");
+    mcmc_fit_to_supernova_data("data/supernovadata.txt", "data/results_supernovafitting.csv", "data/best_fit_params.csv");
+    Utils::EndTiming("SupernovaFit");
+  }
   // Remove when module is completed
   // return 0;
 
@@ -95,17 +104,21 @@ int main(int argc, char **argv){
   pert.solve();
   pert.info();
   
-  // Output perturbation quantities
-  double kvalue = 0.01 / Constants.Mpc;
-  pert.output(kvalue, "data/perturbations_k0.01.csv");
-  kvalue = 0.1 / Constants.Mpc;
-  pert.output(kvalue, "data/perturbations_k0.1.csv");
-  kvalue = 0.001 / Constants.Mpc;
-  pert.output(kvalue, "data/perturbations_k0.001.csv");
+  if(output){
+    // Output perturbation quantities
+    Utils::StartTiming("Perturbation output");
+    double kvalue = 0.01 / Constants.Mpc;
+    pert.output(kvalue, "data/perturbations_k0.01.csv");
+    kvalue = 0.1 / Constants.Mpc;
+    pert.output(kvalue, "data/perturbations_k0.1.csv");
+    kvalue = 0.001 / Constants.Mpc;
+    pert.output(kvalue, "data/perturbations_k0.001.csv");
+    Utils::EndTiming("Perturbation output");
+  }
   
   
   // Remove when module is completed
-  return 0;
+  // return 0;
   
   //=========================================================================
   // Module IV
@@ -113,7 +126,7 @@ int main(int argc, char **argv){
 
   PowerSpectrum power(&cosmo, &rec, &pert, A_s, n_s, kpivot_mpc);
   power.solve();
-  power.output("cells.txt");
+  // power.output("cellss.txt");
   
   // Remove when module is completed
   return 0;
