@@ -85,16 +85,16 @@ void PowerSpectrum::generate_bessel_function_splines(){
   double z_max           = k_max * eta0 > 35000 ? 35000 : k_max * eta0; //not sure if this works
 
   //  Determine the number of points in the array based on 10 samples per oscillation
-  double delta_z        = 2.0*M_PI / (10.*z_max);
+  double delta_z        = 2.0*M_PI / (50.);
 
   #pragma omp parallel for schedule(dynamic, 1)
   for(int i = 0; i < size_ell; i++){
     const int ell  = ells[i];
 
     // The range vary with l
-    double delta_zl   = delta_z / (ell-1.);
-    int nr_z          = (int)(1. / delta_zl);
-    std::cout<<"nr_z: "<<nr_z<<std::endl;
+    // double delta_zl   = delta_z / ell;
+    int nr_z          = (int)(z_max / delta_z);
+    // std::cout<<i<<" / "<<size_ell<<" - nr_z: "<<nr_z<<std::endl;
     // int nr_z          = 250000;
     Vector z_array    = Utils::linspace(0.0, z_max, nr_z);
 
@@ -103,8 +103,12 @@ void PowerSpectrum::generate_bessel_function_splines(){
 
     //  Loop across z-array
     for(int i=0; i<nr_z; i++){
-      // j_ell_arr[i] = Utils::j_ell(ell, z_array[i]);
-      j_ell_arr[i] = std::sph_bessel(ell, z_array[i]);
+      j_ell_arr[i] = Utils::j_ell(ell, z_array[i]);
+      // j_ell_arr[i] = std::sph_bessel(ell, z_array[i]);
+      // if(std::isnan(j_ell_arr[i])){
+      //   std::cout<<ell<<std::endl;
+      // }
+      // std::cout<<j_ell_arr[i]<<std::endl;
     }
     // Make the j_ell_splines[i] spline
     j_ell_splines[i].create(z_array, j_ell_arr);
@@ -146,14 +150,15 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
 
       while(x_current+delta_x<x_end){
         // delta_x = delta_variabel * cosmo->Hp_of_x(x_current);
-        delta_x = 0.01;
+        delta_x = 0.001;
         // std::cout << delta_x << std::endl;
         x_next = x_current+delta_x;
         bessel_argument = const_bessel_argument - k_val * cosmo->eta_of_x(x_next);
         integrand_next = source_function(x_next, k_val) * j_ell_splines[il](bessel_argument);
-        if(ik==0 && il % 10 == 0){
-        std::cout<<"il: "<<il<<" - j_l: "<<j_ell_splines[il](bessel_argument)<<" - arg: "<<bessel_argument<<std::endl;
-        }
+
+        // if(std::isnan(j_ell_splines[il](bessel_argument))){
+        // std::cout<<"il: "<<il<<" - j_l: "<<j_ell_splines[il](bessel_argument)<<" - arg: "<<bessel_argument<<std::endl;
+        // }
 
         integral_sum += 0.5 * (integrand_current + integrand_next) * delta_x;
 
