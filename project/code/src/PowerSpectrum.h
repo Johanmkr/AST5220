@@ -32,7 +32,10 @@ class PowerSpectrum {
     const double k_min = Constants.k_min;
     const double k_max = Constants.k_max;
 
-    // Other parameters
+    const double x_start    = Constants.x_start;
+    const double x_end      = Constants.x_end;
+
+    // Other parameters 
     const double eta0   = cosmo->eta_of_x(0.0);
     
     // The ells's we will compute Theta_ell and Cell for

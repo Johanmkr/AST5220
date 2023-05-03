@@ -27,8 +27,8 @@ void PowerSpectrum::solve(){
   //=========================================================================
   // TODO: Choose the range of k's and the resolution to compute Theta_ell(k)
   //=========================================================================
-  // Vector k_array;
-  // Vector log_k_array = log(k_array); 
+  Vector k_array = Utils::linspace(k_min, k_max, n_k);
+  Vector log_k_array = log(k_array); 
 
   //=========================================================================
   // TODO: Make splines for j_ell. 
@@ -41,7 +41,7 @@ void PowerSpectrum::solve(){
   // Implement line_of_sight_integration
   //=========================================================================
 
-  // line_of_sight_integration(k_array);
+  line_of_sight_integration(k_array);
 
   //=========================================================================
   // TODO: Integration to get Cell by solving dCell^f/dlogk = Delta(k) * f_ell(k)^2
@@ -121,9 +121,43 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
 
   // Make storage for the results
   Vector2D result = Vector2D(ells.size(), Vector(k_array.size()));
-
+  
   for(size_t ik = 0; ik < k_array.size(); ik++){
+    double const k_val = k_array[ik]; // k-value for each iteration
+    double const delta_variabel = 2.*M_PI/(10.*k_val);  // Constant part of delta_x interval
+    double const const_bessel_argument = k_val*eta0;  // constant part of bessel argument
+    for(size_t il = 0; il < ells.size(); il++){
+      double const ell = ells[il];
 
+      //  Variables needed to perform the integral across x for the source function
+      double x_current = x_start;
+      double integral_sum = 0;
+      double bessel_argument = const_bessel_argument - k_val*cosmo->eta_of_x(x_current);
+      double integrand_current = source_function(x_current, k_val) * j_ell_splines[il](bessel_argument);
+
+      //  Variables to fill
+      double x_next;
+      double delta_x;
+      double integrand_next;
+
+      while(x_current<x_end){
+        // delta_x = delta_variabel * cosmo->Hp_of_x(x_current);
+        delta_x = 0.01;
+        // std::cout << delta_x << std::endl;
+        x_next = x_current+delta_x;
+
+        bessel_argument = const_bessel_argument - k_val * cosmo->eta_of_x(x_next);
+        integrand_next = source_function(x_next, k_val) * j_ell_splines[il](bessel_argument);
+
+        integral_sum += 0.5 * (integrand_current + integrand_next) * delta_x;
+
+        // Iterative scheme 
+        x_current = x_next;
+        integrand_current = integrand_next;
+      }
+
+      result[il][ik] = integral_sum;
+    }
     //=============================================================================
     // TODO: Implement to solve for the general line of sight integral 
     // F_ell(k) = Int dx jell(k(eta-eta0)) * S(x,k) for all the ell values for the 
@@ -163,23 +197,10 @@ void PowerSpectrum::line_of_sight_integration(Vector & k_array){
   // Do the line of sight integration
   Vector2D thetaT_ell_of_k = line_of_sight_integration_single(k_array, source_function_T);
 
-  // Spline the result and store it in thetaT_ell_of_k_spline
-  // ...
-  // ...
-  // ...
-  // ...
-
-  //============================================================================
-  // TODO: Solve for ThetaE_ell(k) and spline
-  //============================================================================
-  if(Constants.polarization){
-
-    // ...
-    // ...
-    // ...
-    // ...
-
+  for(size_t il=0; il<ells.size(); il++){
+    thetaT_ell_of_k_spline[il].create(k_array, thetaT_ell_of_k[il]);
   }
+
 }
 
 //====================================================
