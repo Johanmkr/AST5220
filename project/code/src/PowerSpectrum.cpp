@@ -22,13 +22,15 @@ PowerSpectrum::PowerSpectrum(
 //====================================================
 // Do all the solving
 //====================================================
-void PowerSpectrum::solve(){
+void PowerSpectrum::solve(){ 
 
   //=========================================================================
   // TODO: Choose the range of k's and the resolution to compute Theta_ell(k)
   //=========================================================================
-  Vector k_array = Utils::linspace(k_min, k_max, n_k);
-  Vector log_k_array = log(k_array); 
+  double log_k_min = log(k_min);
+  double log_k_max = log(k_max);
+  Vector log_k_array = Utils::linspace(log_k_min, log_k_max, n_k); // Linearly spaced logarithmic values
+  Vector k_array = exp(log_k_array);
 
   //=========================================================================
   // TODO: Make splines for j_ell. 
@@ -47,9 +49,10 @@ void PowerSpectrum::solve(){
   // TODO: Integration to get Cell by solving dCell^f/dlogk = Delta(k) * f_ell(k)^2
   // Implement solve_for_cell
   //=========================================================================
-  // auto cell_TT = solve_for_cell(log_k_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
-  // cell_TT_spline.create(ells, cell_TT, "Cell_TT_of_ell");
-  
+  Utils::StartTiming("cell_TT");
+  auto cell_TT = solve_for_cell(log_k_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
+  cell_TT_spline.create(ells, cell_TT, "Cell_TT_of_ell");
+  Utils::EndTiming("cell_TT");
   //=========================================================================
   // TODO: Do the same for polarization...
   //=========================================================================
@@ -79,7 +82,7 @@ void PowerSpectrum::generate_bessel_function_splines(){
   //=============================================================================
   
   // Find z_max
-  double z_max           = k_max * eta0 > 30000 ? 30000 : k_max * eta0; //not sure if this works
+  double z_max           = k_max * eta0 > 35000 ? 35000 : k_max * eta0; //not sure if this works
 
   //  Determine the number of points in the array based on 10 samples per oscillation
   double delta_z        = 2.0*M_PI / (10.*z_max);
@@ -90,8 +93,9 @@ void PowerSpectrum::generate_bessel_function_splines(){
 
     // The range vary with l
     double delta_zl   = delta_z / (ell-1.);
-    // int nr_z          = (int)(z_max / delta_zl);
-    int nr_z          = 25000;
+    int nr_z          = (int)(1. / delta_zl);
+    std::cout<<"nr_z: "<<nr_z<<std::endl;
+    // int nr_z          = 250000;
     Vector z_array    = Utils::linspace(0.0, z_max, nr_z);
 
     //  Vector to store j_ell values
@@ -137,17 +141,19 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
 
       //  Variables to fill
       double x_next;
-      double delta_x;
+      double delta_x=0;
       double integrand_next;
 
-      while(x_current<x_end){
+      while(x_current+delta_x<x_end){
         // delta_x = delta_variabel * cosmo->Hp_of_x(x_current);
         delta_x = 0.01;
         // std::cout << delta_x << std::endl;
         x_next = x_current+delta_x;
-
         bessel_argument = const_bessel_argument - k_val * cosmo->eta_of_x(x_next);
         integrand_next = source_function(x_next, k_val) * j_ell_splines[il](bessel_argument);
+        if(ik==0 && il % 10 == 0){
+        std::cout<<"il: "<<il<<" - j_l: "<<j_ell_splines[il](bessel_argument)<<" - arg: "<<bessel_argument<<std::endl;
+        }
 
         integral_sum += 0.5 * (integrand_current + integrand_next) * delta_x;
 
@@ -157,6 +163,7 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
       }
 
       result[il][ik] = integral_sum;
+      // std::cout<<integral_sum<<std::endl;
     }
     //=============================================================================
     // TODO: Implement to solve for the general line of sight integral 
@@ -213,6 +220,8 @@ Vector PowerSpectrum::solve_for_cell(
     std::vector<Spline> & g_ell_spline){
   const int nells      = ells.size();
 
+
+
   //============================================================================
   // TODO: Integrate Cell = Int 4 * pi * P(k) f_ell g_ell dk/k
   // or equivalently solve the ODE system dCell/dlogk = 4 * pi * P(k) * f_ell * g_ell
@@ -223,7 +232,30 @@ Vector PowerSpectrum::solve_for_cell(
   // ...
   // ...
 
-  Vector result;
+  Vector result(nells);
+  
+  //  Loop over and integrate for all ells
+  for(int il = 0; il<nells; il++){
+    double ell = ells[il];
+      // Declare and define variables for the integration
+      double integral_sum = 0;
+      double k_current = exp(log_k_array[0]);
+      double integrand_current = primordial_power_spectrum(k_current) * f_ell_spline[il](k_current) * g_ell_spline[il](k_current);
+      double integrand_next;
+      double k_next;
+      for(size_t i=0; i<log_k_array.size()-1; i++){
+        k_next = exp(log_k_array[i+1]);
+        // std::cout << k_next << std::endl;
+        integrand_next = primordial_power_spectrum(k_next) * f_ell_spline[il](k_next) * g_ell_spline[il](k_next);
+        // std::cout << f_ell_spline[il](k_next) << std::endl;
+        integral_sum += 0.5 * (integrand_current + integrand_next) * (k_next - k_current);
+
+        k_current = k_next;
+        integrand_current = integrand_next;
+      }
+      result[il] = integral_sum;
+      // std::cout << integral_sum << std::endl;
+  }
 
   return result;
 }
@@ -260,12 +292,7 @@ double PowerSpectrum::get_matter_power_spectrum(const double x, const double k_m
 double PowerSpectrum::get_cell_TT(const double ell) const{
   return cell_TT_spline(ell);
 }
-double PowerSpectrum::get_cell_TE(const double ell) const{
-  return cell_TE_spline(ell);
-}
-double PowerSpectrum::get_cell_EE(const double ell) const{
-  return cell_EE_spline(ell);
-}
+
 
 //====================================================
 // Output the cells to file
@@ -276,17 +303,14 @@ void PowerSpectrum::output(std::string filename) const{
   std::ofstream fp(filename.c_str());
   const int ellmax = int(ells[ells.size()-1]);
   auto ellvalues = Utils::linspace(2, ellmax, ellmax-1);
+  fp << " ell , " << " cell_TT , " << "\n";
   auto print_data = [&] (const double ell) {
     double normfactor  = (ell * (ell+1)) / (2.0 * M_PI) * pow(1e6 * cosmo->get_TCMB(), 2);
     double normfactorN = (ell * (ell+1)) / (2.0 * M_PI) 
       * pow(1e6 * cosmo->get_TCMB() *  pow(4.0/11.0, 1.0/3.0), 2);
     double normfactorL = (ell * (ell+1)) * (ell * (ell+1)) / (2.0 * M_PI);
-    fp << ell                                 << " ";
-    fp << cell_TT_spline( ell ) * normfactor  << " ";
-    if(Constants.polarization){
-      fp << cell_EE_spline( ell ) * normfactor  << " ";
-      fp << cell_TE_spline( ell ) * normfactor  << " ";
-    }
+    fp << ell                                 << " , ";
+    fp << cell_TT_spline( ell ) * normfactor  << " , ";
     fp << "\n";
   };
   std::for_each(ellvalues.begin(), ellvalues.end(), print_data);

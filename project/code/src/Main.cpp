@@ -126,10 +126,12 @@ int main(int argc, char **argv){
 
   PowerSpectrum power(&cosmo, &rec, &pert, A_s, n_s, kpivot_mpc);
   power.solve();
-  // power.output("cellss.txt");
+  power.output("data/cellss.csv");
   
   // Remove when module is completed
-  return 0;
+  // return 0;
 
   Utils::EndTiming("Everything");
+
+  return 0;
 }
