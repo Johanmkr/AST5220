@@ -62,6 +62,14 @@ void PowerSpectrum::solve(){
   // ...
 }
 
+
+// Small utility functions
+
+Vector PowerSpectrum::get_linspace_from_delta(double min, double max, double delta){
+  double number_points = (int)((max-min)/delta);
+  return Utils::linspace(min, max, number_points);
+}
+
 //====================================================
 // Generate splines of j_ell(z) needed for LOS integration
 //====================================================
@@ -81,36 +89,24 @@ void PowerSpectrum::generate_bessel_function_splines(){
   // might break down. Use j_ell(z) = Utils::j_ell(ell, z)
   //=============================================================================
   
-  // Find z_max
-  double z_max           = k_max * eta0 > 35000 ? 35000 : k_max * eta0; //not sure if this works
-
-  //  Determine the number of points in the array based on 10 samples per oscillation
-  double delta_z        = 2.0*M_PI / (50.);
+  // Determine interval parameters
+  double z_max           = k_max * eta0;
+  double z_min           = 0.0;
+  double n               = 25;  // samples per oscillation
+  double delta_z         = 2.0*M_PI / (n);
+  Vector z_array         get_linspace_from_delta(z_min, z_max, delta_z);
 
   #pragma omp parallel for schedule(dynamic, 1)
   for(int i = 0; i < size_ell; i++){
     const int ell  = ells[i];
 
-    // The range vary with l
-    // double delta_zl   = delta_z / ell;
-    int nr_z          = (int)(z_max / delta_z);
-    // std::cout<<i<<" / "<<size_ell<<" - nr_z: "<<nr_z<<std::endl;
-    // int nr_z          = 250000;
-    Vector z_array    = Utils::linspace(0.0, z_max, nr_z);
-
     //  Vector to store j_ell values
-    Vector j_ell_arr(nr_z);
+    Vector j_ell_arr(z_array.size());
 
     //  Loop across z-array
-    for(int i=0; i<nr_z; i++){
+    for(size_t i=0; i<z_array.size(); i++){
       j_ell_arr[i] = Utils::j_ell(ell, z_array[i]);
-      // j_ell_arr[i] = std::sph_bessel(ell, z_array[i]);
-      // if(std::isnan(j_ell_arr[i])){
-      //   std::cout<<ell<<std::endl;
-      // }
-      // std::cout<<j_ell_arr[i]<<std::endl;
     }
-    // Make the j_ell_splines[i] spline
     j_ell_splines[i].create(z_array, j_ell_arr);
   }
 
@@ -150,7 +146,7 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
 
       while(x_current+delta_x<x_end){
         // delta_x = delta_variabel * cosmo->Hp_of_x(x_current);
-        delta_x = 0.001;
+        delta_x = 2.*M_PI/6.;
         // std::cout << delta_x << std::endl;
         x_next = x_current+delta_x;
         bessel_argument = const_bessel_argument - k_val * cosmo->eta_of_x(x_next);
