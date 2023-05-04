@@ -1,4 +1,6 @@
 from plot_utils import *
+import matplotlib as mpl
+mpl.use("Qt5Agg")
 
 
 power = Milestone(Data("cellss.csv"))
