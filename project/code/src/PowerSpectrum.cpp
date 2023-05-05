@@ -19,54 +19,50 @@ PowerSpectrum::PowerSpectrum(
   kpivot_mpc(kpivot_mpc)
 {}
 
-//====================================================
-// Do all the solving
-//====================================================
+/*
+  DO ALL THE SOLVING
+*/
+
 void PowerSpectrum::solve(){ 
 
-  //=========================================================================
-  // TODO: Choose the range of k's and the resolution to compute Theta_ell(k)
-  //=========================================================================
+  /*
+    CREATE THE k-ARRAY WITH DIFFERENT RESOLUTION
+  */
+
   double log_k_min = log(k_min);
   double log_k_max = log(k_max);
-  Vector log_k_array = Utils::linspace(log_k_min, log_k_max, n_k); // Linearly spaced logarithmic values
-  Vector k_array = exp(log_k_array);
 
-  //=========================================================================
-  // TODO: Make splines for j_ell. 
-  // Implement generate_bessel_function_splines
-  //=========================================================================
+  // k-s for LOS integral
+  double delta_k_LOS = 2.*M_PI / (eta0 * n_k_theta);
+  Vector k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS); // Linearly spaced logarithmic values
+  Vector log_k_theta_array = log(k_theta_array);
+
+  // k-s for power spectrum integral
+  double delta_k_ps = 2.*M_PI / (eta0 * n_k_ps);
+  Vector k_ps_array = get_linspace_from_delta(k_min, k_max, delta_k_ps);
+  Vector log_k_ps_array = log(k_ps_array);
+
+
+  /*
+    GENERATE SPLINES OF BESSE FUNCTION
+  */
+
   generate_bessel_function_splines();
 
-  //=========================================================================
-  // TODO: Line of sight integration to get Theta_ell(k)
-  // Implement line_of_sight_integration
-  //=========================================================================
 
-  line_of_sight_integration(k_array);
+  /*
+    PERFORM THE LINE OF SIGHT INTEGRAL AND GENERATE SPLINE
+  */
 
-  //=========================================================================
-  // TODO: Integration to get Cell by solving dCell^f/dlogk = Delta(k) * f_ell(k)^2
-  // Implement solve_for_cell
-  //=========================================================================
-  
-  // Change resolution of the log_k_array
-
-  int n_k_high = 100;  // Number of samples per oscillation of Bessel function
-  // double delta_k = 2.*M_PI / (n_k_high * eta0);
-  double delta_k = 2.*M_PI/(eta0*n_k_high);
-  // std::cout<<"delta_k: "<<delta_k<<std::endl;
-  k_array = get_linspace_from_delta(k_min, k_max, delta_k);
-  log_k_array = log(k_array);
-
-  // std::cout<<log_k_array.size()<<std::endl;
+  line_of_sight_integration(k_theta_array);
 
 
-  // std::cout<<"before log array"<<std::endl;
-  // std::cout<<"after log array"<<std::endl;
+  /*
+    CALCULATE THE CMB POWER SPECTRUM AND SPLINE THE RESULT
+  */
 
   Utils::StartTiming("cell_TT");
-  auto cell_TT = solve_for_cell(log_k_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
+  auto cell_TT = solve_for_cell(log_k_ps_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
   cell_TT_spline.create(ells, cell_TT, "Cell_TT_of_ell");
   Utils::EndTiming("cell_TT");
   //=========================================================================
@@ -86,20 +82,7 @@ Vector PowerSpectrum::get_linspace_from_delta(double min, double max, double del
   return Utils::linspace(min, max, number_points);
 }
 
-
-// double trapezoidal_integration(double x_arr[], double y_arr[], int n) {
-//     double h = x_arr[1] - x_arr[0];
-//     double integral = 0.0;
-//     for (int i = 0; i < n-1; i++) {
-//         integral += (y_arr[i] + y_arr[i+1]) * h / 2.0;
-//     }
-//     return integral;
-// }
-
-
 double PowerSpectrum::get_finite_integral(Vector x_arr, Vector y_arr){
-  // TODO: Implementing something if x_min and x_max are not equation to zero
-
   // Declare and define needed variables 
   double integral_value = 0;
   for(size_t i=0; i<x_arr.size()-1; i++){
@@ -108,9 +91,9 @@ double PowerSpectrum::get_finite_integral(Vector x_arr, Vector y_arr){
   return integral_value;
 }
 
-//====================================================
-// Generate splines of j_ell(z) needed for LOS integration
-//====================================================
+/*
+  Generate splines of j_ell(z) needed for LOS integration
+*/
 
 void PowerSpectrum::generate_bessel_function_splines(){
   Utils::StartTiming("besselspline");
@@ -120,19 +103,11 @@ void PowerSpectrum::generate_bessel_function_splines(){
   // Make storage for the splines
   j_ell_splines = std::vector<Spline>(size_ell);
     
-  //=============================================================================
-  // TODO: Compute splines for bessel functions j_ell(z)
-  // Choose a suitable range for each ell
-  // NB: you don't want to go larger than z ~ 40000, then the bessel routines
-  // might break down. Use j_ell(z) = Utils::j_ell(ell, z)
-  //=============================================================================
-  
-  // Determine interval parameters
-  double z_max           = k_max * eta0;
-  double z_min           = 0.0;
-  double n_B             = 25.;  // samples per oscillation
-  double delta_z         = 2.0*M_PI / n_B;
-  Vector z_array         = get_linspace_from_delta(z_min, z_max, delta_z);
+  // Determine argument interval
+  double z_min    = 0.0;
+  double z_max    = k_max*eta0;
+  double delta_z  = 2.*M_PI/n_bessel;
+  Vector z_array  = get_linspace_from_delta(z_min, z_max, delta_z);
 
   #pragma omp parallel for schedule(dynamic, 1)
   for(int i = 0; i < size_ell; i++){
@@ -164,66 +139,24 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
   // Make storage for the results
   Vector2D result = Vector2D(ells.size(), Vector(k_array.size()));
 
-  int n_x = 10;  // Number of oscillations per period when performing the LOS integral
-  double delta_x = 2.*M_PI / n_x;
+  //  Find step length in x direction
+  double delta_x = 2.*M_PI / n_LOS;
+
+  // Create arrays
+  Vector x_array = get_linspace_from_delta(x_start, x_end, delta_x);
+  Vector integrand(x_array.size());
   
   for(size_t ik = 0; ik < k_array.size(); ik++){
     double const k_val = k_array[ik]; // k-value for each iteration
     for(size_t il = 0; il < ells.size(); il++){
       double const ell = ells[il]; // ell-value for each iteration
-      Vector x_array = get_linspace_from_delta(x_start, x_end, delta_x);
-      Vector integrand(x_array.size());
 
       // Quite ineffective with severeal foor-loops
       for(size_t i=0; i<x_array.size(); i++){
         integrand[i] = source_function(x_array[i], k_val) * j_ell_splines[il](k_val*(eta0 - cosmo->eta_of_x(x_array[i])));
       }
-
       result[il][ik] = get_finite_integral(x_array, integrand);
-
-      // //  Variables needed to perform the integral across x for the source function
-      // double x_current = x_start;
-      // double integral_sum = 0;
-      // double bessel_argument = const_bessel_argument - k_val*cosmo->eta_of_x(x_current);
-      // double integrand_current = source_function(x_current, k_val) * j_ell_splines[il](bessel_argument);
-
-      // //  Variables to fill
-      // double x_next;
-      // double delta_x=0;
-      // double integrand_next;
-
-      // while(x_current+delta_x<x_end){
-      //   // delta_x = delta_variabel * cosmo->Hp_of_x(x_current);
-      //   delta_x = 2.*M_PI/6.;
-      //   // std::cout << delta_x << std::endl;
-      //   x_next = x_current+delta_x;
-      //   bessel_argument = const_bessel_argument - k_val * cosmo->eta_of_x(x_next);
-      //   integrand_next = source_function(x_next, k_val) * j_ell_splines[il](bessel_argument);
-
-      //   // if(std::isnan(j_ell_splines[il](bessel_argument))){
-      //   // std::cout<<"il: "<<il<<" - j_l: "<<j_ell_splines[il](bessel_argument)<<" - arg: "<<bessel_argument<<std::endl;
-      //   // }
-
-      //   integral_sum += 0.5 * (integrand_current + integrand_next) * delta_x;
-
-      //   // Iterative scheme 
-      //   x_current = x_next;
-      //   integrand_current = integrand_next;
-      // }
-
-      // result[il][ik] = integral_sum;
-      // std::cout<<integral_sum<<std::endl;
     }
-    //=============================================================================
-    // TODO: Implement to solve for the general line of sight integral 
-    // F_ell(k) = Int dx jell(k(eta-eta0)) * S(x,k) for all the ell values for the 
-    // given value of k
-    //=============================================================================
-    // ...
-    // ...
-    // ...
-
-    // Store the result for Source_ell(k) in results[ell][ik]
   }
 
   Utils::EndTiming("lineofsight");
@@ -235,7 +168,6 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
 //====================================================
 void PowerSpectrum::line_of_sight_integration(Vector & k_array){
   const int n_k        = k_array.size();
-  const int n          = 100;
   const int nells      = ells.size();
   
   // Make storage for the splines we are to create
@@ -269,18 +201,6 @@ Vector PowerSpectrum::solve_for_cell(
     std::vector<Spline> & g_ell_spline){
   const int nells      = ells.size();
 
-
-
-  //============================================================================
-  // TODO: Integrate Cell = Int 4 * pi * P(k) f_ell g_ell dk/k
-  // or equivalently solve the ODE system dCell/dlogk = 4 * pi * P(k) * f_ell * g_ell
-  //============================================================================
-
-  // ...
-  // ...
-  // ...
-  // ...
-
   Vector result(nells);
 
   //  Loop over and integrate for all ells
@@ -293,26 +213,6 @@ Vector PowerSpectrum::solve_for_cell(
       integrand[i] = primordial_power_spectrum(k_val) * f_ell_spline[il](k_val)*g_ell_spline[il](k_val);
     }
     result[il] = 4.*M_PI * get_finite_integral(log_k_array, integrand);
-
-
-      // // Declare and define variables for the integration
-      // double integral_sum = 0;
-      // double k_current = exp(log_k_array[0]);
-      // double integrand_current = primordial_power_spectrum(k_current) * f_ell_spline[il](k_current) * g_ell_spline[il](k_current);
-      // double integrand_next;
-      // double k_next;
-      // for(size_t i=0; i<log_k_array.size()-1; i++){
-      //   k_next = exp(log_k_array[i+1]);
-      //   // std::cout << k_next << std::endl;
-      //   integrand_next = primordial_power_spectrum(k_next) * f_ell_spline[il](k_next) * g_ell_spline[il](k_next);
-      //   // std::cout << f_ell_spline[il](k_next) << std::endl;
-      //   integral_sum += 0.5 * (integrand_current + integrand_next) * (k_next - k_current);
-
-      //   k_current = k_next;
-      //   integrand_current = integrand_next;
-      // }
-      // result[il] = integral_sum;
-      // std::cout << integral_sum << std::endl;
   }
   return result;
 }
@@ -350,10 +250,46 @@ double PowerSpectrum::get_cell_TT(const double ell) const{
   return cell_TT_spline(ell);
 }
 
+double PowerSpectrum::get_thetaT_ell_of_k_spline(const int il_idx, const double k) const{
+  return thetaT_ell_of_k_spline[il_idx](k);
+}
+
+
+
+
 
 //====================================================
 // Output the cells to file
 //====================================================
+
+
+void PowerSpectrum::output_theta(std::string filename) const{
+  // Output of theta l for l={6, 100, 200, 500, 1000}
+  std::ofstream fp(filename.c_str());
+  double log_k_min = log(k_min);
+  double log_k_max = log(k_max);
+  Vector log_k_array = Utils::linspace(log_k_min, log_k_max, 10000); // Linearly spaced logarithmic values
+  Vector k_array = exp(log_k_array);
+  double c = Constants.c;
+  double H0 = cosmo->H0;
+
+  fp << "ckH , " << "T_6  , " << "T_100 , "<<"T_200 , "<< "T_500 , "<<"T_1000 , "<<"\n";
+  auto print_data = [&] (const double k){
+    fp << c*k/H0 << " , ";
+    fp << get_thetaT_ell_of_k_spline(test_ell_idx[0], k) << " , ";
+    fp << get_thetaT_ell_of_k_spline(test_ell_idx[1], k) << " , ";
+    fp << get_thetaT_ell_of_k_spline(test_ell_idx[2], k) << " , ";
+    fp << get_thetaT_ell_of_k_spline(test_ell_idx[3], k) << " , ";
+    fp << get_thetaT_ell_of_k_spline(test_ell_idx[4], k) << " , ";
+    // fp << thetaT_ell_of_k_spline[test_ell_idx[0]](k) << " , ";
+    // fp << thetaT_ell_of_k_spline[test_ell_idx[1]](k) << " , ";
+    // fp << thetaT_ell_of_k_spline[test_ell_idx[2]](k) << " , ";
+    // fp << thetaT_ell_of_k_spline[test_ell_idx[3]](k) << " , ";
+    // fp << thetaT_ell_of_k_spline[test_ell_idx[4]](k) << " , ";
+    fp << "\n";
+  };
+  std::for_each(k_array.begin(), k_array.end(), print_data);
+}
 
 void PowerSpectrum::output(std::string filename) const{
   // Output in standard units of muK^2

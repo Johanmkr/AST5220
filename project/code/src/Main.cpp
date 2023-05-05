@@ -9,7 +9,7 @@ int main(int argc, char **argv){
   Utils::StartTiming("Everything");
 
   // Control unit
-  bool output = true;
+  bool output = false;
   bool supernovafit = false;
 
   //=========================================================================
@@ -127,6 +127,7 @@ int main(int argc, char **argv){
   PowerSpectrum power(&cosmo, &rec, &pert, A_s, n_s, kpivot_mpc);
   power.solve();
   power.output("data/cellss.csv");
+  power.output_theta("data/theta_l.csv");
   
   // Remove when module is completed
   // return 0;

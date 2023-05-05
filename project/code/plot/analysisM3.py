@@ -253,34 +253,33 @@ class Perturbation:
 
     def plot_integrand_test(self)->None:
         fig, ax = plt.subplots()
-        line1, = ax.plot(self.k1_x, self.k1_S, color=Colors["k1"], label=lbls["k1"])
-        line2, = ax.plot(self.k2_x, self.k2_S, color=Colors["k2"], label=lbls["k2"])
-        line3, = ax.plot(self.k3_x, self.k3_S, color=Colors["k3"], label=lbls["k3"])
+        line1, = ax.plot(self.k1_x, self.k1_Sj5, color=Colors["k1"], label=lbls["k1"])
+        line2, = ax.plot(self.k2_x, self.k2_Sj5, color=Colors["k2"], label=lbls["k2"])
+        line3, = ax.plot(self.k3_x, self.k3_Sj5, color=Colors["k3"], label=lbls["k3"])
         ax.set_xlabel(lbls["x"])
         ax.set_xlim(-15,0)
         ax.minorticks_on()
 
 
         lines=[line1, line2, line3]
-        self.set_k_lables(fig, lines)
-        if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.LWrec)
+        # self.set_k_lables(fig, lines)
+        
 
         save_push(fig, "integrand")
 
 
 
     def make_plots(self)->None:
-        self.potentials_plot()
-        self.monopole_plot()
-        self.dipole_plot()
-        self.quadrapole_plot()
-        self.delta_plot()
-        self.delta_comp_plot()
-        self.velocity_plot()
-        self.velocity_comp_plot()
+        # self.potentials_plot()
+        # self.monopole_plot()
+        # self.dipole_plot()
+        # self.quadrapole_plot()
+        # self.delta_plot()
+        # self.delta_comp_plot()
+        # self.velocity_plot()
+        # self.velocity_comp_plot()
 
-        # self.plot_integrand_test()
+        self.plot_integrand_test()
 
 if __name__=="__main__":
     Pert = Perturbation(["perturbations_k0.001.csv", "perturbations_k0.01.csv", "perturbations_k0.1.csv"])

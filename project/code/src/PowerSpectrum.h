@@ -28,9 +28,14 @@ class PowerSpectrum {
     double kpivot_mpc = 0.05;
 
     // The k-values we compute Theta_ell(k) etc. for
-    const int n_k      = 100;
     const double k_min = Constants.k_min;
     const double k_max = Constants.k_max;
+
+    //  Important sampling values values:
+    const double n_bessel   = 25.; // s per oscillation for the Bessel function
+    const double n_k_theta  = 6.; // Samplings per oscillation of theta_ell
+    const double n_LOS      = 600.; // Samplings per oscillation of the integrand in the LOS integral
+    const double n_k_ps       = 40.;  // Sampling per oscillation when integrating across k
 
     const double x_start    = Constants.x_start;
     const double x_end      = Constants.x_end;
@@ -47,6 +52,11 @@ class PowerSpectrum {
         900,  950,  1000, 1050, 1100, 1150, 1200, 1250, 1300, 1350, 
         1400, 1450, 1500, 1550, 1600, 1650, 1700, 1750, 1800, 1850, 
         1900, 1950, 2000};
+
+    //  Vector of test indices for l={6, 100, 200, 500, 1000}
+    Vector test_ell_idx{
+        4, 19, 24, 32, 42
+    };
    
     //=====================================================================
     // [1] Create bessel function splines needed for the LOS integration
@@ -122,11 +132,18 @@ class PowerSpectrum {
 
     // Get the quantities we have computed
     double get_cell_TT(const double ell) const;
-    double get_cell_TE(const double ell) const;
-    double get_cell_EE(const double ell) const;
+    double get_thetaT_ell_of_k_spline(const int il_idx, const double k) const;
+    double get_bessel_func(const int il_idx, const double z);
+    double get_source_func(const double x, const double k);
 
     // Output Cells in units of l(l+1)/2pi (muK)^2
     void output(std::string filename) const;
+
+    void output_theta(std::string filename) const;
+
+    void output_bessel(std::string filename) const;
+
+    void output_source_func(std::string filename) const;
 };
 
 #endif
