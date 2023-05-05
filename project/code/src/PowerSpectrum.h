@@ -74,6 +74,9 @@ class PowerSpectrum {
         std::function<double(double,double)> &source_function);
 
     Vector get_linspace_from_delta(double min, double max, double delta);
+
+
+    double get_finite_integral(Vector x_arr, Vector y_arr);
     
     // Splines of the reusult of the LOS integration
     // Theta_ell(k) and ThetaE_ell(k) for polarization

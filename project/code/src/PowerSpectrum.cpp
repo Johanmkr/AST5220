@@ -49,6 +49,22 @@ void PowerSpectrum::solve(){
   // TODO: Integration to get Cell by solving dCell^f/dlogk = Delta(k) * f_ell(k)^2
   // Implement solve_for_cell
   //=========================================================================
+  
+  // Change resolution of the log_k_array
+
+  int n_k_high = 100;  // Number of samples per oscillation of Bessel function
+  // double delta_k = 2.*M_PI / (n_k_high * eta0);
+  double delta_k = 2.*M_PI/(eta0*n_k_high);
+  // std::cout<<"delta_k: "<<delta_k<<std::endl;
+  k_array = get_linspace_from_delta(k_min, k_max, delta_k);
+  log_k_array = log(k_array);
+
+  // std::cout<<log_k_array.size()<<std::endl;
+
+
+  // std::cout<<"before log array"<<std::endl;
+  // std::cout<<"after log array"<<std::endl;
+
   Utils::StartTiming("cell_TT");
   auto cell_TT = solve_for_cell(log_k_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
   cell_TT_spline.create(ells, cell_TT, "Cell_TT_of_ell");
@@ -66,8 +82,30 @@ void PowerSpectrum::solve(){
 // Small utility functions
 
 Vector PowerSpectrum::get_linspace_from_delta(double min, double max, double delta){
-  double number_points = (int)((max-min)/delta);
+  double number_points = (int)abs(((max-min)/delta));
   return Utils::linspace(min, max, number_points);
+}
+
+
+// double trapezoidal_integration(double x_arr[], double y_arr[], int n) {
+//     double h = x_arr[1] - x_arr[0];
+//     double integral = 0.0;
+//     for (int i = 0; i < n-1; i++) {
+//         integral += (y_arr[i] + y_arr[i+1]) * h / 2.0;
+//     }
+//     return integral;
+// }
+
+
+double PowerSpectrum::get_finite_integral(Vector x_arr, Vector y_arr){
+  // TODO: Implementing something if x_min and x_max are not equation to zero
+
+  // Declare and define needed variables 
+  double integral_value = 0;
+  for(size_t i=0; i<x_arr.size()-1; i++){
+    integral_value += 0.5 * (y_arr[i]+y_arr[i+1]) * (x_arr[i+1]-x_arr[i]);
+  }
+  return integral_value;
 }
 
 //====================================================
@@ -92,9 +130,9 @@ void PowerSpectrum::generate_bessel_function_splines(){
   // Determine interval parameters
   double z_max           = k_max * eta0;
   double z_min           = 0.0;
-  double n               = 25;  // samples per oscillation
-  double delta_z         = 2.0*M_PI / (n);
-  Vector z_array         get_linspace_from_delta(z_min, z_max, delta_z);
+  double n_B             = 25.;  // samples per oscillation
+  double delta_z         = 2.0*M_PI / n_B;
+  Vector z_array         = get_linspace_from_delta(z_min, z_max, delta_z);
 
   #pragma omp parallel for schedule(dynamic, 1)
   for(int i = 0; i < size_ell; i++){
@@ -125,45 +163,55 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
 
   // Make storage for the results
   Vector2D result = Vector2D(ells.size(), Vector(k_array.size()));
+
+  int n_x = 10;  // Number of oscillations per period when performing the LOS integral
+  double delta_x = 2.*M_PI / n_x;
   
   for(size_t ik = 0; ik < k_array.size(); ik++){
     double const k_val = k_array[ik]; // k-value for each iteration
-    double const delta_variabel = 2.*M_PI/(10.*k_val);  // Constant part of delta_x interval
-    double const const_bessel_argument = k_val*eta0;  // constant part of bessel argument
     for(size_t il = 0; il < ells.size(); il++){
-      double const ell = ells[il];
+      double const ell = ells[il]; // ell-value for each iteration
+      Vector x_array = get_linspace_from_delta(x_start, x_end, delta_x);
+      Vector integrand(x_array.size());
 
-      //  Variables needed to perform the integral across x for the source function
-      double x_current = x_start;
-      double integral_sum = 0;
-      double bessel_argument = const_bessel_argument - k_val*cosmo->eta_of_x(x_current);
-      double integrand_current = source_function(x_current, k_val) * j_ell_splines[il](bessel_argument);
-
-      //  Variables to fill
-      double x_next;
-      double delta_x=0;
-      double integrand_next;
-
-      while(x_current+delta_x<x_end){
-        // delta_x = delta_variabel * cosmo->Hp_of_x(x_current);
-        delta_x = 2.*M_PI/6.;
-        // std::cout << delta_x << std::endl;
-        x_next = x_current+delta_x;
-        bessel_argument = const_bessel_argument - k_val * cosmo->eta_of_x(x_next);
-        integrand_next = source_function(x_next, k_val) * j_ell_splines[il](bessel_argument);
-
-        // if(std::isnan(j_ell_splines[il](bessel_argument))){
-        // std::cout<<"il: "<<il<<" - j_l: "<<j_ell_splines[il](bessel_argument)<<" - arg: "<<bessel_argument<<std::endl;
-        // }
-
-        integral_sum += 0.5 * (integrand_current + integrand_next) * delta_x;
-
-        // Iterative scheme 
-        x_current = x_next;
-        integrand_current = integrand_next;
+      // Quite ineffective with severeal foor-loops
+      for(size_t i=0; i<x_array.size(); i++){
+        integrand[i] = source_function(x_array[i], k_val) * j_ell_splines[il](k_val*(eta0 - cosmo->eta_of_x(x_array[i])));
       }
 
-      result[il][ik] = integral_sum;
+      result[il][ik] = get_finite_integral(x_array, integrand);
+
+      // //  Variables needed to perform the integral across x for the source function
+      // double x_current = x_start;
+      // double integral_sum = 0;
+      // double bessel_argument = const_bessel_argument - k_val*cosmo->eta_of_x(x_current);
+      // double integrand_current = source_function(x_current, k_val) * j_ell_splines[il](bessel_argument);
+
+      // //  Variables to fill
+      // double x_next;
+      // double delta_x=0;
+      // double integrand_next;
+
+      // while(x_current+delta_x<x_end){
+      //   // delta_x = delta_variabel * cosmo->Hp_of_x(x_current);
+      //   delta_x = 2.*M_PI/6.;
+      //   // std::cout << delta_x << std::endl;
+      //   x_next = x_current+delta_x;
+      //   bessel_argument = const_bessel_argument - k_val * cosmo->eta_of_x(x_next);
+      //   integrand_next = source_function(x_next, k_val) * j_ell_splines[il](bessel_argument);
+
+      //   // if(std::isnan(j_ell_splines[il](bessel_argument))){
+      //   // std::cout<<"il: "<<il<<" - j_l: "<<j_ell_splines[il](bessel_argument)<<" - arg: "<<bessel_argument<<std::endl;
+      //   // }
+
+      //   integral_sum += 0.5 * (integrand_current + integrand_next) * delta_x;
+
+      //   // Iterative scheme 
+      //   x_current = x_next;
+      //   integrand_current = integrand_next;
+      // }
+
+      // result[il][ik] = integral_sum;
       // std::cout<<integral_sum<<std::endl;
     }
     //=============================================================================
@@ -234,30 +282,38 @@ Vector PowerSpectrum::solve_for_cell(
   // ...
 
   Vector result(nells);
-  
+
   //  Loop over and integrate for all ells
   for(int il = 0; il<nells; il++){
     double ell = ells[il];
-      // Declare and define variables for the integration
-      double integral_sum = 0;
-      double k_current = exp(log_k_array[0]);
-      double integrand_current = primordial_power_spectrum(k_current) * f_ell_spline[il](k_current) * g_ell_spline[il](k_current);
-      double integrand_next;
-      double k_next;
-      for(size_t i=0; i<log_k_array.size()-1; i++){
-        k_next = exp(log_k_array[i+1]);
-        // std::cout << k_next << std::endl;
-        integrand_next = primordial_power_spectrum(k_next) * f_ell_spline[il](k_next) * g_ell_spline[il](k_next);
-        // std::cout << f_ell_spline[il](k_next) << std::endl;
-        integral_sum += 0.5 * (integrand_current + integrand_next) * (k_next - k_current);
+    Vector integrand(log_k_array.size());
+    double k_val;
+    for(size_t i=0; i<log_k_array.size(); i++){
+      k_val = exp(log_k_array[i]);
+      integrand[i] = primordial_power_spectrum(k_val) * f_ell_spline[il](k_val)*g_ell_spline[il](k_val);
+    }
+    result[il] = 4.*M_PI * get_finite_integral(log_k_array, integrand);
 
-        k_current = k_next;
-        integrand_current = integrand_next;
-      }
-      result[il] = integral_sum;
+
+      // // Declare and define variables for the integration
+      // double integral_sum = 0;
+      // double k_current = exp(log_k_array[0]);
+      // double integrand_current = primordial_power_spectrum(k_current) * f_ell_spline[il](k_current) * g_ell_spline[il](k_current);
+      // double integrand_next;
+      // double k_next;
+      // for(size_t i=0; i<log_k_array.size()-1; i++){
+      //   k_next = exp(log_k_array[i+1]);
+      //   // std::cout << k_next << std::endl;
+      //   integrand_next = primordial_power_spectrum(k_next) * f_ell_spline[il](k_next) * g_ell_spline[il](k_next);
+      //   // std::cout << f_ell_spline[il](k_next) << std::endl;
+      //   integral_sum += 0.5 * (integrand_current + integrand_next) * (k_next - k_current);
+
+      //   k_current = k_next;
+      //   integrand_current = integrand_next;
+      // }
+      // result[il] = integral_sum;
       // std::cout << integral_sum << std::endl;
   }
-
   return result;
 }
 

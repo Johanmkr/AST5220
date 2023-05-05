@@ -28,4 +28,7 @@ def runM3():
     Pert.make_plots()
 
 if __name__ == "__main__":
-    runM3()
+    # runM1()
+    # runM2()
+    # runM3()
+    print("Unccomment in order to make plots")

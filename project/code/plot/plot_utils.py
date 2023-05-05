@@ -78,7 +78,7 @@ plt.rc('lines', linewidth=3)
 
 # Visual parameters for saving/showing
 # Manual Switches
-TEST = False
+TEST = True
 
 # SAVE = False
 # PUSH = False

@@ -9,7 +9,7 @@ int main(int argc, char **argv){
   Utils::StartTiming("Everything");
 
   // Control unit
-  bool output = false;
+  bool output = true;
   bool supernovafit = false;
 
   //=========================================================================
@@ -27,7 +27,7 @@ int main(int argc, char **argv){
   // h = 0.7;
   // OmegaB = 0.05;
   // OmegaCDM = 0.45;
-  Neff = 0;
+  // Neff = 0;
 
   // Recombination parameters
   // double Yp          = 0.245;
