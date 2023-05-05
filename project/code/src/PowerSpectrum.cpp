@@ -65,13 +65,6 @@ void PowerSpectrum::solve(){
   auto cell_TT = solve_for_cell(log_k_ps_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
   cell_TT_spline.create(ells, cell_TT, "Cell_TT_of_ell");
   Utils::EndTiming("cell_TT");
-  //=========================================================================
-  // TODO: Do the same for polarization...
-  //=========================================================================
-  // ...
-  // ...
-  // ...
-  // ...
 }
 
 
@@ -144,14 +137,50 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
 
   // Create arrays
   Vector x_array = get_linspace_from_delta(x_start, x_end, delta_x);
-  Vector integrand(x_array.size());
   
-  for(size_t ik = 0; ik < k_array.size(); ik++){
-    double const k_val = k_array[ik]; // k-value for each iteration
-    for(size_t il = 0; il < ells.size(); il++){
-      double const ell = ells[il]; // ell-value for each iteration
+  // for(size_t ik = 0; ik < k_array.size(); ik++){
+  //   double const k_val = k_array[ik]; // k-value for each iteration
+  //   for(size_t il = 0; il < ells.size(); il++){
+  //     double const ell = ells[il]; // ell-value for each iteration
 
-      // Quite ineffective with severeal foor-loops
+  //     // Quite ineffective with severeal foor-loops
+  //     for(size_t i=0; i<x_array.size(); i++){
+  //       integrand[i] = source_function(x_array[i], k_val) * j_ell_splines[il](k_val*(eta0 - cosmo->eta_of_x(x_array[i])));
+  //     }
+  //     result[il][ik] = get_finite_integral(x_array, integrand);
+  //   }
+  // }
+
+
+  // double k_val;
+  // double ell;
+  // size_t il;
+  // size_t i;
+  std::cout<<"Performing LOS integral..."<<std::endl;
+  #pragma omp parallel for schedule(dynamic, 1)
+  for(size_t ik = 0; ik < k_array.size(); ik++){
+    if( (10*ik) /k_array.size() != (10*ik+10) / k_array.size()) {
+        std::cout << (100*ik+100)/k_array.size() << "% " << std::flush;
+        if(ik == k_array.size()-1) std::cout << std::endl;
+      }
+    double k_val = k_array[ik]; // k-value for each iteration
+    for(size_t il = 0; il < ells.size(); il++){
+      double ell = ells[il]; // ell-value for each iteration
+
+      // double integrand_current = source_function(x_array[0], k_val) * j_ell_splines[il](k_val*(eta0-cosmo->eta_of_x(x_array[0])));
+      // double integrand_next;
+
+      // double integral_value = 0.0;
+
+      // for(size_t i=0; i<x_array.size()-1; i++){
+      //   integrand_next = source_function(x_array[i+1], k_val) * j_ell_splines[il](k_val*(eta0 - cosmo->eta_of_x(x_array[i+1])));
+      //   integral_value += 0.5 * (integrand_current+integrand_next) * (x_array[i+1]-x_array[i]);
+      //   integrand_current = integrand_next;
+      // }
+      // result[il][ik] = integral_value;
+
+      Vector integrand(x_array.size());
+      // Quite ineffective with several for-loops
       for(size_t i=0; i<x_array.size(); i++){
         integrand[i] = source_function(x_array[i], k_val) * j_ell_splines[il](k_val*(eta0 - cosmo->eta_of_x(x_array[i])));
       }
