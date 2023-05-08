@@ -54,17 +54,53 @@ void PowerSpectrum::solve(){
     PERFORM THE LINE OF SIGHT INTEGRAL AND GENERATE SPLINE
   */
 
+
+  
+  if(C_l_separation){
+    std::cout <<"\n"<<"Performing LOS integration for all effects separately..."<<"\n"<<std::endl;
+    //  For SW effect
+    Utils::StartTiming("C_L separation");
+    std::function<double(double,double)> source_function_T_SW = [&](double x, double k){
+    return pert->get_Source_T_SW(x,k);
+    };
+    std::function<double(double,double)> source_function_T_ISW = [&](double x, double k){
+    return pert->get_Source_T_ISW(x,k);
+    };
+    std::function<double(double,double)> source_function_T_DOP = [&](double x, double k){
+    return pert->get_Source_T_DOP(x,k);
+    };
+    std::function<double(double,double)> source_function_T_POL = [&](double x, double k){
+    return pert->get_Source_T_POL(x,k);
+    };
+
+    // SW
+    line_of_sight_integration(k_theta_array, source_function_T_SW);
+    auto cell_SW = solve_for_cell(log_k_ps_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
+    Cell_SW_spline.create(ells, cell_SW, "Cell_SW_of_ell");
+
+    // ISW
+    line_of_sight_integration(k_theta_array, source_function_T_ISW);
+    auto cell_ISW = solve_for_cell(log_k_ps_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
+    Cell_ISW_spline.create(ells, cell_ISW, "Cell_ISW_of_ell");
+
+    // DOP
+    line_of_sight_integration(k_theta_array, source_function_T_DOP);
+    auto cell_DOP = solve_for_cell(log_k_ps_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
+    Cell_DOP_spline.create(ells, cell_DOP, "Cell_DOP_of_ell");
+
+    // POL
+    line_of_sight_integration(k_theta_array, source_function_T_POL);
+    auto cell_POL = solve_for_cell(log_k_ps_array, thetaT_ell_of_k_spline, thetaT_ell_of_k_spline);
+    Cell_POL_spline.create(ells, cell_POL, "Cell_POL_of_ell");
+
+    Utils::EndTiming("C_L separation");
+  }
+
  // Make a function returning the source function
   std::function<double(double,double)> source_function_T = [&](double x, double k){
     return pert->get_Source_T(x,k);
   };
-
   line_of_sight_integration(k_theta_array, source_function_T);
-  
-  // if(C_l_separation){
-
-  // }
-
 
   /*
     CALCULATE THE CMB POWER SPECTRUM AND SPLINE THE RESULT
@@ -287,6 +323,19 @@ double PowerSpectrum::get_cell_TT(const double ell) const{
   return cell_TT_spline(ell);
 }  
 
+double PowerSpectrum::get_cell_SW(const double ell) const{
+  return Cell_SW_spline(ell);
+}
+double PowerSpectrum::get_cell_ISW(const double ell) const{
+  return Cell_ISW_spline(ell);
+}
+double PowerSpectrum::get_cell_DOP(const double ell) const{
+  return Cell_DOP_spline(ell);
+}
+double PowerSpectrum::get_cell_POL(const double ell) const{
+  return Cell_POL_spline(ell);
+}
+
 double PowerSpectrum::get_thetaT_ell_of_k_spline(const int il_idx, const double k) const{
   return thetaT_ell_of_k_spline[il_idx](k);
 }
@@ -407,6 +456,31 @@ void PowerSpectrum::output(std::string filename) const{
     fp << "\n";
   };
   std::for_each(ellvalues.begin(), ellvalues.end(), print_data);
+}
+
+void PowerSpectrum::output_C_l_sep(std::string filename) const{
+  if(C_l_separation){
+  std::ofstream fp(filename.c_str());
+  const int ellmax = int(ells[ells.size()-1]);
+  auto ellvalues = Utils::linspace(2, ellmax, ellmax-1);
+  fp << " ell , " << " cell_SW , " << " cell_ISW , "<< " cell_DOP , " << "cell_POL , " << "\n";
+  auto print_data = [&] (const double ell) {
+    double normfactor  = (ell * (ell+1)) / (2.0 * M_PI) * pow(1e6 * cosmo->get_TCMB(), 2);
+    // double normfactorN = (ell * (ell+1)) / (2.0 * M_PI) 
+    //   * pow(1e6 * cosmo->get_TCMB() *  pow(4.0/11.0, 1.0/3.0), 2);
+    // double normfactorL = (ell * (ell+1)) * (ell * (ell+1)) / (2.0 * M_PI);
+    fp << ell                                 << " , ";
+    fp << get_cell_SW(ell) * normfactor  << " , ";
+    fp << get_cell_ISW(ell) * normfactor  << " , ";
+    fp << get_cell_DOP(ell) * normfactor  << " , ";
+    fp << get_cell_POL(ell) * normfactor  << " , ";
+    fp << "\n";
+  };
+  std::for_each(ellvalues.begin(), ellvalues.end(), print_data);
+  }
+  else{
+    std::cout << "No separation" << std::endl;
+  }
 }
 
 

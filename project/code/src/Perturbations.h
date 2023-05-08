@@ -43,7 +43,11 @@ class Perturbations{
    
     // Splines of source functions (ST for temperature; SE for polarization)
     Spline2D ST_spline{"ST_spline"};
-    Spline2D SE_spline{"SE_spline"};
+    Spline2D ST_SW_spline{"ST_SW_spline"};
+    Spline2D ST_ISW_spline{"ST_ISW_spline"};
+    Spline2D ST_DOP_spline{"ST_DOP_spline"};
+    Spline2D ST_POL_spline{"ST_POL_spline"};
+
     
     // Splines of mulipole quantities
     // NB: If you use there you have to allocate the container first
@@ -128,7 +132,7 @@ class Perturbations{
      * @brief Compute source functions and spline the result
      * 
      */
-    void compute_source_functions(bool SW=true, bool ISW=true, bool DOP=true, bool POL=true);
+    void compute_source_functions();
 
   public:
 
@@ -165,6 +169,11 @@ class Perturbations{
 
     // Get the photon source function
     double get_Source_T(const double x, const double k) const;
+    double get_Source_T_SW(const double x, const double k) const;
+    double get_Source_T_ISW(const double x, const double k) const;
+    double get_Source_T_DOP(const double x, const double k) const;
+    double get_Source_T_POL(const double x, const double k) const;
+
     // double get_Source_E(const double x, const double k) const;
 };
 

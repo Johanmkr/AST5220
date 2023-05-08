@@ -1,12 +1,20 @@
 from plot_utils import *
 
 
-# class PowerSpectrum:
-#     def __init__(self)
-#         self.Cell = Milestone(Data("cellss.csv"))
-#         self.Theta = Milestone(Data("theta_l.csv"))
-#         self.figures = []
+class PowerSpectrum:
+    def __init__(self):
+        # Make data objects
+        self.Cell = Milestone(Data("cellss.csv"))
+        self.Theta = Milestone(Data("theta_l.csv"))
+        self.Cell_sep = Milestone(Data("cell_separated.csv"))
+        self.bessel = Milestone(Data("bessel.csv"))
+        self.MPS = Milestone(Data("mps.csv"))
+        self.CL_integrand = Milestone(Data("cl_integrand.csv"))
+        self.LOS_integrand = Milestone(Data("LOS_integrand.csv"))
+        self.figures = {}
     
+    def add_figure(self, figname, **kwargs):
+        fig, ax = plt.subplots(**kwargs)
     
 
 

@@ -362,7 +362,7 @@ int Perturbations::get_tight_coupling_time_idx(const double k ,Vector x_arr) con
   COMPUTE THE PHOTON TEMPERATURE SOURCE FUNCTION
 */
 
-void Perturbations::compute_source_functions(bool SW, bool ISW, bool DOP, bool POL){
+void Perturbations::compute_source_functions(){
   Utils::StartTiming("source");
 
   /*
@@ -377,7 +377,11 @@ void Perturbations::compute_source_functions(bool SW, bool ISW, bool DOP, bool P
 
   // Make storage for the source functions (in 1D array to be able to pass it to the spline)
   Vector ST_array(k_array.size() * x_array.size());
-  Vector SE_array(k_array.size() * x_array.size());
+  Vector ST_SW_array(k_array.size() * x_array.size());
+  Vector ST_ISW_array(k_array.size() * x_array.size());
+  Vector ST_DOP_array(k_array.size() * x_array.size());
+  Vector ST_POL_array(k_array.size() * x_array.size());
+
 
   // Compute source functions
   for(auto ix = 0; ix < x_array.size(); ix++){
@@ -431,61 +435,70 @@ void Perturbations::compute_source_functions(bool SW, bool ISW, bool DOP, bool P
       //  Calculate terms, starting from 0
       double source_func_val = 0.0;
 
-      //  + contribution from Sachs-Wolfe (SW) effect
-      if(SW){
-        source_func_val += g*(T0 + Psi + T2/4.);
-      }
+      // //  + contribution from Sachs-Wolfe (SW) effect
+      // if(SW){
+      //   source_func_val += g*(T0 + Psi + T2/4.);
+      // }
 
-      //  + contributino from Integrated Sachs-Wolfe (ISW) effect
-      if(ISW){
-        source_func_val += exp(-tau)*(dPsi-dPhi);
-      }
+      // //  + contributino from Integrated Sachs-Wolfe (ISW) effect
+      // if(ISW){
+      //   source_func_val += exp(-tau)*(dPsi-dPhi);
+      // }
 
-      //  + contribution from doppler effect
-      if(DOP){
-        double DOP_term  = -1./(c*k) *
-                        (
-                          Hp*g*dv_b + Hp*dg*v_b + dHp*g*v_b
-                        );
-        source_func_val += DOP_term;
-      }
+      // //  + contribution from doppler effect
+      // if(DOP){
+      //   double DOP_term  = -1./(c*k) *
+      //                   (
+      //                     Hp*g*dv_b + Hp*dg*v_b + dHp*g*v_b
+      //                   );
+      //   source_func_val += DOP_term;
+      // }
 
-      //  + contribution from polarisation
-      if(POL){
-        double POL_term  = 3./(4.*c*c*k*k) *
-                        (
-                          g*T2*(ddHp*Hp + dHp*dHp)
-                          + Hp*Hp*(g*ddT2 + ddg*T2 + 2*dg*dT2)
-                          + 3*dHp*Hp*(g*dT2 + dg*T2)
-                        );
-        source_func_val += POL_term;
-      }
+      // //  + contribution from polarisation
+      // if(POL){
+      //   double POL_term  = 3./(4.*c*c*k*k) *
+      //                   (
+      //                     g*T2*(ddHp*Hp + dHp*dHp)
+      //                     + Hp*Hp*(g*ddT2 + ddg*T2 + 2*dg*dT2)
+      //                     + 3*dHp*Hp*(g*dT2 + dg*T2)
+      //                   );
+      //   source_func_val += POL_term;
+      // }
 
       ST_array[idx] = source_func_val;
 
 
 
 
-      // double first_term   = g*(T0 + Psi + T2/4.);
-      // double second_term  = exp(-tau)*(dPsi-dPhi);
-      // double third_term   = -1./(c*k) *
-      //                   (
-      //                     Hp*g*dv_b + Hp*dg*v_b + dHp*g*v_b
-      //                   );
-      // double fourth_term  = 3./(4.*c*c*k*k) *
-      //                   (
-      //                     g*T2*(ddHp*Hp + dHp*dHp)
-      //                     + Hp*Hp*(g*ddT2 + ddg*T2 + 2*dg*dT2)
-      //                     + 3*dHp*Hp*(g*dT2 + dg*T2)
-      //                   );
-      // // Temperatur source
-      // ST_array[idx] = first_term + second_term + third_term + fourth_term;
+      double SW_term      = g*(T0 + Psi + T2/4.);
+      double ISW_term     = exp(-tau)*(dPsi-dPhi);
+      double DOP_term     = -1./(c*k) *
+                        (
+                          Hp*g*dv_b + Hp*dg*v_b + dHp*g*v_b
+                        );
+      double POL_term     = 3./(4.*c*c*k*k) *
+                        (
+                          g*T2*(ddHp*Hp + dHp*dHp)
+                          + Hp*Hp*(g*ddT2 + ddg*T2 + 2*dg*dT2)
+                          + 3*dHp*Hp*(g*dT2 + dg*T2)
+                        );
+      // Fill corresponding arrays
+
+      ST_SW_array[idx] = SW_term;
+      ST_ISW_array[idx] = ISW_term;
+      ST_DOP_array[idx] = DOP_term;
+      ST_POL_array[idx] = POL_term;
+      ST_array[idx] = SW_term + ISW_term + DOP_term + POL_term;
 
     }
   }
 
   // Spline the source functions
   ST_spline.create (x_array, k_array, ST_array, "Source_Temp_x_k");
+  ST_SW_spline.create(x_array, k_array, ST_SW_array, "SW source_temp_x_k");
+  ST_ISW_spline.create(x_array, k_array, ST_ISW_array, "ISW source_temp_x_k");
+  ST_DOP_spline.create(x_array, k_array, ST_DOP_array, "DOP source_temp_x_k");
+  ST_POL_spline.create(x_array, k_array, ST_POL_array, "POL source_temp_x_k");
 
   Utils::EndTiming("source");
 }
@@ -659,6 +672,18 @@ double Perturbations::get_Pi(const double x, const double k) const{
 }
 double Perturbations::get_Source_T(const double x, const double k) const{
   return ST_spline(x,k);
+}
+double Perturbations::get_Source_T_SW(const double x, const double k) const{
+  return ST_SW_spline(x,k);
+}
+double Perturbations::get_Source_T_ISW(const double x, const double k) const{
+  return ST_ISW_spline(x,k);
+}
+double Perturbations::get_Source_T_DOP(const double x, const double k) const{
+  return ST_DOP_spline(x,k);
+}
+double Perturbations::get_Source_T_POL(const double x, const double k) const{
+  return ST_POL_spline(x,k);
 }
 double Perturbations::get_Theta(const double x, const double k, const int ell) const{
   return Theta_spline[ell](x,k);

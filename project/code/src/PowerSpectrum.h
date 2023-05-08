@@ -111,8 +111,10 @@ class PowerSpectrum {
 
     // Splines with the power-spectra
     Spline cell_TT_spline{"cell_TT_spline"};
-    Spline cell_TE_spline{"cell_TE_spline"};
-    Spline cell_EE_spline{"cell_EE_spline"};
+    Spline Cell_SW_spline{"Cell_SW_spline"};
+    Spline Cell_ISW_spline{"Cell_ISW_spline"};
+    Spline Cell_DOP_spline{"Cell_DOP_spline"};
+    Spline Cell_POL_spline{"Cell_POL_spline"};
 
   public:
 
@@ -137,6 +139,11 @@ class PowerSpectrum {
 
     // Get the quantities we have computed
     double get_cell_TT(const double ell) const;
+    double get_cell_SW(const double ell) const;
+    double get_cell_ISW(const double ell) const;
+    double get_cell_DOP(const double ell) const;
+    double get_cell_POL(const double ell) const;
+
     double get_thetaT_ell_of_k_spline(const int il_idx, const double k) const;
     double get_bessel_func(const int il_idx, const double z) const;
     double get_source_func(const double x, const double k) const;
@@ -144,6 +151,9 @@ class PowerSpectrum {
 
     // Output Cells in units of l(l+1)/2pi (muK)^2
     void output(std::string filename) const;
+
+    void output_C_l_sep(std::string filename) const;
+
 
     void output_theta(std::string filename) const;
 
