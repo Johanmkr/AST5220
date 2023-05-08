@@ -128,6 +128,8 @@ int main(int argc, char **argv){
   power.solve();
   power.output("data/cellss.csv");
   power.output_theta("data/theta_l.csv");
+  power.output_bessel("data/bessel.csv");
+  power.output_LOS_integrand("data/LOS_integrand.csv");
   
   // Remove when module is completed
   // return 0;

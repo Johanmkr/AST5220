@@ -170,6 +170,14 @@ double BackgroundCosmology::get_OmegaK(double x) const{
   return OmegaK * exp(-alpha * x) * Hret * Hret;
 }
 
+double BackgroundCosmology::get_OmegaM(double x) const{
+  return get_OmegaB(x) + get_OmegaCDM(x);
+}
+
+double BackgroundCosmology::get_OmegaRtot(double x) const{
+  return get_OmegaR(x) + get_OmegaNu(x);
+}
+
 // EXTRA FUNCTIONs
 
 double BackgroundCosmology::get_r_of_x(double x) const{

@@ -133,8 +133,9 @@ class PowerSpectrum {
     // Get the quantities we have computed
     double get_cell_TT(const double ell) const;
     double get_thetaT_ell_of_k_spline(const int il_idx, const double k) const;
-    double get_bessel_func(const int il_idx, const double z);
-    double get_source_func(const double x, const double k);
+    double get_bessel_func(const int il_idx, const double z) const;
+    double get_source_func(const double x, const double k) const;
+    double get_LOS_integrand(const double x, const double k, const int il_idx) const;
 
     // Output Cells in units of l(l+1)/2pi (muK)^2
     void output(std::string filename) const;
@@ -144,6 +145,11 @@ class PowerSpectrum {
     void output_bessel(std::string filename) const;
 
     void output_source_func(std::string filename) const;
+
+    void output_LOS_integrand(std::string filename) const;
+
+    void output_MPS(std::string filename) const;
+    
 };
 
 #endif
