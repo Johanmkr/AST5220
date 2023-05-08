@@ -128,7 +128,7 @@ class Perturbations{
      * @brief Compute source functions and spline the result
      * 
      */
-    void compute_source_functions();
+    void compute_source_functions(bool SW=true, bool ISW=true, bool DOP=true, bool POL=true);
 
   public:
 

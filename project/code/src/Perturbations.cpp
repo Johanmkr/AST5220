@@ -362,7 +362,7 @@ int Perturbations::get_tight_coupling_time_idx(const double k ,Vector x_arr) con
   COMPUTE THE PHOTON TEMPERATURE SOURCE FUNCTION
 */
 
-void Perturbations::compute_source_functions(){
+void Perturbations::compute_source_functions(bool SW, bool ISW, bool DOP, bool POL){
   Utils::StartTiming("source");
 
   /*
@@ -428,23 +428,58 @@ void Perturbations::compute_source_functions(){
                   + 3./5.*ckHp * (dHp/Hp*T3-dT3)
                   + 9./10. * (ddtau*T2 + dtau*dT2);
 
-      //  Calculate terms
+      //  Calculate terms, starting from 0
+      double source_func_val = 0.0;
 
-      double first_term   = g*(T0 + Psi + T2/4.);
-      double second_term  = exp(-tau)*(dPsi-dPhi);
-      double third_term   = -1./(c*k) *
+      //  + contribution from Sachs-Wolfe (SW) effect
+      if(SW){
+        source_func_val += g*(T0 + Psi + T2/4.);
+      }
+
+      //  + contributino from Integrated Sachs-Wolfe (ISW) effect
+      if(ISW){
+        source_func_val += exp(-tau)*(dPsi-dPhi);
+      }
+
+      //  + contribution from doppler effect
+      if(DOP){
+        double DOP_term  = -1./(c*k) *
                         (
                           Hp*g*dv_b + Hp*dg*v_b + dHp*g*v_b
                         );
-      double fourth_term  = 3./(4.*c*c*k*k) *
+        source_func_val += DOP_term;
+      }
+
+      //  + contribution from polarisation
+      if(POL){
+        double POL_term  = 3./(4.*c*c*k*k) *
                         (
                           g*T2*(ddHp*Hp + dHp*dHp)
                           + Hp*Hp*(g*ddT2 + ddg*T2 + 2*dg*dT2)
                           + 3*dHp*Hp*(g*dT2 + dg*T2)
                         );
+        source_func_val += POL_term;
+      }
 
-      // Temperatur source
-      ST_array[idx] = first_term + second_term + third_term + fourth_term;
+      ST_array[idx] = source_func_val;
+
+
+
+
+      // double first_term   = g*(T0 + Psi + T2/4.);
+      // double second_term  = exp(-tau)*(dPsi-dPhi);
+      // double third_term   = -1./(c*k) *
+      //                   (
+      //                     Hp*g*dv_b + Hp*dg*v_b + dHp*g*v_b
+      //                   );
+      // double fourth_term  = 3./(4.*c*c*k*k) *
+      //                   (
+      //                     g*T2*(ddHp*Hp + dHp*dHp)
+      //                     + Hp*Hp*(g*ddT2 + ddg*T2 + 2*dg*dT2)
+      //                     + 3*dHp*Hp*(g*dT2 + dg*T2)
+      //                   );
+      // // Temperatur source
+      // ST_array[idx] = first_term + second_term + third_term + fourth_term;
 
     }
   }

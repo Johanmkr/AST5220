@@ -34,8 +34,11 @@ class PowerSpectrum {
     //  Important sampling values values:
     const double n_bessel   = 25.; // s per oscillation for the Bessel function
     const double n_k_theta  = 6.; // Samplings per oscillation of theta_ell
-    const double n_LOS      = 600.; // Samplings per oscillation of the integrand in the LOS integral
+    const double n_LOS      = 350.; // Samplings per oscillation of the integrand in the LOS integral
     const double n_k_ps       = 40.;  // Sampling per oscillation when integrating across k
+
+    //  Split power spectrum into individual contributors:
+    const bool C_l_separation = false;      // parameter that, if true, calculates C_l with the SW, ISW, doppler and polarisation terms individually. 
 
     const double x_start    = Constants.x_start;
     const double x_end      = Constants.x_end;
@@ -75,7 +78,9 @@ class PowerSpectrum {
     
     // Do LOS integration for all ells and all k's in the given k_array
     // and for all the source functions (temperature, polarization, ...)
-    void line_of_sight_integration(Vector & k_array);
+    void line_of_sight_integration(
+        Vector & k_array,
+        std::function<double(double,double)> &source_function);
   
     // Do the line of sight integration for a single quantity
     // for all ells by providing a source_function(x,k) (can be temp, pol, ...)
@@ -147,6 +152,8 @@ class PowerSpectrum {
     void output_source_func(std::string filename) const;
 
     void output_LOS_integrand(std::string filename) const;
+
+    void output_Cl_integrand(std::string filename) const;
 
     void output_MPS(std::string filename) const;
     

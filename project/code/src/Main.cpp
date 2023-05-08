@@ -76,8 +76,7 @@ int main(int argc, char **argv){
     mcmc_fit_to_supernova_data("data/supernovadata.txt", "data/results_supernovafitting.csv", "data/best_fit_params.csv");
     Utils::EndTiming("SupernovaFit");
   }
-  // Remove when module is completed
-  // return 0;
+
 
   //=========================================================================
   // Module II
@@ -88,12 +87,11 @@ int main(int argc, char **argv){
   rec.solve();
   rec.info();
 
-  // Output recombination quantities
-  // rec.output("data/recombination.csv");
-  // rec.analysis_output("data/recomb_analysis.csv");
-  
-  // Remove when module is completed
-  // return 0;
+  if(output){
+    // Output recombination quantities
+    rec.output("data/recombination.csv");
+    rec.analysis_output("data/recomb_analysis.csv");
+  }
 
   //=========================================================================
   // Module III
@@ -115,11 +113,7 @@ int main(int argc, char **argv){
     pert.output(kvalue, "data/perturbations_k0.001.csv");
     Utils::EndTiming("Perturbation output");
   }
-  
-  
-  // Remove when module is completed
-  // return 0;
-  
+    
   //=========================================================================
   // Module IV
   //=========================================================================
@@ -130,6 +124,8 @@ int main(int argc, char **argv){
   power.output_theta("data/theta_l.csv");
   power.output_bessel("data/bessel.csv");
   power.output_LOS_integrand("data/LOS_integrand.csv");
+  power.output_Cl_integrand("data/cl_integrand.csv");
+  power.output_MPS("data/mps.csv");
   
   // Remove when module is completed
   // return 0;
