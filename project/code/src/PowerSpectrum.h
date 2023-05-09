@@ -32,7 +32,7 @@ class PowerSpectrum {
     const double k_max = Constants.k_max;
 
     //  Important sampling values values:
-    const double n_bessel   = 25.; // s per oscillation for the Bessel function
+    const double n_bessel   = 25.; // Samplings per oscillation for the Bessel function
     const double n_k_theta  = 6.; // Samplings per oscillation of theta_ell
     const double n_LOS      = 350.; // Samplings per oscillation of the integrand in the LOS integral
     const double n_k_ps       = 40.;  // Sampling per oscillation when integrating across k
@@ -88,7 +88,7 @@ class PowerSpectrum {
         Vector & k_array, 
         std::function<double(double,double)> &source_function);
 
-    Vector get_linspace_from_delta(double min, double max, double delta);
+    Vector get_linspace_from_delta(double min, double max, double delta, bool log=false);
 
 
     double get_finite_integral(Vector x_arr, Vector y_arr);

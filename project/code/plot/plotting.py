@@ -29,10 +29,14 @@ def runM3():
     Pert.make_plots()
 
 def runM4():
-    Power = M4.PowerSpectrum()
+    PS = M4.PowerSpectrum()
+    # PS.transfer_function()
+    # PS.C_l_integrand()
+    PS.PowerSpectrum_plot()
 
 if __name__ == "__main__":
     # runM1()
     # runM2()
-    runM3()
+    # runM3()
+    runM4()
     # print("Unccomment in order to make plots")

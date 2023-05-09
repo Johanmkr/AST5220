@@ -2,6 +2,7 @@ import numpy as np
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import seaborn as sns
 from IPython import embed
 import astropy.constants as const
@@ -75,6 +76,9 @@ plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
 plt.rc('figure', titlesize=MEDIUM_SIZE)  # fontsize of the figure title
 plt.rc('lines', linewidth=3)
+THINLINE = 1
+
+mpl.rcParams['axes.titlelocation'] = 'left'
 
 # Visual parameters for saving/showing
 # Manual Switches
@@ -216,6 +220,52 @@ class Milestone:
         self.data = data
         for key in self.data.get_keys():
             exec(f"self.{key} = self.data[key]")
+
+class MAKEPLOT:
+    def __init__(self, figname:str, figinfo:dict=None, LaTeX:bool=False):
+        self.LaTeX = LaTeX
+        self.figname = figname
+        if figinfo is not None:
+            self.fig, self.ax = plt.subplots(**figinfo)
+        else:
+            self.fig, self.ax = plt.subplots()
+
+    def __call__(self):
+        return fig, ax
+
+    def plot_line(self, x, y, **kwargs:dict):
+        if self.LaTeX:
+            self.latexify(kwargs)
+        self.ax.plot(x, y, **kwargs)
+
+    # def make_raw_string(self, text):
+    #     return r"$\mathrm{" + text.replace(r'\\', r'\\\\').replace('{', r'\{').replace('}', r'\}') + r"}$"
+    def make_raw_string(self, text):
+        return r"$\mathrm{" + text.replace('\\', r'\\').replace('$', r'\$') + "}$"
+
+
+
+    def latexify(self, my_dict:dict):
+        for key, value in my_dict.items():
+            if isinstance(value, str):
+                my_dict[key] = self.make_raw_string(value)
+
+    def set_ax_info(self, **ax_info:dict):
+        if self.LaTeX:
+            self.latexify(ax_info)
+        self.ax.set(**ax_info)
+
+    def set_legend(self, **leg_info:dict):
+        return self.ax.legend(**leg_info)
+
+
+    def set_minor_ticks(self):
+        self.ax.minorticks_on()
+
+    def finished(self):
+        save_push(self.fig, self.figname)
+
+
         
     
 if __name__=="__main__":

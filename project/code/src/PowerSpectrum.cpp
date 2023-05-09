@@ -34,14 +34,22 @@ void PowerSpectrum::solve(){
 
   // k-s for LOS integral
   double delta_k_LOS = 2.*M_PI / (eta0 * n_k_theta);
-  Vector k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS); // Linearly spaced logarithmic values
+
+  Vector k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS); 
   Vector log_k_theta_array = log(k_theta_array);
+
+
+  // Vector log_k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS, false);
+  // Vector k_theta_array = exp(log_k_theta_array);
 
   // k-s for power spectrum integral
   double delta_k_ps = 2.*M_PI / (eta0 * n_k_ps);
+
   Vector k_ps_array = get_linspace_from_delta(k_min, k_max, delta_k_ps);
   Vector log_k_ps_array = log(k_ps_array);
 
+  // Vector log_k_ps_array = get_linspace_from_delta(k_min, k_max, delta_k_ps, true);
+  // Vector k_ps_array = exp(log_k_ps_array);
 
   /*
     GENERATE SPLINES OF BESSE FUNCTION
@@ -115,9 +123,14 @@ void PowerSpectrum::solve(){
 
 // Small utility functions
 
-Vector PowerSpectrum::get_linspace_from_delta(double min, double max, double delta){
+Vector PowerSpectrum::get_linspace_from_delta(double min, double max, double delta, bool logarithm){
   double number_points = (int)abs(((max-min)/delta));
-  return Utils::linspace(min, max, number_points);
+  if(logarithm){
+    return Utils::linspace(log(min), log(max), number_points);
+  }
+  else{
+    return Utils::linspace(min, max, number_points);
+  }
 }
 
 double PowerSpectrum::get_finite_integral(Vector x_arr, Vector y_arr){
@@ -380,8 +393,8 @@ void PowerSpectrum::output_bessel(std::string filename) const{
 void PowerSpectrum::output_LOS_integrand(std::string filename) const{
   std::ofstream fp(filename.c_str());
   Vector x_array = Utils::linspace(x_start, x_end, 10000);
-  fp << "x , " << "Sj_6k_min , " << " Sj_100k_min , " << "Sj_200k_min , " << "Sj_ 500k_min , " << "Sj_1000k_min , " << 
-                  "Sj_6k_max , " << " Sj_100k_max , " << "Sj_200k_max , " << "Sj_ 500k_max , " << "Sj_1000k_max , " << "\n";
+  fp << "x , " << "Sj_6k_min , " << " Sj_100k_min , " << "Sj_200k_min , " << "Sj_500k_min , " << "Sj_1000k_min , " << 
+                  "Sj_6k_max , " << " Sj_100k_max , " << "Sj_200k_max , " << "Sj_500k_max , " << "Sj_1000k_max , " << "\n";
   auto print_data = [&] (const double x){
     fp << x << " , ";
     fp << get_LOS_integrand(x, k_min, test_ell_idx[0]) << " , ";
@@ -426,15 +439,17 @@ void PowerSpectrum::output_theta(std::string filename) const{
 void PowerSpectrum::output_Cl_integrand(std::string filename) const{
   std::ofstream fp(filename.c_str());
   Vector k_array = Utils::linspace(k_min, k_max, 10000);
+  double c = Constants.c;
+  double H0 = cosmo->H0;
   
-  fp << " k  , " << "  T_lK , " << "\n";
+  fp << " k  , " << "  T2_6 , " << "  T2_100 , " <<"  T2_200 , " <<"  T2_500 , " <<"  T2_1000 , " <<"\n";
   auto print_data = [&] (const double k){
-    fp << k << " , ";
-    fp << get_thetaT_ell_of_k_spline(test_ell_idx[0], k) * get_thetaT_ell_of_k_spline(test_ell_idx[0], k) / k << " , ";
-    fp << get_thetaT_ell_of_k_spline(test_ell_idx[1], k) * get_thetaT_ell_of_k_spline(test_ell_idx[1], k) / k << " , ";
-    fp << get_thetaT_ell_of_k_spline(test_ell_idx[2], k) * get_thetaT_ell_of_k_spline(test_ell_idx[2], k) / k << " , ";
-    fp << get_thetaT_ell_of_k_spline(test_ell_idx[3], k) * get_thetaT_ell_of_k_spline(test_ell_idx[3], k) / k << " , ";
-    fp << get_thetaT_ell_of_k_spline(test_ell_idx[4], k) * get_thetaT_ell_of_k_spline(test_ell_idx[4], k) / k << " , ";
+    fp << k*c/H0 << " , ";
+    fp << get_thetaT_ell_of_k_spline(test_ell_idx[0], k) * get_thetaT_ell_of_k_spline(test_ell_idx[0], k) / k /c * H0<< " , ";
+    fp << get_thetaT_ell_of_k_spline(test_ell_idx[1], k) * get_thetaT_ell_of_k_spline(test_ell_idx[1], k) / k/c * H0 << " , ";
+    fp << get_thetaT_ell_of_k_spline(test_ell_idx[2], k) * get_thetaT_ell_of_k_spline(test_ell_idx[2], k) / k/c * H0 << " , ";
+    fp << get_thetaT_ell_of_k_spline(test_ell_idx[3], k) * get_thetaT_ell_of_k_spline(test_ell_idx[3], k) / k /c * H0<< " , ";
+    fp << get_thetaT_ell_of_k_spline(test_ell_idx[4], k) * get_thetaT_ell_of_k_spline(test_ell_idx[4], k) / k/c * H0 << " , ";
     fp << "\n";
   };
   std::for_each(k_array.begin(), k_array.end(), print_data);
