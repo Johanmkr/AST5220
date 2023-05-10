@@ -428,7 +428,7 @@ void Perturbations::compute_source_functions(){
       double ckHp               = c*k/Hp;
 
       // Compute the second derivative of the quadrupole
-      double ddT2 = 2.* ckHp * (dT1 - dHp/Hp*T1)
+      double ddT2 = 2./5.* ckHp * (dT1 - dHp/Hp*T1)
                   + 3./5.*ckHp * (dHp/Hp*T3-dT3)
                   + 9./10. * (ddtau*T2 + dtau*dT2);
 
@@ -465,7 +465,7 @@ void Perturbations::compute_source_functions(){
       //   source_func_val += POL_term;
       // }
 
-      ST_array[idx] = source_func_val;
+      // ST_array[idx] = source_func_val;
 
 
 

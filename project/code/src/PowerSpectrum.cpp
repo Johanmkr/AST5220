@@ -35,21 +35,21 @@ void PowerSpectrum::solve(){
   // k-s for LOS integral
   double delta_k_LOS = 2.*M_PI / (eta0 * n_k_theta);
 
-  Vector k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS); 
-  Vector log_k_theta_array = log(k_theta_array);
+  // Vector k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS); 
+  // Vector log_k_theta_array = log(k_theta_array);
 
 
-  // Vector log_k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS, false);
-  // Vector k_theta_array = exp(log_k_theta_array);
+  Vector log_k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS, true);
+  Vector k_theta_array = exp(log_k_theta_array);
 
   // k-s for power spectrum integral
   double delta_k_ps = 2.*M_PI / (eta0 * n_k_ps);
 
-  Vector k_ps_array = get_linspace_from_delta(k_min, k_max, delta_k_ps);
-  Vector log_k_ps_array = log(k_ps_array);
+  // Vector k_ps_array = get_linspace_from_delta(k_min, k_max, delta_k_ps);
+  // Vector log_k_ps_array = log(k_ps_array);
 
-  // Vector log_k_ps_array = get_linspace_from_delta(k_min, k_max, delta_k_ps, true);
-  // Vector k_ps_array = exp(log_k_ps_array);
+  Vector log_k_ps_array = get_linspace_from_delta(k_min, k_max, delta_k_ps, true);
+  Vector k_ps_array = exp(log_k_ps_array);
 
   /*
     GENERATE SPLINES OF BESSE FUNCTION
@@ -136,10 +136,13 @@ Vector PowerSpectrum::get_linspace_from_delta(double min, double max, double del
 double PowerSpectrum::get_finite_integral(Vector x_arr, Vector y_arr){
   // Declare and define needed variables 
   double integral_value = 0;
-  for(size_t i=0; i<x_arr.size()-1; i++){
-    integral_value += 0.5 * (y_arr[i]+y_arr[i+1]) * (x_arr[i+1]-x_arr[i]);
+  size_t N = y_arr.size();
+  double delta_x = (x_arr[N-1]-x_arr[0])/N;
+  for(size_t i=1; i<N-1; i++){
+    integral_value += y_arr[i];
   }
-  return integral_value;
+  integral_value += (y_arr[0]+y_arr[N-1])/2.;
+  return integral_value * delta_x;
 }
 
 /*
@@ -194,7 +197,7 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
   double delta_x = 2.*M_PI / n_LOS;
 
   // Create arrays
-  Vector x_array = get_linspace_from_delta(-8.7, x_end, delta_x);
+  Vector x_array = get_linspace_from_delta(-12., x_end, delta_x);
   
   // for(size_t ik = 0; ik < k_array.size(); ik++){
   //   double const k_val = k_array[ik]; // k-value for each iteration

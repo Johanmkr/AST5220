@@ -120,6 +120,21 @@ class PowerSpectrum:
 
         PSplot.finished()
 
+    def MPS_plot(self):
+
+
+        ax_setter_info = dict(
+            xscale="log",
+            yscale="log",
+            title=r"$\mathrm{Matter\ power\ spectrum,\ } P(k)$",
+            xlabel=r"$h/\mathrm{Mpc}$",
+            ylabel=r"$(\mathrm{Mpc}/h)^3$"
+        )
+        MPSplot = MAKEPLOT("matter_power_spectrum")
+        MPSplot.plot_line(self.MPS.k, self.MPS.Pk, label=r"$P(k)$", color="blue")
+        MPSplot.set_ax_info(**ax_setter_info)
+
+        MPSplot.finished()
 
 
 

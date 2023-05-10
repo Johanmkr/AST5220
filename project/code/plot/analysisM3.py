@@ -270,14 +270,14 @@ class Perturbation:
 
 
     def make_plots(self)->None:
-        # self.potentials_plot()
-        # self.monopole_plot()
-        # self.dipole_plot()
-        # self.quadrapole_plot()
-        # self.delta_plot()
-        # self.delta_comp_plot()
-        # self.velocity_plot()
-        # self.velocity_comp_plot()
+        self.potentials_plot()
+        self.monopole_plot()
+        self.dipole_plot()
+        self.quadrapole_plot()
+        self.delta_plot()
+        self.delta_comp_plot()
+        self.velocity_plot()
+        self.velocity_comp_plot()
 
         self.plot_integrand_test()
 

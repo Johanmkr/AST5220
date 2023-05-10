@@ -33,6 +33,7 @@ def runM4():
     # PS.transfer_function()
     # PS.C_l_integrand()
     PS.PowerSpectrum_plot()
+    PS.MPS_plot()
 
 if __name__ == "__main__":
     # runM1()
