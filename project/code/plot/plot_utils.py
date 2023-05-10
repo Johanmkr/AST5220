@@ -176,10 +176,12 @@ class Data:
             column_names = header.split(" ")
             actual_column_names = []
             for name in column_names:
-                if name == "":
+                if name in ["", "#", "\n"]:
                     pass
                 elif name[0] in ["(", "["]:
                     pass
+                elif name[-1:] == "\n":
+                    actual_column_names.append(name[:-1])
                 else:
                     actual_column_names.append(name)
             data = np.loadtxt(data_path + filename, skiprows=skiprows)
@@ -210,7 +212,10 @@ class Data:
                     return self.dF[key]
     
     def get_keys(self):
-        return self.dF.keys()[:-1]
+        if self.dF.keys()[-1] in [""]:
+            return self.dF.keys()[:-1]
+        else:
+            return self.dF.keys()
     
     def print_frame(self):
         print(self.dF)
@@ -237,6 +242,9 @@ class MAKEPLOT:
         if self.LaTeX:
             self.latexify(kwargs)
         self.ax.plot(x, y, **kwargs)
+
+    def plot_error_bars(self, **kwargs):
+        self.ax.errorbar(**kwargs)
 
     # def make_raw_string(self, text):
     #     return r"$\mathrm{" + text.replace(r'\\', r'\\\\').replace('{', r'\{').replace('}', r'\}') + r"}$"
