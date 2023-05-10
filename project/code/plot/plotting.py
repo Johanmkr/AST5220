@@ -1,7 +1,7 @@
 from plot_utils import *
-import analysisM1 as M1
-import analysisM2 as M2
-import analysisM3 as M3
+# import analysisM1 as M1
+# import analysisM2 as M2
+# import analysisM3 as M3
 import analysisM4 as M4
 
 def runM1():
@@ -30,8 +30,10 @@ def runM3():
 
 def runM4():
     PS = M4.PowerSpectrum()
-    # PS.transfer_function()
-    # PS.C_l_integrand()
+    PS.bessel_plot()
+    PS.LOS_integrand_plots()
+    PS.transfer_function()
+    PS.C_l_integrand()
     PS.PowerSpectrum_plot()
     PS.MPS_plot()
 

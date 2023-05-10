@@ -181,9 +181,9 @@ class Data:
                 elif name[0] in ["(", "["]:
                     pass
                 elif name[-1:] == "\n":
-                    actual_column_names.append(name[:-1])
+                    actual_column_names.append(name[:-1].replace("(", "").replace(")",""))
                 else:
-                    actual_column_names.append(name)
+                    actual_column_names.append(name.replace("(", "").replace(")",""))
             data = np.loadtxt(data_path + filename, skiprows=skiprows)
             data_dict = {}
             for i, key in enumerate(actual_column_names):
@@ -227,8 +227,8 @@ class Milestone:
             exec(f"self.{key} = self.data[key]")
 
 class MAKEPLOT:
-    def __init__(self, figname:str, figinfo:dict=None, LaTeX:bool=False):
-        self.LaTeX = LaTeX
+    def __init__(self, figname:str, **figinfo):
+        self.LaTeX = False
         self.figname = figname
         if figinfo is not None:
             self.fig, self.ax = plt.subplots(**figinfo)
@@ -241,10 +241,10 @@ class MAKEPLOT:
     def plot_line(self, x, y, **kwargs:dict):
         if self.LaTeX:
             self.latexify(kwargs)
-        self.ax.plot(x, y, **kwargs)
+        return self.ax.plot(x, y, **kwargs)
 
     def plot_error_bars(self, **kwargs):
-        self.ax.errorbar(**kwargs)
+        return self.ax.errorbar(**kwargs)
 
     # def make_raw_string(self, text):
     #     return r"$\mathrm{" + text.replace(r'\\', r'\\\\').replace('{', r'\{').replace('}', r'\}') + r"}$"

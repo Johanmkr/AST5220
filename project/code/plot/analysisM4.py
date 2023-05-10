@@ -11,13 +11,90 @@ class PowerSpectrum:
         self.MPS = Milestone(Data("mps.csv"))
         self.CL_integrand = Milestone(Data("cl_integrand.csv"))
         self.LOS_integrand = Milestone(Data("LOS_integrand.csv"))
+        self.Low_L_data = Milestone(Data("low_l_TT.txt"))
+        self.High_L_data = Milestone(Data("high_l_TT.txt"))
+        self.SDSS = Milestone(Data("SDSS-DR7-LRG.txt"))
+        self.WMAP = Milestone(Data("WMAP-ACT.txt"))
         self.figures = {}
     
     # def add_figure(self, figname, **kwargs):
     #     fig, ax = plt.subplots(**kwargs)
     #     self.figures[figname] = fig
     #     return fig
+    
+    def bessel_plot(self):
+        info_dicts = []
+        ell_values = [6, 100, 200, 500, 1000]
+        B_values = []
+
+        #   Make information about each line and figure
+        for i in range(len(ell_values)):
+            info_dict = dict(
+                lw = THINLINE,
+                label = r"$l={ell}$".format(ell=ell_values[i])
+            )
+            info_dicts.append(info_dict)
+            B_values.append(f"self.bessel.j_{ell_values[i]}")
+
+
+        BesselPlot = MAKEPLOT("bessel", figsize=(15,10))
+
+        for i in range(len(ell_values)):
+            BesselPlot.plot_line(self.bessel.z, eval(B_values[i]), **info_dicts[i])
+
+
+        ax_info = dict(
+            title=r"$\mathrm{Bessel\ functions,\ } j_l(z)$",
+            xlabel=r"$z$",
+            ylabel=r"$j_l(z)$",
+            ylim=[-0.02, 0.05]
+        )
+
+        BesselPlot.set_ax_info(**ax_info)
+        BesselPlot.set_minor_ticks()
+        BesselPlot.set_legend(fancybox=True, loc="best")
         
+        self.figures["bessel"] = BesselPlot
+
+        BesselPlot.finished()
+
+
+    def LOS_integrand_plots(self):
+        info_dicts = []
+        ell_values = [6, 100, 200, 500, 1000]
+        max_vals = []
+        min_vals = []
+
+        for i in range(len(ell_values)):
+            info_dict = dict(
+                lw = THINLINE,
+                label = r"$l={ell}$".format(ell=ell_values[i])
+            )
+            info_dicts.append(info_dict)
+            min_vals.append(f"self.LOS_integrand.Sj_{ell_values[i]}k_min")
+            max_vals.append(f"self.LOS_integrand.Sj_{ell_values[i]}k_max")
+
+        LOS_int_plot = MAKEPLOT("LOS_integrand")
+
+        ax_info = dict(
+            title = r"$\mathrm{LOS\ integrand,\ } \mathcal{S}(k,x)j_l[k(\eta_0-\eta(x))]$",
+            xlabel = r"$x$",
+            xlim = [-15,0],
+            ylim = [0,1]
+        )
+
+        for i in range(len(ell_values)):
+            line, = LOS_int_plot.plot_line(self.LOS_integrand.x, abs(eval(max_vals[i])/np.max(eval(max_vals[i]))), **info_dicts[i])
+            LOS_int_plot.plot_line(self.LOS_integrand.x, abs(eval(min_vals[i])/np.max(eval(min_vals[i]))), lw=THINLINE, ls="dashed", color=line.get_color())
+
+        LOS_int_plot.set_ax_info(**ax_info)
+        LOS_int_plot.set_minor_ticks()
+        LOS_int_plot.set_legend(fancybox=True, loc="best")
+
+        LOS_int_plot.finished()
+
+            
+
     def transfer_function(self):
         info_dicts = []
         ell_values = [6, 100, 200, 500, 1000]
@@ -89,6 +166,8 @@ class PowerSpectrum:
         subparts = ["SW", "ISW", "DOP", "POL"]
         info_dicts = []
         sub_evals = []
+        LED = self.Low_L_data
+        HED = self.High_L_data
 
         for i in range(len(subparts)):
             info_dict = dict(
@@ -106,22 +185,50 @@ class PowerSpectrum:
             xscale = "log"
         )
 
-        PSplot = MAKEPLOT("power_spectrum")
+        PSplot = MAKEPLOT("power_spectrum", figsize=(15,10))
         PSplot.plot_line(self.Cell.ell, self.Cell.cell_TT, label=r"$C_l$", color="blue")
 
         for i in range(len(subparts)):
             PSplot.plot_line(self.Cell_sep.ell, eval(sub_evals[i]), **info_dicts[i])
         
+
+        error_bar_info_low_l = dict(
+            x = LED.ELL,
+            y = LED.C_ELL, 
+            yerr = (LED.ERR_DOWN, LED.ERR_UP),
+            color="red",
+            fmt = ".", 
+            capsize = 2,
+            elinewidth=1, 
+            markersize=5,
+            label=r"$\mathrm{Obs}$"
+        )
+
+        error_bar_info_high_l = dict(
+            x = HED.l,
+            y = HED.Dl, 
+            yerr = (HED.down_dDl, HED.up_dDl),
+            color="red",
+            fmt = ".", 
+            capsize = 2,
+            elinewidth=1, 
+            markersize=5
+        )
+
         PSplot.set_ax_info(**ax_setter_info)
+        PSplot.plot_error_bars(**error_bar_info_low_l)
+        PSplot.plot_error_bars(**error_bar_info_high_l)
         PSplot.set_minor_ticks()
         PSplot.set_legend(fancybox=True, loc="best", ncols=2)
-
         self.figures["PSplot"] = PSplot
+
+        
 
         PSplot.finished()
 
     def MPS_plot(self):
-
+        SDSS = self.SDSS
+        WMAP = self.WMAP
 
         ax_setter_info = dict(
             xscale="log",
@@ -130,9 +237,38 @@ class PowerSpectrum:
             xlabel=r"$h/\mathrm{Mpc}$",
             ylabel=r"$(\mathrm{Mpc}/h)^3$"
         )
+
+        SDSS_error = dict(
+            x = SDSS.k,
+            y = SDSS.Pk,
+            yerr = SDSS.Error,
+            color="red",
+            fmt = ".", 
+            capsize = 2,
+            elinewidth=1, 
+            markersize=5
+        )
+
+        WMAP_error = dict(
+            x = WMAP.k,
+            y = WMAP.Pk,
+            yerr = WMAP.P_upper-WMAP.Pk,
+            color="red",
+            fmt = ".", 
+            capsize = 2,
+            elinewidth=1, 
+            markersize=5
+        )
+
         MPSplot = MAKEPLOT("matter_power_spectrum")
         MPSplot.plot_line(self.MPS.k, self.MPS.Pk, label=r"$P(k)$", color="blue")
+        MPSplot.plot_error_bars(**SDSS_error, label=r"$\mathrm{Obs}$")
+        MPSplot.plot_error_bars(**WMAP_error)
         MPSplot.set_ax_info(**ax_setter_info)
+        MPSplot.set_minor_ticks()
+        MPSplot.set_legend(fancybox=True, loc="best", ncols=2)
+
+        self.figures["MPSplot"] = MPSplot
 
         MPSplot.finished()
 

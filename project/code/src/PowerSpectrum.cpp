@@ -33,14 +33,14 @@ void PowerSpectrum::solve(){
   double log_k_max = log(k_max);
 
   // k-s for LOS integral
-  double delta_k_LOS = 2.*M_PI / (eta0 * n_k_theta);
+  double delta_k_LOS = 2.*M_PI / (eta0 * n_k_theta_LOS);
 
-  // Vector k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS); 
-  // Vector log_k_theta_array = log(k_theta_array);
+  Vector k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS); 
+  Vector log_k_theta_array = log(k_theta_array);
 
 
-  Vector log_k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS, true);
-  Vector k_theta_array = exp(log_k_theta_array);
+  // Vector log_k_theta_array = get_linspace_from_delta(k_min, k_max, delta_k_LOS, true);
+  // Vector k_theta_array = exp(log_k_theta_array);
 
   // k-s for power spectrum integral
   double delta_k_ps = 2.*M_PI / (eta0 * n_k_ps);
@@ -194,10 +194,10 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
   Vector2D result = Vector2D(ells.size(), Vector(k_array.size()));
 
   //  Find step length in x direction
-  double delta_x = 2.*M_PI / n_LOS;
+  double delta_x = 2.*M_PI / n_x_LOS;
 
   // Create arrays
-  Vector x_array = get_linspace_from_delta(-12., x_end, delta_x);
+  Vector x_array = get_linspace_from_delta(x_start_LOS, x_end, delta_x);
   
   // for(size_t ik = 0; ik < k_array.size(); ik++){
   //   double const k_val = k_array[ik]; // k-value for each iteration

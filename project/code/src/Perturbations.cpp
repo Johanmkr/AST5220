@@ -431,6 +431,7 @@ void Perturbations::compute_source_functions(){
       double ddT2 = 2./5.* ckHp * (dT1 - dHp/Hp*T1)
                   + 3./5.*ckHp * (dHp/Hp*T3-dT3)
                   + 9./10. * (ddtau*T2 + dtau*dT2);
+      // double ddT2 = get_ddTheta(x, k, 2);
 
       //  Calculate terms, starting from 0
       double source_func_val = 0.0;
@@ -704,6 +705,9 @@ double Perturbations::get_dPsi(const double x, const double k) const{
 }
 double Perturbations::get_dTheta(const double x, const double k, const int ell) const{
   return Theta_spline[ell].deriv_x(x,k);
+}
+double Perturbations::get_ddTheta(const double x, const double k, const int ell) const{
+  return Theta_spline[ell].deriv_xx(x,k);
 }
 
 

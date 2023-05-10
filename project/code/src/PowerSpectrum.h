@@ -33,14 +33,15 @@ class PowerSpectrum {
 
     //  Important sampling values values:
     const double n_bessel   = 25.; // Samplings per oscillation for the Bessel function
-    const double n_k_theta  = 10.; // Samplings per oscillation of theta_ell
-    const double n_LOS      = 350.; // Samplings per oscillation of the integrand in the LOS integral
-    const double n_k_ps       = 45.;  // Sampling per oscillation when integrating across k
+    const double n_k_theta_LOS  = 15.; // Samplings per oscillation of theta_ell
+    const double n_x_LOS      = 350.; // Samplings per oscillation of the integrand in the LOS integral
+    const double n_k_ps       = 40.;  // Sampling per oscillation when integrating across k
 
     //  Split power spectrum into individual contributors:
     const bool C_l_separation = false;      // parameter that, if true, calculates C_l with the SW, ISW, doppler and polarisation terms individually. 
 
     const double x_start    = Constants.x_start;
+    const double x_start_LOS= -11.;     // Time before recombination from which we integrate the line of sight integral
     const double x_end      = Constants.x_end;
 
     // Other parameters 

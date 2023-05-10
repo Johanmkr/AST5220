@@ -166,6 +166,8 @@ class Perturbations{
     double get_dPhi(const double x, const double k) const;
     double get_dPsi(const double x, const double k) const;
     double get_dTheta(const double x, const double k, const int ell) const;
+    double get_ddTheta(const double x, const double k, const int ell) const;
+
 
     // Get the photon source function
     double get_Source_T(const double x, const double k) const;
