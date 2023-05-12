@@ -245,6 +245,12 @@ class MAKEPLOT:
 
     def plot_error_bars(self, **kwargs):
         return self.ax.errorbar(**kwargs)
+    
+    def plot_vline(self, **kwargs):
+        return self.ax.axvline(**kwargs)
+    
+    def plot_hline(self, **kwargs):
+        return self.ax.axhline(**kwargs)
 
     # def make_raw_string(self, text):
     #     return r"$\mathrm{" + text.replace(r'\\', r'\\\\').replace('{', r'\{').replace('}', r'\}') + r"}$"

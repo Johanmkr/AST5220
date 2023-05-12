@@ -24,11 +24,7 @@ class BackgroundCosmology{
     double OmegaM;                  // Total matter density
     double OmegaR_tot;                  // Total radiation density
 
-    // Equalities
-    double x_RM;                     // Radiation-matter equality
-    double x_ML;                     // Matter-dark energy equality
-    double x_acc;                    // Acceleration starts
-    double x0 = 0.0;                 // Value today
+    
 
     // Present values
     double t0;                      // Age of universe today [s] 
@@ -73,6 +69,13 @@ class BackgroundCosmology{
 
     double H0;                      // The Hubble parameter today H0 = 100h km/s/Mpc
     // Print some useful info about the class
+
+    // Equalities
+    double x_RM;                     // Radiation-matter equality
+    double x_ML;                     // Matter-dark energy equality
+    double x_acc;                    // Acceleration starts
+    double x0 = 0.0;                 // Value today
+    
     void info() const;
 
     // Do all the solving

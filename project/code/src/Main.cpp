@@ -27,7 +27,6 @@ int main(int argc, char **argv){
   // h = 0.7;
   // OmegaB = 0.05;
   // OmegaCDM = 0.45;
-  Neff = 0;
 
   // Recombination parameters
   // double Yp          = 0.245;
@@ -96,9 +95,20 @@ int main(int argc, char **argv){
   //=========================================================================
   // Module III
   //=========================================================================
+  std::cout<<"Now set Neff=0"<<std::endl;
+  std::cout<<"Solving cosmo_noN and rec_noN classes...\n"<<std::endl;
+  Neff = 0;
+  BackgroundCosmology cosmo_noN(h, OmegaB, OmegaCDM, OmegaK, Neff, TCMB);
+  cosmo_noN.solve();
+  // cosmo_noN.info();
+
+  RecombinationHistory rec_noN(&cosmo, Yp);
+  rec_noN.solve();
+  // rec_noN.info();
  
   // Solve the perturbations
-  Perturbations pert(&cosmo, &rec);
+  std::cout<<"\nSolving perturbations...\n"<<std::endl;
+  Perturbations pert(&cosmo_noN, &rec_noN);
   pert.solve();
   pert.info();
   
@@ -118,7 +128,7 @@ int main(int argc, char **argv){
   // Module IV
   //=========================================================================
 
-  PowerSpectrum power(&cosmo, &rec, &pert, A_s, n_s, kpivot_mpc);
+  PowerSpectrum power(&cosmo_noN, &rec_noN, &pert, A_s, n_s, kpivot_mpc);
   power.solve();
   if(output){
     power.output("data/cellss.csv");

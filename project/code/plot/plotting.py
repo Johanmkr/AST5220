@@ -1,7 +1,7 @@
 from plot_utils import *
-# import analysisM1 as M1
-# import analysisM2 as M2
-# import analysisM3 as M3
+import analysisM1 as M1
+import analysisM2 as M2
+import analysisM3 as M3
 import analysisM4 as M4
 
 def runM1():
@@ -38,8 +38,8 @@ def runM4():
     PS.MPS_plot()
 
 if __name__ == "__main__":
-    # runM1()
-    # runM2()
-    # runM3()
+    runM1()
+    runM2()
+    runM3()
     runM4()
     # print("Unccomment in order to make plots")

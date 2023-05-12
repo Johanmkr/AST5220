@@ -43,6 +43,7 @@ class PowerSpectrum {
     const double x_start    = Constants.x_start;
     const double x_start_LOS= -11.;     // Time before recombination from which we integrate the line of sight integral
     const double x_end      = Constants.x_end;
+    const double x_end_LOS  = 0.0;
 
     // Other parameters 
     const double eta0   = cosmo->eta_of_x(0.0);
@@ -92,7 +93,7 @@ class PowerSpectrum {
     Vector get_linspace_from_delta(double min, double max, double delta, bool log=false);
 
 
-    double get_finite_integral(Vector x_arr, Vector y_arr);
+    double get_finite_integral(double delta_x, Vector y_arr);
     
     // Splines of the reusult of the LOS integration
     // Theta_ell(k) and ThetaE_ell(k) for polarization

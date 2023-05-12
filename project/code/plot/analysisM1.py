@@ -119,16 +119,7 @@ def testing_eta():
     #   Adding analytical solutions
     ax1.hlines(1, x_min, x_RM, color=Colors["analytical"], ls="--", lw=2)
     ax1.hlines(2, x_RM, x_ML, color=Colors["analytical"], ls="--", lw=2)
-    # xx = np.linspace(x_RM+3, x_ML, 100)
-    # ax1.plot(xx, 2*(1-np.sqrt(OmegaM0/OmegaRad0*np.exp(-xx))), color="black")
-    # ax1.axvline(x_ML, color="snow", lw=2, ls="--")
 
-    # rad_area = ax1.axvspan(x_min, x_RM-tol, color=Colors["OmegaRad"], alpha=.1, label=r"$\Omega_\mathrm{rad}$")
-    # mat_area = ax1.axvspan(x_RM+tol, x_ML-tol, color=Colors["OmegaM"], alpha=.1, label=r"$\Omega_\mathrm{M}$")
-    # lam_area = ax1.axvspan(x_ML+tol, x_max, color=Colors["OmegaLambda"], alpha=.1, label=r"$\Omega_\Lambda$")
-
-    # ax1.set_yscale("log")
-    # ax1.legend(loc="best", fancybox=True)
     legend1 = ax1.legend([line1, line2], [line1.get_label(), line2.get_label()], loc="upper left", fancybox=True)
     legend2 = etaFig.legend(regimes, [regime.get_label() for regime in regimes], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
 
@@ -167,12 +158,6 @@ def conformal_hubble_factor():
     ax.legend(loc="best", fancybox=True)
     ax.set_yscale("log")
 
-    regimes = set_regimes(ax, borders=False)
-
-    # Set regimes
-    # rad_area = ax1.axvspan(x_min, x_RM-tol, color=Colors["OmegaRad"], alpha=.1, label=r"$\Omega_\mathrm{rad}$")
-    # mat_area = ax1.axvspan(x_RM+tol, x_ML-tol, color=Colors["OmegaM"], alpha=.1, label=r"$\Omega_\mathrm{M}$")
-    # lam_area = ax1.axvspan(x_ML+tol, x_max, color=Colors["OmegaLambda"], alpha=.1, label=r"$\Omega_\Lambda$")
     ax.minorticks_on()
 
     save_push(chf, "conformal_hubble_factor")
@@ -262,24 +247,6 @@ def goodness_of_fit():
 
     ax1.set_xlabel(r"$\chi^2/N$")
     ax1.legend(loc="best", fancybox=True)
-
-
-
-    # oneSDthres = 3.53
-    # chi2min = np.min(chi2)
-    # accepted = (chi2 - chi2min) < oneSDthres
-    # chi2 = np.where(accepted, chi2, np.nan)
-    # chi2 = chi2[np.isfinite(chi2)]
-    # chi2_over_N = chi2/N
-    
-    # counts, bins = np.histogram(chi2_over_N, bins=150)
-    # sigma, mu = np.std(chi2_over_N), np.mean(chi2_over_N)
-
-    # gaussian = 1/(sigma*np.sqrt(2*np.pi))*np.exp(-(bins-mu)**2/(2*sigma**2))
-    # hstg = ax2.hist(bins[:-1], bins, weights=counts, color=Colors["hist"], label="Samples", density=True)
-    # ax2.plot(bins, gaussian, color=Colors["gaussian"], label="Fitted pdf")
-    # ax2.axvline(mu, ls="--", color="black", lw=2)
-    # ax2.fill_between(bins, 0, gaussian, where=sigma > abs(bins-mu), color="blue", alpha=0.2)
 
 
     save_push(goodnes, "goodnes_of_fit")

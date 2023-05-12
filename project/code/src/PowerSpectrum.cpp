@@ -133,11 +133,11 @@ Vector PowerSpectrum::get_linspace_from_delta(double min, double max, double del
   }
 }
 
-double PowerSpectrum::get_finite_integral(Vector x_arr, Vector y_arr){
+double PowerSpectrum::get_finite_integral(double delta_x, Vector y_arr){
   // Declare and define needed variables 
   double integral_value = 0;
   size_t N = y_arr.size();
-  double delta_x = (x_arr[N-1]-x_arr[0])/N;
+  // double delta_x = (x_arr[N-1]-x_arr[0])/N;
   for(size_t i=1; i<N-1; i++){
     integral_value += y_arr[i];
   }
@@ -197,7 +197,7 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
   double delta_x = 2.*M_PI / n_x_LOS;
 
   // Create arrays
-  Vector x_array = get_linspace_from_delta(x_start_LOS, x_end, delta_x);
+  Vector x_array = get_linspace_from_delta(x_start_LOS, x_end_LOS, delta_x);
   
   // for(size_t ik = 0; ik < k_array.size(); ik++){
   //   double const k_val = k_array[ik]; // k-value for each iteration
@@ -213,10 +213,6 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
   // }
 
 
-  // double k_val;
-  // double ell;
-  // size_t il;
-  // size_t i;
   std::cout<<"Performing LOS integral..."<<std::endl;
   #pragma omp parallel for schedule(dynamic, 1)
   for(size_t ik = 0; ik < k_array.size(); ik++){
@@ -228,24 +224,19 @@ Vector2D PowerSpectrum::line_of_sight_integration_single(
     for(size_t il = 0; il < ells.size(); il++){
       double ell = ells[il]; // ell-value for each iteration
 
-      // double integrand_current = source_function(x_array[0], k_val) * j_ell_splines[il](k_val*(eta0-cosmo->eta_of_x(x_array[0])));
-      // double integrand_next;
-
-      // double integral_value = 0.0;
-
-      // for(size_t i=0; i<x_array.size()-1; i++){
-      //   integrand_next = source_function(x_array[i+1], k_val) * j_ell_splines[il](k_val*(eta0 - cosmo->eta_of_x(x_array[i+1])));
-      //   integral_value += 0.5 * (integrand_current+integrand_next) * (x_array[i+1]-x_array[i]);
-      //   integrand_current = integrand_next;
-      // }
-      // result[il][ik] = integral_value;
 
       Vector integrand(x_array.size());
+      // Vector integrand;
       // Quite ineffective with several for-loops
       for(size_t i=0; i<x_array.size(); i++){
         integrand[i] = source_function(x_array[i], k_val) * j_ell_splines[il](k_val*(eta0 - cosmo->eta_of_x(x_array[i])));
+        // double integrand_val = source_function(x_array[i], k_val) * j_ell_splines[il](k_val*(eta0 - cosmo->eta_of_x(x_array[i])));
+        // if(integrand_val>0.05)
+        //   integrand.push_back(integrand_val);
+        // else
+          // integrand[i] = nan;
       }
-      result[il][ik] = get_finite_integral(x_array, integrand);
+      result[il][ik] = get_finite_integral(delta_x, integrand);
     }
   }
 
@@ -287,6 +278,8 @@ Vector PowerSpectrum::solve_for_cell(
   const int nells      = ells.size();
 
   Vector result(nells);
+  size_t N = log_k_array.size();
+  double delta_logk = (log_k_array[N-1]-log_k_array[0])/N;
 
   //  Loop over and integrate for all ells
   for(int il = 0; il<nells; il++){
@@ -297,7 +290,7 @@ Vector PowerSpectrum::solve_for_cell(
       k_val = exp(log_k_array[i]);
       integrand[i] = primordial_power_spectrum(k_val) * f_ell_spline[il](k_val)*g_ell_spline[il](k_val);
     }
-    result[il] = 4.*M_PI * get_finite_integral(log_k_array, integrand);
+    result[il] = 4.*M_PI * get_finite_integral(delta_logk, integrand);
   }
   return result;
 }
@@ -318,13 +311,15 @@ double PowerSpectrum::get_matter_power_spectrum(const double x, const double k) 
   // Variables and constants
   double c      = Constants.c;
   double Phi    = pert->get_Phi(x, k);
-  double OmegaM = cosmo->get_OmegaM(0.0);
-  double H0     = cosmo->H0;
-  double a      = exp(x);
+  double OmegaM = cosmo->get_OmegaM(x);
+  // double H0     = cosmo->H0;
+  double Hp     = cosmo->Hp_of_x(x);
+  // double a      = exp(x);
   double P_prim = primordial_power_spectrum(k) * 2. * M_PI * M_PI / ( k * k * k);
 
   // Calculate Delta_M
-  double Delta_M = (2*c*c*k*k*Phi*a) / (3*OmegaM*H0*H0);
+  // double Delta_M = (2*c*c*k*k*Phi*a) / (3*OmegaM*H0*H0);
+  double Delta_M = (2*c*c*k*k*Phi) / (3*OmegaM*Hp*Hp);
 
   // Calculate P(k,x)
   double pofk = Delta_M*Delta_M * P_prim ;
@@ -395,7 +390,7 @@ void PowerSpectrum::output_bessel(std::string filename) const{
 
 void PowerSpectrum::output_LOS_integrand(std::string filename) const{
   std::ofstream fp(filename.c_str());
-  Vector x_array = Utils::linspace(x_start, x_end, 10000);
+  Vector x_array = Utils::linspace(x_start, x_end_LOS, 10000);
   fp << "x , " << "Sj_6k_min , " << " Sj_100k_min , " << "Sj_200k_min , " << "Sj_500k_min , " << "Sj_1000k_min , " << 
                   "Sj_6k_max , " << " Sj_100k_max , " << "Sj_200k_max , " << "Sj_500k_max , " << "Sj_1000k_max , " << "\n";
   auto print_data = [&] (const double x){
@@ -510,11 +505,22 @@ void PowerSpectrum::output_MPS(std::string filename) const{
   Vector log_k_array = Utils::linspace(log_k_min, log_k_max, 10000);
   Vector k_array = exp(log_k_array);
   double h = cosmo->get_h();
-  fp << "k ," << " Pk , " << "\n";
+  fp << "k ," << " Pk , " << " k_eq , " << "\n";
+  bool not_filled_eq = true;
   auto print_data = [&] (const double k){
     fp << k * Mpc/ h << " , ";
     fp << get_matter_power_spectrum(0.0, k) * (h * h * h) / (Mpc*Mpc*Mpc) << " , ";
+    if(not_filled_eq){
+      // double a_eq   = exp(cosmo->x_RM);
+      // double H_eq   = cosmo->H_of_x(cosmo->x_RM);
+      double c      = Constants.c;
+      // double k_eq   = a_eq*H_eq/c;
+      double k_eq = cosmo->Hp_of_x(cosmo->x_RM) / c;
+      fp << k_eq * Mpc/h << " , ";
+      not_filled_eq = false;
+    }
     fp << "\n";
+
   };
   std::for_each(k_array.begin(), k_array.end(), print_data);
 }

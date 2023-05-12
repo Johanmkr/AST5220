@@ -1,3 +1,46 @@
 \subsection{Theory}\label{sec:m4:theory}
+    \subsubsection{Physical observables}
+        In order to measure the CMB we measure the temperature fluctuations as function of direction on the sky. In order to quantise this we consider the temperature perturbation from ~\cref{eq:m3:theory:temperature_perturbation}, and realise that this may be expanded in spherical harmonics:
+        \begin{equation}\label{eq:m4:theory:spherical_harmonic_expansion}
+            \T(\vec{x}, \hat{\vec{p}}, t) = \sum_{l=1}^\infty\sum_{m=-l}^l a_{lm}(\vec{x}, t)Y_{lm}(\hat{\vec{p}}),
+        \end{equation}
+        where the angular dependency is taken care of by the \textit{spherical harmonic functions}: $Y_{lm}(\hat{\vec{p}})$. From orthogonality of spherical harmonics,\footnote{$$\int\d\O_{\hat{\vec{p}}}Y_{lm}(\hat{\vec{p}})Y^*_{l'm'}(\hat{\vec{p}}) = \delta_{ll'}\delta_{mm'}$$} we may express the coefficient $a_{lm}(\vec{x},t)$ as:
+        \begin{equation}\label{eq:m4:theory:alm_coefficients}
+            a_{lm}(\vec{x},t) = \int\d\O_{\hat{\vec{p}}}Y^*_{lm}(\hat{\vec{p}})\T(\vec{x}, \hat{\vec{p}},t).
+        \end{equation}
+        It is important to note that ~\cref{eq:m4:theory:spherical_harmonic_expansion} allows us to divide the temperature perturbations into a set of weighted basis functions, these being the spherical harmonics. These functions are eigenfunctions of the Laplace operator on a sphere, and describe how a function varies with direction (on a sphere). The $l$-subscript indicates the scale on which these variations occur (these are inversely proportional). Thus, the interpretation of the $a_{lm}$ coefficient is the amplitude of temperature fluctuations across different scales, $l$. Since inflation predicts initial perturbations like $\T$ to be Gaussian random fields it follows that the $a_{lm}$-s are also Gaussian random fields with mean 0 and variance $C_l$ which is given by: 
+        \begin{equation}\label{eq:m4:theory:alm_coeff_variance}
+            \langle a_{lm}a^*_{l'm'}\rangle = \delta_{ll'}\delta_{mm'}C_l.
+        \end{equation}
+        Because of the Gaussian nature of $C_l$, it contains all the statistical information about $\T$, and this is what we refer to as the \textit{angular power spectrum} (or just power spectrum). Thus, when making observations of the CMB, the $a_{lm}$-s are measured and the corresponding power spectrum is constructed as:
+        \begin{equation}
+            \hat{C}_l = \frac{1}{2l+1}\sum_{m=-l}^l\abs{a_{lm}}^2,
+        \end{equation}
+        where the nature of the hat will become clear in the following section. 
 
-Some theory
+    \subsubsection{Constructing $C_l$ form $\T_l$}
+        
+
+    \begin{equation}\label{eq:m4:theory:Cl_integral_intermediate}
+        C_l = \frac{2}{\pi}\int k^2 P_\mathrm{prim}(k)\abs{\T_l}^2\d k
+    \end{equation}
+
+    \begin{equation}\label{eq:m4:theory:primordial_power_spectrum}
+        P_\mathrm{prim}(k) = \frac{2\pi^2}{k^3}A_s\left(\frac{k}{k_\mathrm{pivot}}\right)^{n_s-1}
+    \end{equation}
+
+    \begin{equation}
+        C_l = 4\pi\int_0^\infty A_s\left(\frac{k}{k_\mathrm{pivot}}\right)^{n_s-1}\abs{\T_l}^2\frac{\d k}{k}
+    \end{equation}
+
+    \begin{equation}\label{eq:m4:theory:matter_power_spectrum}
+        P(k,x) = \abs{\Delta_\mathrm{M}(k,x)}^2P_\mathrm{Prim}(k)
+    \end{equation}
+
+    \begin{equation}
+        \Delta_\mathrm{M}(k,x) = \frac{2c^2k^2\Phi(k,x)}{3\O_\mathrm{M}\Hp^2}
+    \end{equation}
+
+    \begin{equation}
+        k_\mathrm{eq} = \frac{\Hp(x_\mathrm{eq})}{c}
+    \end{equation}

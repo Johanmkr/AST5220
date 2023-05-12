@@ -15,7 +15,7 @@ class PowerSpectrum:
         self.High_L_data = Milestone(Data("high_l_TT.txt"))
         self.SDSS = Milestone(Data("SDSS-DR7-LRG.txt"))
         self.WMAP = Milestone(Data("WMAP-ACT.txt"))
-        self.figures = {}
+        self.figures = {} 
     
     # def add_figure(self, figname, **kwargs):
     #     fig, ax = plt.subplots(**kwargs)
@@ -37,7 +37,8 @@ class PowerSpectrum:
             B_values.append(f"self.bessel.j_{ell_values[i]}")
 
 
-        BesselPlot = MAKEPLOT("bessel", figsize=(15,10))
+        # BesselPlot = MAKEPLOT("bessel", figsize=(15,10))
+        BesselPlot = MAKEPLOT("bessel")
 
         for i in range(len(ell_values)):
             BesselPlot.plot_line(self.bessel.z, eval(B_values[i]), **info_dicts[i])
@@ -46,13 +47,13 @@ class PowerSpectrum:
         ax_info = dict(
             title=r"$\mathrm{Bessel\ functions,\ } j_l(z)$",
             xlabel=r"$z$",
-            ylabel=r"$j_l(z)$",
+            # ylabel=r"$j_l(z)$",
             ylim=[-0.02, 0.05]
         )
 
         BesselPlot.set_ax_info(**ax_info)
         BesselPlot.set_minor_ticks()
-        BesselPlot.set_legend(fancybox=True, loc="best")
+        BesselPlot.set_legend(fancybox=True, loc="best", ncols=2)
         
         self.figures["bessel"] = BesselPlot
 
@@ -264,9 +265,11 @@ class PowerSpectrum:
         MPSplot.plot_line(self.MPS.k, self.MPS.Pk, label=r"$P(k)$", color="blue")
         MPSplot.plot_error_bars(**SDSS_error, label=r"$\mathrm{Obs}$")
         MPSplot.plot_error_bars(**WMAP_error)
+        MPSplot.plot_vline(x=float(self.MPS.k_eq[0]), ls="dashed", lw=THINLINE, color="violet", label=r"$k_\mathrm{eq}$")
         MPSplot.set_ax_info(**ax_setter_info)
         MPSplot.set_minor_ticks()
-        MPSplot.set_legend(fancybox=True, loc="best", ncols=2)
+        MPSplot.set_legend(fancybox=True, loc="best")#, ncols=2)
+        # embed()
 
         self.figures["MPSplot"] = MPSplot
 
