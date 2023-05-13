@@ -1,37 +1,86 @@
 \subsection{Theory}\label{sec:m4:theory}
+    Before delving into the theory of power spectrum we must make one distinction clear: When we studied the evolution of the temperature perturbation $\T$ in ~\cref{sec:m3:theory} we divided the evolution into two stages, namely the initial value of the perturbation, set up by inflation, and the evolution in time. We are able to treat them separately since we only consider perturbations to first order. We had that the initial perturbations were caused by the curvature perturbation $\mathcal{R}$. The evolution from initial perturbations to observable anisotropies is called the \textit{transfer function} and is the quantity, $\T$, for which we have already developed equations of motion, and will be solved for in our code. When solving we simply put $\mathcal{R}=1$,\footnote{This works as a normalisation, and can only be factored out if we work with linear perturbation theory. For any higher order, the initial perturbations must be including before evolving the system in time.} but if we want to compare our results to actual observables we need to include the initial perturbations. Thus:
+    \begin{equation}
+        \To_l(\vec{k},t) = \T_l(k,t)\mathcal{R}(\vec{k}) \iff \T_l(k,t)=\frac{\To_l(\vec{k},t)}{\mathcal{R}(\vec{k})}.
+    \end{equation}
+    $\T$ is referred to as $\mathcal{T}$ (transfer function) in ~\cite{dodelson2020modern}.
     \subsubsection{Physical observables}
-        In order to measure the CMB we measure the temperature fluctuations as function of direction on the sky. In order to quantise this we consider the temperature perturbation from ~\cref{eq:m3:theory:temperature_perturbation}, and realise that this may be expanded in spherical harmonics:
+        In order to measure the CMB we measure the temperature fluctuations as function of direction on the sky. In order to quantise this we consider the temperature perturbation from ~\cref{eq:m3:theory:temperature_perturbation}, which is what we measure in experiments, and realise that this may be expanded in spherical harmonics (now in real space):
         \begin{equation}\label{eq:m4:theory:spherical_harmonic_expansion}
-            \T(\vec{x}, \hat{\vec{p}}, t) = \sum_{l=1}^\infty\sum_{m=-l}^l a_{lm}(\vec{x}, t)Y_{lm}(\hat{\vec{p}}),
+            \To(\vec{x}, \hat{\vec{p}}, t) = \sum_{l=1}^\infty\sum_{m=-l}^l a_{lm}(\vec{x}, t)Y_{lm}(\hat{\vec{p}}),
         \end{equation}
-        where the angular dependency is taken care of by the \textit{spherical harmonic functions}: $Y_{lm}(\hat{\vec{p}})$. From orthogonality of spherical harmonics,\footnote{$$\int\d\O_{\hat{\vec{p}}}Y_{lm}(\hat{\vec{p}})Y^*_{l'm'}(\hat{\vec{p}}) = \delta_{ll'}\delta_{mm'}$$} we may express the coefficient $a_{lm}(\vec{x},t)$ as:
+        where the angular dependency is taken care of by the \textit{spherical harmonic functions}: $Y_{lm}(\hat{\vec{p}})$. From orthogonality of spherical harmonics,\footnote{Orthogonality of spherical harmonics:$$\int\d\O_{\hat{\vec{p}}}Y_{lm}(\hat{\vec{p}})Y^*_{l'm'}(\hat{\vec{p}}) = \delta_{ll'}\delta_{mm'}$$} we may express the coefficient $a_{lm}(\vec{x},t)$ as:
         \begin{equation}\label{eq:m4:theory:alm_coefficients}
-            a_{lm}(\vec{x},t) = \int\d\O_{\hat{\vec{p}}}Y^*_{lm}(\hat{\vec{p}})\T(\vec{x}, \hat{\vec{p}},t).
+            a_{lm}(\vec{x},t) = \int\d\O_{\hat{\vec{p}}}Y^*_{lm}(\hat{\vec{p}})\To(\vec{x}, \hat{\vec{p}},t).
         \end{equation}
         It is important to note that ~\cref{eq:m4:theory:spherical_harmonic_expansion} allows us to divide the temperature perturbations into a set of weighted basis functions, these being the spherical harmonics. These functions are eigenfunctions of the Laplace operator on a sphere, and describe how a function varies with direction (on a sphere). The $l$-subscript indicates the scale on which these variations occur (these are inversely proportional). Thus, the interpretation of the $a_{lm}$ coefficient is the amplitude of temperature fluctuations across different scales, $l$. Since inflation predicts initial perturbations like $\T$ to be Gaussian random fields it follows that the $a_{lm}$-s are also Gaussian random fields with mean 0 and variance $C_l$ which is given by: 
         \begin{equation}\label{eq:m4:theory:alm_coeff_variance}
             \langle a_{lm}a^*_{l'm'}\rangle = \delta_{ll'}\delta_{mm'}C_l.
         \end{equation}
-        Because of the Gaussian nature of $C_l$, it contains all the statistical information about $\T$, and this is what we refer to as the \textit{angular power spectrum} (or just power spectrum). Thus, when making observations of the CMB, the $a_{lm}$-s are measured and the corresponding power spectrum is constructed as:
-        \begin{equation}
+        Because of the Gaussian nature of $C_l$, it contains all the statistical information about $\T$, and this is what we refer to as the \textit{angular power spectrum} (or just power spectrum). Thus, when making observations of the CMB, the $a_{lm}$-s are measured and the corresponding power spectrum is constructed as ~\cite{AST5220LectureNotes}:
+        \begin{equation}\label{eq:m4:theory:C_l_estimate}
             \hat{C}_l = \frac{1}{2l+1}\sum_{m=-l}^l\abs{a_{lm}}^2,
         \end{equation}
-        where the nature of the hat will become clear in the following section. 
+        where $\hat{C}_l$ is an estimator of the full power spectrum $C_l$, based on one realisation of the initial Gaussian random field, namely the realisation that is our observable Universe. For each $l$, we have $2l+1$ $m$ values from which we infer the estimate in ~\cref{eq:m4:theory:C_l_estimate}. Since we only have one universe to make measurements in, the statistical uncertainties of $\hat{C}_l$ is highly dependent on $l$, since for low $l$ there are very few components to measure. This gives rise to an intrinsic uncertainty in $C_l$ known as \textit{cosmic variance} which is governed by ~\cite{dodelson2020modern}:
+        \begin{equation}\label{eq:m4:theory:cosmic_variance}
+            \left(\frac{\Delta C_l}{C_l}\right) = \sqrt{\frac{2}{2l+1}}
+        \end{equation}
 
-    \subsubsection{Constructing $C_l$ form $\T_l$}
-        
+    \subsubsection{Constructing the angular power spectrum}
+        When constructing an equation for $C_l$ we start from ~\cref{eq:m4:theory:alm_coefficients} and expand this in it Fourier series:
+        \begin{equation}\label{eq:m4:theory:alm_fourier}
+            a_{lm} = \int\d\O_\hv{p}Y_{lm}^*(\hv{p})\int\frac{\d^3\vec{k}}{\pifac}e^{i\vec{k}\cdot{\vec{x}}}\To(\vec{k}, \hv{p},t),
+        \end{equation}
+        which we further expand into multipoles
+        \begin{equation}\label{eq:m4:theory:alm_multipole_expansion}
+            a_{lm} = \int\d\O_\hv{p}Y_{lm}^*(\hv{p})\int\frac{\d^3\vec{k}}{\pifac}e^{i\vec{k}\cdot{\vec{x}}} \sum_{l=1}^\infty(2l+1)(-i)^l\mathcal{P}_l(\mu)\To_l(\kv,t),
+        \end{equation}
+        where $\mu=\hv{p}\cdot\hv{k}$. Next, we multiply with the complex conjugate $a_{lm}^*$ in order to obtain:
+        \begin{equation}\label{eq:m4:theory:almalm*}
+            \begin{split}
+                a_{l_1m_1}a_{l_2m_2}^* &= \sum_{l_1=1}^\infty\sum_{l_2=1}^\infty(2l_1+1)(2l_2+1)(-i)^{l_1-l_2} \\
+                &\cross\int\frac{\d^3\kv_1}{\pifac}\int\frac{\d^3\kv_2}{\pifac}e^{i(k_1-k_2)}\\
+                &\cross\int\d\O_{\hv{p}_1}\mathcal{P}_{l_1}(\mu_1)Y_{l_1m_1}^*(\hv{p}_1)\To_{l_1}(\kv,t) \\
+                &\cross\int\d\O_{\hv{p}_2}\mathcal{P}_{l_2}(\mu_2)Y_{l_2m_2}(\hv{p}_2)\To_{l_2}(\kv,t),
+            \end{split}
+        \end{equation}
+        which is a rather undelicate expression. Thankfully, there are a number of ways to make this simpler. Firstly, we note that 
+        \begin{equation}\label{eq:m4:theory:alm_averaging_dependency}
+            \begin{split}
+                \langle a_{l_1m_1}a_{l_2m_2}^*\rangle &\sim \langle\To_{l_1}(\kv_1,t)\To_{l_2}(\kv_2,t)\rangle \\
+                &= \T_{l_1}(k_1,t)\T_{l_2}(k_2,t)\langle\mathcal{R}(\kv_1)\mathcal{R}(\kv_2)\rangle,
+            \end{split}
+        \end{equation}
+        where it follows from our Fourier normalisation convention that $\langle\mathcal{R}(\kv_1)\mathcal{R}(\kv_2)\rangle = \delta^{(3)}(\kv_1-\kv_2)P_\mathrm{prim}(k)$, where $P_\mathrm{prim}(k)$ is the \textit{primordial power spectrum}. This delta function will simplify the $k$-integrals by demanding $\kv=\kv_1=\kv_2$. 
 
-    \begin{equation}\label{eq:m4:theory:Cl_integral_intermediate}
-        C_l = \frac{2}{\pi}\int k^2 P_\mathrm{prim}(k)\abs{\T_l}^2\d k
-    \end{equation}
+        Further, there is a very useful identity of spherical harmonics, which read ~\cite{dodelson2020modern}:
+        \begin{equation}\label{eq:m4:theory:spherical_harmonic_identity}
+            \int\d\O_\hv{p}Y^*_{l_2m_1}(\hv{p})\mathcal{P}_{l_1}(\mu_1) = \delta_{l_1l_2}\frac{4\pi}{2l_1+1}Y_{l_1m_1}^*(\hv{k}).
+        \end{equation}
+        From ~\cref{eq:m4:theory:spherical_harmonic_identity} we pick up a factor $\delta_{ll_1}\delta_{ll_2}$, which will remove the two infinite sums in ~\cref{eq:m4:theory:almalm*}. We also rewrite the differential $\d^3\kv = k^2\d k\d\O_\hv{k}$. Ultimately, averaging over all ensembles of ~\cref{eq:m4:theory:almalm*} yield:
+        \begin{equation}\label{eq:m4:theory:getting_to_the C_l}
+            \begin{split}
+                \langle a_{l_1m_1}a_{l_2m_2}^*\rangle &= \frac{(4\pi)^2}{(2\pi)^3}\delta_{l_1l_2}\int k^2\d k\T_{l_1}(k,t)\T_{l_2}(k,t) \\
+                &\cross \int\d\O_\hv{k}Y_{l_1m_1}^*(\hv{k})Y_{l_2m_2}(\hv{k})\cross P_\mathrm{prim}(k)\\
+                &= \frac{2}{\pi}\int k^2\d k\abs{\T_l(k,t)}^2P_\mathrm{prim}(k)\delta_{l_1l_2}\delta_{m_1m_2},
+            \end{split}
+        \end{equation}
+        where we used orthogonality of the spherical harmonic in the last step. Comparing this to ~\cref{eq:m4:theory:alm_coeff_variance} yield the desired equation for the angular power spectrum:
+        \begin{equation}\label{eq:m4:theory:Cl_integral_intermediate}
+            C_l = \frac{2}{\pi}\int k^2 P_\mathrm{prim}(k)\abs{\T_l(k)}^2\d k,
+        \end{equation}
+        where we have made it implicit that we evaluate today: $\T_l(k) = \T_l(k,t_0)$. In order to simply this even more we take into account that most inflationary models predict the primordial power spectrum to be a \textit{Harrison-Zel'dovich} power spectrum of the form ~\cite{dodelson2020modern}: 
+        \begin{equation}\label{eq:m4:theory:primordial_power_spectrum}
+            P_\mathrm{prim}(k) = \frac{2\pi^2}{k^3}A_s\left(\frac{k}{k_\mathrm{pivot}}\right)^{n_s-1},
+        \end{equation}
+        which is characterised by its amplitude $A_s$ and spectral index $n_s$. Armed with this, the power spectrum then becomes:
+        \begin{equation}\label{eq:m4:theory:power_spectrum_logk}
+            C_l = 4\pi\int_0^\infty A_s\left(\frac{k}{k_\mathrm{pivot}}\right)^{n_s-1}\abs{\T_l}^2\frac{\d k}{k},
+        \end{equation}
+        where we now integrate across the logarithm of $k$. It is worth noting that the quantity found theoretically from ~\cref{eq:m4:theory:power_spectrum_logk} is fundamentally different from the power spectrum we measure and construct using ~\cref{eq:m4:theory:C_l_estimate}. This is because when evaluating ~\cref{eq:m4:theory:getting_to_the C_l} we average across the whole ensemble of possible realisations of the primordial Gaussian random field. Thus, the quantity we arrive at theoretically is the \textit{ensemble averaged power spectrum}, while we are only able to observe the power spectrum for the one realisation that is our universe. However, when observing for large $l$-s we average across a large number of modes, which according to the \textit{ergothic assumption} will be the same as the ensemble average ~\cite{AST5220LectureNotes}. Thus, we are able to accurately estimate $C_l$ for sufficiently large $l$-s, but should run into cosmic variance for small $l$-s. 
 
-    \begin{equation}\label{eq:m4:theory:primordial_power_spectrum}
-        P_\mathrm{prim}(k) = \frac{2\pi^2}{k^3}A_s\left(\frac{k}{k_\mathrm{pivot}}\right)^{n_s-1}
-    \end{equation}
 
-    \begin{equation}
-        C_l = 4\pi\int_0^\infty A_s\left(\frac{k}{k_\mathrm{pivot}}\right)^{n_s-1}\abs{\T_l}^2\frac{\d k}{k}
-    \end{equation}
+    \subsubsection{Matter power spectrum}
 
     \begin{equation}\label{eq:m4:theory:matter_power_spectrum}
         P(k,x) = \abs{\Delta_\mathrm{M}(k,x)}^2P_\mathrm{Prim}(k)
