@@ -85,12 +85,20 @@ Clean the plots generated:
 
 
 ### Milestone 3
-*   Finish theory of line of sight integration
 *   Write about truncation of the multipole expansion
 *   Write a section about what we expect and how to test the different things
-*   Write method section, briefly   ENOUGH?
-*   Write results, discussion and make comparison between it and the analytical stuff.
+*   Fille out method section about intervals and why we use the number of values that we do.
+*   Write results, discussion and make comparison between it and the analytical stuff. Improve
 *   Update nomenclature 
+
+
+### Milestone 4
+*   Write theory about matter power spectrum
+*   Short section about what we expect?
+*   Describe the plots and physics going into it. 
+
+
+*   Different numerical values, how many points do we spline for and so on.
 
 *   Plot analytical solutions in the different regimes + plot of the horizons $k\eta$ as functions of $x$.
  ## Questions

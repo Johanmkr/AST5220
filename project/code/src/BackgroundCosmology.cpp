@@ -50,7 +50,7 @@ BackgroundCosmology::BackgroundCosmology(
 
 // Solve the background
 void BackgroundCosmology::solve(int nr_points){
-  Vector x_array = Utils::linspace(x_start, x_end+5, nr_points);
+  Vector x_array = Utils::linspace(x_start, x_end_background, nr_points);
 
   /*
   Making the eta spline:

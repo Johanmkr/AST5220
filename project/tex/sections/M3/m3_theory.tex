@@ -334,7 +334,7 @@
             \end{subequations}
         \end{tcolorbox}
 
-\subsubsection{Line of sight integration}
+\subsubsection{Line of sight integration}\label{sec:m3:theory:line_of_sight}
     We are in principle able to solve for any $\T_l$, but it has to be done iteratively. This is very computationally expensive, so much so that it is desireable to obtain a method of finding \textit{any} $\T_l$ independently. Thankfully, this is possible and obtained through a method called \textit{line of sight integration}. The idea behind the line of sight integration was first proposed by ~\cite{Seljak_1996}, where instead of expanding the photon perturbation in multipoles and then integrating, the integral is solved explicitly and expanded into multipoles at the end. The gist of the derivation is to start with ~\cref{eq:m3:theory:diff_eq_FC_theta} and rewrite it into a form: $\dot{\T}+(ik\eta-\dot{\tau}) = S$, where $S$ is for now just a source term. \footnote{Will return to this later, as the source function $\mathcal{S}$, which serves as the source term when using our preferred coordinate $x$ in Fourier space.} This can be rewritten into:
     \begin{equation}
         e^{-ik\mu\eta+\tau}\dv{}{\eta}\left[\T e^{ik\mu\eta-\tau}\right] = S,
@@ -350,10 +350,18 @@
     where $j_l\left[k(\eta_0-\eta(x))\right]$ are the spherical Bessel functions which account for the projection of some three-dimensional signal\footnote{Characterised by $k$.} onto a two-dimensional sphere.\footnote{Characterised by $l$.} $\mathcal{S}(k,x)$ is known as the \textit{source function} and is given by:
     \begin{equation}\label{eq:m3:theory:source_function}
         \begin{split}
-            \mathcal{S}(k,x) &= \tilde{g}\left[\T_0+\Psi+\frac{\T_2}{4}\right] + e^{-\tau}\left[\Psi'-\Phi'\right]\\
-            &-\frac{1}{ck}\dv{}{x}\left[\Hp\tilde{g}v_b\right] + \frac{3}{4c^2k^2}\dv{}{x}\left[\Hp\dv{}{x}\left(\Hp\tilde{g}\T_2\right)\right].
+            \mathcal{S}(k,x) &= \tilde{g}\left[\T_0+\Psi+\frac{\T_2}{4}\right] && \text{(SW)}\\
+            &+ e^{-\tau}\left[\Psi'-\Phi'\right] &&\text{(ISW)}\\
+            &-\frac{1}{ck}\dv{}{x}\left[\Hp\tilde{g}v_b\right] && \text{(Doppler)} \\
+            &+ \frac{3}{4c^2k^2}\dv{}{x}\left[\Hp\dv{}{x}\left(\Hp\tilde{g}\T_2\right)\right] && \text{(Polarisation)}.
         \end{split}
     \end{equation}
+    We can thus find any multipole $\T_l$ simply by knowing $\T_0, \T_1, \T_2, \Psi, \Phi, v_b$ and their derivatives, which is rather remarkable. The physical interpretation of the line of sight integral is that we ``look back'' through time and consider the various physical effects affecting the evolution of the photon multipoles. The first of which is the \textit{Sachs-Wolfe} effect (SW), which is the main contributor. The term in the bracket is an effective photon temperature,\footnote{Described mainly by the monopole term, and the change in frequency of photons induced as gravitational redshift by $\Psi$.} where the $\T_2$ represent a small quadrupole correction. We know this is small as the whole bracket is weighted by the visibility function which peaks during recombination, where the main contributors are the monopole and dipole. Thus, the main contributor to the anisotropies we observe today are the inhomogenities in photon temperature present at the time of recombination ~\cite{AST5220LectureNotes}. 
+
+    The remaining terms in ~\cref{eq:m3:theory:source_function} are corrective effects that the photons undergo as they free stream from the last scattering surface at recombination until today. The second term is the \textit{integrated Sachs-Wolfe} effect which describe the energy change of photons as they pass through potential wells that \textit{vary it in time}. The third term contains the baryon bulk velocity $v_b$ and thus describe a Doppler shift, either of moving observers or moving sources. The fourth term is mainly due to polarisation, like Thomson scattering or gravitational lensing by large structures.  
+
+
+
     Due to the nature of the product rule, ~\cref{eq:m3:theory:source_function} end up containing a lot of terms. We state the individual result of the differentiated terms below:
     \begin{equation}\label{eq:m3:theory:dvHgv_b}
         \dv{}{x}\left[\Hp\tilde{g}v_b\right] = \Hp\tilde{g}v_b' + \Hp\tilde{g}'v_b + \Hp'\tilde{g}v_b
@@ -374,7 +382,7 @@
             &+ \frac{9}{10}\left(\tau''\T_2 + \tau'\T_2'\right)
         \end{split}
     \end{equation}
-    Thus, by calculating $\T_0$, $\T_1$ and $\T_2$ (plus their derivatives) iteratively, we are able to independently find any $\T_l$ by integrating the source function (multiplied by the spherical Bessel functions) along the past light cone of a photon. 
+    Thus, by calculating $\T_0$, $\T_1$ and $\T_2$ (plus their derivatives)\footnote{Also $\T_3$ and $\T_3'$ if we want to solve $\T_2''$ analytically.} iteratively, we are able to independently find any $\T_l$ by integrating the source function (multiplied by the spherical Bessel functions) along the past light cone of a photon. 
 
 % \subsubsection{Growth of structure}
 %     Given we have solutions to ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final}, what should they tell us?
