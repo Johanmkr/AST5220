@@ -216,14 +216,14 @@ class PowerSpectrum:
             markersize=5
         )
 
-        cosmic_variance = np.sqrt(2/(2*self.Cell.ell +1)) * self.Cell.cell_TT
+        cosmic_variance = np.sqrt(2/(2*self.Cell.ell + 1)) * self.Cell.cell_TT
         fill_between = dict(
             x = self.Cell.ell,
             y1 = self.Cell.cell_TT+cosmic_variance,
             y2 = self.Cell.cell_TT-cosmic_variance, 
             color="turquoise",
             alpha=0.3,
-            edgecolor="turquoise"
+            edgecolor="darkturquoise"
         )
 
         PSplot.set_ax_info(**ax_setter_info)

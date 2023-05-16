@@ -46,7 +46,16 @@
         When integating across $k$ in order to obtain the power spectrum $C_l$ the main dependence on $k$ is through the transfer function, so we use the same resolution as earlier for $k$. 
         \begin{figure}
             \includegraphics[width=\linewidth]{C_l_integrand.pdf}
-            \caption{ss}
-            \label{fig:m3:some}
+            \caption{Integrand of the power spectrum integral. }
+            \label{fig:m3:C_l_integrand}
         \end{figure}
+
+
+    \subsubsection{Numerical integration}
+        Due to the large sampling rate when the functions are not smooth, there is no point in wasting computational resources on a more accurate numerical integrator than the \textit{trapezoidal method}. Since we specify samplings as constant spacing, we end up with a uniformly spaced domain, where we have $N$ discretised spaces and $N\Delta x= b-a$ where $b$ is the maximum value of the domain and $a$ the minimum. We approximate the finite integral as follows:
+        \begin{equation}
+            \int_a^bf(x)\d x \approx \left[ \sum_{i=1}^{N-1}f(x_i) + \frac{f(x_a)+f(x_b)}{2} \right]\Delta x.
+        \end{equation}
+        This method is used both when integrating across $x$ and $k$. 
+
 
