@@ -251,6 +251,9 @@ class MAKEPLOT:
     
     def plot_hline(self, **kwargs):
         return self.ax.axhline(**kwargs)
+    
+    def plot_fill_between(self, **kwargs):
+        return self.ax.fill_between(**kwargs)
 
     # def make_raw_string(self, text):
     #     return r"$\mathrm{" + text.replace(r'\\', r'\\\\').replace('{', r'\{').replace('}', r'\}') + r"}$"

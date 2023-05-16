@@ -28,7 +28,7 @@
         \begin{equation}
             \eta_0\Delta k = \frac{2\pi}{n_\mathrm{LOS}^{(k)}},
         \end{equation}
-        where we use $n_\mathrm{LOS}^{(x)}=350$, and $n_\mathrm{LOS}^{(k)}=15$, since the integrand is a lot smoother in $k$ than $x$, we thus need a rather high resolution in $x$. 
+        where we use $n_\mathrm{LOS}^{(x)}=350$, and $n_\mathrm{LOS}^{(k)}=32$, since the integrand is a lot smoother in $k$ than $x$, we thus need a rather high resolution in $x$. 
 
         \begin{figure}
             \includegraphics[width=\linewidth]{LOS_integrand.pdf}
@@ -36,14 +36,14 @@
             \label{fig:m4:LOS_integrand}
         \end{figure}
 
-        The result of the line of sight integral is the transfer function $\T_l(k, \eta=\eta_0)$.
+        The result of the line of sight integral is the transfer function $\T_l(k, \eta=\eta_0)$, and can be seen for the same selected values of $l$ in ~\cref{fig:m4:transfer_function}. It appears that our sampling was successful as we have captured the oscillations. This is by far the most time-consuming part of the integration, and the result is thus splined for easy access later on. 
         \begin{figure}
             \includegraphics[width=\linewidth]{transfer_function.pdf}
-            \caption{Some caption}
-            \label{fig:m3:some}
+            \caption{Transfer function after performing line of sight integration for a selected number of $l$-s. }
+            \label{fig:m4:transfer_function}
         \end{figure}
     \subsubsection{Integrate across $k$}
-
+        When integating across $k$ in order to obtain the power spectrum $C_l$ the main dependence on $k$ is through the transfer function, so we use the same resolution as earlier for $k$. 
         \begin{figure}
             \includegraphics[width=\linewidth]{C_l_integrand.pdf}
             \caption{ss}

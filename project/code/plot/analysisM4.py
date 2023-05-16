@@ -112,7 +112,7 @@ class PowerSpectrum:
 
         ax_setter_info = dict(
             xlabel=r"$c/H_0$",
-            title=r"$\mathrm{Transfer\ function\ }\Theta_l$",
+            title=r"$\mathrm{Transfer\ function\ }\Theta_l(k, \eta=\eta_0)$",
             xlim=[0,500],
             ylim=[-0.005, 0.015]
         )
@@ -216,9 +216,20 @@ class PowerSpectrum:
             markersize=5
         )
 
+        cosmic_variance = np.sqrt(2/(2*self.Cell.ell +1)) * self.Cell.cell_TT
+        fill_between = dict(
+            x = self.Cell.ell,
+            y1 = self.Cell.cell_TT+cosmic_variance,
+            y2 = self.Cell.cell_TT-cosmic_variance, 
+            color="turquoise",
+            alpha=0.3,
+            edgecolor="turquoise"
+        )
+
         PSplot.set_ax_info(**ax_setter_info)
         PSplot.plot_error_bars(**error_bar_info_low_l)
         PSplot.plot_error_bars(**error_bar_info_high_l)
+        PSplot.plot_fill_between(**fill_between)
         PSplot.set_minor_ticks()
         PSplot.set_legend(fancybox=True, loc="best", ncols=2)
         self.figures["PSplot"] = PSplot
