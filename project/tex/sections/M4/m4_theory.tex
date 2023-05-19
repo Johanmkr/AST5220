@@ -81,15 +81,16 @@
 
 
     \subsubsection{Matter power spectrum}
-
-    \begin{equation}\label{eq:m4:theory:matter_power_spectrum}
-        P(k,x) = \abs{\Delta_\mathrm{M}(k,x)}^2P_\mathrm{Prim}(k)
-    \end{equation}
-
-    \begin{equation}
-        \Delta_\mathrm{M}(k,x) = \frac{2c^2k^2\Phi(k,x)}{3\O_\mathrm{M}\Hp^2}
-    \end{equation}
-
-    \begin{equation}
-        k_\mathrm{eq} = \frac{\Hp(x_\mathrm{eq})}{c}
-    \end{equation}
+        The matter power spectrum described the distribution of fluctuations in the matter density field in terms of scale. Evaluating it today yield information about the matter density at different physical scales, as we observe it today. It is given as ~\cite{AST5220LectureNotes}:
+        \begin{equation}\label{eq:m4:theory:matter_power_spectrum}
+            P(k,x) = \abs{\Delta_\mathrm{M}(k,x)}^2P_\mathrm{Prim}(k),
+        \end{equation}
+        where $Delta_\mathrm{M}(k,x)$ is known as the \textit{growth factor} or \textit{matter overdensity field}, and describe how the fluctuations in the matter density have evolved from some initial state until today. This initial state is again given by the primordial power spectrum, $P_\mathrm{prim}(k)$ as defined in ~\cref{eq:m4:theory:primordial_power_spectrum}, while $\Delta_\mathrm{M}(k,x)$ is given as:
+        \begin{equation}\label{eq:m4:theory:growth_factor}
+            \Delta_\mathrm{M}(k,x) = \frac{2c^2k^2\Phi(k,x)}{3\O_\mathrm{M}\Hp^2}.
+        \end{equation}
+        We further define $k_\mathrm{eq}$ as:
+        \begin{equation}\label{eq:m4:theory:mps_keq}
+            k_\mathrm{eq} = \frac{\Hp(x_\mathrm{eq})}{c},
+        \end{equation}
+        which is the equality scale, evaluated at $x_\mathrm{eq}$ which is the time of matter-radiation equality. This scale corresponds to the wavenumber that entered the horizon at this time. 

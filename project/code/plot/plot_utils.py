@@ -9,7 +9,6 @@ import astropy.constants as const
 from astropy import units
 # print("hei")
 
-
 #   Colouring for cosmology project
 Colors = {
     #   Background cosmology
@@ -83,7 +82,7 @@ mpl.rcParams['axes.titlelocation'] = 'left'
 # Visual parameters for saving/showing
 # Manual Switches
 TEST = True
-
+True
 # SAVE = False
 # PUSH = False
 # SHOW = True
@@ -236,7 +235,7 @@ class MAKEPLOT:
             self.fig, self.ax = plt.subplots()
 
     def __call__(self):
-        return fig, ax
+        return self.fig, self.ax
 
     def plot_line(self, x, y, **kwargs:dict):
         if self.LaTeX:
