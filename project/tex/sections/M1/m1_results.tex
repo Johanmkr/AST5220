@@ -7,13 +7,15 @@
         \caption{Density fractions $\O_i$ as function of $x$. For low $x$, radiation dominates, before matter dominates and dark energy has just become the dominant energy density today $x=0$, and will continue to dominate into the future. The sum of densities sums to one across all times, as required (white dotted line). The black dotted lines are the radiation-matter equality at $x=-8.13$ and the matter-dark energy equality at $x=-0.26$, both stated in ~\cref{tab:m1:important_values}. The domination of each regime is shown as a shaded background with similar colour as its respective graph. }
         \label{fig:m1:omega_tests}
     \end{figure}
+    \cref{fig:m1:eta_tests} is the sanity check for $\eta$ showing that its derive take the desired value of $c/\Hp$.
     
-    \TODO{fix this}
-    As explained in section ~\cref{sec:m1:theory:sanity}, we have analytical solutions for constructions of $\eta$ and $\Hp$ in the different regimes. \cref{fig:m1:eta_tests} is the sanity check for $\eta$, showing $\eta\Hp/c$ converging to finite values in the radiation and matter dominated eras (where $\alpha_{\mathrm{rad}, \mathrm{M}}>0$), and diverging towards $+\infty$ in the dark energy dominated era ($\alpha_\Lambda =-2 <0$). This is in accordance with the analytical solutions. The different regimes are shown in shaded colour. It is also worth noticing that $(\d \eta /\d x)\Hp/c$ is one for all regimes, as expected from equation ~\cref{eq:m1:theory:measures:eta_diffeq}. \TODO{to this}
+    
+    % \TODO{fix this}
+    % As explained in section ~\cref{sec:m1:theory:sanity}, we have analytical solutions for constructions of $\eta$ and $\Hp$ in the different regimes. \cref{fig:m1:eta_tests} is the sanity check for $\eta$, showing $\eta\Hp/c$ converging to finite values in the radiation and matter dominated eras (where $\alpha_{\mathrm{rad}, \mathrm{M}}>0$), and diverging towards $+\infty$ in the dark energy dominated era ($\alpha_\Lambda =-2 <0$). This is in accordance with the analytical solutions. The different regimes are shown in shaded colour. It is also worth noticing that $(\d \eta /\d x)\Hp/c$ is one for all regimes, as expected from equation ~\cref{eq:m1:theory:measures:eta_diffeq}. \TODO{to this}
 
     \begin{figure}
         \includegraphics[width=\linewidth]{eta_test.pdf}
-        \caption{Sanity check for $\eta$. $\eta\Hp/c$, in blue, is 1 in the radiation regime, 2 in the matter regime and diverging toward $+\infty$ in the dark energy regime, as expected from the analytical approximations in each regime. Remembering that this is strictly correct only in the radiation regime explains the mismatch of the brown doted line in the matter regime. $(\d \eta /\d x)\Hp/c$, in red, is 1 throughout time, as expected from ~\cref{eq:m1:theory:measures:eta_diffeq}.}
+        \caption{Sanity check for $\eta$.}
         \label{fig:m1:eta_tests}
     \end{figure}
 
@@ -43,11 +45,11 @@
         \label{fig:m1:conformal_hubble_factor_Hp}
     \end{figure}
 
-    ~\cref{fig:m1:cosmic_conformal_time} show the cosmic time $t$ and the conformal time $\eta/c$. The cosmic time is the age of the universe at any given time/size $x$. The low values for the cosmic time at early times suggest a rapid increase of the size of the Universe in a short cosmic time. This is supported by the conformal Hubble factor in ~\cref{fig:m1:conformal_hubble_factor_Hp} which is large for low $x$. The expansion rate of the universe decelerates until the acceleration onset, from which it accelerates. \TODO{explain $\eta$ and $t$ more}
+    ~\cref{fig:m1:cosmic_conformal_time} show the cosmic time $t$ and the conformal time $\eta/c$. The cosmic time is the age of the universe at any given time/size $x$. The low values for the cosmic time at early times suggest a rapid increase of the size of the Universe in a short cosmic time. This is supported by the conformal Hubble factor in ~\cref{fig:m1:conformal_hubble_factor_Hp} which is large for low $x$. The expansion rate of the universe decelerates until the acceleration onset, from which it accelerates. This acceleration means that the rate of expansion of the Universe will at some point surpass the conformal horizon, effectively decreasing the observable Universe. 
 
     \begin{figure}
         \includegraphics[width=\linewidth]{cosmic_conformal_time.pdf}
-        \caption{Cosmic time (in blue) and conformal time (red). \TODO{find meaning behind this plot}.}
+        \caption{Cosmic time (in blue) and conformal time (red).}
         \label{fig:m1:cosmic_conformal_time}
     \end{figure}
 

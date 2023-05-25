@@ -117,8 +117,8 @@ def testing_eta():
     regimes = set_regimes(ax1, borders=False)
 
     #   Adding analytical solutions
-    ax1.hlines(1, x_min, x_RM, color=Colors["analytical"], ls="--", lw=2)
-    ax1.hlines(2, x_RM, x_ML, color=Colors["analytical"], ls="--", lw=2)
+    # ax1.hlines(1, x_min, x_RM, color=Colors["analytical"], ls="--", lw=2)
+    # ax1.hlines(2, x_RM, x_ML, color=Colors["analytical"], ls="--", lw=2)
 
     legend1 = ax1.legend([line1, line2], [line1.get_label(), line2.get_label()], loc="upper left", fancybox=True)
     legend2 = etaFig.legend(regimes, [regime.get_label() for regime in regimes], loc="upper right", fancybox=True, ncol=3, bbox_to_anchor=[0.97,0.965], fontsize=24)
