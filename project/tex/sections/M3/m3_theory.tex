@@ -392,7 +392,7 @@
     \begin{equation}\label{eq:m3:theory:analytical_large_scale_super_horizon}
         \Phi(\vec{k},y) = \frac{1}{10y^3}\left[16\sqrt{1+y} + 9y^3 + 2y^2-8y-16\right]\Phi(\vec{k},0),
     \end{equation}
-    where we define the new variable $\ln y \equiv x-x_\mathrm{RM}$. We see that even for the larges scales, that enter the horizon at really late times, the potential will decrease with at drop by $9/10$ during the transition from radiation to matter domination.\footnote{Since $x\gg x_\mathrm{eq} \implies y\gg 1$} Further, ~\cite{dodelson2020modern} claims that the potential will remain constant during matter domination. In other words, they will not change when they enter the horizon since the expansion of the universe in a matter dominated universe balances the accretion of matter in potential wells. When the universe starts to expand more rapidly during dark energy domination, the accretion of matter will be overpowered by the expansion rate and thus the potentials will decay during this period. 
+    where we define the new variable $\ln y \equiv x-x_\mathrm{RM}$. We see that even for the larges scales, that enter the horizon at really late times, the potential will decrease with at drop by $9/10$ during the transition from radiation to matter domination.\footnote{Since $x\gg x_\mathrm{eq} \implies y\gg 1$} Further, ~\cite{dodelson2020modern} claim that the potential will remain constant during matter domination. In other words, it will not change when it enters the horizon since the expansion of the universe in a matter dominated universe balances the accretion of matter in potential wells. When the universe starts to expand more rapidly during dark energy domination, the accretion of matter will be overpowered by the expansion rate and thus the potentials will decay during this period. 
 
     There are also analytical approximations to the small scale modes. Firstly, for the potential during radiation domination we have ~\cite[Eq. 8.46]{dodelson2020modern}:
     \begin{equation}\label{eq:m3:theory:analytical_small_scales_radiation_domination}
@@ -405,3 +405,12 @@
         \dv[2]{\delta_c}{y} + \frac{2+3y}{2y(y+1)}\dv{\delta_c}{y} - \frac{3}{2y(y+1)}\delta_c = 0.
     \end{equation}
     Analytical solutions to the dark matter perturbations in this regime are non-trivial as ~\cref{eq:m3:theory:analytical_meszaros} require radiation perturbation to be negligible. In short, according to ~\cite{dodelson2020modern}, the cold dark matter perturbations will be constant for super-horizon scales, grow logarithmically after horizon crossing, while still in the radiation domination regime, and grow with the scale factor according to ~\cref{eq:m3:theory:analytical_meszaros} during matter domination. 
+
+    The last analytical expression we consider is the analytical approximation of the equation of motion of the photon monopole ~\cite[Eq. 9.20]{dodelson2020modern}:
+    \begin{equation}\label{eq:m3:theory:analytical_monopole_eom}
+        \begin{split}
+            \T_0''+\frac{a'}{a}\frac{R}{1+R}\T_0'+k^2c_s^2\T_0 = F(k,\eta) \\
+            F(k,\eta) \equiv -\frac{k^2}{3}\Psi - \frac{a'}{a}\frac{R}{1+R}\Phi' - \Phi'',
+        \end{split}
+    \end{equation}
+    which described oscillations with a drag component proportional to $\T_0'$ (second component on the left of the top equation) and force term $F$. 
