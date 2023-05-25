@@ -80,7 +80,7 @@ class PowerSpectrum:
         ax_info = dict(
             title = r"$\mathrm{LOS\ integrand,\ } \mathcal{S}(k,x)j_l[k(\eta_0-\eta(x))]$",
             xlabel = r"$x$",
-            xlim = [-15,0],
+            xlim = [-8,0],
             ylim = [0,1]
         )
 
@@ -145,14 +145,14 @@ class PowerSpectrum:
 
         Cl_int_plot = MAKEPLOT("C_l_integrand")
         for i in range(len(ell_values)):
-            Cl_int_plot.plot_line(self.CL_integrand.k, eval(T2_values[i]), **info_dicts[i])
+            Cl_int_plot.plot_line(self.CL_integrand.k, eval(T2_values[i])*ell_values[i]*(ell_values[i]+1), **info_dicts[i])
 
         ax_setter_info = dict(
             xlabel=r"$c/H_0$",
             title=r"$\mathrm{Integrand\ of\ Power\ Spectrum:\ }|\Theta_l(k)|^2/k$",
-            ylabel=r"$H_0/c$",
+            ylabel=r"$l(l+1) H_0/c$",
             xlim=[0,500],
-            ylim=[0,5e-7]
+            # ylim=[0,5e-7]
         )
 
         Cl_int_plot.set_ax_info(**ax_setter_info)

@@ -3,6 +3,7 @@ from plot_utils import *
 # class Perturbation:
 #     def __init__(self, list:DataList)->None:
 #         self.DataList = DataList
+RECTOL = 0.15
 
 class Perturbation:
     def __init__(self, files:list, x_rec=None, x_RM=None)->None:
@@ -49,9 +50,9 @@ class Perturbation:
         y2min, y2max = ax2.get_ylim()
 
         if self.x_rec is not None:
-            ax1.axvline(self.x_rec, ymax=0.925, color="black", ls="dashed", lw=self.MarkLines)
+            ax1.axvspan(self.x_rec-RECTOL, self.x_rec+RECTOL, color="grey", alpha=0.3)
             ax1.text(self.x_rec-0.1, y1max - 0.06*(y1max-y1min), r"$x_\mathrm{rec}$", fontsize=30)
-            ax2.axvline(self.x_rec, ymax=0.925, color="black", ls="dashed", lw=self.MarkLines)
+            ax2.axvspan(self.x_rec-RECTOL, self.x_rec+RECTOL, color="grey", alpha=0.3)
             ax2.text(self.x_rec-0.1, y2max - 0.06*(y2max-y2min), r"$x_\mathrm{rec}$", fontsize=30)
         
         if self.x_RM is not None:
@@ -60,7 +61,6 @@ class Perturbation:
             ax2.axvline(self.x_RM, ymax=0.925, color="black", ls="dashdot", lw=self.MarkLines)
             ax2.text(self.x_RM-0.1, y2max - 0.06*(y2max-y2min), r"$x_\mathrm{RM}$", fontsize=30)
 
-        
         save_push(fig, "potentials")
 
     def monopole_plot(self)->None:
@@ -68,7 +68,7 @@ class Perturbation:
         line1, = ax.plot(self.k1_x, 4*self.k1_T0, lw=self.LWpoles, color=Colors["k1"], label=lbls["k1"])
         line2, = ax.plot(self.k2_x, 4*self.k2_T0, lw=self.LWpoles, color=Colors["k2"], label=lbls["k2"])
         line3, = ax.plot(self.k3_x, 4*self.k3_T0, lw=self.LWpoles, color=Colors["k3"], label=lbls["k3"])
-        ax.grid(True)
+        # ax.grid(True)
         ax.set_xlim(-15,0)
         ax.set_xlabel(lbls["x"])
         ax.set_title(r"$\mathrm{Overdensity}\ \delta_\gamma=4\Theta_0$", loc="left")
@@ -78,7 +78,7 @@ class Perturbation:
 
         ymin, ymax = ax.get_ylim()
         if self.x_rec is not None:
-            ax.axvline(self.x_rec, ymax=0.925, color="black", ls="dashed", lw=self.MarkLines)
+            ax.axvspan(self.x_rec-RECTOL, self.x_rec+RECTOL, color="grey", alpha=0.3)
             ax.text(self.x_rec-0.1, ymax - 0.06*(ymax-ymin), r"$x_\mathrm{rec}$", fontsize=30)
         if self.x_RM is not None:
             ax.axvline(self.x_RM, ymax=0.925, color="black", ls="dashdot", lw=self.MarkLines)
@@ -95,7 +95,7 @@ class Perturbation:
         ax.set_xlabel(lbls["x"])
         ax.set_title(r"$\mathrm{Velocity}\ v_\gamma=-3\Theta_1$", loc="left")
         ax.set_xlim(-15,0)
-        ax.grid(True)
+        # ax.grid(True)
         
         ax.minorticks_on()
         lines=[line1, line2, line3]
@@ -103,7 +103,7 @@ class Perturbation:
         
         ymin, ymax = ax.get_ylim()
         if self.x_rec is not None:
-            ax.axvline(self.x_rec, ymax=0.925, color="black", ls="dashed", lw=self.MarkLines)
+            ax.axvspan(self.x_rec-RECTOL, self.x_rec+RECTOL, color="grey", alpha=0.3)
             ax.text(self.x_rec-0.1, ymax - 0.06*(ymax-ymin), r"$x_\mathrm{rec}$", fontsize=30)
         if self.x_RM is not None:
             ax.axvline(self.x_RM, ymax=0.925, color="black", ls="dashdot", lw=self.MarkLines)
@@ -120,7 +120,7 @@ class Perturbation:
         ax.set_xlabel(lbls["x"])
         ax.set_title(r"$\mathrm{Quadrupole}\ \Theta_2$", loc="left")
         ax.set_xlim(-15,0)
-        ax.grid(True)
+        # ax.grid(True)
 
         ax.minorticks_on()
         lines=[line1, line2, line3]
@@ -128,7 +128,7 @@ class Perturbation:
         
         ymin, ymax = ax.get_ylim()
         if self.x_rec is not None:
-            ax.axvline(self.x_rec, ymax=0.925, color="black", ls="dashed", lw=self.MarkLines)
+            ax.axvspan(self.x_rec-RECTOL, self.x_rec+RECTOL, color="grey", alpha=0.3)
             ax.text(self.x_rec-0.1, ymax - 0.06*(ymax-ymin), r"$x_\mathrm{rec}$", fontsize=30)
         if self.x_RM is not None:
             ax.axvline(self.x_RM, ymax=0.925, color="black", ls="dashdot", lw=self.MarkLines)
@@ -159,7 +159,7 @@ class Perturbation:
         ax.legend([line_lab, dash_lab], [r"$|\delta_c|$", r"$|\delta_b|$"], fancybox=True, loc="best")
 
         if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.MarkLines)
+            ax.axvspan(self.x_rec-RECTOL, self.x_rec+RECTOL, color="grey", alpha=0.3)
         if self.x_RM is not None:
             ax.axvline(self.x_RM, color="black", ls="dashdot", lw=self.MarkLines)
     
@@ -187,7 +187,7 @@ class Perturbation:
         ax.minorticks_on()
 
         if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.MarkLines)
+            ax.axvspan(self.x_rec-RECTOL, self.x_rec+RECTOL, color="grey", alpha=0.3)
         if self.x_RM is not None:
             ax.axvline(self.x_RM, color="black", ls="dashdot", lw=self.MarkLines)
 
@@ -219,7 +219,7 @@ class Perturbation:
         self.set_k_lables(fig, lines)
         ax.legend([line_lab, dash_lab], [r"$|v_c|$", r"$|v_b|$"], fancybox=True, loc="best")
         if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.MarkLines)
+            ax.axvspan(self.x_rec-RECTOL, self.x_rec+RECTOL, color="grey", alpha=0.3)
         if self.x_RM is not None:
             ax.axvline(self.x_RM, color="black", ls="dashdot", lw=self.MarkLines)
         
@@ -242,7 +242,7 @@ class Perturbation:
         ax.set_yscale("log")
         ax.minorticks_on()
         if self.x_rec is not None:
-            ax.axvline(self.x_rec, color="black", ls="dashed", lw=self.MarkLines)
+            ax.axvspan(self.x_rec-RECTOL, self.x_rec+RECTOL, color="grey", alpha=0.3)
         if self.x_RM is not None:
             ax.axvline(self.x_RM, color="black", ls="dashdot", lw=self.MarkLines)
    
@@ -279,7 +279,7 @@ class Perturbation:
         self.velocity_plot()
         self.velocity_comp_plot()
 
-        self.plot_integrand_test()
+        # self.plot_integrand_test()
 
 if __name__=="__main__":
     Pert = Perturbation(["perturbations_k0.001.csv", "perturbations_k0.01.csv", "perturbations_k0.1.csv"])

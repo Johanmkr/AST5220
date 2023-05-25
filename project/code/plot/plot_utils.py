@@ -82,7 +82,6 @@ mpl.rcParams['axes.titlelocation'] = 'left'
 # Visual parameters for saving/showing
 # Manual Switches
 TEST = True
-True
 # SAVE = False
 # PUSH = False
 # SHOW = True

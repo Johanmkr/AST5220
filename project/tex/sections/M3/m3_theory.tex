@@ -358,7 +358,7 @@
     \end{equation}
     We can thus find any multipole $\T_l$ simply by knowing $\T_0, \T_1, \T_2, \Psi, \Phi, v_b$ and their derivatives, which is rather remarkable. The physical interpretation of the line of sight integral is that we ``look back'' through time and consider the various physical effects affecting the evolution of the photon multipoles. The first of which is the \textit{Sachs-Wolfe} effect (SW), which is the main contributor. The term in the bracket is an effective photon temperature,\footnote{Described mainly by the monopole term, and the change in frequency of photons induced as gravitational redshift by $\Psi$.} where the $\T_2$ represent a small quadrupole correction. We know this is small as the whole bracket is weighted by the visibility function which peaks during recombination, where the main contributors are the monopole and dipole. Thus, the main contributor to the anisotropies we observe today are the inhomogenities in photon temperature present at the time of recombination ~\cite{AST5220LectureNotes}. 
 
-    The remaining terms in ~\cref{eq:m3:theory:source_function} are corrective effects that the photons undergo as they free stream from the last scattering surface at recombination until today. The second term is the \textit{integrated Sachs-Wolfe} effect which describe the energy change of photons as they pass through potential wells that \textit{vary it in time}. The third term contains the baryon bulk velocity $v_b$ and thus describe a Doppler shift, either of moving observers or moving sources. The fourth term is mainly due to polarisation, like Thomson scattering or gravitational lensing by large structures.  
+    The remaining terms in ~\cref{eq:m3:theory:source_function} are corrective effects that the photons undergo as they free stream from the last scattering surface at recombination until today. The second term is the \textit{integrated Sachs-Wolfe} effect which describe the energy change of photons as they pass through potential wells that \textit{vary it in time}. The third term contains the baryon bulk velocity $v_b$ and thus describe a Doppler shift, either of moving observers or moving sources. The fourth term is mainly due to polarisation, like Thomson scattering or gravitational lensing by large structures. However, since we ignore polarisation here, the corrections of this term comes from the quadrupole, but we still call it the polarisation term. 
 
 
 
@@ -387,4 +387,21 @@
 % \subsubsection{Growth of structure}
 %     Given we have solutions to ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final}, what should they tell us?
 
+\subsubsection{Analytical expectations}\label{sec:m3:theory:analytical_expectations}
+    Let's start by considering large scale modes. These will enter the horizon at late times, and thus experience the transition from radiation to matter domination before horizon-crossing. We are able to find an analytical approximation for the potential $\Phi$ in the large scale super-horizon regime that will be valid for the transition from radiation to matter domination. This solution is ~\cite[Eq. 8.31]{dodelson2020modern}:
+    \begin{equation}\label{eq:m3:theory:analytical_large_scale_super_horizon}
+        \Phi(\vec{k},y) = \frac{1}{10y^3}\left[16\sqrt{1+y} + 9y^3 + 2y^2-8y-16\right]\Phi(\vec{k},0),
+    \end{equation}
+    where we define the new variable $\ln y \equiv x-x_\mathrm{RM}$. We see that even for the larges scales, that enter the horizon at really late times, the potential will decrease with at drop by $9/10$ during the transition from radiation to matter domination.\footnote{Since $x\gg x_\mathrm{eq} \implies y\gg 1$} Further, ~\cite{dodelson2020modern} claims that the potential will remain constant during matter domination. In other words, they will not change when they enter the horizon since the expansion of the universe in a matter dominated universe balances the accretion of matter in potential wells. When the universe starts to expand more rapidly during dark energy domination, the accretion of matter will be overpowered by the expansion rate and thus the potentials will decay during this period. 
 
+    There are also analytical approximations to the small scale modes. Firstly, for the potential during radiation domination we have ~\cite[Eq. 8.46]{dodelson2020modern}:
+    \begin{equation}\label{eq:m3:theory:analytical_small_scales_radiation_domination}
+        \Phi(\vec{k},\eta) = 2\left(\frac{\sin{r} - r\cos{r}}{r^3}\right)_{r=k\eta/\sqrt{3}}\mathcal{R}(\vec{k}),
+    \end{equation}
+    which is assumes a constant initial condition which is fair since initially all modes are outside the horizon, unaffected by causal physics. What we draw from this is that if the mode enters the horizon during radiation domination it can be approximated by ~\cref{eq:m3:theory:analytical_small_scales_radiation_domination} and experience oscillations and decay. 
+
+    For completenes we also state the \textit{Meszaros equation} governing evolution of dark matter perturbations on sub-horizon scales ~\cite[Eq. 8.59]{dodelson2020modern}:
+    \begin{equation}\label{eq:m3:theory:analytical_meszaros}
+        \dv[2]{\delta_c}{y} + \frac{2+3y}{2y(y+1)}\dv{\delta_c}{y} - \frac{3}{2y(y+1)}\delta_c = 0.
+    \end{equation}
+    Analytical solutions to the dark matter perturbations in this regime are non-trivial as ~\cref{eq:m3:theory:analytical_meszaros} require radiation perturbation to be negligible. In short, according to ~\cite{dodelson2020modern}, the cold dark matter perturbations will be constant for super-horizon scales, grow logarithmically after horizon crossing, while still in the radiation domination regime, and grow with the scale factor according to ~\cref{eq:m3:theory:analytical_meszaros} during matter domination. 
