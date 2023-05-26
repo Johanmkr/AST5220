@@ -80,16 +80,16 @@
     \end{equation}
     and the luminosity distance:
     \begin{equation}\label{eq:m1:theory:measures:luminosity_distance}
-        d_L = \expe{-x}r,
+        d_L = \expe{-x}r.
     \end{equation}
-    both of which are derived in \cref{app:derivations}. The temporal quantities $\eta$ and $t$ have the following evolutions with $x$:
+    The temporal quantities $\eta$ and $t$ have the following evolutions with $x$:
     \begin{equation}\label{eq:m1:theory:measures:eta_diffeq}
         \dv{\eta}{x} = \frac{c}{\Hp}.
     \end{equation}
     \begin{equation}\label{eq:m1:theory:measures:t_diffeq}
         \dv{t}{x} = \frac{1}{H}.
     \end{equation}
-    Both differential equations are easy to solve numerically. Their derivation may also be found in \cref{app:derivations}
+    Both differential equations are easy to solve numerically.
 
 \subsubsection{$\Lambda$CDM-model}\label{sec:m1:lambdaCDM}
 
@@ -140,7 +140,7 @@
      \begin{equation}\label{eq:m1:theory:accel_onset_condition}
         \dv{\Hp}{x} = 0 \iff \dv{U}{x} = 0.
      \end{equation}
-     This follows from ~\cref{eq:m1:lambdaCDM:conformal_Hubble_equation}. For further details on the derivative, see ~\cref{app:sanity}. We assume dark energy is involved in the acceleration of the universe, and thus assume the contribution from radiation is negligible. ~\cref{eq:m1:theory:accel_onset_condition} is thus further reduced to:
+     This follows from ~\cref{eq:m1:lambdaCDM:conformal_Hubble_equation}. We assume dark energy is involved in the acceleration of the universe, and thus assume the contribution from radiation is negligible. ~\cref{eq:m1:theory:accel_onset_condition} is thus further reduced to:
      \begin{equation}\label{eq:m1:theory:accel_onset_definiton}
         \begin{split}
             2\O_{\Lambda0}e^{2x} - \O_\mathrm{M0}e^{-x}&=0\\
@@ -192,7 +192,63 @@
     % \end{equation}
     These equations will be useful when making sure that the implementations are correct.
     % \footnote{~\cref{eq:m1:theory:sanity:eta_sanity} is a bit hand-wavy as $\eta$ is really an integral, so assuming a dominant density parameter, means assuming it for the whole existence of the universe, not only the regime we are looking at. We may hence expect these to bee gradually more wrong as the Universe evolves. \TODO{DO I HAVE TIME TO FIX THIS?}} 
-    For a thorough derivation, see \cref{app:sanity}.
+    For a thorough derivation, see below, otherwise skip:
+
+    \begin{tcolorbox}[
+        width=1.025\linewidth,
+        colback=blue!5!white,
+        colframe=white
+    ]
+    \textbf{Derivation of sanity checks}
+
+    We start with the Hubble equation from \cref{eq:m1:lambdaCDM:conformal_Hubble_equation} and realize that we may write any derivative of $U$ as
+    \begin{equation*}
+        \dv[n]{U}{x} = \sum_i(-\alpha_i)^n\O_{i0}\expe{-\alpha_ix}.
+    \end{equation*}
+    We further have:
+    \begin{equation*}
+        \dv{\Hp}{x} = \frac{H_0}{2}U^{-\frac{1}{2}}\dv{U}{x},
+    \end{equation*}
+    and
+    \begin{equation*}
+        \begin{split}
+            \dv[2]{\Hp}{x} &= \dv{}{x}\dv{\Hp}{x}\\
+            &= \frac{H_0}{2}\left[\dv{U}{x}\left(\dv{}{x}U^{-\frac{1}{2}}\right) + U^{-\frac{1}{2}}\left(\dv{}{x}\dv{U}{x}\right)\right]\\
+            &=H_0\left[\frac{1}{2U^{\frac{1}{2}}}\dv[2]{U}{x} - \frac{1}{4U^{\frac{3}{2}}}\left(\dv{U}{x}\right)^2\right]
+        \end{split}
+    \end{equation*}
+    Multiplying both equations with $\Hp^{-1} = 1/(H_0U^{\frac{1}{2}})$ yield the following:
+    \begin{equation*}
+        \frac{1}{\Hp}\dv{\Hp}{x} = \frac{1}{2U}\dv{U}{x},
+    \end{equation*}
+    and 
+    \begin{equation*}
+        \begin{split}
+            \frac{1}{\Hp}\dv[2]{\Hp}{x} &= \frac{1}{2U}\dv[2]{U}{x} - \frac{1}{4U^2}\left(\dv{U}{x}\right)^2 \\
+            &= \frac{1}{2U}\dv[2]{U}{x}-\left(\frac{1}{\Hp}\dv{U}{x}\right)^2
+        \end{split}
+    \end{equation*}
+    We now make the assumption that one of the density parameters dominate $\O_i>> \sum_{j\neq i}\O_i$, enabling the following approximation:
+    \begin{equation*}
+        \begin{split}
+            U &\approx \O_{i0}\expe{-\alpha_ix} \\
+            \dv[n]{U}{x} &\approx (-\alpha_i)^n\O_{i0}\expe{-\alpha_ix},
+        \end{split}
+    \end{equation*}
+    from which we are able to construct:
+    \begin{equation*}
+        \frac{1}{\Hp}\dv{\Hp}{x} \approx \frac{-\alpha_i\O_{i0}\expe{-\alpha_ix}}{2\O_{i0}\expe{-\alpha_ix}} = -\frac{\alpha_i}{2},
+    \end{equation*}
+    and
+    \begin{equation*}
+        \begin{split}
+            \frac{1}{\Hp}\dv[2]{\Hp}{x} &\approx \frac{\alpha_i^2\O_{i0}\expe{-\alpha_ix}}{2\O_{i0}\expe{-\alpha_ix}} - \left(\frac{\alpha_i}{2}\right)^2 \\
+            &= \frac{\alpha_i^2}{2} - \frac{\alpha_i^2}{4} = \frac{\alpha_i^2}{4}
+        \end{split}
+    \end{equation*}
+    which are quantities which should be constant in different regimes and we can easily check if our implementation of $\Hp$ is correct, which is exactly what we sought.
+    
+    \end{tcolorbox}
 
 
 
