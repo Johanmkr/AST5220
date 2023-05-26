@@ -24,7 +24,11 @@
     \begin{equation}\label{eq:m2:theory:baryon_number_density}
         n_b = \frac{\rho_b}{m_\mathrm{H}} = \frac{\O_b\rho_c}{m_\mathrm{H}}\expe{-3x},
     \end{equation}
-    where $m_\mathrm{H}$ is the mass of the hydrogen atom, and $\rho_c$ the critical density today as defined earlier. Before recombination, no stable neutral hydrogen is formed, thus the electron and baryon density is the same, i.e. there are only free electrons so $X_e \simeq 1$. When in equilibrium, the r.h.s. of ~\cref{eq:m2:theory:boltzmann_eq} reduces to 0, which is called the \textit{Saha approximation}. The solution is in this regime described by the \textit{Saha equation}, which from ~\cite{dodelson2020modern} in physical units is:
+    where $m_\mathrm{H}$ is the mass of the hydrogen atom, and $\rho_c$ the critical density today as defined earlier. Before recombination, no stable neutral hydrogen is formed, thus the electron and baryon density is the same, i.e. there are only free electrons so $X_e \simeq 1$. When in equilibrium, the r.h.s. of ~\cref{eq:m2:theory:boltzmann_eq} reduces to 0, which is called the \textit{Saha approximation}:
+    \begin{equation}
+        \frac{n_3n_4}{n_1n_2}\left(\frac{n_1n_2}{n_3n_4}\right)_\mathrm{eq} = 1
+    \end{equation}
+    The solution is in this regime described by the \textit{Saha equation}, which from ~\cite{dodelson2020modern} in physical units is:
     \begin{equation}\label{eq:m2:theory:Saha_equation}
         \frac{X_e^2}{1-X_e} = \frac{1}{n_b}\left(\frac{k_Bm_eT_b}{2\pi\hbar^2}\right)^{3/2}\expe{-\epsilon_0/k_BT_b},
     \end{equation}
@@ -53,7 +57,7 @@
     We find $X_e$ by solving ~\cref{eq:m2:theory:Saha_equation} for $X_e > (1-\xi)$ and ~\cref{eq:m2:theory:peebles_equation} for $X_e < (1-\xi)$. In theory, it is possible to solve the Peebles equation at very early times, but the equation is very stiff resulting in unstable numerical solutions at early times (high temperatures), hence the Saha approximation.
 
 \subsubsection{Visibility}\label{sec:m2:theory:visibility}
-    Visibility is a concept tied to the optical depth and mean free path of a medium. The two latter are inversely proportional to each other. The mean free path is the average distance a photon travels before its direction is changed (often by scattering). Thus, a small mean free path gives results in a lot of collision across short distances, which occurs in optically thick media. The optical depth as a function of conformal time is defined as \cite{AST5220LectureNotes}:
+    Visibility is a concept tied to the optical depth and mean free path of a medium. The two latter are inversely proportional to each other. The mean free path is the average distance a photon travels before its direction is changed (often by scattering). Thus, a small mean free path results in a lot of collision across short distances, which occurs in optically thick media. The optical depth as a function of conformal time is defined as \cite{AST5220LectureNotes}:
     \begin{equation}\label{eq:m2:theory:optical_depth}
         \tau = \int_\eta^{\eta_0} n_e\sigma_\mathrm{T}\expe{-x}\d\eta',
     \end{equation}

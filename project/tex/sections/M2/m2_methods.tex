@@ -7,14 +7,14 @@
     \begin{equation}
         K \equiv \frac{1}{n_b}\left(\frac{k_Bm_eT_b}{2\pi\hbar^2}\right)^{3/2}\expe{-\epsilon_0/k_BT_b},
     \end{equation}
-    then equaton ~\cref{eq:m2:theory:Saha_equation} takes the form $X_e^2 + KX_e - K = 0$, which is solved as a normal quadratic equation\footnote{$ay^2+by+c=0$ has solutions $$y=\frac{-b\pm\sqrt{b^2-4ac}}{2}.$$}, where $a=1$, $b=K$ and $c=-K$. Since $0\leq X_e\leq1$ we choose the positive solution, given by:
+    then equaton ~\cref{eq:m2:theory:Saha_equation} takes the form $X_e^2 + KX_e - K = 0$, which is solved as a normal quadratic equation, where $a=1$, $b=K$ and $c=-K$. Since $0\leq X_e\leq1$ we choose the positive solution, given by:
     \begin{equation}\label{eq:m2:methods:sqrt_approx}
         X_e = \frac{-K+\sqrt{K^2+4K}}{2} = \frac{K}{2}\left(-1+\sqrt{1+4K^{-1}}\right)
     \end{equation}
     This solution has the potential to become numerically unstable if the parenthesis is close to zero, i.e. for $K\gg1$. We then make use of the approximation $\sqrt{1+4K^{-1}} \approx 1+(2K^{-1})$ for $\abs{4K^{-1}}\ll1$, which ensures $X_e\simeq1$ for very high temperatures (large $K$).
 
 
-    We continue to solve the Peebles equation as stated in ~\cref{eq:m2:theory:peebles_equation}, where the r.h.s. is implemented sequentially as ~\cref{eq:m2:theory:peebles_CR}-~\cref{eq:m2:theory:peebles_phi2} in reverse order. The initial condition is the last computed electron fraction above the cut-off: $X_{e0}=\min(X_e>1-\xi)$ as found from the Saha equation. It is solved for the x-range not solved by the Saha equation. On thing to notice is that for late time, $T_b$ becomes small, meaning that $e^{\epsilon_0/k_BT_b}$ becomes enormous. This term is found in ~\cref{eq:m2:theory:peebles_beta2}, and we solve it by setting $\beta^{(2)}(T_b)=2$ if $\epsilon/k_BT_b > 200$, in order to avoid overflow. 
+    We continue to solve the Peebles equation as stated in ~\cref{eq:m2:theory:peebles_equation}, where the r.h.s. is implemented sequentially as ~\cref{eq:m2:theory:peebles_CR}-~\cref{eq:m2:theory:peebles_phi2} in reverse order. The initial condition is the last computed electron fraction above the cut-off: $X_{e0}=\min(X_e>1-\xi)$ as found from the Saha equation. It is solved for the x-range not solved by the Saha equation. On thing to notice is that for late time, $T_b$ becomes small, meaning that $e^{\epsilon_0/k_BT_b}$ becomes enormous. This term is found in ~\cref{eq:m2:theory:peebles_beta2}, and we solve it by setting $\beta^{(2)}(T_b)=0$ if $\epsilon/k_BT_b > 200$, in order to avoid overflow. 
 
     Having found $X_e$ for the entire x-range, we compute $n_e$ and spline both results.
 
