@@ -16,25 +16,24 @@
 \subsubsection{Multipoles}
     We now focus our attention on the multipoles, starting with the monopole term expressed through the photon overdensity $\delta_\gamma = 4\T_0$. Mathematically, this relation can be seen  from either the parenthesis in ~\cref{eq:m3:theory:time_evolution_of_Phi} or the definition of $\mathcal{Y}$ in ~\cref{eq:m3:theory:metric_perturbations_final} following somewhat diffuse symmetry arguments. Physically it also makes sense since the photon monopole is some measure of the average photon temperature which intuitively can be though of as a photon overdensity. It can be seen for the various $k$-modes in ~\cref{fig:m3:monopole}, where we clearly see that the small scale perturbation undergoes horizon crossing first, and become subject to causal physics. This is manifest in the oscillation of the green curve in the figure. Metric perturbations and pressure will generate acoustic oscillations within causally connected regions. When the horizon increase, these oscillations will affect a spatially large area, affecting $k$-modes on larger and larger scales. This is also manifest in ~\cref{fig:m3:monopole} as the intermediate $k$-mode starts to oscillate later, and finally the large scale mode. 
 
-    What are the monopole fluctuations really? The different modes represent the average temperature at different physical length scales. At early times, when the horizon is small, most modes are outside it, leaving their average temperature and thus monopole constant. As modes enter the horizon, they become subject to causal physics, like the gravitational potential. Since photons and baryons are coupled at early times, photons must continuously climb in and out of the gravitational potential wells set up by matter, gaining and loosing energy in the process. 
+    What are the monopole fluctuations really? The different modes represent the average temperature at different physical length scales. At early times, when the horizon is small, most modes are outside it, leaving their average temperature and thus monopole constant. As modes enter the horizon, they become subject to causal physics, like the gravitational potential. Since photons and baryons are coupled at early times, photons must continuously climb in and out of the gravitational potential wells set up by matter, gaining and loosing energy in the process. It is worth noticing that this manifest itself as oscillations in Fourier space, but can be interpreted as propagating acoustic waves in real space. Before recombination, for modes having entered the horizon, these are waves in the baryon-photon fluid, propagating with the speed of sound. After recombination, photons decouple from baryons and stream freely throughout the Universe. During this decoupling process the interaction rate between photons and baryons decreases, but does not become zero. There as still interactions, causing energy to be transported and, temperature fluctuations on small scales to become washed out. This is known as diffusion damping, and smooths out the small scale perturbation for both radiation and matter. This is manifest for the small scale mode in green in ~\cref{fig:m3:monopole} as its amplitude decays after recombination. This phenomenon is not present for the modes entering the horizon after decoupling, in the matter regime. 
+
+    Thus, the photon monopole perturbation behaves somewhat according to ~\cref{eq:m3:theory:analytical_monopole_eom}, where the oscillations are sourced by some force term which is a function of the potentials. This is true before decoupling for modes having entered the horizon. Super-horizon modes hardly evolve at all, due to the lack of causal physics. 
     \begin{figure}
         \includegraphics[width=\linewidth]{monopole.pdf}
         \caption{Photon overdensity represented by the photon monopole for the various $k$-modes. The dashed black line is the time of recombination, and the dash-dotted black line is the time of radiation-matter equality.}
         \label{fig:m3:monopole}
     \end{figure}
 
-    \TODO{Comment on these}
-
-    
-    A similar discussion to the one above can be applied on the photon velocity $v_\gamma = -3\T_1$, as shown in ~\cref{fig:m3:dipole}. Similarly to the monopole, small scale modes enter the horizon first and starts to oscillate followed by larger scale modes. 
+    A similar discussion to the one above can be applied on the photon velocity $v_\gamma = -3\T_1$, as shown in ~\cref{fig:m3:dipole}. Similarly to the monopole, small scale modes enter the horizon first and starts to oscillate followed by larger scale modes. Modes entering the horizon before recombination experience diffusion damping, effectively smoothing the average velocity of the photons. Worth noticing in this plot is that for similar modes, the oscillatory behaviour of the photon velocity is starting slightly before the overdensity. This makes sense, since we need something to be moving in the first place for overdensities to occur. 
 
     \begin{figure}
         \includegraphics[width=\linewidth]{dipole.pdf}
-        \caption{Photon velocity represented by the photon dipole for the various $k$-mdoes. term The dashed black line is the time of recombination, and the dash-dotted black line is the time of radiation-matter equality.}
+        \caption{Photon velocity represented by the photon dipole for the various $k$-mdoes. The dashed black line is the time of recombination, and the dash-dotted black line is the time of radiation-matter equality.}
         \label{fig:m3:dipole}
     \end{figure}
 
-    The same is the case for the quadrupole in ~\cref{fig:m3:quadrapole}. However, as previously assumed, the quadrupole term is strongly suppressed during tight coupling, but behave similarly to the lower order multipoles after tight coupling. Considering the large and intermediate scale modes (blue and red curve) we are able to close the discussion of the sum of potential in ~\cref{fig:m3:potentials}, where the quadrupole was the main contributor to the sinusoidal frequency, and $k$ to the amplitude. 
+    The same is the case for the quadrupole in ~\cref{fig:m3:quadrapole}. However, as previously assumed, the quadrupole term is strongly suppressed during tight coupling, but behave similarly to the lower order multipoles after tight coupling. This is because during tight coupling, the photon-baryon plasma behaved very much like a fluid, only described by some average temperature and a velocity. Hence, there were no significant quadrupole (or any higher order multipole) moment(s) in this regime. Considering the large and intermediate scale modes (blue and red curve) we are able to close the discussion of the sum of potential in ~\cref{fig:m3:potentials}, where the quadrupole was the main contributor to the sinusoidal frequency, and $k$ to the amplitude. The small scales modes of the quadrupole experience the same diffusion damping as the lower multipoles. 
 
     \begin{figure}
         \includegraphics[width=\linewidth]{quadrapole.pdf}
@@ -44,7 +43,7 @@
 
 \subsubsection{Matter perturbations}
 
-    For the matter perturbations, we start with the overdensities for cold dark matter and baryons, shown in ~\cref{fig:m3:delta}. Intuitively, we would expect small fluctuations in density to occur at very small scales early on, and then at larger scales gradually as the horizon increase. During the radiation dominated regime, expect the matter densities to be relatively homogenous on large scales, but noticeable on small scaler. In the matter dominated regime we expect overdense regions to attract more and more matter, increasing the overdensities. These effect should be noticeable on larger scales even, i.e. the modes that undergo horizon crossing during matter dominatin. When inspecting ~\cref{fig:m3:delta} this is indeed what we observe. The overdensity of the small scale mode in green starts to increase during radiation domination, large scale mode in blue during matter domination and the intermediate scale mode in red somewhere in between. All modes increase during matter domination which is what we expected. During dark energy domination we would expect the acceleration of the Universe to start to break up some structures and decrease the horizon, which would also decrease the matter overdensities. Lastly, we take note of the oscillations in the baryon density right before and after matter-radiation equality, but save the discussion for later. 
+    % For the matter perturbations, we start with the overdensities for cold dark matter and baryons, shown in ~\cref{fig:m3:delta}. Intuitively, we would expect small fluctuations in density to occur at very small scales early on, and then at larger scales gradually as the horizon increase. During the radiation dominated regime, expect the matter densities to be relatively homogenous on large scales, but noticeable on small scaler. In the matter dominated regime we expect overdense regions to attract more and more matter, increasing the overdensities. These effect should be noticeable on larger scales even, i.e. the modes that undergo horizon crossing during matter dominatin. When inspecting ~\cref{fig:m3:delta} this is indeed what we observe. The overdensity of the small scale mode in green starts to increase during radiation domination, large scale mode in blue during matter domination and the intermediate scale mode in red somewhere in between. All modes increase during matter domination which is what we expected. During dark energy domination we would expect the acceleration of the Universe to start to break up some structures and decrease the horizon, which would also decrease the matter overdensities. Lastly, we take note of the oscillations in the baryon density right before and after matter-radiation equality, but save the discussion for later. 
 
     \begin{figure}
         \includegraphics[width=\linewidth]{delta.pdf}
@@ -52,8 +51,8 @@
         \label{fig:m3:delta}
     \end{figure}
 
-    The next thing to consider are the matter velocities, shown in ~\cref{fig:m3:velocity}
-    \TODO{Comment these}
+    % The next thing to consider are the matter velocities, shown in ~\cref{fig:m3:velocity}
+    % \TODO{Comment these}
 
     \begin{figure}
         \includegraphics[width=\linewidth]{velocity.pdf}
