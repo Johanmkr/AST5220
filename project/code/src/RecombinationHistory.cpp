@@ -182,7 +182,8 @@ std::pair<double,double> RecombinationHistory::electron_fraction_from_saha_equat
 
   double K = 1./nb * std::pow(k_b*m_e*Tb/(2.0*M_PI*hbar*hbar), 1.5) * exp(-epsilon_0/(k_b*Tb));
   if(4.0/K < global_tol)
-    Xe = K/2. * (1.+2./K);
+    // Xe = K/2. * (1.+2./K);
+    Xe = 1.0;
   else{
     Xe = K/2. * (-1+sqrt(1+4./K));
   }

@@ -102,7 +102,7 @@ int main(int argc, char **argv){
   cosmo_noN.solve();
   // cosmo_noN.info();
 
-  RecombinationHistory rec_noN(&cosmo, Yp);
+  RecombinationHistory rec_noN(&cosmo_noN, Yp);
   rec_noN.solve();
   // rec_noN.info();
  

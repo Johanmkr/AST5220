@@ -421,9 +421,10 @@ void PowerSpectrum::output_theta(std::string filename) const{
   double c = Constants.c;
   double H0 = cosmo->H0;
 
-  fp << "ckH , " << "T_6  , " << "T_100 , "<<"T_200 , "<< "T_500 , "<<"T_1000 , "<<"\n";
+  fp << "k , " << "T_6  , " << "T_100 , "<<"T_200 , "<< "T_500 , "<<"T_1000 , "<<"\n";
   auto print_data = [&] (const double k){
-    fp << c*k/H0 << " , ";
+    // fp << c*k/H0 << " , ";
+    fp << k*eta0 << " , ";
     fp << get_thetaT_ell_of_k_spline(test_ell_idx[0], k) << " , ";
     fp << get_thetaT_ell_of_k_spline(test_ell_idx[1], k) << " , ";
     fp << get_thetaT_ell_of_k_spline(test_ell_idx[2], k) << " , ";
@@ -442,7 +443,8 @@ void PowerSpectrum::output_Cl_integrand(std::string filename) const{
   
   fp << " k  , " << "  T2_6 , " << "  T2_100 , " <<"  T2_200 , " <<"  T2_500 , " <<"  T2_1000 , " <<"\n";
   auto print_data = [&] (const double k){
-    fp << k*c/H0 << " , ";
+    // fp << k*c/H0 << " , ";
+    fp << k*eta0 << " , ";
     fp << get_thetaT_ell_of_k_spline(test_ell_idx[0], k) * get_thetaT_ell_of_k_spline(test_ell_idx[0], k) / k /c * H0<< " , ";
     fp << get_thetaT_ell_of_k_spline(test_ell_idx[1], k) * get_thetaT_ell_of_k_spline(test_ell_idx[1], k) / k/c * H0 << " , ";
     fp << get_thetaT_ell_of_k_spline(test_ell_idx[2], k) * get_thetaT_ell_of_k_spline(test_ell_idx[2], k) / k/c * H0 << " , ";
@@ -493,6 +495,7 @@ void PowerSpectrum::output_C_l_sep(std::string filename) const{
   }
   else{
     std::cout << "No separation" << std::endl;
+    fp << k*eta0 << " , ";
   }
 }
 

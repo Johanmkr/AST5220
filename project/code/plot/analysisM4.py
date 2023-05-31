@@ -111,15 +111,15 @@ class PowerSpectrum:
             T_values.append(f"self.Theta.T_{ell_values[i]}")
 
         ax_setter_info = dict(
-            xlabel=r"$c/H_0$",
+            xlabel=r"$k\eta_0$",
             title=r"$\mathrm{Transfer\ function\ }\Theta_l(k, \eta=\eta_0)$",
-            xlim=[0,500],
+            xlim=[0,1500],
             ylim=[-0.005, 0.015]
         )
 
         ThetaPlot = MAKEPLOT("transfer_function")
         for i in range(len(ell_values)):
-            ThetaPlot.plot_line(self.Theta.ckH, eval(T_values[i]), **info_dicts[i])
+            ThetaPlot.plot_line(self.Theta.k, eval(T_values[i]), **info_dicts[i])
         
         ThetaPlot.set_ax_info(**ax_setter_info)
         ThetaPlot.set_minor_ticks()
@@ -148,10 +148,10 @@ class PowerSpectrum:
             Cl_int_plot.plot_line(self.CL_integrand.k, eval(T2_values[i])*ell_values[i]*(ell_values[i]+1), **info_dicts[i])
 
         ax_setter_info = dict(
-            xlabel=r"$c/H_0$",
+            xlabel=r"$k\eta_0$",
             title=r"$\mathrm{Integrand\ of\ Power\ Spectrum:\ }|\Theta_l(k)|^2/k$",
             ylabel=r"$l(l+1) H_0/c$",
-            xlim=[0,500],
+            xlim=[0,1500],
             # ylim=[0,5e-7]
         )
 
