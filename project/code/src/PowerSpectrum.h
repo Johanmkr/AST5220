@@ -41,7 +41,7 @@ class PowerSpectrum {
     const bool C_l_separation = false;      // parameter that, if true, calculates C_l with the SW, ISW, doppler and polarisation terms individually. 
 
     const double x_start    = Constants.x_start;
-    const double x_start_LOS= -11.;     // Time before recombination from which we integrate the line of sight integral
+    const double x_start_LOS= -8.;     // Time before recombination from which we integrate the line of sight integral
     const double x_end      = Constants.x_end;
     const double x_end_LOS  = 0.0;
 

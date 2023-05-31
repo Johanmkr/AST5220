@@ -495,7 +495,6 @@ void PowerSpectrum::output_C_l_sep(std::string filename) const{
   }
   else{
     std::cout << "No separation" << std::endl;
-    fp << k*eta0 << " , ";
   }
 }
 
