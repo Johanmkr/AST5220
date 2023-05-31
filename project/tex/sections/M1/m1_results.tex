@@ -8,10 +8,6 @@
         \label{fig:m1:omega_tests}
     \end{figure}
     \cref{fig:m1:eta_tests} is the sanity check for $\eta$ showing that its derive take the desired value of $c/\Hp$.
-    
-    
-    % \TODO{fix this}
-    % As explained in section ~\cref{sec:m1:theory:sanity}, we have analytical solutions for constructions of $\eta$ and $\Hp$ in the different regimes. \cref{fig:m1:eta_tests} is the sanity check for $\eta$, showing $\eta\Hp/c$ converging to finite values in the radiation and matter dominated eras (where $\alpha_{\mathrm{rad}, \mathrm{M}}>0$), and diverging towards $+\infty$ in the dark energy dominated era ($\alpha_\Lambda =-2 <0$). This is in accordance with the analytical solutions. The different regimes are shown in shaded colour. It is also worth noticing that $(\d \eta /\d x)\Hp/c$ is one for all regimes, as expected from equation ~\cref{eq:m1:theory:measures:eta_diffeq}. \TODO{to this}
 
     \begin{figure}
         \includegraphics[width=\linewidth]{eta_test.pdf}
@@ -75,7 +71,7 @@
         \label{fig:m1:supernova_data}
     \end{figure}
 
-    Now let's turn to how we have constrained the parameters. ~\cref{fig:m1:omega_planes} shows the $\chi^2$-values found from ~\cref{eq:m1:methods:fit:chi2}, constrained to 1$\sigma$ interval. The black dotted line represent a flat universe, where the matter and dark energy are the main constituents of the universe. The supernova data originate in close temporal proximity to us, we thus assume that the contribution from the radiation density is negligible for making constraints on $\O_\mathrm{M0}$ and $\O_{\Lambda0}$ today. Having only $\O_\mathrm{M0}$, $\O_{\Lambda0}$ and $\O_{k0}$, where only two of them are free yield: $\O_{k0}=1-(\O_\mathrm{M0}+\O_{\Lambda0})$, which fixes the relationship, so that it does not really matter which two of them we constrain, as the constraint on the third automatically follows.\footnote{This is why we are able to put constraints on $\O_{\Lambda0}$ even though this parameter is not (directly) sampled in the MCMC sampling.}
+    Now let's turn to how we have constrained the parameters. ~\cref{fig:m1:omega_planes} shows the $\chi^2$-values found from ~\cref{eq:m1:methods:fit:chi2}, constrained to 1$\sigma$ interval. The black dotted line represent a flat universe, where the matter and dark energy are the main constituents of the universe. The supernova data originate in close temporal proximity to us, we thus assume that the contribution from the radiation density is negligible for making constraints on $\O_\mathrm{M0}$ and $\O_{\Lambda0}$ today. Having only $\O_\mathrm{M0}$, $\O_{\Lambda0}$ and $\O_{k0}$, where only two of them are free yield: $\O_{k0}=1-(\O_\mathrm{M0}+\O_{\Lambda0})$, which fixes the relationship, so that it does not matter which two of them we constrain, as the constraint on the third automatically follows.\footnote{This is why we are able to put constraints on $\O_{\Lambda0}$ even though this parameter is not (directly) sampled in the MCMC sampling.}
     
     \begin{figure}
         \includegraphics[width=\linewidth]{omega_plane.pdf}
@@ -83,7 +79,7 @@
         \label{fig:m1:omega_planes}
     \end{figure}
     
-    From the sampled values we then generate the posterior pdf by making a histogram of all the samples. This is seen for $\O_\mathrm{M0}$ and $\O_{k0}$ in ~\cref{fig:m1:posterior_pdf_omega_m_k} and for $H_0$ in ~\cref{fig:m1:posterior_pdf_H0}, all histograms are in turquoise. From the samples we also find their respective mean and standard deviation, from which we plot a green Gaussian curve on top of the histogram. The means are indicated with black dotted lines, and the $1\sigma$ confidence regions are shaded in blue. Both quantities are also stated in text in each plot, inn accordance with those presented in ~\cref{tab:m1:best_fit_values}. From inspection, we see that the histograms are quite close to being normally distributed, so the fitted Gaussian is quite a good fit. 
+    From the sampled values we then generate the posterior pdf by making a histogram of all the samples. This is seen for $\O_\mathrm{M0}$ and $\O_{k0}$ in ~\cref{fig:m1:posterior_pdf_omega_m_k} and for $H_0$ in ~\cref{fig:m1:posterior_pdf_H0}, all histograms are in turquoise. From the samples we also find their respective mean and standard deviation, from which we plot a green Gaussian curve on top of the histogram. The means are indicated with black dotted lines, and the $1\sigma$ confidence regions are shaded in blue. Both quantities are also stated in text in each plot, inn accordance with those presented in ~\cref{tab:m1:best_fit_values}. From inspection, we see that the histograms are quite close to being normally distributed, so the fitted Gaussian is a good fit. 
     
     \begin{figure}
         \includegraphics[width=\linewidth]{probs_M_K.pdf}
@@ -97,7 +93,7 @@
         \label{fig:m1:posterior_pdf_H0}
     \end{figure}
 
-    Discussing the goodness of the fit further, we may turn to the criterion from ~\cref{eq:m1:fit:goodness_of_fit}. ~\cref{fig:m1:goodness_of_fit} show a histogram of the sampled $\chi^2$ values, divided by $N$. In sight of prior discussion, the mean value of $\chi^2/N$ is 1.052, which is not that much larger than 1. Thus, we deduce that the fit is quite good. Although we also see from the figure that $\chi^2/N$ deviates significantly from the Gaussian curve in green.  
+    Discussing the goodness of the fit further, we may turn to the criterion from ~\cref{eq:m1:fit:goodness_of_fit}. ~\cref{fig:m1:goodness_of_fit} show a histogram of the sampled $\chi^2$ values, divided by $N$. In sight of prior discussion, the mean value of $\chi^2/N$ is 1.052, which is not that much larger than 1. Thus, we deduce that the fit is good. Although we also see from the figure that $\chi^2/N$ deviates significantly from the Gaussian curve in green.  
     
     \begin{figure}
         \includegraphics[width=\linewidth]{goodnes_of_fit.pdf}

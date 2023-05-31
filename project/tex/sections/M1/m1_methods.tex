@@ -5,11 +5,11 @@
     \end{equation}
     where we have defined the ratio $\Hp_\mathrm{rat} \equiv H_0/\Hp$, and the new index $n$ are all the densitis: $n\in\{b, \mathrm{CDM}, \gamma, \nu, \Lambda, k\}$.
 
-    We also implement functions to solve for the luminosity distance (\cref{eq:m1:theory:measures:luminosity_distance}), angular distance (\cref{eq:m1:theory:measures:angular_distance_def}), and the conformal distance (\cref{eq:m1:theory:measures:conformal ditance}).
+    We also implement functions to solve for the luminosity distance (~\cref{eq:m1:theory:measures:luminosity_distance}), angular distance (~\cref{eq:m1:theory:measures:angular_distance_def}), and the conformal distance (~\cref{eq:m1:theory:measures:conformal ditance}).
 
 
 \subsubsection{ODEs and Splines}
-    The differential equations for $\eta$ (\cref{eq:m1:theory:measures:eta_diffeq}) and $t$ (\cref{eq:m1:theory:measures:t_diffeq}) are solved numerically as ordinary differential equations with the Runge-Kutta 4 as advancement method. The equations are solved for $x\in(-20,5)$. As initial condition we would like $\eta(-\infty)$ which is obviously not possible to calculate, so we pick some very early time and use the analytical approximation in the radiation dominated era (\cref{eq:m1:theory:sanity:eta_sanity}), which yield:
+    The differential equations for $\eta$ (~\cref{eq:m1:theory:measures:eta_diffeq}) and $t$ (~\cref{eq:m1:theory:measures:t_diffeq}) are solved numerically as ordinary differential equations with the Runge-Kutta 4 as advancement method. The equations are solved for $x\in(-20,5)$. As initial condition we would like $\eta(-\infty)$ which is obviously not possible to calculate, so we pick some very early time and use the analytical approximation in the radiation dominated era, which yield:
     \begin{equation}\label{eq:m1:methods:odes:eta_initial}
         \eta(x_0) = \frac{c}{\Hp(x_0)}.
     \end{equation}
@@ -22,7 +22,7 @@
 
 
 \subsubsection{Fit to supernova data}\label{sec:m1:methods:fit}
-    We make predictions of the luminosity distance at different redshifts $z$, according to the discussion in ~\cref{sec:m1:measure_time_space}. These predictions are compared with real supernova observations, acquired by ~\cite{Betoule_2014}. In order to constrain the possible values of $h$, $\O_\mathrm{M}$ and $\O_\Lambda$ we find the $\chi^2$-value between the luminosity distance of the supernovas and our predictions. The $\O$-s are sampled with Markov-Chain Monte Carlo sampling using the Metropolis-Hastings algorithm. 
+    We make predictions of the luminosity distance at different redshifts $z$, according to the discussion in ~\cref{sec:m1:measure_time_space}. These predictions are compared against real supernova observations, acquired by ~\cite{Betoule_2014}. In order to constrain the possible values of $h$, $\O_\mathrm{M}$ and $\O_\Lambda$ we find the $\chi^2$-value between the luminosity distance of the supernovas and our predictions. The $\O$-s are sampled with Markov-Chain Monte Carlo sampling using the Metropolis-Hastings algorithm. 
     
     The parameters in question are $\Theta = \{h, \O_{m0}, \O_{k0}\}$, and we denote the observed data $\mathcal{D}_i = d_L^\mathrm{obs}(z_i)$.
     We assume the likelihood that the observed data is true, follows a normal distribution, with the observed value as mean, and uncertainty as standard deviation. Mathematically: $P(\mathcal{D}_i|\Theta) \sim \mathcal{N}(\mathcal{D}_i, \sigma_i^2)$. The total likelihood is thus the product of all $N$ data points:
@@ -33,15 +33,15 @@
     \begin{equation}\label{eq:m1:methods:fit:chi2}
         \chi^2(\Theta) = \sum_{i=1}^N\frac{(d_L(z_i, \Theta)-\mathcal{D}_i)^2}{\sigma_i^2}.
     \end{equation}
-    We use as prior (the probability that the observed data are true without any further information), a uniform distribution that is 1 if the parameters are within the following ranges (0 otherwise): $0.5 < h < 1.5$, $0.0 < \O_{m0} < 1.0$, $-1.0 < \O_{k0} < 1.0$. These are the absolute ranges of the parameters. Thus, according to Bayes' theorem, within these ranges we have that the posterior probability 
+    We use as prior (the probability that the observed data are true without any further information), a uniform distribution that is 1 if the parameters are within the following ranges (0 otherwise): $0.5 < h < 1.5$, $0.0 < \O_{m0} < 1.0$, $-1.0 < \O_{k0} < 1.0$. These are the absolute ranges of the parameters. According to Bayes' theorem, within these ranges we have that the posterior probability 
     \begin{equation}\label{eq:m1:methods:fit:posterior_prob}
         P(\Theta|\mathcal{D}) \propto \mathcal{L}(\Theta|\mathcal{D}) \cdot \mathrm{Prior} = \mathcal{L}(\Theta|\mathcal{D}). 
     \end{equation}
-    Thus, finding the most probable set of parameters $\Theta$ is equivalent to find the set with the largest likelihood, which again is similar to finding the set which minimises $\chi^2$. 
+    Finding the most probable set of parameters $\Theta$ is equivalent to finding the set with the largest likelihood, which again is similar to finding the set which minimises $\chi^2$. 
 
     When performing MCMC sampling (with MH-algorithm), we use ~\cref{eq:m1:methods:fit:likelihood} as the likelihood function. That means that we would expect normally distributed values of the different parameters, $\Theta$. We may from the distributions of each parameter estimate the mean (true value) and a confidence interval from its standard deviation. We may also find the $1\sigma$ confidence space for the collection of parameters in $\Theta$, by considering the distribution of $\chi^2$. This is a famous distribution whose $1\sigma$ interval (for $k=3$ degrees of freedom in this case) is given by $\abs{\chi^2-\chi^2_\mathrm{min}} < 3.53$. 
     
-    It is also of interest to say something about whether the fit is any good at all. It is easy to see from ~\cref{eq:m1:methods:fit:chi2} that if the difference between prediction and observation matches the uncertainties in the observed data, then we have $\chi^2 \simeq N$, which is the best fit we can hope for (since we fit to data which has an intrinsic uncertainty already). If $\chi^2\ll N$, then we \textit{over-fit} the model, while if $\chi^2\gg N$ then we have an increasingly bad fit. In summary, we may analyse the following quantity
+    It is also of interest to say something about whether it is a good fit. It is easy to see from ~\cref{eq:m1:methods:fit:chi2} that if the difference between prediction and observation matches the uncertainties in the observed data, then we have $\chi^2 \simeq N$, which is the best fit we can hope for (since we fit to data which has an intrinsic uncertainty already). If $\chi^2\ll N$, then we \textit{over-fit} the model, while if $\chi^2\gg N$ then we have an increasingly bad fit. In summary, we may analyse the following quantity
     \begin{equation}\label{eq:m1:fit:goodness_of_fit}
         \frac{\chi^2}{N} \begin{cases}
             \ll &1 \quad \mathrm{over-fitting,} \\

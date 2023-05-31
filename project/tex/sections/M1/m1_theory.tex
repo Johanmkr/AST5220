@@ -35,7 +35,7 @@
     As of now, we are primarily interested in the first Friedmann equation. By introducing the critical density, $\rho_c\equiv2H^2/(8\pi G)$, we define the density parameters $\O_i=\rho_i/\rho_c$. We further define the density $\rho_k\equiv-3kc^2\expe{-2x}/(8\pi G)$,\footnote{This is the ``density of curvature'', but is in fact not a real density. It is called this because its mathematical behaviour is similar to that of the other (real) densities.} which enables us to write ~\cref{eq:m1:theory:fundamentals:first_friedmann_equation} as simply:
     \begin{equation}
         1=\sum_i\O_i,
-    \end{equation}`
+    \end{equation}
     where the density $\O_k$ is included in the sum. From ~\cref{eq:m1:theory:fundamentals:solution_to_density_diff_eq} we know the evolution of the densities in time, and if we assume the density values today, $\O_{i0}$, are known (or are free parameters), then ~\cref{eq:m1:theory:fundamentals:first_friedmann_equation} may also be written as:
     \begin{equation}\label{eq:m1:theory:fundamentals:Hubble_equation}
         H = H_0\sqrt{\sum_i\O_{i0}\expe{-3(1+\omega_i)x}},
@@ -44,7 +44,7 @@
 
 
 \subsubsection{Measure of time and space}\label{sec:m1:measure_time_space}
-    There are many ways of measuring time in cosmology, and they are often related to spatial quantities. The most common is perhaps the \textit{scale factor} $a$, which describes how the physical size of the universe changes with time. An increasing scale factor signifies an expanding universe and vice versa. Another, computationally more useful way of describing $a$ is through its logarithm $x=\ln a \iff a=e^x$, which is the convention we will stick to eventually.
+    There are many ways of measuring time in cosmology, and they are often related to spatial quantities. The most common is perhaps the \textit{scale factor} $a$, which describes how the physical size of the universe changes with time. An increasing scale factor signifies an expanding universe and vice versa. Another, computationally more useful way of describing $a$ is through its logarithm $x=\ln a \iff a=e^x$, which is our convention of choice.
     
     Another way of measuring the expansion of the Universe is through the \textit{redshift} $z$, which is defined as the change in wavelength of electromagnetic radiation between emitter and observer. Radiation propagates through the Universe, so any expansion (or contraction) would expand (or contract) the wavelength, and this is encapsulated in the redshift $z=\Delta\lambda/\lambda$. It is connected to the scale factor as $1+z=1/a$.
     
@@ -149,7 +149,7 @@
      \end{equation}
     
     The age of the universe today, and the conformal time today can both be found by evaluating the solutions to the differential equations of $t$ and $\eta$ at the present time (where $x=0$). This is done numerically. 
-
+% \newpage
 \subsubsection{Analytical solutions and sanity checks}\label{sec:m1:theory:sanity}
     There are several ways we may check that both our workings and numerical implementations are indeed correct. The simplest way is to always ensure that the sum of all density parameters add up to 1, for all times: $\sum_i\O_i=1$. 
     
@@ -181,17 +181,7 @@
             H_0\sqrt{\O_{\Lambda0}}e^x \qquad &\alpha_\Lambda = -2
         \end{cases}
     \end{equation}
-    % \begin{equation}
-    %     \label{eq:m1:theory:sanity:eta_sanity}
-    %     \frac{\eta\Hp}{c} \approx 
-    %     \begin{cases}
-    %         1 \qquad &\alpha_\mathrm{rad} = 2 \\
-    %         2 \qquad &\alpha_\mathrm{M} = 1\\
-    %         \infty \qquad &\alpha_\Lambda = -2
-    %     \end{cases}
-    % \end{equation}
     These equations will be useful when making sure that the implementations are correct.
-    % \footnote{~\cref{eq:m1:theory:sanity:eta_sanity} is a bit hand-wavy as $\eta$ is really an integral, so assuming a dominant density parameter, means assuming it for the whole existence of the universe, not only the regime we are looking at. We may hence expect these to bee gradually more wrong as the Universe evolves. \TODO{DO I HAVE TIME TO FIX THIS?}} 
     For a thorough derivation, see below, otherwise skip:
 
     \begin{tcolorbox}[
@@ -228,7 +218,7 @@
             &= \frac{1}{2U}\dv[2]{U}{x}-\left(\frac{1}{\Hp}\dv{U}{x}\right)^2
         \end{split}
     \end{equation*}
-    We now make the assumption that one of the density parameters dominate $\O_i>> \sum_{j\neq i}\O_i$, enabling the following approximation:
+    We now make the assumption that one of the density parameters dominate $\O_i\gg \sum_{j\neq i}\O_j$, enabling the following approximation:
     \begin{equation*}
         \begin{split}
             U &\approx \O_{i0}\expe{-\alpha_ix} \\

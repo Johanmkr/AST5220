@@ -11,9 +11,9 @@
 
     Before recombination, the equilibrium between protons, electrons and photons is governed by the following interaction, from ~\cite{weinberg2008cosmology}\footnote{Where $H^*$ denotes excited states of hydrogen which will decay into neutral hydrogen.}:
     \begin{equation}\label{eq:m2:theory:equilibrium_interaction}
-        e^-+p^+\leftrightharpoons H^* + \gamma,
+        e^-+p^+\leftrightharpoons H^* + \gamma.
     \end{equation}
-    where a proton and an electron interact to form an excited hydrogen atom, which decays and emits a photon, or a photon excites and split a hydrogen atom into a free electron and a proton through \textit{Compton scattering}.\footnote{Elastic scattering of photons is technically Thomson scattering, but Compton scattering is a more general term and will be used (~\cite{dodelson2020modern}). This is also why we later use the Thomson cross section $\sigma_T$. The reaction is when a photon scatters of an electron, and possibly energises it enough to break out of the hydrogen atom, if already bound: $$\gamma + e^- \leftrightharpoons \gamma+e^-.$$} ~\cref{eq:m2:theory:equilibrium_interaction} is a reaction of the form $1+2\leftrightharpoons 3+4$, and we have from ~\cite{AST5220LectureNotes} that the Boltzmann equation for such a reaction is:
+    Here, a proton and an electron interact to (i): Form an excited hydrogen atom, which then decays and emits a photon, or (ii): A photon excites and split a hydrogen atom into a free electron and a proton through \textit{Compton scattering}.\footnote{Elastic scattering of photons is technically Thomson scattering, but Compton scattering is a more general term and will be used (~\cite{dodelson2020modern}). This is also why we later use the Thomson cross section $\sigma_T$. The reaction is when a photon scatters of an electron, and possibly energises it enough to break out of the hydrogen atom, if already bound: $$\gamma + e^- \leftrightharpoons \gamma+e^-.$$} ~\cref{eq:m2:theory:equilibrium_interaction} is a reaction of the form $1+2\leftrightharpoons 3+4$, and we have from ~\cite{AST5220LectureNotes} that the Boltzmann equation for such a reaction is:
     \begin{equation}\label{eq:m2:theory:boltzmann_eq}
         \frac{1}{n_1e^{3x}}\dv{(n_1e^{3x})}{x} = -\frac{\Gamma}{H}\left(1-\frac{n_3n_4}{n_1n_2}\left(\frac{n_1n_2}{n_3n_4}\right)_\mathrm{eq}\right),
     \end{equation}
@@ -61,7 +61,7 @@
     \begin{equation}\label{eq:m2:theory:optical_depth}
         \tau = \int_\eta^{\eta_0} n_e\sigma_\mathrm{T}\expe{-x}\d\eta',
     \end{equation}
-    where $n_e$ is the electron density and $\sigma_\mathrm{T}$ is the Thompson cross-section. Optical depth can in a classical sense be though of as how far we can see into a substance or medium. The medium in question here is actually spacetime itself, since we integrate across the conformal time from some time $\eta$ up until today: $\eta_0$. Therefore, the optical depth today is zero, since photons have had no time to actually travel through any medium. The medium we consider is thus the spacetime of our past light-cone when we ``look back in time''. In differential form, restoring original units, this is:
+    where $n_e$ is the electron density and $\sigma_\mathrm{T}$ is the Thompson cross-section. Optical depth can in a classical sense be thought of as how far we can see into a substance or medium. The medium in question here is actually spacetime itself, since we integrate across the conformal time from some time $\eta$ up until today: $\eta_0$. Therefore, the optical depth today is zero, since photons have had no time to actually travel through any medium. The medium we consider is the spacetime of our past light-cone when we ``look back in time''. In differential form, restoring original units, this is:
     \begin{equation}\label{eq:m2:theory:optical_depth_differential}
         \dv{\tau}{x} = -\frac{cn_e\sigma_Te^x}{\Hp}.    
     \end{equation} 
