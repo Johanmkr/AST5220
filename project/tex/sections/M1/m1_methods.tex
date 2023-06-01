@@ -3,13 +3,11 @@
     \begin{equation}\label{eq:m1:methods:initial:density_evolution}
         \O_n = \expe{-\alpha_nx}\O_{n0}\Hp_\mathrm{rat}^2
     \end{equation}
-    where we have defined the ratio $\Hp_\mathrm{rat} \equiv H_0/\Hp$, and the new index $n$ are all the densitis: $n\in\{b, \mathrm{CDM}, \gamma, \nu, \Lambda, k\}$.
-
-    We also implement functions to solve for the luminosity distance (~\cref{eq:m1:theory:measures:luminosity_distance}), angular distance (~\cref{eq:m1:theory:measures:angular_distance_def}), and the conformal distance (~\cref{eq:m1:theory:measures:conformal ditance}).
+    where we have defined the ratio $\Hp_\mathrm{rat} \equiv H_0/\Hp$, and the new index $n$ are all the densitis: $n\in\{b, c, \gamma, \nu, \Lambda, k\}$. We also implement functions to solve for the luminosity distance (~\cref{eq:m1:theory:measures:luminosity_distance}), angular distance (~\cref{eq:m1:theory:measures:angular_distance_def}), and the conformal distance (~\cref{eq:m1:theory:measures:conformal ditance}).
 
 
 \subsubsection{ODEs and Splines}
-    The differential equations for $\eta$ (~\cref{eq:m1:theory:measures:eta_diffeq}) and $t$ (~\cref{eq:m1:theory:measures:t_diffeq}) are solved numerically as ordinary differential equations with the Runge-Kutta 4 as advancement method. The equations are solved for $x\in(-20,5)$. As initial condition we would like $\eta(-\infty)$ which is obviously not possible to calculate, so we pick some very early time and use the analytical approximation in the radiation dominated era, which yield:
+    The differential equations for $\eta$ (~\cref{eq:m1:theory:measures:eta_diffeq}) and $t$ (~\cref{eq:m1:theory:measures:t_diffeq}) are solved numerically as ordinary differential equations (ODEs) with the Runge-Kutta 4 as advancement method. The equations are solved for $x\in[-20,5)$. As initial condition we would like $\eta(-\infty)$ which is obviously not possible to calculate, so we pick some very early time and use the analytical approximation in the radiation dominated era, which yield:
     \begin{equation}\label{eq:m1:methods:odes:eta_initial}
         \eta(x_0) = \frac{c}{\Hp(x_0)}.
     \end{equation}
@@ -17,14 +15,12 @@
     \begin{equation}\label{eq:m1:methods:odes:t_initial}
         t(x_0) = \frac{1}{2H(x_0)}.
     \end{equation}
-    
-    We then proceed by making splines of both $\eta$ and $t$ in order to evaluate accurately for any $x\in(-20,5)$. 
-
+    We then proceed by making splines of both $\eta$ and $t$ in order to evaluate accurately for any $x\in[-20,5)$. 
 
 \subsubsection{Fit to supernova data}\label{sec:m1:methods:fit}
-    We make predictions of the luminosity distance at different redshifts $z$, according to the discussion in ~\cref{sec:m1:measure_time_space}. These predictions are compared against real supernova observations, acquired by ~\cite{Betoule_2014}. In order to constrain the possible values of $h$, $\O_\mathrm{M}$ and $\O_\Lambda$ we find the $\chi^2$-value between the luminosity distance of the supernovas and our predictions. The $\O$-s are sampled with Markov-Chain Monte Carlo sampling using the Metropolis-Hastings algorithm. 
+    From our implementations we can make predictions of the luminosity distance at different redshifts $z$, according to the discussion in ~\cref{sec:m1:measure_time_space}. These predictions are compared against real supernova observations, acquired by ~\cite{Betoule_2014}. In order to constrain the possible values of $h$, $\O_\mathrm{M}$ and $\O_\Lambda$ we find the $\chi^2$-value between the luminosity distance of the supernovas and our predictions. The $\O$-s are sampled with Markov-Chain Monte Carlo sampling using the Metropolis-Hastings algorithm. 
     
-    The parameters in question are $\Theta = \{h, \O_{m0}, \O_{k0}\}$, and we denote the observed data $\mathcal{D}_i = d_L^\mathrm{obs}(z_i)$.
+    The parameters in question are $\Theta = \{h, \O_{M0}, \O_{k0}\}$,\footnote{Not to be confused with the temperature fluctuations introduced later.} and we denote the observed data $\mathcal{D}_i = d_L^\mathrm{obs}(z_i)$.
     We assume the likelihood that the observed data is true, follows a normal distribution, with the observed value as mean, and uncertainty as standard deviation. Mathematically: $P(\mathcal{D}_i|\Theta) \sim \mathcal{N}(\mathcal{D}_i, \sigma_i^2)$. The total likelihood is thus the product of all $N$ data points:
     \begin{equation}\label{eq:m1:methods:fit:likelihood}
         \mathcal{L}(\Theta|\mathcal{D}) = \prod_{i=1}^NP(\mathcal{D}_i|\Theta) \propto \exp{-\frac{\chi^2}{2}}
@@ -33,7 +29,7 @@
     \begin{equation}\label{eq:m1:methods:fit:chi2}
         \chi^2(\Theta) = \sum_{i=1}^N\frac{(d_L(z_i, \Theta)-\mathcal{D}_i)^2}{\sigma_i^2}.
     \end{equation}
-    We use as prior (the probability that the observed data are true without any further information), a uniform distribution that is 1 if the parameters are within the following ranges (0 otherwise): $0.5 < h < 1.5$, $0.0 < \O_{m0} < 1.0$, $-1.0 < \O_{k0} < 1.0$. These are the absolute ranges of the parameters. According to Bayes' theorem, within these ranges we have that the posterior probability 
+    We use as prior (the probability that the observed data is true without any further information), a uniform distribution that is 1 if the parameters are within the following ranges (0 otherwise): $0.5 < h < 1.5$, $0.0 < \O_{M0} < 1.0$, $-1.0 < \O_{k0} < 1.0$. These are the absolute ranges of the parameters. According to Bayes' theorem, within these ranges we have that the posterior probability 
     \begin{equation}\label{eq:m1:methods:fit:posterior_prob}
         P(\Theta|\mathcal{D}) \propto \mathcal{L}(\Theta|\mathcal{D}) \cdot \mathrm{Prior} = \mathcal{L}(\Theta|\mathcal{D}). 
     \end{equation}

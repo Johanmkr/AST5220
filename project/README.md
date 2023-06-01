@@ -1,6 +1,7 @@
-# AST5220 - Cosmology II - Numerical project
+# An investigation into the power spectrums of matter and radiation
 
-## The work done in order to calculate the CMB power spectrum. 
+## ABSTRACT
+``The cosmic microwave background radiation can be seen across the entire sky, and can provide great insight into the nature of several cosmological phenomena. It is therefore of interest to investigate this theoretically, which is the main aim of this article. We consider linear perturbation to the FLRW cosmology in conformal Newtonian gauge in order to create a pipeline for predicting the power spectra of matter and anisotropies to the CMB. This is done by first calculating the background cosmology, and recombination epoch, including neutrinos. We then ignore neutrinos, polarisation and reionisation when evolving the perturbation equations in time, in order to solve for the power spectra which can be compared with observations. Ignoring these effects yield a significant discrepancy in the result for small scale modes, but provide enough accuracy for the large scale modes. As a result, we obtaine a pipeline through which we can obtain power spectra for different cosmologies and compare them to data, although the analysis is only done for the ΛCDM-cosmology using data from Aghanim et al. (2020).``
 
 ## Report
 
@@ -55,54 +56,6 @@ Clean the plots generated:
 
     make clean_pdfs
 
-
-
-## TODO:
- *  Optimise code
-
-
- ### Milestone1
-
-* Code
-    * Use OmegaM and OmegaR_tot
-
-* Report
-    * Write Abstract
-
-* Sanity checks
-    Sanity check for $\eta$, this should be done properly if time allows. 
-
-* Results
-    * Discuss physical interpretation.
-
-* Appendix
-    * Check feedback on devilry and fix when time is available (lol)
-
-
-### Milestone 2
-* Derive Saha and Peebles in appendix.
-
-
-
-### Milestone 3
-*   Write about truncation of the multipole expansion
-*   Write a section about what we expect and how to test the different things
-*   Fille out method section about intervals and why we use the number of values that we do.
-*   Write results, discussion and make comparison between it and the analytical stuff. Improve
-*   Update nomenclature 
-
-
-### Milestone 4
-*   Write theory about matter power spectrum
-*   Short section about what we expect?
-*   Describe the plots and physics going into it. 
-
-
-*   Different numerical values, how many points do we spline for and so on.
-
-*   Plot analytical solutions in the different regimes + plot of the horizons $k\eta$ as functions of $x$.
- ## Questions
-*   Division between main text and appendix, especially for milestone 3.
 
 
 

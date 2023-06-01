@@ -4,7 +4,7 @@
     ~\cref{fig:m1:omega_tests} show the evolution of the density fractions with time. They sum to one across all times which was required. At early times the radiation density dominates (orange line). The intersection between the orange and green lines mark the radiation-matter equality, after which matter is the dominating density. Likewise, the intersection between the green and purple lines mark the matter-dark energy equality, where dark energy (manifested in the cosmological constant) become the dominating density. Time can thus be divided into three regimes; radiation dominated, matter dominated, and dark energy dominated eras, separated by black dotted lines in the plot. 
     \begin{figure}
         \includegraphics[width=\linewidth]{testing_omegas.pdf}
-        \caption{Density fractions $\O_i$ as function of $x$. For low $x$, radiation dominates, before matter dominates and dark energy has just become the dominant energy density today $x=0$, and will continue to dominate into the future. The sum of densities sums to one across all times, as required (white dotted line). The black dotted lines are the radiation-matter equality at $x=-8.13$ and the matter-dark energy equality at $x=-0.26$, both stated in ~\cref{tab:m1:important_values}. The domination of each regime is shown as a shaded background with similar colour as its respective graph. }
+        \caption{Density fractions $\O_i$ as function of $x$. For low $x$, radiation dominates, before matter dominates and dark energy has just become the dominant energy density today $x=0$, and will continue to dominate into the future. The sum of densities sums to one across all times, as required (brown dotted line). The black dotted lines are the radiation-matter equality at $x=-8.13$ and the matter-dark energy equality at $x=-0.26$, both stated in ~\cref{tab:m1:important_values}. The domination of each regime is shown as a shaded background with similar colour as its respective graph. }
         \label{fig:m1:omega_tests}
     \end{figure}
     \cref{fig:m1:eta_tests} is the sanity check for $\eta$ showing that its derive take the desired value of $c/\Hp$.
@@ -34,7 +34,7 @@
         \label{tab:m1:important_values}
     \end{table}
 
-    The conformal Hubble factor, $\Hp$, is plotted against time, $x$, in ~\cref{fig:m1:conformal_hubble_factor_Hp}. It is decreasing in the radiation and matter regimes and increasing in the dark energy regime, switching signs at the acceleration onset, which is marked with a black dotted line in the figure. 
+    The conformal Hubble factor, $\Hp$, is plotted against time, $x$, in ~\cref{fig:m1:conformal_hubble_factor_Hp}. It is decreasing in the radiation and matter regimes and increasing in the dark energy regime, with a turnover at the acceleration onset, which is marked with a black dotted line in the figure. 
     \begin{figure}
         \includegraphics[width=\linewidth]{conformal_hubble_factor.pdf}
         \caption{$\Hp$ as function of $x$. It is decreasing in the radiation and matter regimes, and increasing in the dark energy regime, tightly following its analytical approximation in each regime.}
@@ -49,7 +49,7 @@
         \label{fig:m1:cosmic_conformal_time}
     \end{figure}
 
-    The results of the supernova fitting, outlined in section ~\cref{sec:m1:methods:fit}, is summarised in ~\cref{tab:m1:best_fit_values}. The parameter values that maximises the likelihood (minimising) $\chi^2$ are: $h=0.702$, $\O_\mathrm{M0} = 0.259$ and $\O_{k0} = 0.274$. We also compute the posterior probability distribution function obtained from ~\cref{eq:m1:methods:fit:posterior_prob} which we have assumed to be normally distributed. From this we obtain a mean value, but also a $1\sigma$ confidence interval, which are:
+    The results of the supernova fitting, outlined in ~\cref{sec:m1:methods:fit}, is summarised in ~\cref{tab:m1:best_fit_values}. The parameter values that maximises the likelihood (minimising) $\chi^2$ are: $h=0.702$, $\O_\mathrm{M0} = 0.259$ and $\O_{k0} = 0.274$. We also compute the posterior probability distribution function obtained from ~\cref{eq:m1:methods:fit:posterior_prob} which we have assumed to be normally distributed. From this we obtain a mean value, but also a $1\sigma$ confidence interval, which are:
     \begin{equation}\label{eq:m1:results:posterior_results}
         \begin{split}
             h &= 0.701\pm0.006 \\
@@ -63,11 +63,11 @@
         \caption{Best and fitted values. The best fit values are those that actually minimise the $\chi^2$-value, which consequently are the most probable values. The fitted values are obtained as the mean and standard deviations of the posterior pdfs of the parameters respectively. }
         \label{tab:m1:best_fit_values}
     \end{table}
-    Let's first see for ourselves if these values make sense or not, just with by-eye comparison.~\cref{fig:m1:supernova_data} shows the supernova data as red error bars, with the predictions from the fiducial cosmology plotted above it, alongside the best fit parameter values. The quantity plotted is the luminosity distance divided by redshift, $d_L/z$ for better comparison. We notice the accordance between the two, and also note that the $x$-axis in this plot is the redshift $z$ instead of the logarithm of the scale factor. This means that earlier times are to the right in the plot (high redshift), as opposed to the other plots. Immediately we see that the best fit parameters seems to do a better job at staying within the red error bars. However, the fiducial cosmology is also quite good. Furthermore, the fiducal cosmology stays well within the $1\sigma$ confidence interval found from the posterior pdfs. It is also worth noting that the uncertainties on some observed values are quite large. 
+    Let's first see for ourselves if these values make sense or not, just with by-eye comparison.~\cref{fig:m1:supernova_data} shows the supernova data as red error bars, with the predictions from the fiducial cosmology plotted above it, alongside the best fit parameter values. The quantity plotted is the luminosity distance divided by redshift, $d_L/z$ for better comparison. We notice the accordance between the two, and also note that the $x$-axis in this plot is the redshift $z$ instead of the logarithm of the scale factor. This means that earlier times are to the right in the plot (high redshift), as opposed to the other plots. Immediately we see that the best fit parameters seems to do a better job at staying within the red error bars. However, the fiducial cosmology is also good. Furthermore, the fiducal cosmology stays well within the $1\sigma$ confidence interval found from the posterior pdfs. It is also worth noting that the uncertainties on some observed values are large. 
 
     \begin{figure}
         \includegraphics[width=\linewidth]{supernova_data.pdf}
-        \caption{The luminosity distance predicted using the fiducial cosmology in blue, against observations of actual supernovas in red (or rather the confidence interval of the observations). The green line is found from computing the luminosity distance using a cosmology of the best fit parameters from the supernova fitting; $h=0.702, \O_\mathrm{b0} = 0.05, \O_\mathrm{CDM0} = 0.209, \O_\mathrm{k}=0.067, N_\mathrm{eff}=3.046, T_\mathrm{CMB}=2.7255 \text{K}$. Notice the $x$-axis is now the redshift $z=e^x-1$.}
+        \caption{The luminosity distance predicted using the fiducial cosmology in blue, against observations of actual supernovas in red (or rather the confidence interval of the observations). The green line is found from computing the luminosity distance using a cosmology of the best fit parameters from the supernova fitting; $h=0.702, \O_\mathrm{b0} = 0.05, \O_{c0} = 0.209, \O_\mathrm{k}=0.067, N_\mathrm{eff}=3.046, T_\mathrm{CMB}=2.7255 \text{K}$. Notice the $x$-axis is now the redshift $z=e^x-1$.}
         \label{fig:m1:supernova_data}
     \end{figure}
 

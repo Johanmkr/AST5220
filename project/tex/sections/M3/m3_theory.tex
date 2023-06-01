@@ -1,4 +1,5 @@
 \subsection{Theory}\label{sec:m3:theory}
+    We will start by perturbing the flat metric and obtain the terms in the collsionless Boltzmann equation. Next we obtain the collision terms for all relevant species and from this find evolutionary equations for them. We also obtain evolutionary equations for the metric perturbations and express everything in Fourier space, for easier numerical implementation. Lastly we consider the process of inflation, the trick of line of sight integration and some analytical expectations in different regimes. 
 
 \subsubsection{Metric perturbations}
     We will consider a perturbed spacetime where we add some contribution, $h_\munu$, to the flat FLRW metric, $g_\munu^{(0)}$, of the form:
@@ -13,7 +14,7 @@
             h_{ij} &= 2a^2\delta_{ij}\Phi.
         \end{split}
     \end{equation}
-    The perturbed metric in the conformal-Newtonian gauge is thus (as given in ~\cite{https://doi.org/10.48550/arxiv.astro-ph/0606683}):
+    The perturbed metric is (as given in ~\cite{https://doi.org/10.48550/arxiv.astro-ph/0606683}):
     \begin{equation}\label{eq:m3:theory:perturbed_metric}
         g_\munu = \begin{pmatrix}
             -(1+2\Psi) & 0 \\
@@ -32,7 +33,7 @@
             \dv{p}{t} &= -\left(H+\dv{\Phi}{t}\right)p-\frac{E}{a}\hat{p}^i\pdv{\Psi}{x^i} \label{eq:m3:theory:metric_perturb_dpdt}
         \end{align}
     \end{subequations}
-    Inserting ~\cref{eq:m3:theory:geodesic_results} into ~\cref{eq:m2:theory:bolzmann_expanded}, and for now assuming $C[f]=0$ yield the \textit{collisionless Bolzmann equations}. Keeping terms to first order only,\footnote{This is justified by the ansatz that deviations away from the equilibrium distribution of radiation in the inhomogeneous universe are of same order as the spacetime perturbations $\Phi$ and $\Psi$, ~\cite{dodelson2020modern}.} yield the collisionless Bolzmann equation: ~\cite[Eq. 3.83]{dodelson2020modern}:
+    Inserting ~\cref{eq:m3:theory:geodesic_results} into ~\cref{eq:m2:theory:bolzmann_expanded}, and for now assuming $C[f]=0$, keeping terms to first order only,\footnote{This is justified by the ansatz that deviations away from the equilibrium distribution of radiation in the inhomogeneous universe are of same order as the spacetime perturbations $\Phi$ and $\Psi$, ~\cite{dodelson2020modern}.} yield the collisionless Bolzmann equation: ~\cite[Eq. 3.83]{dodelson2020modern}:
     \begin{equation}\label{eq:m3:theory:collisionless_bolzmann_general}
         \dv{f}{t} = \pdv{f}{t}+\frac{p}{E}\frac{\hat{p}^i}{a}\pdv{f}{x^i}-\left[H+\dv{\Phi}{t} + \frac{E}{ap}\hat{p}^i\pdv{\Psi}{x^i}\right]p\pdv{f}{p}.
     \end{equation}
@@ -53,7 +54,7 @@
             \FF\left[\dv[n]{f(\vec{x},t)}{t}\right] &= \dv[n]{t}\FF[f(\vec{x},t)].
         \end{split}
     \end{equation} 
-    The two equations in ~\cref{eq:m3:theory:fourier_pde_tricks} have the ability of reducing partial differential equations (PDEs) down to a set of decoupled ordinary differential equations (ODEs). This means that we are able to solve for each mode $k=\abs{\vec{k}}$ independently, which will be of great impact for the equations to come. 
+    The two equations in ~\cref{eq:m3:theory:fourier_pde_tricks} have the ability of reducing PDEs down to a set of decoupled ODEs. This means that we are able to solve for each mode $k=\abs{\vec{k}}$ independently, which will be of great impact for the equations to come. 
 
     We will also work with multipole expansions, which are series written as sums of \textit{Legendre polynomials} expanded in $\mu=\cos{\theta}\in[-1,1]$ as:
     \begin{equation}\label{eq:m3:theory:legendre_expansion}
@@ -86,7 +87,7 @@
     \end{equation} 
 
 \subsubsection{Matter perturbation}
-    For massive particles, we start with cold dark matter (CDM). Firstly, we assume cold dark matter to not interact with any other species, nor self-interact. Thus, we do not have any collision terms. Further, we also assume it to behave like a fluid, neglecting any terms not to first order. We consider cold dark matter to be non-relativistic fluid with only a sizeable monopole and dipole term. This fluid description means that the evolution is fully characterised by the density and velocity, ~\cite{AST5220LectureNotes}. Therefore, we take the first and second moment of ~\cref{eq:m3:theory:collisionless_bolzmann_general} and consider them to first order, in order to retrieve the cosmological generalisation of the continuity equation ~\cite[Eq. 5.41]{dodelson2020modern}:
+    For massive particles, we start with cold dark matter. Firstly, we assume cold dark matter to not interact with any other species, nor self-interact. Therefore, we do not have any collision terms. Further, we also assume it to behave like a fluid, neglecting any terms not to first order. We consider cold dark matter to be non-relativistic fluid with only a sizeable monopole and dipole term. This fluid description means that the evolution is fully characterised by the density and velocity, ~\cite{AST5220LectureNotes}. We take the first and second moment of ~\cref{eq:m3:theory:collisionless_bolzmann_general} and consider them to first order, in order to retrieve the cosmological generalisation of the continuity equation ~\cite[Eq. 5.41]{dodelson2020modern}:
     \begin{equation}\label{eq:m3:theory:cdm_continuity_equation}
         \pdv{n_c}{t}+\frac{1}{a}\pdv{(n_cv_c^i)}{x^i} + 3\left[H+\pdv{\Phi}{t}\right]n_c=0,
     \end{equation}
@@ -187,7 +188,7 @@
     where we in equation ~\cref{eq:m3:theory:photon_multipole} truncate the Boltzmann hierarchy by considering the recursion relation of spherical Bessel functions. This ensures that the numerical error of not calculating an infinite number of multipoles does not propagate downwards in order (at least not as fast) and mess up the lower, more important multipoles. 
 
 \subsubsection{Tight coupling regime}\label{sec:m3:theory:tight_coupling}
-    The tight coupling regime represents the time in the early Universe, before recombination, when both radiation, dark matter and baryons were tightly coupled together, interactions where frequent and efficient, and the primordial plasma very optically thick ($\tau\gg1$). Due to this, the bulk velocity of the baryons (which co-moves with the other species due to the tight coupling) is very low. Furthermore, due to the frequent interactions and low bulk velocity the radiation dipole is suppressed. Altogether, this causes the combination $(3\T_1+v_b)$ to be very small. The optical depth changes rapidly in the tight coupling regime, as seen from ~\cref{fig:m2:optical_depth}, $\abs{\tau'}\gg1$. As a result, any combinations of the form $\tau'(\T_1+v_b)$, as they occur in ~\cref{eq:m3:theory:photon_dipole} and ~\cref{eq:m3:theory:v_b} are extremely numerically unstable. We therefore use said equations in order to rewrite for:
+    The tight coupling regime represents the time in the early Universe, before recombination, when both radiation, dark matter and baryons were tightly coupled together, interactions where frequent and efficient, and the primordial plasma optically thick ($\tau\gg1$). Due to this, the bulk velocity of the baryons (which co-moves with the other species due to the tight coupling) is very low. Furthermore, due to the frequent interactions and low bulk velocity the radiation dipole is suppressed. Altogether, this causes the combination $(3\T_1+v_b)$ to be very small. The optical depth changes rapidly in the tight coupling regime, as seen from ~\cref{fig:m2:optical_depth}, $\abs{\tau'}\gg1$. As a result, any combinations of the form $\tau'(\T_1+v_b)$, as they occur in ~\cref{eq:m3:theory:photon_dipole} and ~\cref{eq:m3:theory:v_b} are extremely numerically unstable. We therefore use said equations in order to rewrite for:
     \begin{equation}\label{eq:m3:theory:q_rewrite}
         q = \frac{ck}{\Hp}(\T_0-2\T_2) + \tau'(1+R^{-1})(3\T_1+v_b) - v_b,
     \end{equation}
@@ -252,9 +253,11 @@
             k\eta &\gg 1 \quad \quad \mathrm{small\ scale\ modes.}
         \end{split}
     \end{equation}
-    The horizon will evolve in time, and we expect these modes at different scales to also evolve differently in time. At very early times, the horizon is very small, and we expect add modes to be larger than this. We define the concept of \textit{super-horizon} modes, which are modes whose scale is larger than the horizon. We ultimately also have \textit{sub-horzon} modes, where the scale is smaller than the horizon. Different modes are expected to undergo \textit{horizon crossing} at different times. 
+    The horizon will evolve in time, and we expect these modes at different scales to also evolve differently in time. At very early times, the horizon is very small, and we expect all modes to be larger than this. We define the concept of \textit{super-horizon} modes, which are modes whose scale is larger than the horizon. We ultimately also have \textit{sub-horizon} modes, where the scale is smaller than the horizon. Different modes are expected to undergo \textit{horizon crossing} at different times. 
     
-    As a result of this Fourier decomposition, we can investigate what happens at different scales for the various perturbations. In order to re-express the perturbations as function of a physical quantity, say $\vec{x}$,\footnote{This is the physical spatial variable, $\vec{x}$, representing a position. If you thought this was a vector quantity of the temporal quantity $x=\ln{a}$ you need to evaluate your choices in life.} we need to integrate across all the different $k$-modes, basically accumulating the contributions to the perturbation across all scales. 
+    As a result of this Fourier decomposition, we can investigate what happens at different scales for the various perturbations. In order to re-express the perturbations as function of a physical quantity, say $\vec{x}$,\footnote{This is the physical spatial variable, $\vec{x}$, representing a position. If you thought this was a vector quantity of the temporal quantity $x=\ln{a}$ you need to evaluate your choices in life.} we need to integrate across all the different $k$-modes, basically accumulating the contributions to the perturbations across all scales. 
+
+
 \subsubsection{Inflation}
     To be able to numerically integrate ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final} we must determine the initial conditions of each quantity. In other words, we need to know how the Universe behaved at a very early stage. It is proposed that an epoch called \textit{inflation} took place, during which the Universe exponentially increased in size during a very short period of time ~\cite{dodelson2020modern}.\footnote{An inflationary process would also solve the horizon problem, the flatness problem and the monopole problem amongst other things. Details about this can be found in both ~\cite{dodelson2020modern}, ~\cite{carroll_2019}, and ~\cite{weinberg2008cosmology}.} We will describe the inflationary period in order to obtain the initial conditions of the metric perturbations $\Psi$ and $\Phi$. 
 
@@ -285,7 +288,7 @@
     \begin{equation}\label{eq:m3:theory:curvature_perturbation_def}
         \mathcal{R} = -\frac{ik_i\delta T^0_i}{k^2(p+\rho)}-\Psi,
     \end{equation}
-    where $k$ is the mode (in Fourier space), $T^i_0 = g^{i\nu}=\partial_\nu\phi\partial_0\phi$ is the spatial part of the energy-momentum tensor, and $p$ and $\rho$ are the pressure and density. 
+    where $k$ is the mode (in Fourier space), $T^i_0 = g^{i\nu}\partial_\nu\phi\partial_0\phi$ is the spatial part of the energy-momentum tensor, and $p$ and $\rho$ are the pressure and density. 
 
     If we consider the situation before inflation, assume $\Psi=0$. From ~\cref{eq:m3:theory:slow_roll_parameters} we have that $\rho+p=\dot{\phi}^2/a^2$ using conformal time. Further, according to ~\cite[Eq. 7.47]{dodelson2020modern}, $\delta T^i_0=ik_i\dot{\phi}\delta\phi/a^3$. Inserting this into ~\cref{eq:m3:theory:curvature_perturbation_def} yield before inflation:
     \begin{equation}\label{eq:m3:theory:initial_curvature_perturbation}
@@ -295,7 +298,7 @@
     \begin{equation}\label{eq:m3:theory:final_curvature_perturbation}
         \mathcal{R}_\mathrm{end} = -\frac{3aH\T_1}{k}-\Psi = -\frac{3}{2}\Psi,
     \end{equation}
-    where the last equality comes from the postulate that the initial condition for the dipole is $\T_1=-k\Phi/6aH$, which will we showed in the following section. For the sake of completeness, we now equate ~\cref{eq:m3:theory:initial_curvature_perturbation} and ~\cref{eq:m3:theory:final_curvature_perturbation} to obtain:
+    where the last equality comes from the postulate that the initial condition for the dipole is $\T_1=-k\Phi/6aH$. For the sake of completeness, we now equate ~\cref{eq:m3:theory:initial_curvature_perturbation} and ~\cref{eq:m3:theory:final_curvature_perturbation} to obtain:
     \begin{equation}\label{eq:m3:theory:final_Psi_after_inflation}
         \Psi = \frac{2}{3}aH\frac{\delta\phi}{\dot{\phi}}\Big|_\text{horizon crossing},
     \end{equation}
@@ -311,9 +314,9 @@
         \end{subequations}
         ~\cref{eq:m3:theory:early_conditions_kmode_eta} is necessary in order to ensure causally disconnected regions in the early universe. It also ensures that the modes we are interested in today is outside the horizon ~\cite{AST5220LectureNotes}. We have already established that the universe is optically thick, so ~\cref{eq:m3:theory:earl_conditions_tau} follow directly from ~\cref{fig:m2:optical_depth}. Further, at these scales we expect the lower multipoles to be dominant, thus ~\cref{eq:m3:theory:early_conditions_theta} holds. This is because the causal horizon is smaller than the $k$-modes, making the radiation observed by an hypothetical observer nearly uniform. Applying the assumptions in ~\cref{eq:m3:theory:early_conditions} to ~\cref{eq:m3:theory:photon_temp_multipoles}, ~\cref{eq:m3:theory:cdm_baryon_diffeqs} and ~\cref{eq:m3:theory:metric_perturbations_final} allows to determine the initial conditions. 
 
-        Firstly, the perturbations of $\Phi$ and $\Psi$ evolves slowly outside the horizon, so we may approximate $\Phi'=\Psi'=0$. However, we will use their expression in order to determine other initial conditions. In the following we make use of the assumptions in ~\cref{eq:m3:theory:early_conditions}. ~\cref{eq:m3:theory:photon_monopole} becomes $\T_0'=-\Phi'$. Further, ~\cref{eq:m3:theory:phi_perturbation} turn into $\Phi'=\Psi+2\T_0 \implies \T_0=-\Psi/2$. The overdensities ~\cref{eq:m3:theory:delta_b} and ~\cref{eq:m3:theory:delta_cdm} have similar behaviour\footnote{Because gravity does not care whether it acts on baryons or dark matter.} and we write $\delta'=-3\Phi' = 3\T_0'$. Integrating both sides yield $\delta=-3\Psi/2 + C$, where $C$ is the integration constant. This is put to zero, making the initial conditions \textit{adiabatic}. ~\cref{eq:m3:theory:psi_perturbation} now fixes the relation between the initial conditions of $\Psi$ and $\Phi$ as $\Phi = -\Psi$. 
+        Firstly, the perturbations of $\Phi$ and $\Psi$ evolves slowly outside the horizon, so we may approximate $\Phi'=\Psi'=0$. However, we will use their expressions in order to determine other initial conditions. In the following we make use of the assumptions in ~\cref{eq:m3:theory:early_conditions}. ~\cref{eq:m3:theory:photon_monopole} becomes $\T_0'=-\Phi'$. Further, ~\cref{eq:m3:theory:phi_perturbation} turn into $\Phi'=\Psi+2\T_0 \implies \T_0=-\Psi/2$. The overdensities ~\cref{eq:m3:theory:delta_b} and ~\cref{eq:m3:theory:delta_cdm} have similar behaviour\footnote{Because gravity does not care whether it acts on baryons or dark matter.} and we write $\delta'=-3\Phi' = 3\T_0'$. Integrating both sides yield $\delta=-3\Psi/2 + C$, where $C$ is the integration constant. This is put to zero, making the initial conditions \textit{adiabatic}. ~\cref{eq:m3:theory:psi_perturbation} now fixes the relation between the initial conditions of $\Psi$ and $\Phi$ as $\Phi = -\Psi$. 
 
-        For the velocities, we expect the baryon and cold dark matter velocities to have the same initial value, and we find it by considering ~\cref{eq:m3:theory:v_cdm}, which can be written as $(va)'=-cka\Psi/\Hp$. Integration yields $v=-ck\Psi/2\Hp$ where we have omitted the constant of integration. We find the initial conditions for the next multipole terms by following a similar logic. This is also shown in ~\cite[Eq. 7.59]{dodelson2020modern} which fixes the velocities as $v=3ck\Phi/6\Hp$,\footnote{~\cite{dodelson2020modern} uses $iv$ as velocities, but we have multiplied the velocities with $i$ in order to make them real, but ultimately changing signs.} and gives the initial dipole moment $\T_1 = -k\Phi/6aH$. Inserting this into ~\cref{eq:m3:theory:final_curvature_perturbation} yields the desired $\mathcal{R}=-2\Psi/2$. Since $\mathcal{R}$ is conserved, choosing a value for it equations to fixing a normalisation. We will simply use $\mathcal{R}=1$. The full set of adiabatic initial conditions then become: 
+        For the velocities, we expect the baryon and cold dark matter velocities to have the same initial value, and we find it by considering ~\cref{eq:m3:theory:v_cdm}, which can be written as $(va)'=-cka\Psi/\Hp$. Integration yields $v=-ck\Psi/2\Hp$ where we have omitted the constant of integration. We find the initial conditions for the next multipole terms by following a similar logic. This is also shown in ~\cite[Eq. 7.59]{dodelson2020modern} which fixes the velocities as $v=3ck\Phi/6\Hp$,\footnote{~\cite{dodelson2020modern} uses $iv$ as velocities, but we have multiplied the velocities with $i$ in order to make them real, but ultimately changing signs.} and gives the initial dipole moment $\T_1 = -k\Phi/6aH$. Inserting this into ~\cref{eq:m3:theory:final_curvature_perturbation} yields the desired $\mathcal{R}=-2\Psi/2$. Since $\mathcal{R}$ is conserved, choosing a value for it equates to fixing a normalisation. We will simply use $\mathcal{R}=1$. The full set of adiabatic initial conditions then become: 
         
         \begin{tcolorbox}[
             width=1.025\linewidth,
@@ -359,7 +362,7 @@
     \end{equation}
     We can thus find any multipole $\T_l$ simply by knowing $\T_0, \T_1, \T_2, \Psi, \Phi, v_b$ and their derivatives, which is rather remarkable. The physical interpretation of the line of sight integral is that we ``look back'' through time and consider the various physical effects affecting the evolution of the photon multipoles. The first of which is the \textit{Sachs-Wolfe} effect (SW), which is the main contributor. The term in the bracket is an effective photon temperature,\footnote{Described mainly by the monopole term, and the change in frequency of photons induced as gravitational redshift by $\Psi$.} where the $\T_2$ represent a small quadrupole correction. We know this is small as the whole bracket is weighted by the visibility function which peaks during recombination, where the main contributors are the monopole and dipole. Thus, the main contributor to the anisotropies we observe today are the inhomogenities in photon temperature present at the time of recombination ~\cite{AST5220LectureNotes}. 
 
-    The remaining terms in ~\cref{eq:m3:theory:source_function} are corrective effects that the photons undergo as they free stream from the last scattering surface at recombination until today. The second term is the \textit{integrated Sachs-Wolfe} effect which describe the energy change of photons as they pass through potential wells that \textit{vary it in time}. The third term contains the baryon bulk velocity $v_b$ and thus describe a Doppler shift, either of moving observers or moving sources. The fourth term is mainly due to polarisation, like Thomson scattering or gravitational lensing by large structures. However, since we ignore polarisation here, the corrections of this term comes from the quadrupole, but we still call it the polarisation term. 
+    The remaining terms in ~\cref{eq:m3:theory:source_function} are corrective effects that the photons undergo as they free stream from the last scattering surface at recombination until today. The second term is the \textit{integrated Sachs-Wolfe} effect which describe the energy change of photons as they pass through potential wells that \textit{vary in time}. The third term contains the baryon bulk velocity $v_b$ and thus describe a Doppler shift, either of moving observers or moving sources. The fourth term is mainly due to polarisation, like Thomson scattering or gravitational lensing by large structures. However, since we ignore polarisation here, the corrections of this term comes from the quadrupole, but we still call it the polarisation term. 
 
 
 
@@ -393,15 +396,15 @@
     \begin{equation}\label{eq:m3:theory:analytical_large_scale_super_horizon}
         \Phi(\vec{k},y) = \frac{1}{10y^3}\left[16\sqrt{1+y} + 9y^3 + 2y^2-8y-16\right]\Phi(\vec{k},0),
     \end{equation}
-    where we define the new variable $\ln y \equiv x-x_\mathrm{RM}$. We see that even for the larges scales, that enter the horizon at really late times, the potential will decrease with at drop by $9/10$ during the transition from radiation to matter domination.\footnote{Since $x\gg x_\mathrm{eq} \implies y\gg 1$} Further, ~\cite{dodelson2020modern} claim that the potential will remain constant during matter domination. In other words, it will not change when it enters the horizon since the expansion of the universe in a matter dominated universe balances the accretion of matter in potential wells. When the universe starts to expand more rapidly during dark energy domination, the accretion of matter will be overpowered by the expansion rate and thus the potentials will decay during this period. 
+    where we define the new variable $\ln y \equiv x-x_\mathrm{RM}$. We see that even for the larges scales, that enter the horizon at really late times, the potential will decrease by $9/10$ during the transition from radiation to matter domination.\footnote{Since $x\gg x_\mathrm{eq} \implies y\gg 1$} Further, ~\cite{dodelson2020modern} claim that the potential will remain constant during matter domination. In other words, it will not change when it enters the horizon since the expansion of the Universe in a matter dominated universe balances the accretion of matter in potential wells. When the universe starts to expand more rapidly during dark energy domination, the accretion of matter will be overpowered by the expansion rate and thus the potentials will decay during this period. 
 
     There are also analytical approximations to the small scale modes. Firstly, for the potential during radiation domination we have ~\cite[Eq. 8.46]{dodelson2020modern}:
     \begin{equation}\label{eq:m3:theory:analytical_small_scales_radiation_domination}
         \Phi(\vec{k},\eta) = 2\left(\frac{\sin{r} - r\cos{r}}{r^3}\right)_{r=k\eta/\sqrt{3}}\mathcal{R}(\vec{k}),
     \end{equation}
-    which is assumes a constant initial condition which is fair since initially all modes are outside the horizon, unaffected by causal physics. What we draw from this is that if the mode enters the horizon during radiation domination it can be approximated by ~\cref{eq:m3:theory:analytical_small_scales_radiation_domination} and experience oscillations and decay. 
+    which assumes a constant initial condition which is fair since initially all modes are outside the horizon, unaffected by causal physics. What we draw from this is that if the mode enters the horizon during radiation domination it can be approximated by ~\cref{eq:m3:theory:analytical_small_scales_radiation_domination} and experience oscillations and decay. 
 
-    For completenes we also state the \textit{Meszaros equation} governing evolution of dark matter perturbations on sub-horizon scales ~\cite[Eq. 8.59]{dodelson2020modern}:
+    For completeness we also state the \textit{Meszaros equation} governing evolution of dark matter perturbations on sub-horizon scales ~\cite[Eq. 8.59]{dodelson2020modern}:
     \begin{equation}\label{eq:m3:theory:analytical_meszaros}
         \dv[2]{\delta_c}{y} + \frac{2+3y}{2y(y+1)}\dv{\delta_c}{y} - \frac{3}{2y(y+1)}\delta_c = 0.
     \end{equation}
@@ -414,4 +417,4 @@
             F(k,\eta) \equiv -\frac{k^2}{3}\Psi - \frac{a'}{a}\frac{R}{1+R}\Phi' - \Phi'',
         \end{split}
     \end{equation}
-    which described oscillations with a drag component proportional to $\T_0'$ (second component on the left of the top equation) and force term $F$. The homogeneous solutions to ~\cref{eq:m3:theory:analytical_monopole_eom} are sines and cosines of the argument $k r_s$ where $r_s$ is the sound horizon. Thus, the physical solution are sound waves propagating at the speed of sound $c_s$,  constantly defining the sound horizon. 
+    which describes oscillations with a drag component proportional to $\T_0'$ (second component on the left of the top equation) and force term $F$. The homogeneous solutions to ~\cref{eq:m3:theory:analytical_monopole_eom} are sines and cosines of the argument $k r_s$ where $r_s$ is the sound horizon. Thus, the physical solution are sound waves propagating at the speed of sound $c_s$,  constantly defining the sound horizon. 
