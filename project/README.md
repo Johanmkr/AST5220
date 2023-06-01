@@ -53,7 +53,7 @@ Build c++ codes:
 
     make cmb
 
-Run:
+Run (will take around 90 seconds):
 
     ./cmb
 
