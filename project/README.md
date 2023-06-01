@@ -31,11 +31,6 @@ The aim of this section is to investigate how small fluctuations in the baryon-p
 In this section we will construct the angular power spectrum and the matter power spectrum in order to compare our theoretical predictions with actual observables.
 
 
-
-## Code explanation
-
-explain
-
 ## Run the code
 
 Navigate to the `code`-folder. If in the main directory this is done with:
