@@ -9,6 +9,12 @@ import astropy.constants as const
 from astropy import units
 # print("hei")
 
+##############################################################
+
+TEST = True
+
+##############################################################
+
 #   Colouring for cosmology project
 Colors = {
     #   Background cosmology
@@ -78,13 +84,6 @@ plt.rc('lines', linewidth=3)
 THINLINE = 1
 
 mpl.rcParams['axes.titlelocation'] = 'left'
-
-# Visual parameters for saving/showing
-# Manual Switches
-TEST = True
-# SAVE = False
-# PUSH = False
-# SHOW = True
 
 SAVE = False if TEST else True
 PUSH = False if TEST else True
