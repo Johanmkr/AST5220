@@ -37,12 +37,6 @@ class RecombinationHistory{
     double rho_c0;   // Critical density today
     void set_cosmo_constant();
 
-    // // Derived Constants
-    // double const_nb_inv;; // Constant part of 1/nb
-    // double meTbpow;
-    // double const_saha_eq; // Constant part of the saha equation
-    // double const_eps_tcmb;  // Constant part of exponent of Saha equation.
-    // void set_derived_constants();
 
     //===============================================================
     // [1] Computation of Xe (Saha and Peebles equation)
@@ -84,9 +78,7 @@ class RecombinationHistory{
     RecombinationHistory(
         BackgroundCosmology *cosmo, 
         double Yp);
-      
-    // Utility functions
-    // double helper_Saha(double x) const; // Helper function in order to solve the Saha equation
+  
 
     // Do all the solving
     void solve();

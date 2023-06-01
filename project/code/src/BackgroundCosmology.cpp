@@ -56,9 +56,6 @@ void BackgroundCosmology::solve(int nr_points){
   Making the eta spline:
   */
 
-  // Utils::StartTiming("Eta");
-
-  // The ODE for deta/dx
   ODEFunction detadx = [&](double x, const double *eta, double *detadx){
      detadx[0] = Constants.c/Hp_of_x(x);
     return GSL_SUCCESS;
@@ -70,14 +67,9 @@ void BackgroundCosmology::solve(int nr_points){
   Vector eta_array = etax.get_data_by_component(0);
 
   eta_of_x_spline.create(x_array, eta_array, "eta_of_x");
-
-  // Utils::EndTiming("Eta");
-
   /*
   Making the t spline:
   */
-
-  // Utils::StartTiming("t");
 
   // ODE for dtdx
   ODEFunction dtdx = [&](double x, const double *eta, double *dtdx){
@@ -92,7 +84,6 @@ void BackgroundCosmology::solve(int nr_points){
 
   t_of_x_spline.create(x_array, t_array, "t_of_x");
   t0 = t_of_x_spline(0.0);
-  // Utils::EndTiming("t");
 }
 
 //====================================================
@@ -267,15 +258,8 @@ void BackgroundCosmology::info() const{
 // Output some data to file
 //====================================================
 void BackgroundCosmology::output(const std::string filename, double x_min, double x_max, int n_pts) const{
-  // const double x_min = -20.0;
-  // const double x_max =  5.0;
-  // const int    n_pts =  1000;
 
   Vector x_array = Utils::linspace(x_min, x_max, n_pts);
-  
-  // Vector x1_array = Utils::linspace(-12.0, 0.0, n_pts);
-  // Vector x2_array = Utils::linspace(-14.0, 0.0, n_pts);
-  // Vector x3_array = Utils::linspace(-20.0, 5.0, n_pts);
 
   std::ofstream fp(filename.c_str());
   fp << "   x       "                  << " , ";

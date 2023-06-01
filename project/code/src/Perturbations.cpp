@@ -431,43 +431,9 @@ void Perturbations::compute_source_functions(){
       double ddT2 = 2./5.* ckHp * (dT1 - dHp/Hp*T1)
                   + 3./5.*ckHp * (dHp/Hp*T3-dT3)
                   + 9./10. * (ddtau*T2 + dtau*dT2);
-      // double ddT2 = get_ddTheta(x, k, 2);
 
       //  Calculate terms, starting from 0
       double source_func_val = 0.0;
-
-      // //  + contribution from Sachs-Wolfe (SW) effect
-      // if(SW){
-      //   source_func_val += g*(T0 + Psi + T2/4.);
-      // }
-
-      // //  + contributino from Integrated Sachs-Wolfe (ISW) effect
-      // if(ISW){
-      //   source_func_val += exp(-tau)*(dPsi-dPhi);
-      // }
-
-      // //  + contribution from doppler effect
-      // if(DOP){
-      //   double DOP_term  = -1./(c*k) *
-      //                   (
-      //                     Hp*g*dv_b + Hp*dg*v_b + dHp*g*v_b
-      //                   );
-      //   source_func_val += DOP_term;
-      // }
-
-      // //  + contribution from polarisation
-      // if(POL){
-      //   double POL_term  = 3./(4.*c*c*k*k) *
-      //                   (
-      //                     g*T2*(ddHp*Hp + dHp*dHp)
-      //                     + Hp*Hp*(g*ddT2 + ddg*T2 + 2*dg*dT2)
-      //                     + 3*dHp*Hp*(g*dT2 + dg*T2)
-      //                   );
-      //   source_func_val += POL_term;
-      // }
-
-      // ST_array[idx] = source_func_val;
-
 
 
 

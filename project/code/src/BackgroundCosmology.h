@@ -24,8 +24,7 @@ class BackgroundCosmology{
     double OmegaM;                  // Total matter density
     double OmegaR_tot;                  // Total radiation density
 
-    
-
+  
     // Present values
     double t0;                      // Age of universe today [s] 
     double eta0;                    // Conformal time today [s]
@@ -69,7 +68,6 @@ class BackgroundCosmology{
         );
 
     double H0;                      // The Hubble parameter today H0 = 100h km/s/Mpc
-    // Print some useful info about the class
 
     // Equalities
     double x_RM;                     // Radiation-matter equality

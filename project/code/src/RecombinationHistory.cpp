@@ -460,9 +460,6 @@ void RecombinationHistory::analysis_output(const std::string filename) const{
       XeSaha_min = XeSaha_of_x(x_recSaha);
     }
   }
-  // std::cout << "tau min: "<<tau_min<< "    "<<"x_LS: "<< x_LS<<std::endl;
-  // std::cout << "Xe min: "<<Xe_min<< "    "<<"x_rec: "<< x_rec<<std::endl;
-  // std::cout << "XeSaha min: "<<XeSaha_min<< "    "<<"x_recSaha: "<< x_recSaha<<std::endl;
 
   //  Get last scattering times
   double t_LS = cosmo->get_t_of_x(x_LS);
