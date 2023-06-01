@@ -13,9 +13,9 @@ The report can be found [here](https://github.com/Johanmkr/AST5220/blob/main/pro
 According to the cosmological principle, the universe is homogeneous and isotropic on a large scale. Hence, there are no preferred locations nor directions. Furthermore, we may safely assume that the physical laws that govern our local part of the universe is equally valid elsewhere. 
 
 The aim now is to set up the background cosmology, in which the investigation of all interesting phenomena will take place. Setting up the background cosmology is practically equivalent to solving the _Einstein field equation_:
-$$
+$
     G_{\mu\nu} = 8\pi GT_{\mu\nu}
-$$
+$,
 where $G_{\mu\nu}$ is the Einstein tensor describing the geometry of spacetime, $G$ is the gravitational constant and $T_{\mu\nu}$ is the energy and momentum tensor. This equation relates the geometry and shape of spacetime itself, to its energy content (matter included). There are many solutions to Einstein's field equation, but we want the solution to govern a universe that is spatially isotropic and homogeneous, but may evolve in time. The spacetime metric that satisfies this conditions is the _Friedmann-Lemaître-Robertson-Walker metric_ (FLRW).
 
 We will use this metric in order to describe the background universe, how it may evolve in time, and its history. 
